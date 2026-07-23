@@ -11,7 +11,7 @@
     simulateClick(element) {
       if (!element) return;
       
-      const target = element.closest('button, div[role="button"], a') || element;
+      const target = element.closest('button, div[role="button"], a, [class*="btn"], [class*="button"]') || element;
       console.log('[ZaloAdapter Diagnostic] 🖱️ Simulating click sequence on target element:', target);
       
       const events = ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'];
@@ -53,49 +53,51 @@
         const isMultiSelectActive = !!selectedCounterEl;
         console.log(`Multi-select counter detected ("Đã chọn"):`, isMultiSelectActive, selectedCounterEl);
 
-        // 2. Scan all visible clickable candidates on DOM
-        const candidateEls = Array.from(document.querySelectorAll('button, div, span, a, i, svg, [title], [aria-label]'));
-        console.log(`Total candidate DOM elements scanned: ${candidateEls.length}`);
-
-        const matchingEls = candidateEls.filter(el => {
+        // 2. Scan visible elements and prioritize direct text matching ("Chia sẻ" / "Share") as seen in Zalo action bar
+        const candidateEls = Array.from(document.querySelectorAll('button, div, span, a, p, b, strong'));
+        const textMatchEls = candidateEls.filter(el => {
           if (!el || el.offsetWidth === 0 || el.offsetHeight === 0) return false;
-          if (el.tagName === 'BODY' || el.tagName === 'HTML' || el.id === 'app' || el.id === 'root') return false;
+          if (['BODY', 'HTML', 'SCRIPT', 'STYLE'].includes(el.tagName)) return false;
+          if (el.id === 'app' || el.id === 'root') return false;
 
-          const txt = el.textContent ? el.textContent.trim() : '';
-          const title = el.getAttribute('title') || el.getAttribute('aria-label') || '';
+          const txt = (el.textContent || '').trim();
+          if (!txt || txt.length > 35) return false;
 
-          const hasText = (txt.includes('Chia sẻ') || txt.includes('Share')) && txt.length < 40;
-          const hasTitle = /chia\s*sẻ|share/i.test(title);
-
-          return hasText || hasTitle;
+          const lower = txt.toLowerCase();
+          return lower.includes('chia sẻ') || lower.includes('share');
         });
 
-        console.log(`Matching Share elements found (${matchingEls.length}):`, matchingEls.map(el => ({
-          tag: el.tagName,
-          text: el.textContent.trim(),
-          title: el.getAttribute('title'),
-          class: el.className,
-          rect: `${el.offsetWidth}x${el.offsetHeight}`
-        })));
+        if (textMatchEls.length > 0) {
+          // Sort text matches:
+          // 1. Exact match 'chia sẻ' or 'share'
+          // 2. Shortest text content (leaf node / button label preferred over outer container)
+          // 3. Smallest bounding rect area
+          textMatchEls.sort((a, b) => {
+            const aTxt = (a.textContent || '').trim().toLowerCase();
+            const bTxt = (b.textContent || '').trim().toLowerCase();
+            const aExact = (aTxt === 'chia sẻ' || aTxt === 'share') ? 0 : 1;
+            const bExact = (bTxt === 'chia sẻ' || bTxt === 'share') ? 0 : 1;
+            if (aExact !== bExact) return aExact - bExact;
 
-        if (matchingEls.length > 0) {
-          // Sort by smallest element area (leaf node preference)
-          matchingEls.sort((a, b) => (a.offsetWidth * a.offsetHeight) - (b.offsetWidth * b.offsetHeight));
-          const targetBtn = matchingEls[0];
+            if (aTxt.length !== bTxt.length) return aTxt.length - bTxt.length;
 
-          console.log('🎯 SELECTED TARGET BUTTON TO CLICK:', targetBtn);
+            return (a.offsetWidth * a.offsetHeight) - (b.offsetWidth * b.offsetHeight);
+          });
+
+          const targetBtn = textMatchEls[0];
+          console.log('🎯 SELECTED TARGET BUTTON BY TEXT ("Chia sẻ"):', targetBtn, 'Text:', targetBtn.textContent.trim());
           console.groupEnd();
 
           this.simulateClick(targetBtn);
           return true;
         }
 
-        // 3. Fallback: Search for SVG icon buttons or title/aria-label attributes
+        // 3. Fallback: Search for SVG icon buttons or title/aria-label attributes if no text button exists
         const iconShareBtns = Array.from(document.querySelectorAll('[title*="Chia sẻ"], [title*="Share"], [aria-label*="Chia sẻ"], [aria-label*="Share"], .fa-share, .icon-share, [class*="share"]'));
         const visibleIconBtn = iconShareBtns.find(el => el.offsetWidth > 0 && el.offsetHeight > 0);
 
         if (visibleIconBtn) {
-          console.log('🎯 FOUND ICON SHARE BUTTON:', visibleIconBtn);
+          console.log('🎯 FOUND ICON SHARE BUTTON (Fallback):', visibleIconBtn);
           console.groupEnd();
           this.simulateClick(visibleIconBtn);
           return true;
@@ -274,7 +276,22 @@
         return true;
       }
 
-      // 2. Try share icon on hovered message
+      // 2. Try share button by visible text ("Chia sẻ" / "Share") or title/icon on message
+      const candidateBtns = Array.from(document.querySelectorAll('button, div, span, a, [title]'))
+        .filter(el => el.offsetWidth > 0 && el.offsetHeight > 0);
+
+      const textShareBtn = candidateBtns.find(el => {
+        const txt = (el.textContent || '').trim().toLowerCase();
+        return (txt === 'chia sẻ' || txt === 'share') && el.offsetWidth > 0;
+      });
+
+      if (textShareBtn) {
+        console.log('✅ Triggering share button by text:', textShareBtn);
+        console.groupEnd();
+        this.simulateClick(textShareBtn);
+        return true;
+      }
+
       const shareBtns = document.querySelectorAll('[title*="Chia sẻ"], [title*="Share"], .fa-share, .icon-share');
       if (shareBtns.length > 0) {
         const lastShareBtn = shareBtns[shareBtns.length - 1];

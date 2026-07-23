@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sales Auto Tool</title>
+    <meta name="manifest.type" content="browser_action" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="header">
+        <h2>⚡ Auto Tool Nội Bộ</h2>
+        <span class="badge">WXT + TS</span>
+      </header>
+
+      <main class="content">
+        <section class="actions-grid">
+          <button id="btn-fill" class="btn btn-primary">
+            <span>📝 Điền dữ liệu</span>
+            <kbd>Alt+Shift+F</kbd>
+          </button>
+
+          <button id="btn-scrape" class="btn btn-secondary">
+            <span>🔍 Cào dữ liệu</span>
+            <kbd>Alt+Shift+S</kbd>
+          </button>
+
+          <button id="btn-click" class="btn btn-outline">
+            <span>🎯 Click nút bấm</span>
+          </button>
+        </section>
+
+        <section class="log-section">
+          <h3>Trạng thái / Dữ liệu:</h3>
+          <div id="status-log" class="log-box">Sẵn sàng thực thi thao tác...</div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Phím tắt khả dụng: <kbd>Alt+Shift+F</kbd> | <kbd>Alt+Shift+S</kbd></span>
+      </footer>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
