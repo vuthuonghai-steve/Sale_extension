@@ -28,52 +28,7 @@ class PopupController {
     this.resultsCountEl = document.querySelector('#results-count');
     this.statusBarEl = document.querySelector('#status-bar');
 
-    // 0. Tự động nạp Dữ liệu chuẩn hóa nếu Database trống
-    this.updateStatus('Đang kiểm tra cơ sở dữ liệu...');
-    await listingRepository.ensureSeeded();
-
-    // 1. Stat Summary Component
-    const statContainer = document.querySelector<HTMLElement>('#stat-summary-container');
-    if (statContainer) {
-      this.statSummary = new StatSummary(statContainer);
-      await this.statSummary.update();
-    }
-
-    // 2. Search Bar Component
-    const searchContainer = document.querySelector<HTMLElement>('#search-bar-container');
-    if (searchContainer) {
-      this.searchBar = new SearchBar(searchContainer, (kw) => {
-        this.searchKeyword = kw;
-        this.loadData();
-      });
-    }
-
-    // 3. Filter Panel Component
-    const filterContainer = document.querySelector<HTMLElement>('#filter-panel-container');
-    if (filterContainer) {
-      this.filterPanel = new FilterPanel(filterContainer, {
-        compact: true,
-        onFilterChange: (query) => {
-          this.filterQuery = query;
-          this.loadData();
-        },
-      });
-    }
-
-    // 4. Virtual List Component
-    const listContainer = document.querySelector<HTMLElement>('#virtual-list-container');
-    if (listContainer) {
-      this.virtualList = new VirtualList(listContainer, {
-        compact: true,
-        callbacks: {
-          onFillData: (record) => this.handleFillData(record),
-          onViewDetail: (record) => DetailModal.show(record),
-          onCopyText: (record) => this.updateStatus(`Đã copy bài đăng: ${record.address}`),
-        },
-      });
-    }
-
-    // 5. Button Listeners
+    // 1. Gắn Button Listeners ĐỒNG BỘ ĐẦU TIÊN
     const btnOpenDashboard = document.querySelector('#btn-open-dashboard');
     btnOpenDashboard?.addEventListener('click', () => {
       browser.runtime.sendMessage({ action: 'OPEN_DASHBOARD' });
@@ -86,8 +41,54 @@ class PopupController {
       await this.loadData();
     });
 
-    // Initial Data Load
-    await this.loadData();
+    // 2. Stat Summary Component
+    const statContainer = document.querySelector<HTMLElement>('#stat-summary-container');
+    if (statContainer) {
+      this.statSummary = new StatSummary(statContainer);
+    }
+
+    // 3. Search Bar Component
+    const searchContainer = document.querySelector<HTMLElement>('#search-bar-container');
+    if (searchContainer) {
+      this.searchBar = new SearchBar(searchContainer, (kw) => {
+        this.searchKeyword = kw;
+        this.loadData();
+      });
+    }
+
+    // 4. Filter Panel Component
+    const filterContainer = document.querySelector<HTMLElement>('#filter-panel-container');
+    if (filterContainer) {
+      this.filterPanel = new FilterPanel(filterContainer, {
+        compact: true,
+        onFilterChange: (query) => {
+          this.filterQuery = query;
+          this.loadData();
+        },
+      });
+    }
+
+    // 5. Virtual List Component
+    const listContainer = document.querySelector<HTMLElement>('#virtual-list-container');
+    if (listContainer) {
+      this.virtualList = new VirtualList(listContainer, {
+        compact: true,
+        callbacks: {
+          onFillData: (record) => this.handleFillData(record),
+          onViewDetail: (record) => DetailModal.show(record),
+          onCopyText: (record) => this.updateStatus(`Đã copy bài đăng: ${record.address}`),
+        },
+      });
+    }
+
+    // 6. Nạp Dữ liệu và cập nhật UI song song
+    this.updateStatus('Đang kiểm tra cơ sở dữ liệu...');
+    await listingRepository.ensureSeeded();
+
+    await Promise.all([
+      this.statSummary?.update(),
+      this.loadData(),
+    ]);
   }
 
   private async loadData(): Promise<void> {

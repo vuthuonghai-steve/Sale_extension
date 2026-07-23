@@ -6,6 +6,8 @@ import { FilterPanel } from '../../components/FilterPanel';
 import { VirtualList } from '../../components/VirtualList';
 import { StatSummary } from '../../components/StatSummary';
 import { DetailModal } from '../../components/DetailModal';
+import { FullListingsView } from '../../components/FullListingsView';
+import { ReconciliationView } from '../../components/ReconciliationView';
 
 class DashboardController {
   private filterQuery: ListingFilterQuery = {};
@@ -15,9 +17,13 @@ class DashboardController {
   private filterPanel!: FilterPanel;
   private virtualList!: VirtualList;
   private statSummary!: StatSummary;
+  private fullListingsView!: FullListingsView;
+  private reconciliationView!: ReconciliationView;
 
   private totalCountEl: HTMLElement | null = null;
+  private badgeFullCountEl: HTMLElement | null = null;
   private currentItems: CleanListingRecord[] = [];
+  private activeTab: 'available' | 'full' | 'reconcile' = 'available';
 
   constructor() {
     this.init();
@@ -25,18 +31,33 @@ class DashboardController {
 
   private async init(): Promise<void> {
     this.totalCountEl = document.querySelector('#dashboard-total-count');
+    this.badgeFullCountEl = document.querySelector('#badge-full-count');
 
-    // 0. Tự động nạp dữ liệu mẫu từ snapshot nếu Database trống
-    await listingRepository.ensureSeeded();
+    // 1. Gắn Navigation Tabs & Button Listeners NGAY LẬP TỨC để DOM phản hồi bấm nút 100%
+    this.bindNavigationTabs();
 
-    // 1. Stat Summary
+    const btnImportData = document.querySelector('#btn-import-data');
+    btnImportData?.addEventListener('click', () => {
+      const tabReconcile = document.querySelector('#tab-reconcile') as HTMLElement;
+      tabReconcile?.click();
+    });
+
+    const btnRefresh = document.querySelector('#btn-refresh');
+    btnRefresh?.addEventListener('click', async () => {
+      await listingRepository.reseed();
+      await this.statSummary?.update();
+      await this.fullListingsView?.refresh();
+      await this.updateFullBadge();
+      await this.loadData();
+    });
+
+    // 2. Stat Summary
     const statContainer = document.querySelector<HTMLElement>('#stat-summary-container');
     if (statContainer) {
       this.statSummary = new StatSummary(statContainer);
-      await this.statSummary.update();
     }
 
-    // 2. Search Bar
+    // 3. Search Bar
     const searchContainer = document.querySelector<HTMLElement>('#search-bar-container');
     if (searchContainer) {
       this.searchBar = new SearchBar(searchContainer, (kw) => {
@@ -45,7 +66,7 @@ class DashboardController {
       });
     }
 
-    // 3. Filter Panel
+    // 4. Filter Panel
     const filterContainer = document.querySelector<HTMLElement>('#filter-panel-container');
     if (filterContainer) {
       this.filterPanel = new FilterPanel(filterContainer, {
@@ -57,7 +78,7 @@ class DashboardController {
       });
     }
 
-    // 4. Virtual List
+    // 5. Virtual List (Phòng còn)
     const listContainer = document.querySelector<HTMLElement>('#virtual-list-container');
     if (listContainer) {
       this.virtualList = new VirtualList(listContainer, {
@@ -70,18 +91,101 @@ class DashboardController {
       });
     }
 
-    // 5. Export JSON & Refresh
-    const btnExportJson = document.querySelector('#btn-export-json');
-    btnExportJson?.addEventListener('click', () => this.exportJSON());
+    // 6. Full Listings View (Không gian phòng FULL)
+    const fullContainer = document.querySelector<HTMLElement>('#full-listings-container');
+    if (fullContainer) {
+      this.fullListingsView = new FullListingsView(fullContainer, {
+        onListUpdated: () => {
+          this.updateFullBadge();
+          this.loadData();
+          this.statSummary?.update();
+        },
+      });
+    }
 
-    const btnRefresh = document.querySelector('#btn-refresh');
-    btnRefresh?.addEventListener('click', async () => {
-      await listingRepository.ensureSeeded();
-      await this.statSummary?.update();
-      await this.loadData();
+    // 7. Reconciliation View (Đối chiếu Data Thô & Import)
+    const reconcileContainer = document.querySelector<HTMLElement>('#reconciliation-container');
+    if (reconcileContainer) {
+      this.reconciliationView = new ReconciliationView(reconcileContainer);
+    }
+
+    // 8. Tự động nạp dữ liệu mốc và cập nhật UI song song
+    await listingRepository.ensureSeeded();
+    await Promise.all([
+      this.statSummary?.update(),
+      this.reconciliationView?.render(),
+      this.updateFullBadge(),
+      this.loadData(),
+    ]);
+  }
+
+  private bindNavigationTabs(): void {
+    const tabAvailable = document.querySelector('#tab-available');
+    const tabReconcile = document.querySelector('#tab-reconcile');
+    const tabFull = document.querySelector('#tab-full-queue');
+
+    const filterSection = document.querySelector<HTMLElement>('#filter-panel-container');
+    const listSection = document.querySelector<HTMLElement>('#virtual-list-container');
+    const reconcileSection = document.querySelector<HTMLElement>('#reconciliation-container');
+    const fullSection = document.querySelector<HTMLElement>('#full-listings-container');
+
+    tabAvailable?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.activeTab = 'available';
+      tabAvailable.classList.add('active');
+      tabReconcile?.classList.remove('active');
+      tabFull?.classList.remove('active');
+
+      if (filterSection) filterSection.style.display = 'block';
+      if (listSection) listSection.style.display = 'block';
+      if (reconcileSection) reconcileSection.style.display = 'none';
+      if (fullSection) fullSection.style.display = 'none';
+
+      this.loadData();
     });
 
-    await this.loadData();
+    tabReconcile?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.activeTab = 'reconcile';
+      tabReconcile.classList.add('active');
+      tabAvailable?.classList.remove('active');
+      tabFull?.classList.remove('active');
+
+      if (filterSection) filterSection.style.display = 'none';
+      if (listSection) listSection.style.display = 'none';
+      if (reconcileSection) reconcileSection.style.display = 'block';
+      if (fullSection) fullSection.style.display = 'none';
+
+      this.reconciliationView?.render();
+    });
+
+    tabFull?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.activeTab = 'full';
+      tabFull.classList.add('active');
+      tabAvailable?.classList.remove('active');
+      tabReconcile?.classList.remove('active');
+
+      if (filterSection) filterSection.style.display = 'none';
+      if (listSection) listSection.style.display = 'none';
+      if (reconcileSection) reconcileSection.style.display = 'none';
+      if (fullSection) fullSection.style.display = 'block';
+
+      this.fullListingsView?.refresh();
+    });
+  }
+
+  private async updateFullBadge(): Promise<void> {
+    const pendingFull = await listingRepository.getPendingFullListings();
+    const count = pendingFull.length;
+    if (this.badgeFullCountEl) {
+      this.badgeFullCountEl.textContent = String(count);
+      if (count > 0) {
+        this.badgeFullCountEl.classList.remove('hidden');
+      } else {
+        this.badgeFullCountEl.classList.add('hidden');
+      }
+    }
   }
 
   private async loadData(): Promise<void> {
@@ -89,7 +193,8 @@ class DashboardController {
       const queryParams: ListingFilterQuery = {
         ...this.filterQuery,
         searchKeyword: this.searchKeyword || undefined,
-        limit: 5000, // Dashboard render up to 5000 items via Virtual List
+        isFull: false, // Chỉ nạp phòng còn khả dụng trong tab tra cứu chính
+        limit: 5000,
         offset: 0,
       };
 
@@ -99,7 +204,7 @@ class DashboardController {
       this.virtualList.setItems(items);
 
       if (this.totalCountEl) {
-        this.totalCountEl.textContent = `Tổng bản ghi tìm thấy: ${total.toLocaleString()} phòng`;
+        this.totalCountEl.textContent = `Tổng bản ghi khả dụng: ${total.toLocaleString()} phòng`;
       }
     } catch (err: any) {
       console.error('[Dashboard] Error querying listings:', err);
@@ -121,21 +226,6 @@ class DashboardController {
     } catch (err: any) {
       alert(`❌ Lỗi: ${err.message || 'Chưa mở tab web host'}`);
     }
-  }
-
-  private exportJSON(): void {
-    if (this.currentItems.length === 0) {
-      alert('Không có dữ liệu để export.');
-      return;
-    }
-
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.currentItems, null, 2));
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `normalized_listings_${Date.now()}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
   }
 }
 

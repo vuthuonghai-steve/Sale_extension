@@ -15,7 +15,12 @@
         </div>
 
         <nav class="nav-menu">
-          <a href="#" class="nav-item active">📊 Tra cứu phòng trọ</a>
+          <a href="#" id="tab-available" class="nav-item active">📊 Tra cứu phòng trọ</a>
+          <a href="#" id="tab-reconcile" class="nav-item">🔄 Import & Đối Chiếu Data</a>
+          <a href="#" id="tab-full-queue" class="nav-item">
+            <span>❌ Phòng Hết (FULL Queue)</span>
+            <span id="badge-full-count" class="badge-full-count">0</span>
+          </a>
         </nav>
 
         <div id="stat-summary-container" class="sidebar-stat-container"></div>
@@ -27,7 +32,7 @@
           <div class="search-wrapper" id="search-bar-container"></div>
           <div class="header-actions">
             <span id="dashboard-total-count" class="count-badge">Đang tải...</span>
-            <button id="btn-export-json" class="btn btn-outline">📥 Export JSON</button>
+            <button id="btn-import-data" class="btn btn-primary-gradient">📥 Import Data</button>
             <button id="btn-refresh" class="btn btn-primary">🔄 Làm mới</button>
           </div>
         </header>
@@ -35,8 +40,14 @@
         <!-- Filter Bar -->
         <section id="filter-panel-container" class="dashboard-filter-section"></section>
 
-        <!-- Listing Virtual Viewport -->
+        <!-- Listing Virtual Viewport (Phòng còn) -->
         <section id="virtual-list-container" class="dashboard-list-section"></section>
+
+        <!-- Reconciliation Viewport (Đối Chiếu & Import Raw) -->
+        <section id="reconciliation-container" class="dashboard-list-section" style="display: none;"></section>
+
+        <!-- Full Listings Viewport (Phòng Hết Queue) -->
+        <section id="full-listings-container" class="dashboard-list-section" style="display: none;"></section>
       </main>
     </div>
     <script type="module" src="./main.ts"></script>

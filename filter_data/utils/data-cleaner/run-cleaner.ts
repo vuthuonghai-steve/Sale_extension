@@ -22,15 +22,11 @@ function sanitizeUnicodeSurrogates(str: string): string {
 async function runDataCleaner() {
   console.log('🚀 Running Data Cleaner Pipeline...');
 
-  const rawPath1 = path.join(process.cwd(), 'Data/95_home/1.md');
-  const rawPath2 = path.join(process.cwd(), 'Data/sky_groub/1.md');
-
-  const content1 = fs.readFileSync(rawPath1, 'utf-8');
-  const content2 = fs.readFileSync(rawPath2, 'utf-8');
+  const rawPath = path.join(process.cwd(), 'Data/95_home/1.md');
+  const content = fs.readFileSync(rawPath, 'utf-8');
 
   const rawInputs: RawRecord[] = [
-    { content: content1, source: '95_home/1.md' },
-    { content: content2, source: 'sky_groub/1.md' },
+    { content, source: '95_home/1.md' },
   ];
 
   const manager = new DataCleanerManager([

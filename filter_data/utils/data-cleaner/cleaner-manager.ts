@@ -109,3 +109,29 @@ export class DataCleanerManager {
     };
   }
 }
+
+import { PostSplitterStep } from './steps/post-splitter-step';
+import { SanitizerStep } from './steps/sanitizer-step';
+import { ListingParserStep } from './steps/listing-parser-step';
+import { NormalizerStep } from './steps/normalizer-step';
+import { FilterStep } from './steps/filter-step';
+import { DeduplicateStep } from './steps/deduplicate-step';
+import type { CleanListingRecord } from './types';
+
+/**
+ * Convenience helper function to clean a raw text payload
+ */
+export async function cleanRawText(rawText: string): Promise<CleanListingRecord[]> {
+  const manager = new DataCleanerManager([
+    new PostSplitterStep(),
+    new SanitizerStep(),
+    new ListingParserStep(),
+    new NormalizerStep(),
+    new FilterStep(),
+    new DeduplicateStep(),
+  ]);
+
+  const { data } = await manager.process([{ content: rawText, source: 'raw_input' }]);
+  return data as CleanListingRecord[];
+}
+

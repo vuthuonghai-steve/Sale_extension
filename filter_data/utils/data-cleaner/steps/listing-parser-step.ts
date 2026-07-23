@@ -92,20 +92,31 @@ export class ListingParserStep extends BaseCleaningStep<RawRecord[], CleanListin
   }
 
   private extractAddress(rawText: string): string {
+    const zaloHeaderRegex =
+      /^\[(?:\d{1,2}[\/\.-]\d{1,2}[\/\.-]\d{2,4}\s+\d{1,2}:\d{2}(?::\d{2})?|\d{1,2}:\d{2}(?::\d{2})?,\s*\d{1,2}[\/\.-]\d{1,2}[\/\.-]\d{2,4})\]\s*[^:\n]*:\s*/;
+
+    const cleanLine = (text: string) =>
+      text
+        .replace(zaloHeaderRegex, '')
+        .replace(/^[📍🏠🕍💒✨👉\s]+/, '')
+        .replace(/\s*FULL P.*$/i, '')
+        .trim();
+
     const addressLabelMatch = rawText.match(
       /(?:📍|🏠|🕍|💒|Địa chỉ|địa chỉ|Vị trí)\s*:\s*([^\n]+)/i
     );
     if (addressLabelMatch) {
-      return addressLabelMatch[1].trim();
+      return cleanLine(addressLabelMatch[1]);
     }
 
     const lines = rawText.split('\n');
     for (const line of lines) {
+      const strippedLine = line.replace(zaloHeaderRegex, '').trim();
       if (
-        /(?:Số\s+\d+|Ngõ\s+\d+|Ngách\s+\d+|Mặt\s+Phố|Đường|Khu\s+đô\ thị|LK\s+\d+)/i.test(line) &&
-        !/Điện|Nước|Internet|Giá|Hoa\ hồng|🌹/i.test(line)
+        /(?:Số\s+\d+|Ngõ\s+\d+|Ngách\s+\d+|Mặt\s+Phố|Đường|Khu\s+đô\ thị|LK\s+\d+|\b\d{1,4}\/\d+|\b\d{1,4}\s+[A-ZÀ-Ỹa-zà-ỹ])/i.test(strippedLine) &&
+        !/Điện|Nước|Internet|Giá|Hoa\ hồng|🌹/i.test(strippedLine)
       ) {
-        return line.replace(/^[📍🏠🕍💒✨👉\s]+/, '').trim();
+        return cleanLine(strippedLine);
       }
     }
 
@@ -140,47 +151,103 @@ export class ListingParserStep extends BaseCleaningStep<RawRecord[], CleanListin
   }
 
   private extractPrice(rawText: string): { priceVnd?: number; priceMaxVnd?: number } {
-    const rangeMatch = rawText.match(
-      /(?:Giá|Giá\s*thuê|Giá\s*phòng|Giảm\s*giá)?\s*:\s*(\d+(?:[.,]\d+)?)\s*(?:tr|triệu)?\s*[-–—]\s*(\d+(?:[.,]\d+)?)\s*(?:tr|triệu)?/i
-    );
-    if (rangeMatch) {
-      const min = this.parsePriceValue(rangeMatch[1]);
-      const max = this.parsePriceValue(rangeMatch[2]);
-      return { priceVnd: min, priceMaxVnd: max };
+    const lines = rawText.split(/\r?\n/);
+    const validPrices: number[] = [];
+
+    const skipKeywords = [
+      'điện', 'nước', 'wifi', 'mạng', 'dịch vụ', 'dvc', 'giặt', 'sấy',
+      'bảo trì', 'rác', 'xe', 'sạc', 'phí gửi', 'diện tích', 'cọc', 'sđt', 'liên hệ'
+    ];
+
+    for (const line of lines) {
+      const lower = line.toLowerCase();
+      if (skipKeywords.some((kw) => lower.includes(kw))) continue;
+
+      const hasPriceHeader = /[💵💰💸💲🏷️]|\bgiá\b/i.test(line);
+
+      const priceTokens = line.match(
+        /\b(?:\d+\s*tr\s*\d+|\d+(?:[.,]\d+)?\s*(?:tr|triệu|tr\/tháng|triệu\/tháng)|(?:\d{1,2}(?:\.\d{3})+|\d{4,5})\s*k|\d{7,9})\b/gi
+      );
+
+      if (priceTokens && priceTokens.length > 0) {
+        for (const token of priceTokens) {
+          const val = this.parsePriceValue(token);
+          if (val && val >= 1000000 && val <= 100000000) {
+            validPrices.push(val);
+          }
+        }
+        if (validPrices.length > 0 && hasPriceHeader) {
+          break;
+        }
+      }
     }
 
-    const singleMatch = rawText.match(
-      /(?:Giá|Giá\s*thuê|Giá\s*phòng|Giảm\s*giá|đã\s*giảm)?\s*:\s*(\d+(?:[.,]\d+)*(?:\s*(?:tr|triệu|tr\/tháng|triệu\/tháng|đ|VNĐ))?)/i
-    );
-    if (singleMatch) {
-      const parsed = this.parsePriceValue(singleMatch[1]);
-      if (parsed) return { priceVnd: parsed };
+    if (validPrices.length === 0) {
+      return {};
     }
 
-    return {};
+    if (validPrices.length === 1) {
+      return { priceVnd: validPrices[0] };
+    }
+
+    const minPrice = Math.min(...validPrices);
+    const maxPrice = Math.max(...validPrices);
+
+    if (minPrice === maxPrice) {
+      return { priceVnd: minPrice };
+    }
+
+    return { priceVnd: minPrice, priceMaxVnd: maxPrice };
   }
 
   private parsePriceValue(valStr: string): number | undefined {
     if (!valStr) return undefined;
     const clean = valStr.trim().toLowerCase();
 
-    // Chuẩn hóa dấu phẩy thập phân thành dấu chấm (6,8 -> 6.8)
-    const normalizedNumStr = clean.replace(',', '.');
-    const num = parseFloat(normalizedNumStr);
-
-    if (!isNaN(num)) {
-      if (num < 100) {
-        return Math.round(num * 1000000);
+    // 1. Dạng "4tr2", "3tr650", "4tr200"
+    const trCombinedMatch = clean.match(/^(\d+)\s*tr\s*(\d+)$/);
+    if (trCombinedMatch) {
+      const main = parseInt(trCombinedMatch[1], 10);
+      const subStr = trCombinedMatch[2];
+      let sub = 0;
+      if (subStr.length === 1) {
+        sub = parseInt(subStr, 10) * 100000;
+      } else if (subStr.length === 2) {
+        sub = parseInt(subStr, 10) * 10000;
+      } else if (subStr.length === 3) {
+        sub = parseInt(subStr, 10) * 1000;
+      } else {
+        sub = parseInt(subStr, 10);
       }
-      if (num >= 100000) {
-        return Math.round(num);
+      return main * 1000000 + sub;
+    }
+
+    // 2. Dạng "4tr", "4.2tr", "4,2tr", "4.2 triệu"
+    const trMatch = clean.match(/^(\d+(?:[.,]\d+)?)\s*(?:tr|triệu)\b/);
+    if (trMatch) {
+      const num = parseFloat(trMatch[1].replace(',', '.'));
+      if (!isNaN(num)) {
+        return Math.round(num * 1000000);
       }
     }
 
+    // 3. Dạng "4200k", "4.200k"
+    const kMatch = clean.match(/^(\d+(?:\.\d{3})?)\s*k\b/);
+    if (kMatch) {
+      const numStr = kMatch[1].replace(/\./g, '');
+      const num = parseInt(numStr, 10);
+      if (!isNaN(num) && num >= 1000) {
+        return num * 1000;
+      }
+    }
+
+    // 4. Số đầy đủ "4.200.000", "4200000"
     const digitsOnly = clean.replace(/[^0-9]/g, '');
-    if (digitsOnly.length >= 6) {
+    if (digitsOnly.length >= 7) {
       const parsedInt = parseInt(digitsOnly, 10);
-      if (!isNaN(parsedInt)) return parsedInt;
+      if (!isNaN(parsedInt) && parsedInt >= 1000000 && parsedInt <= 100000000) {
+        return parsedInt;
+      }
     }
 
     return undefined;
@@ -194,7 +261,7 @@ export class ListingParserStep extends BaseCleaningStep<RawRecord[], CleanListin
     const lines = rawText.split('\n');
     for (const line of lines) {
       const tierMatch = line.match(
-        /(P\d{3}|Trục\s*\d+|Phòng\s+có\s+[^\n:]+|Studio|1N1K|2N1K|Duplex)\s*[:–-]?\s*(\d+(?:[.,]\d+)?\s*(?:tr|triệu|tr\/tháng|đ)?)/i
+        /(P\d{3}|Trục\s*\d+|Phòng\s+có\s+[^\n:]+|Studio|1N1K|2N1K|Duplex)\s*[:–-]?\s*(\d+\s*tr\s*\d+|\d+(?:[.,]\d+)?\s*(?:tr|triệu|tr\/tháng|đ)?)/i
       );
       if (tierMatch && !line.includes('Điện') && !line.includes('Nước') && !line.includes('Dịch vụ')) {
         const typeStr = tierMatch[1].trim();

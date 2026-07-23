@@ -46,6 +46,8 @@ export interface CleanListingRecord extends Record<string, unknown> {
   amenities?: string[];
   fingerprintHash?: string;
   isFull?: boolean;
+  syncedTo3rdParty?: boolean;
+  syncedAt?: string;
   rawRef?: string;
 }
 
@@ -84,3 +86,39 @@ export interface ICleaningStep<TIn = any, TOut = any> {
   readonly enabled: boolean;
   execute(input: TIn, options?: CleaningOptions): TOut | Promise<TOut>;
 }
+
+export interface PendingMergeRecord extends CleanListingRecord {
+  batchId?: string;
+  locationHash?: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  createdAt: string;
+  rawText?: string;
+}
+
+export interface ImportCheckpoint {
+  sourceKey: string;
+  lastLocationName: string;
+  lastFingerprint?: string;
+  lastRowIndex: number;
+  totalImported: number;
+  lastUpdatedAt: string;
+}
+
+export interface ImportBatch {
+  batchId: string;
+  sourceName: string;
+  totalRows: number;
+  matchedExistingCount: number;
+  newPendingCount: number;
+  importedAt: string;
+}
+
+export interface ReconciliationResult {
+  batchId: string;
+  totalInputRows: number;
+  existingMatchedList: CleanListingRecord[];
+  newPendingList: PendingMergeRecord[];
+  priceDiffList: Array<{ existing: CleanListingRecord; imported: CleanListingRecord }>;
+  checkpoint: ImportCheckpoint;
+}
+

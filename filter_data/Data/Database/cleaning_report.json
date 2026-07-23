@@ -1,45 +1,45 @@
 {
-  "timestamp": "2026-07-23T21:07:02.164Z",
-  "totalInputRecords": 2,
-  "totalOutputRecords": 54,
+  "timestamp": "2026-07-23T22:22:53.051Z",
+  "totalInputRecords": 1,
+  "totalOutputRecords": 55,
   "droppedRecordsCount": 0,
-  "totalExecutionTimeMs": 16,
+  "totalExecutionTimeMs": 12,
   "stepLogs": [
     {
       "stepName": "PostSplitterStep",
-      "processedCount": 2,
-      "filteredCount": 0,
-      "executionTimeMs": 2
-    },
-    {
-      "stepName": "SanitizerStep",
-      "processedCount": 102,
+      "processedCount": 1,
       "filteredCount": 0,
       "executionTimeMs": 4
     },
     {
+      "stepName": "SanitizerStep",
+      "processedCount": 61,
+      "filteredCount": 0,
+      "executionTimeMs": 1
+    },
+    {
       "stepName": "ListingParserStep",
-      "processedCount": 102,
+      "processedCount": 61,
       "filteredCount": 0,
       "executionTimeMs": 4
     },
     {
       "stepName": "NormalizerStep",
-      "processedCount": 113,
+      "processedCount": 62,
       "filteredCount": 0,
-      "executionTimeMs": 6
+      "executionTimeMs": 2
     },
     {
       "stepName": "FilterStep",
-      "processedCount": 113,
-      "filteredCount": 53,
+      "processedCount": 62,
+      "filteredCount": 1,
       "executionTimeMs": 0
     },
     {
       "stepName": "DeduplicateStep",
-      "processedCount": 60,
+      "processedCount": 61,
       "filteredCount": 6,
-      "executionTimeMs": 1
+      "executionTimeMs": 0
     }
   ],
   "errors": []

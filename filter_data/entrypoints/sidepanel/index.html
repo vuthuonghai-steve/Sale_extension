@@ -20,6 +20,17 @@
         </button>
       </header>
 
+      <!-- Sidepanel Navigation Tabs -->
+      <div class="sp-tab-bar" style="display: flex; gap: 8px; margin: 8px 12px; background: rgba(30, 41, 59, 0.8); padding: 4px; border-radius: 8px; border: 1px solid rgba(51, 65, 85, 0.8);">
+        <button id="sp-tab-search" class="sp-tab-btn active" style="flex: 1; padding: 6px; font-size: 11px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; background: #3b82f6; color: white;">
+          🔍 Tra cứu DB
+        </button>
+        <button id="sp-tab-pending" class="sp-tab-btn" style="flex: 1; padding: 6px; font-size: 11px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #94a3b8; display: flex; align-items: center; justify-content: center; gap: 4px;">
+          <span>⏳ Tin Mới Chờ Duyệt</span>
+          <span id="sp-badge-pending-count" style="background: #f59e0b; color: #0f172a; padding: 1px 6px; border-radius: 10px; font-size: 10px; font-weight: 800; display: none;">0</span>
+        </button>
+      </div>
+
       <!-- Stat Summary Container -->
       <section id="stat-summary-container" class="section-stat"></section>
 
@@ -30,13 +41,16 @@
       <section id="filter-panel-container" class="section-filter"></section>
 
       <!-- Results Header -->
-      <div class="results-header">
+      <div id="results-header-box" class="results-header">
         <span id="results-count" class="results-count">Đang tải dữ liệu...</span>
         <button id="btn-refresh" class="btn btn-xs btn-ghost" title="Làm mới danh sách">🔄 Refresh</button>
       </div>
 
       <!-- Virtual List Container -->
       <main id="virtual-list-container" class="section-list"></main>
+
+      <!-- Pending Merge Container -->
+      <section id="sp-pending-container" class="section-pending" style="display: none; padding: 10px; overflow-y: auto; max-height: calc(100vh - 180px);"></section>
 
       <footer class="footer">
         <div class="status-bar" id="status-bar">Sẵn sàng tra cứu dữ liệu...</div>

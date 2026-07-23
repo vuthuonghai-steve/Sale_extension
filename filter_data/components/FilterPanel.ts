@@ -69,6 +69,16 @@ export class FilterPanel {
               ).join('')}
             </select>
           </div>
+
+          <!-- Dropdown Trạng Thái (Còn / FULL) -->
+          <div class="filter-group">
+            <label for="filter-status">📌 Trạng Thái:</label>
+            <select id="filter-status" class="filter-select">
+              <option value="available">🟢 Còn phòng</option>
+              <option value="full">❌ FULL (Hết phòng)</option>
+              <option value="all">🌐 Tất cả</option>
+            </select>
+          </div>
         </div>
 
         <div class="filter-row filter-row-secondary">
@@ -109,6 +119,7 @@ export class FilterPanel {
   private bindEvents(): void {
     const districtEl = this.container.querySelector<HTMLSelectElement>('#filter-district');
     const roomTypeEl = this.container.querySelector<HTMLSelectElement>('#filter-room-type');
+    const statusEl = this.container.querySelector<HTMLSelectElement>('#filter-status');
     const minPriceEl = this.container.querySelector<HTMLInputElement>('#filter-min-price');
     const maxPriceEl = this.container.querySelector<HTMLInputElement>('#filter-max-price');
     const petEl = this.container.querySelector<HTMLInputElement>('#filter-pet');
@@ -118,14 +129,29 @@ export class FilterPanel {
     const updateFilter = () => {
       const district = districtEl?.value || undefined;
       const roomType = roomTypeEl?.value || undefined;
+      const statusVal = statusEl?.value || 'available';
       const minPriceMillion = minPriceEl?.value ? parseFloat(minPriceEl.value) : undefined;
       const maxPriceMillion = maxPriceEl?.value ? parseFloat(maxPriceEl.value) : undefined;
       const allowPet = petEl?.checked ? true : undefined;
       const allowEV = evEl?.checked ? true : undefined;
 
+      let isFull: boolean | undefined = false;
+      let includeAllStatuses: boolean | undefined = undefined;
+
+      if (statusVal === 'full') {
+        isFull = true;
+      } else if (statusVal === 'all') {
+        isFull = undefined;
+        includeAllStatuses = true;
+      } else {
+        isFull = false;
+      }
+
       this.currentFilter = {
         district,
         roomType,
+        isFull,
+        includeAllStatuses,
         minPriceVnd: minPriceMillion ? Math.round(minPriceMillion * 1_000_000) : undefined,
         maxPriceVnd: maxPriceMillion ? Math.round(maxPriceMillion * 1_000_000) : undefined,
         allowPet,
@@ -137,6 +163,7 @@ export class FilterPanel {
 
     districtEl?.addEventListener('change', updateFilter);
     roomTypeEl?.addEventListener('change', updateFilter);
+    statusEl?.addEventListener('change', updateFilter);
     minPriceEl?.addEventListener('input', updateFilter);
     maxPriceEl?.addEventListener('input', updateFilter);
     petEl?.addEventListener('change', updateFilter);
@@ -145,6 +172,7 @@ export class FilterPanel {
     resetBtn?.addEventListener('click', () => {
       if (districtEl) districtEl.value = '';
       if (roomTypeEl) roomTypeEl.value = '';
+      if (statusEl) statusEl.value = 'available';
       if (minPriceEl) minPriceEl.value = '';
       if (maxPriceEl) maxPriceEl.value = '';
       if (petEl) petEl.checked = false;

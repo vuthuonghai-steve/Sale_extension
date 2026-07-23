@@ -1,13 +1,12 @@
 [
   {
-    "id": "rec_1784840822154_0",
+    "id": "rec_1784845373045_0",
     "managerCode": "",
     "commission": "40%",
     "address": " CHO THUÊ CĂN HỘ 2N1K – SỐ 5, NGÕ 119 ĐÌNH THÔN 🏡 NAM TỪ LIÊM",
     "roomType": "2N1K",
     "availableDate": "",
-    "priceVnd": 6800000,
-    "priceMaxVnd": 7000000,
+    "priceVnd": 7000000,
     "isFull": false,
     "rawRef": "🌹40%\n\n🏡 CHO THUÊ CĂN HỘ 2N1K – SỐ 5, NGÕ 119 ĐÌNH THÔN 🏡 NAM TỪ LIÊM\n\n💵 Giá thuê:\n🏠\n🏠 Trục trong: 6,8 – 7 triệu/tháng\n\n✨ 2N1K rộng rãi, ở gia đình hoặc nhóm bạn đều phù hợp.\n\n🐶 Nhận pet\n⚠️ Không nhận xe điện\n\n💰 Chi phí:\n⚡ Điện: 4.000đ/số\n💧 Nước: 35.000đ/m³\n🌐 Internet: 100.000đ/phòng\n🏢 Dịch vụ tòa nhà: 180.000đ/người\n🗑️ Phí rác: 20.000đ/người",
     "district": "Nam Từ Liêm",
@@ -20,18 +19,69 @@
       "allowPet": true,
       "allowElectricVehicle": false
     },
-    "fingerprintHash": "cho thuê căn hộ 2n1k số 5 ngõ 119 đình thôn nam từ liêm|2n1k|6800000"
+    "fingerprintHash": "cho thuê căn hộ 2n1k số 5 ngõ 119 đình thôn nam từ liêm|2n1k|7000000"
   },
   {
-    "id": "rec_1784840822155_3",
-    "managerCode": "H105",
+    "id": "rec_1784845373046_1",
+    "managerCode": "",
+    "commission": "30% ( tự dẫn + 10% )",
+    "address": "255 Nguyễn Khang, Cầu Giấy",
+    "roomType": "1N1K",
+    "availableDate": "",
+    "priceVnd": 5800000,
+    "priceMaxVnd": 6500000,
+    "isFull": false,
+    "rawRef": "🌹30% ( tự dẫn + 10% )\n\n🎉🎉 Khai Trương CCMN Mới Tinh\n\n📍Địa chỉ: 255 Nguyễn Khang, Cầu Giấy\n\n💰Có 3 loại phòng:\nPhòng có ban công (3 phòng): 6.500.000đ/tháng\nPhòng có cửa sổ(4 phòng) : 5.800.000đ/tháng\nCăn Duplex 1N1K gồm 2 tầng ( : 8.000.000đ/tháng\n\n✅Điều hòa • Tủ lạnh • Giường • Tủ quần áo • Bếp • Máy giặt • Bình nóng lạnh • Máy hút mùi\n\n✅ Dịch Vụ\n\nChi phí:\nĐiện: 4.000đ/số\nNước: 35.000đ/m³\nInternet + rác: 150.000đ/phòng\nDịch vụ: 100.000đ/người\n\nXe điện , nuôi Pet : có nhận\n6tr5\n5tr8\nDuplex ( 1n1k) 2 tầng gộp lại tâng 6+ 7",
+    "district": "Cầu Giấy",
+    "utilityFees": {
+      "electricityPerKwh": 4000,
+      "waterPerM3": 35000,
+      "generalServicePerPerson": 100000
+    },
+    "policies": {},
+    "fingerprintHash": "255 nguyễn khang cầu giấy|1n1k|5800000"
+  },
+  {
+    "id": "rec_1784845373046_2",
+    "managerCode": "",
     "commission": "",
+    "address": "số 32 ngõ 147 tổ 3 Phú Đô",
+    "roomType": "",
+    "availableDate": "",
+    "isFull": true,
+    "rawRef": "số 32 ngõ 147 tổ 3 Phú Đô FULL P ❌❌❌",
+    "district": "Nam Từ Liêm",
+    "utilityFees": {},
+    "policies": {},
+    "syncedTo3rdParty": false,
+    "fingerprintHash": "số 32 ngõ 147 tổ 3 phú đô||"
+  },
+  {
+    "id": "rec_1784845373046_3",
+    "managerCode": "",
+    "commission": "",
+    "address": "136 Trung Liệt",
+    "roomType": "",
+    "availableDate": "",
+    "isFull": true,
+    "rawRef": "136 Trung Liệt FULL P ❌❌❌",
+    "district": "Đống Đa",
+    "utilityFees": {},
+    "policies": {},
+    "syncedTo3rdParty": false,
+    "fingerprintHash": "136 trung liệt||"
+  },
+  {
+    "id": "rec_1784845373046_4",
+    "managerCode": "H105",
+    "commission": "30-40% HĐ 6-12T",
     "address": "Nhà số 5 ngách 31 ngõ 342 Khương Đình- thanh Xuân",
     "roomType": "2N1K",
     "availableDate": "30/7",
-    "priceVnd": 8000000,
+    "priceVnd": 7000000,
+    "priceMaxVnd": 8000000,
     "isFull": false,
-    "rawRef": "H105\n\n⏰2N1K Thanh Xuân\n\n📍Nhà số 5 ngách 31 ngõ 342 Khương Đình- thanh Xuân\n\n⏰ 30/7 Trống\n\n💰Giá phòng: 8tr - P602\n\nDiện tích: 40m²\n\nThiết kế: 2 ngủ 1 khách\nNội thất: Full đồ\n\nƯu điểm:\n\nKhông giới hạn người ở và số lượng xe\nĐược nuôi pet\nK xe điện\nNhận khách nước ngoài\nÔ tô đỗ cách nhà khoảng 100m\n\nChi phí dịch vụ\n\nĐiện: 4.000đ/số\nNước: 35.000đ/m³\nWifi: 100.000đ/phòng\nDịch vụ: 150.000đ/người",
+    "rawRef": "🌹30-40% HĐ 6-12T\n\nH105\n\n⏰2N1K Thanh Xuân\n\n📍Nhà số 5 ngách 31 ngõ 342 Khương Đình- thanh Xuân\n\n⏰ 30/7 Trống\n\n💰Giá phòng: 8tr - P602\n\nDiện tích: 40m²\n\nThiết kế: 2 ngủ 1 khách\nNội thất: Full đồ\n\nƯu điểm:\n\nKhông giới hạn người ở và số lượng xe\nĐược nuôi pet\nK xe điện\nNhận khách nước ngoài\nÔ tô đỗ cách nhà khoảng 100m\n\nChi phí dịch vụ\n\nĐiện: 4.000đ/số\nNước: 35.000đ/m³\nWifi: 100.000đ/phòng\nDịch vụ: 150.000đ/người",
     "district": "Thanh Xuân",
     "utilityFees": {
       "electricityPerKwh": 4000,
@@ -44,16 +94,17 @@
       "allowElectricVehicle": false,
       "allowForeigner": true
     },
-    "fingerprintHash": "nhà số 5 ngách 31 ngõ 342 khương đình thanh xuân|2n1k|8000000"
+    "fingerprintHash": "nhà số 5 ngách 31 ngõ 342 khương đình thanh xuân|2n1k|7000000"
   },
   {
-    "id": "rec_1784840822155_4_tier_1",
+    "id": "rec_1784845373046_5",
     "managerCode": "",
     "commission": "40% HĐ 12T",
     "address": "181 Trần Phú, Hà Đông",
-    "roomType": "Trục 01",
+    "roomType": "Studio",
     "availableDate": "",
-    "priceVnd": 2000000,
+    "priceVnd": 4800000,
+    "priceMaxVnd": 5300000,
     "isFull": false,
     "rawRef": "🌹40% HĐ 12T\n\n🎉 KHAI TRƯƠNG TÒA MỚI STUDIO HOT NHẤT HÀ ĐÔNG\n\n📍 Địa chỉ: 181 Trần Phú, Hà Đông\n\n💰 Giá thuê chỉ từ:\nTrục 01-02-04- 5tr3\nTrục 03- 4tr8\n2P Tầng 6- 5tr3\n\n✨ Ưu điểm nổi bật\n\n* 100% phòng có ban công thoáng mát\n* Chỉ khác nhau vị trí mặt trước / mặt sau\n* Full nội thất, xách vali vào ở:\n* Điều hòa\n* Bình nóng lạnh\n* Tủ quần áo\n* Tủ lạnh\n* Máy giặt\n* Khu bếp tiện nghi\n\n🚚 Chi phí dịch vụ\n\n* Điện: 4.000đ/số\n* Nước: 35.000đ/m³\n* Wifi: 100.000đ/phòng\n* Dịch vụ: 150.000đ/người\n\n🚫 Lưu ý\n\n* Không nhận xe điện\n* Không nuôi thú cưng\n* Không nhận khách nước ngoài\n\n📞 Liên hệ ngay để giữ phòng đẹp – số lượng có hạn! 🔥\n5tr3 các loại sau\n4tr8\n2P tầng 6- 5tr3",
     "district": "Hà Đông",
@@ -67,36 +118,13 @@
       "allowElectricVehicle": false,
       "allowForeigner": false
     },
-    "fingerprintHash": "181 trần phú hà đông|trục 01|2000000"
+    "fingerprintHash": "181 trần phú hà đông|studio|4800000"
   },
   {
-    "id": "rec_1784840822155_4_tier_2",
-    "managerCode": "",
-    "commission": "40% HĐ 12T",
-    "address": "181 Trần Phú, Hà Đông",
-    "roomType": "Trục 03",
-    "availableDate": "",
-    "priceVnd": 4000000,
-    "isFull": false,
-    "rawRef": "🌹40% HĐ 12T\n\n🎉 KHAI TRƯƠNG TÒA MỚI STUDIO HOT NHẤT HÀ ĐÔNG\n\n📍 Địa chỉ: 181 Trần Phú, Hà Đông\n\n💰 Giá thuê chỉ từ:\nTrục 01-02-04- 5tr3\nTrục 03- 4tr8\n2P Tầng 6- 5tr3\n\n✨ Ưu điểm nổi bật\n\n* 100% phòng có ban công thoáng mát\n* Chỉ khác nhau vị trí mặt trước / mặt sau\n* Full nội thất, xách vali vào ở:\n* Điều hòa\n* Bình nóng lạnh\n* Tủ quần áo\n* Tủ lạnh\n* Máy giặt\n* Khu bếp tiện nghi\n\n🚚 Chi phí dịch vụ\n\n* Điện: 4.000đ/số\n* Nước: 35.000đ/m³\n* Wifi: 100.000đ/phòng\n* Dịch vụ: 150.000đ/người\n\n🚫 Lưu ý\n\n* Không nhận xe điện\n* Không nuôi thú cưng\n* Không nhận khách nước ngoài\n\n📞 Liên hệ ngay để giữ phòng đẹp – số lượng có hạn! 🔥\n5tr3 các loại sau\n4tr8\n2P tầng 6- 5tr3",
-    "district": "Hà Đông",
-    "utilityFees": {
-      "electricityPerKwh": 4000,
-      "waterPerM3": 35000,
-      "internetPerPerson": 100000,
-      "generalServicePerPerson": 150000
-    },
-    "policies": {
-      "allowElectricVehicle": false,
-      "allowForeigner": false
-    },
-    "fingerprintHash": "181 trần phú hà đông|trục 03|4000000"
-  },
-  {
-    "id": "rec_1784840822155_5",
+    "id": "rec_1784845373046_6",
     "managerCode": "",
     "commission": "40% + Thưởng 300k",
-    "address": " Mặt Phố Nhật Chiêu - Tây Hồ",
+    "address": " Cho Thuê 2 Căn Hộ Studio Cao Cấp",
     "roomType": "Studio",
     "availableDate": "",
     "priceVnd": 10000000,
@@ -107,17 +135,18 @@
     "policies": {
       "allowForeigner": true
     },
-    "fingerprintHash": "mặt phố nhật chiêu tây hồ|studio|10000000"
+    "fingerprintHash": "cho thuê 2 căn hộ studio cao cấp|studio|10000000"
   },
   {
-    "id": "rec_1784840822155_6_tier_1",
+    "id": "rec_1784845373046_7",
     "managerCode": "",
     "commission": "40% HĐ 12T",
     "address": "NGÕ 89 TỨ LIÊN, TÂY HỒ",
     "roomType": "Studio",
     "areaSqm": 70,
     "availableDate": "",
-    "priceVnd": 32000000,
+    "priceVnd": 9000000,
+    "priceMaxVnd": 14000000,
     "isFull": false,
     "rawRef": "🌹40% HĐ 12T\n\n🏡 KHAI TRƯƠNG CCMN 2N1K , STUDIO CAO CẤP\n\n📍 NGÕ 89 TỨ LIÊN, TÂY HỒ\n\n✨ Full nội thất – Thang máy – Ô tô đỗ cửa – Vào ở ngay.\n\n📍 Còn trống:\n\n• Studio: 32m² – 9tr/tháng (P203, 303, 403)\n\n• 2N1K : 70m2- 14tr/ tháng ( \"201-301\n-401\")\n\n💵 Chi phí:\n• Điện 4k/số\n• Nước 35k/khối\n• Mạng 100k/phòng\n• DVC 150k/người (thang máy, vệ sinh hành lang, đổ rác, điện chung)\n\n📌 Lưu ý:\n• Thanh toán 1 cọc 1 (hoặc 3 cọc 1)\n• Tối đa 4 người, 3 xe\n• Nhận xe điện, nhận khách nước ngoài\n• Không nuôi pet\nSTUDIO\n2N1K",
     "district": "Tây Hồ",
@@ -128,49 +157,46 @@
       "allowForeigner": true,
       "maxOccupants": 4
     },
-    "fingerprintHash": "ngõ 89 tứ liên tây hồ|studio|32000000"
+    "fingerprintHash": "ngõ 89 tứ liên tây hồ|studio|9000000"
   },
   {
-    "id": "rec_1784840822155_6_tier_2",
-    "managerCode": "",
-    "commission": "40% HĐ 12T",
-    "address": "NGÕ 89 TỨ LIÊN, TÂY HỒ",
-    "roomType": "2N1K",
-    "areaSqm": 70,
-    "availableDate": "",
-    "priceVnd": 70000000,
-    "isFull": false,
-    "rawRef": "🌹40% HĐ 12T\n\n🏡 KHAI TRƯƠNG CCMN 2N1K , STUDIO CAO CẤP\n\n📍 NGÕ 89 TỨ LIÊN, TÂY HỒ\n\n✨ Full nội thất – Thang máy – Ô tô đỗ cửa – Vào ở ngay.\n\n📍 Còn trống:\n\n• Studio: 32m² – 9tr/tháng (P203, 303, 403)\n\n• 2N1K : 70m2- 14tr/ tháng ( \"201-301\n-401\")\n\n💵 Chi phí:\n• Điện 4k/số\n• Nước 35k/khối\n• Mạng 100k/phòng\n• DVC 150k/người (thang máy, vệ sinh hành lang, đổ rác, điện chung)\n\n📌 Lưu ý:\n• Thanh toán 1 cọc 1 (hoặc 3 cọc 1)\n• Tối đa 4 người, 3 xe\n• Nhận xe điện, nhận khách nước ngoài\n• Không nuôi pet\nSTUDIO\n2N1K",
-    "district": "Tây Hồ",
-    "utilityFees": {},
-    "policies": {
-      "allowPet": false,
-      "allowElectricVehicle": true,
-      "allowForeigner": true,
-      "maxOccupants": 4
-    },
-    "fingerprintHash": "ngõ 89 tứ liên tây hồ|2n1k|70000000"
-  },
-  {
-    "id": "rec_1784840822155_10",
-    "managerCode": "H281",
-    "commission": "",
+    "id": "rec_1784845373046_8",
+    "managerCode": "H132",
+    "commission": "40% HĐ như bài",
     "address": "",
+    "roomType": "",
+    "availableDate": "",
+    "priceVnd": 5500000,
+    "isFull": false,
+    "rawRef": "🌹40% HĐ như bài\n\nH132\n\n📍Ngõ Xã Đàn 2, Nam Đồng, Đống Đa Thông ra phố Nam Đồng, Xã Đàn, Hồ Xã Đàn...\n\n💰5tr5 Hđ 13th - P501\n\nĐiện 4k, nước 120k/ng\nDvụ: 250k/ng\nNội thất: Điều Hòa, nlạnh, giường, tủ, tủ lạnh, sofa.\nLưu ý: Không xe điện, không nuôi pet.",
+    "district": "Đống Đa",
+    "utilityFees": {},
+    "policies": {
+      "allowPet": false,
+      "allowElectricVehicle": false
+    },
+    "fingerprintHash": "||5500000"
+  },
+  {
+    "id": "rec_1784845373046_9",
+    "managerCode": "H281",
+    "commission": "40 HĐ 12T + Thưởng 1tr cho CTV chốt khách ở trước 30/7",
+    "address": "Diện tích 40m2 tuỳ phòng. 1 tầng 3 phòng. Mỗi phòng 2 điều hoà.",
     "roomType": "1N1K",
     "areaSqm": 40,
     "availableDate": "30/7",
-    "priceVnd": 9000000,
+    "priceVnd": 1000000,
     "isFull": false,
-    "rawRef": "H281\n\n⏰1N1K\n\n🏢23 Nguyễn Thị Định( 219 nguyễn ngọc vũ) giáp lê văn lương, trung kính, trung hoà, nguyễn chí thanh\n\n🚘Ô TÔ CÁCH 10m\n\n💰Giá : 9tr3 30/7 ở được\n\n👉 1N1K\n\n👉thang máy\n\n👉 Diện tích 40m2 tuỳ phòng. 1 tầng 3 phòng. Mỗi phòng 2 điều hoà.\n\n✅ Nội thất : điều hoà , nóng lạnh , giường , tủ quần áo , đệm , bàn ghế , sofa , bàn trà , tivi , bàn ăn , tủ bếp trên dưới , bếp từ đôi, tủ lạnh, ghế lười, bàn trang điểm , máy giặt riêng , ban công thoáng ..\n\n✅ Dịch vụ:\nĐiện 4k/ số\nNước 35k / khối\nDich vụ 150k/1 ng\nWf 100k/p\n\n- Hợp đồng 12 tháng\n- Thanh toán đóng 1 cọc 1\n- Tối đa 4-5 người, 3 xe\n- Nuôi pet nhỏ dk 1 con\n- Nhận xe điện 150k/ tháng sạc. Ko sac đêm\n-bãi để ô tô cách nhà 100m",
+    "rawRef": "🌹40 HĐ 12T + Thưởng 1tr cho CTV chốt khách ở trước 30/7\n\nH281\n\n⏰1N1K\n\n🏢23 Nguyễn Thị Định( 219 nguyễn ngọc vũ) giáp lê văn lương, trung kính, trung hoà, nguyễn chí thanh\n\n🚘Ô TÔ CÁCH 10m\n\n💰Giá : 9tr3 30/7 ở được\n\n👉 1N1K\n\n👉thang máy\n\n👉 Diện tích 40m2 tuỳ phòng. 1 tầng 3 phòng. Mỗi phòng 2 điều hoà.\n\n✅ Nội thất : điều hoà , nóng lạnh , giường , tủ quần áo , đệm , bàn ghế , sofa , bàn trà , tivi , bàn ăn , tủ bếp trên dưới , bếp từ đôi, tủ lạnh, ghế lười, bàn trang điểm , máy giặt riêng , ban công thoáng ..\n\n✅ Dịch vụ:\nĐiện 4k/ số\nNước 35k / khối\nDich vụ 150k/1 ng\nWf 100k/p\n\n- Hợp đồng 12 tháng\n- Thanh toán đóng 1 cọc 1\n- Tối đa 4-5 người, 3 xe\n- Nuôi pet nhỏ dk 1 con\n- Nhận xe điện 150k/ tháng sạc. Ko sac đêm\n-bãi để ô tô cách nhà 100m",
     "district": "",
     "utilityFees": {},
     "policies": {
       "allowElectricVehicle": true
     },
-    "fingerprintHash": "|1n1k|9000000"
+    "fingerprintHash": "diện tích 40m2 tuỳ phòng 1 tầng 3 phòng mỗi phòng 2 điều hoà|1n1k|1000000"
   },
   {
-    "id": "rec_1784840822155_11",
+    "id": "rec_1784845373046_10",
     "managerCode": "",
     "commission": "40%",
     "address": "Ngõ 432 Đội Cấn - Ba Đình",
@@ -188,12 +214,13 @@
     "fingerprintHash": "ngõ 432 đội cấn ba đình|studio|6000000"
   },
   {
-    "id": "rec_1784840822155_12",
+    "id": "rec_1784845373046_11",
     "managerCode": "",
     "commission": "40% HĐ 12T + Thưởng 500K áp dụng khách ở 1/8",
     "address": "Mặt Phố 208 Đội Cấn",
     "roomType": "1N1K",
     "availableDate": "",
+    "priceVnd": 9000000,
     "isFull": false,
     "rawRef": "🌹40% HĐ 12T + Thưởng 500K áp dụng khách ở 1/8\n\n⏰ Trống 1P Siêu rộng 1N1K Ba Đình\n\n📍 Mặt Phố 208 Đội Cấn\n\nNHÀ MỚI - THANG MÁY - SÁNG THOÁNG - MÁY GIẶT RIÊNG - SOFA - BÀN ĂN\n\nDiện tích 45m và 25m\n\n💰Giá 9tr - P502\n\nNội thất: giường, tủ, tủ bếp, hút mùi, sofa, bàn ăn, tủ lạnh, điều hòa, máy giặt riêng\n\nPCCC đạt chuẩn\n\n✅Dịch vụ:\nĐiện 4k/số\nNước: 100k/người\nDịch vụ chung: 250k/người bao gồm wifi, điện chung, vệ sinh, dọn rác, bảo trì thang máy, để xe\n\nkhông nước ngoài còn xe điện và pet cũng được",
     "district": "Ba Đình",
@@ -204,35 +231,67 @@
     "policies": {
       "allowForeigner": false
     },
-    "fingerprintHash": "mặt phố 208 đội cấn|1n1k|"
+    "fingerprintHash": "mặt phố 208 đội cấn|1n1k|9000000"
   },
   {
-    "id": "rec_1784840822155_14",
+    "id": "rec_1784845373046_12",
     "managerCode": "H261",
-    "commission": "",
+    "commission": "30%",
     "address": "Ngõ 559 Kim Ngưu , Hai Bà Trưng",
     "roomType": "Studio",
     "areaSqm": 25,
     "availableDate": "",
-    "priceVnd": 4500000,
     "isFull": false,
-    "rawRef": "H261\n\n📍Ngõ 559 Kim Ngưu , Hai Bà Trưng\n\n💰 Giảm giá : 4.500,000\n\nNgày ở được: 1/8/2026\n\n👉 Diện tích: 25m2\nLoại phòng : studio\nTrục ngoài, có ban công .\n✅ Nội thất : Điều hòa , nóng lạnh,tủ quần áo giường,tủ .....\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước: 100k/1 người\nDịch vụ : Máy giặt 50k/1ng,thang máy 50k/1 người,vệ sinh 30k/1ng,mạng 100k/1 phòng\n\n❌ LƯU Ý\n- Hợp đồng 6- 12 tháng\n- Số người ở: tối đa 4 người 2 xe\n- Thanh toán 1 cọc 1",
+    "rawRef": "🌹30%\n\nH261\n\n📍Ngõ 559 Kim Ngưu , Hai Bà Trưng\n\n💰 Giảm giá : 4.500,000\n\nNgày ở được: 1/8/2026\n\n👉 Diện tích: 25m2\nLoại phòng : studio\nTrục ngoài, có ban công .\n✅ Nội thất : Điều hòa , nóng lạnh,tủ quần áo giường,tủ .....\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước: 100k/1 người\nDịch vụ : Máy giặt 50k/1ng,thang máy 50k/1 người,vệ sinh 30k/1ng,mạng 100k/1 phòng\n\n❌ LƯU Ý\n- Hợp đồng 6- 12 tháng\n- Số người ở: tối đa 4 người 2 xe\n- Thanh toán 1 cọc 1",
     "district": "Hai Bà Trưng",
     "utilityFees": {},
     "policies": {
       "maxOccupants": 4
     },
-    "fingerprintHash": "ngõ 559 kim ngưu hai bà trưng|studio|4500000"
+    "fingerprintHash": "ngõ 559 kim ngưu hai bà trưng|studio|"
   },
   {
-    "id": "rec_1784840822155_17",
+    "id": "rec_1784845373046_13",
+    "managerCode": "H261",
+    "commission": "30%",
+    "address": "Cho thuê phòng tại số nhà 61 ngõ 33 Nguyễn An Ninh - Hai Bà Trưng",
+    "roomType": "",
+    "areaSqm": 25,
+    "availableDate": "",
+    "priceVnd": 4600000,
+    "isFull": false,
+    "rawRef": "🌹30%\n\nH261\n\nGiảm 4tr6\n\nCho thuê phòng tại số nhà 61 ngõ 33 Nguyễn An Ninh - Hai Bà Trưng\n\n💰 giá giảm 4tr6\n\n👉 Diện tích: 25m2\n\n✅ Nội thất : Điều hòa , nóng lạnh, giường, tủ quần áo,bếp từ ,tủ lạnh , hút mùi ....\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước: 35k/khối\nDịch vụ chung 200k/người ( mạng,thang máy,vệ sinh,máy giặt)\n❌ LƯU Ý\n- Hợp đồng 12 tháng\n- Thanh toán 1 cọc",
+    "district": "Hai Bà Trưng",
+    "utilityFees": {
+      "waterPerM3": 35000
+    },
+    "policies": {},
+    "fingerprintHash": "cho thuê phòng tại số nhà 61 ngõ 33 nguyễn an ninh hai bà trưng||4600000"
+  },
+  {
+    "id": "rec_1784845373046_14",
+    "managerCode": "",
+    "commission": "",
+    "address": "Ngõ 81 Xã Đàn",
+    "roomType": "",
+    "availableDate": "",
+    "isFull": true,
+    "rawRef": "Ngõ 81 Xã Đàn FULL P ❌❌❌",
+    "district": "Đống Đa",
+    "utilityFees": {},
+    "policies": {},
+    "syncedTo3rdParty": false,
+    "fingerprintHash": "ngõ 81 xã đàn||"
+  },
+  {
+    "id": "rec_1784845373047_15",
     "managerCode": "",
     "commission": "30%",
     "address": "Ngõ 156 Lê Trọng Tấn – Thanh Xuân – Hà Nội",
     "roomType": "2N1K",
     "areaSqm": 50,
     "availableDate": "",
-    "priceVnd": 40000000,
+    "priceVnd": 8500000,
     "isFull": false,
     "rawRef": "🌹30%\n\n🎉KHAI TRƯƠNG TÒA MỚI 2N1K , 1N1K @All\n\nCòn 3P Cuối\n\n🕍 Địa chỉ: Ngõ 156 Lê Trọng Tấn – Thanh Xuân – Hà Nội\n\n⏰ Đang trống 3 phòng – có thể vào ở ngay\n\n📌Giá: còn 1p 1n1k - 8tr5 (40m², 2 điều hòa)\nCòn 2 2n1k - 702 giá 10tr và 402 giá 10tr5 (50m², 3 điều hòa)\n👉 Thang máy\n👉 Diện tích: 40m² -50m2\n\n✅ Nội thất full đồ:\nĐiều hòa, nóng lạnh, giường, tủ quần áo, bàn ghế ăn, sofa, tủ bếp trên dưới, hút mùi, bếp từ đôi, TV, tủ lạnh, máy giặt riêng…\n\n✅ Dịch vụ:\n• Điện: 4.000đ/số\n• Nước: 35.000đ/người\n• Dịch vụ chung: 200.000đ/người (mạng, thang máy, điện chung, vệ sinh, thu rác)\n\n✨ Điểm nhấn khu vực:\nNằm sát trục mặt đường ( 30m) Lê Trọng Tấn – 150m ra Hoàng Văn Thái, khu vực dân trí cao, an ninh tốt, cực kỳ tiện di chuyển. Chỉ vài phút ra phố Hoàng Văn Thái, Ngã Tư Sở, Trường Chinh, Nguyễn Ngọc Nại. Xung quanh là chợ, siêu thị, quán ăn, cafe, phòng gym, đầy đủ tiện ích sinh hoạt.\n\n🏫 Gần các trường ĐH: Thủy Lợi, Bách Khoa, Kinh tế Quốc dân, Kiến Trúc…\n🏠 Ngõ rộng, thông thoáng, yên tĩnh, phù hợp ở lâu dài.\n\n❌ Lưu ý:\n• Hợp đồng: 12 tháng\n• Tối đa 4 người, 3 xe\n• Không nuôi động vật, không nhận xe điện\n702 10tr và 402 10tr5\n1N1K",
     "district": "Thanh Xuân",
@@ -246,17 +305,18 @@
       "allowElectricVehicle": false,
       "maxOccupants": 4
     },
-    "fingerprintHash": "ngõ 156 lê trọng tấn thanh xuân hà nội|2n1k|40000000"
+    "fingerprintHash": "ngõ 156 lê trọng tấn thanh xuân hà nội|2n1k|8500000"
   },
   {
-    "id": "rec_1784840822155_20",
+    "id": "rec_1784845373047_17",
     "managerCode": "H264",
-    "commission": "",
+    "commission": "40 HĐ 12T",
     "address": "Số 43 Lạc Long Quân - Tây Hồ",
     "roomType": "1N1K",
     "availableDate": "",
+    "priceVnd": 7200000,
     "isFull": false,
-    "rawRef": "H264\n\n📍Địa chỉ: Số 43 Lạc Long Quân - Tây Hồ\n\n⏰ 1N1K\n💲Giá 7,2tr\n\n👉 Phòng 1N1K\n👉 Diện tích 35m\n👉 Thang máy\n\n🎀 Nội thất:\nFull đồ : Giường, đệm, tủ, sofa thông minh, điều hòa, nóng lạnh, tủ lạnh, tivi, bếp từ, tranh ảnh, rèm,...\n\n🎀 Dịch vụ:\nĐiện 4k/số,\nNước 35k/khối\nDịch vụ chung: 200k/người ( mạng, vệ sinh không gian chung, đổ rác, điện ngoài, giặt chung )\n\n⚠️ Ghi chú:\n- Hợp đồng linh hoạt ( trao đổi trực tiếp với quản lý)\n\n- Đóng 1 cọc 1\n\nLưu ý: KHÔNG NHẬN NUÔI PET, K NHẬN XE ĐIỆN",
+    "rawRef": "🌹40 HĐ 12T\n\nH264\n\n📍Địa chỉ: Số 43 Lạc Long Quân - Tây Hồ\n\n⏰ 1N1K\n💲Giá 7,2tr\n\n👉 Phòng 1N1K\n👉 Diện tích 35m\n👉 Thang máy\n\n🎀 Nội thất:\nFull đồ : Giường, đệm, tủ, sofa thông minh, điều hòa, nóng lạnh, tủ lạnh, tivi, bếp từ, tranh ảnh, rèm,...\n\n🎀 Dịch vụ:\nĐiện 4k/số,\nNước 35k/khối\nDịch vụ chung: 200k/người ( mạng, vệ sinh không gian chung, đổ rác, điện ngoài, giặt chung )\n\n⚠️ Ghi chú:\n- Hợp đồng linh hoạt ( trao đổi trực tiếp với quản lý)\n\n- Đóng 1 cọc 1\n\nLưu ý: KHÔNG NHẬN NUÔI PET, K NHẬN XE ĐIỆN",
     "district": "Tây Hồ",
     "utilityFees": {
       "generalServicePerPerson": 200000
@@ -264,18 +324,19 @@
     "policies": {
       "allowElectricVehicle": true
     },
-    "fingerprintHash": "số 43 lạc long quân tây hồ|1n1k|"
+    "fingerprintHash": "số 43 lạc long quân tây hồ|1n1k|7200000"
   },
   {
-    "id": "rec_1784840822155_22",
+    "id": "rec_1784845373047_18",
     "managerCode": "H55",
-    "commission": "",
+    "commission": "30%",
     "address": "Ngõ 455 Vũ Tông Phan - Thanh Xuân",
     "roomType": "",
     "availableDate": "",
-    "priceVnd": 3800000,
+    "priceVnd": 4500000,
+    "priceMaxVnd": 5200000,
     "isFull": false,
-    "rawRef": "H55\n\n🏡KHAI TRƯƠNG TÒA MỚI 10P TRUNG TÂM QUẬN THANH XUÂN\n\n🕌 Địa chỉ: Ngõ 455 Vũ Tông Phan - Thanh Xuân\n\n📍 Khu vực Thanh Xuân – Vị trí trung tâm, tiện đi lại\n\n💰 Giá thuê:\nTrục ngoài - 5tr2\nTrục trong - 4tr5-4tr7\n\n⚡ Chi phí dịch vụ:\nĐiện: 3.800đ/số\nNước: 100.000đ/người\nInternet: 80.000đ/phòng\nPhí dịch vụ chung: 120.000đ/người\n🛋 Nội thất:\nFull đồ\nCó tủ lạnh\nMáy giặt riêng\nTrục ngoài\nTrục trong",
+    "rawRef": "🌹30%\n\nH55\n\n🏡KHAI TRƯƠNG TÒA MỚI 10P TRUNG TÂM QUẬN THANH XUÂN\n\n🕌 Địa chỉ: Ngõ 455 Vũ Tông Phan - Thanh Xuân\n\n📍 Khu vực Thanh Xuân – Vị trí trung tâm, tiện đi lại\n\n💰 Giá thuê:\nTrục ngoài - 5tr2\nTrục trong - 4tr5-4tr7\n\n⚡ Chi phí dịch vụ:\nĐiện: 3.800đ/số\nNước: 100.000đ/người\nInternet: 80.000đ/phòng\nPhí dịch vụ chung: 120.000đ/người\n🛋 Nội thất:\nFull đồ\nCó tủ lạnh\nMáy giặt riêng\nTrục ngoài\nTrục trong",
     "district": "Thanh Xuân",
     "utilityFees": {
       "electricityPerKwh": 3800,
@@ -284,18 +345,19 @@
       "generalServicePerPerson": 120000
     },
     "policies": {},
-    "fingerprintHash": "ngõ 455 vũ tông phan thanh xuân||3800000"
+    "fingerprintHash": "ngõ 455 vũ tông phan thanh xuân||4500000"
   },
   {
-    "id": "rec_1784840822155_24",
+    "id": "rec_1784845373047_19",
     "managerCode": "H162",
-    "commission": "",
+    "commission": "30-40 HĐ 6-12T",
     "address": "TÒA SỐ 1 NGÕ 173/175 HOÀNG HOA THÁM (Đi 209 Đội Cấn vào GẦN HƠN) - Ba Đình",
     "roomType": "",
     "areaSqm": 26,
     "availableDate": "Ở luôn",
+    "priceVnd": 5000000,
     "isFull": false,
-    "rawRef": "H162\n\n🏠TÒA SỐ 1 NGÕ 173/175 HOÀNG HOA THÁM (Đi 209 Đội Cấn vào GẦN HƠN) - Ba Đình\n\n📦 Ở được luôn\n\n💰 Giá thuê: P501 - 5tr\n📐 Diện tích 26m2 BAN CÔNG - CỬA PHÒNG VÂN TAY\nNhà xây mới, thang máy, nội thất mới 100%\nGiường tủ, bếp từ, hút mùi, điều hòa, nóng lạnh, tủ lạnh\nCửa vân tay, không chung chủ, không nuôi pet\nGiặt sấy chung\nNhà xe rộng, để free\n\n💡 Chi phí dịch vụ:\nĐiện 4k/số, Nước 120k/người\nĐiện chung, thang máy, vệ sinh, rác, bảo trì 120k/ng\nGiặt chung 50k/ng\nSấy 100k/ng (k dùng k tính tiền)\nWifi 100k/phòng\n\n🚫 Lưu ý:\nKhông nhận khách nước ngoài\nChỉ nhận xe điện hãng (sạc phí 300k)\nChỉ nuôi 1 mèo nhỏ\nCó chỗ lắp máy giặt riêng",
+    "rawRef": "🌹30-40 HĐ 6-12T\n\nH162\n\n🏠TÒA SỐ 1 NGÕ 173/175 HOÀNG HOA THÁM (Đi 209 Đội Cấn vào GẦN HƠN) - Ba Đình\n\n📦 Ở được luôn\n\n💰 Giá thuê: P501 - 5tr\n📐 Diện tích 26m2 BAN CÔNG - CỬA PHÒNG VÂN TAY\nNhà xây mới, thang máy, nội thất mới 100%\nGiường tủ, bếp từ, hút mùi, điều hòa, nóng lạnh, tủ lạnh\nCửa vân tay, không chung chủ, không nuôi pet\nGiặt sấy chung\nNhà xe rộng, để free\n\n💡 Chi phí dịch vụ:\nĐiện 4k/số, Nước 120k/người\nĐiện chung, thang máy, vệ sinh, rác, bảo trì 120k/ng\nGiặt chung 50k/ng\nSấy 100k/ng (k dùng k tính tiền)\nWifi 100k/phòng\n\n🚫 Lưu ý:\nKhông nhận khách nước ngoài\nChỉ nhận xe điện hãng (sạc phí 300k)\nChỉ nuôi 1 mèo nhỏ\nCó chỗ lắp máy giặt riêng",
     "district": "Ba Đình",
     "utilityFees": {},
     "policies": {
@@ -303,18 +365,18 @@
       "allowElectricVehicle": true,
       "allowForeigner": false
     },
-    "fingerprintHash": "tòa số 1 ngõ 173175 hoàng hoa thám đi 209 đội cấn vào gần hơn ba đình||"
+    "fingerprintHash": "tòa số 1 ngõ 173175 hoàng hoa thám đi 209 đội cấn vào gần hơn ba đình||5000000"
   },
   {
-    "id": "rec_1784840822155_26",
+    "id": "rec_1784845373047_20",
     "managerCode": "H162",
-    "commission": "",
+    "commission": "30-40 HĐ 6-12T",
     "address": "Tòa 32 ngõ 168/54 Nguyễn Lân",
     "roomType": "Gác xép",
     "areaSqm": 20,
     "availableDate": "Ở luôn",
     "isFull": false,
-    "rawRef": "H162\n\n🏠Tòa 32 ngõ 168/54 Nguyễn Lân\n\n📦 Ở được luôn\n\n💰 Giá thuê:\n204 4.700.000 đ\n502 4.700.000 đ\n601 4.700.000 đ\n\n📐 Diện tích: 20m2, phòng gác xép - ban công.\nNhà xây mới, có thang máy, nội thất mới 100%\nGiường tủ, bàn, hút mùi, điều hòa, nóng lạnh, tủ lạnh\nCửa vân tay, không chung chủ\nGiặt chung tầng 6\nNhà xe rộng, để free\n\n💡 Chi phí dịch vụ:\nĐiện 4k/số, Nước 120k/người\nĐiện chung, thang máy, vệ sinh, rác, bảo trì 120k/ng\nGiặt chung 50k/ng\nWifi 100k/phòng\n\n🚫 Lưu ý:\nKhông nhận khách nước ngoài\nChỉ nhận xe điện hãng (sạc phí 300k)\nChỉ nuôi 1 mèo nhỏ",
+    "rawRef": "🌹30-40 HĐ 6-12T\n\nH162\n\n🏠Tòa 32 ngõ 168/54 Nguyễn Lân\n\n📦 Ở được luôn\n\n💰 Giá thuê:\n204 4.700.000 đ\n502 4.700.000 đ\n601 4.700.000 đ\n\n📐 Diện tích: 20m2, phòng gác xép - ban công.\nNhà xây mới, có thang máy, nội thất mới 100%\nGiường tủ, bàn, hút mùi, điều hòa, nóng lạnh, tủ lạnh\nCửa vân tay, không chung chủ\nGiặt chung tầng 6\nNhà xe rộng, để free\n\n💡 Chi phí dịch vụ:\nĐiện 4k/số, Nước 120k/người\nĐiện chung, thang máy, vệ sinh, rác, bảo trì 120k/ng\nGiặt chung 50k/ng\nWifi 100k/phòng\n\n🚫 Lưu ý:\nKhông nhận khách nước ngoài\nChỉ nhận xe điện hãng (sạc phí 300k)\nChỉ nuôi 1 mèo nhỏ",
     "district": "",
     "utilityFees": {},
     "policies": {
@@ -324,16 +386,16 @@
     "fingerprintHash": "tòa 32 ngõ 16854 nguyễn lân|gác xép|"
   },
   {
-    "id": "rec_1784840822155_28",
+    "id": "rec_1784845373047_21",
     "managerCode": "H162",
-    "commission": "",
+    "commission": "30-40 HĐ 6-12T",
     "address": "⛪31 ngõ 131 Thái Hà - Đống Đa",
     "roomType": "",
     "areaSqm": 25,
     "availableDate": "1/8",
-    "priceVnd": 25000000,
+    "priceVnd": 4200000,
     "isFull": false,
-    "rawRef": "H162\n\n⛪31 ngõ 131 Thái Hà - Đống Đa\n\n💵4tr2 - 1/8 vào\n\n- Nhà vị trí đẹp - Ô tô đỗ cách 10m, thông phố ẩm thực Nguyễn Văn Tuyết\n\n❌Diện tích: 25m2 - cửa sổ to, khép kín, không chung chủ, nhà mới hoàn thiện, đủ PCCC\n\nNội thất: giường tủ, tủ bếp, hút mùi, điều hòa, nóng lạnh, tủ lạnh, bàn ghế, rèm, đệm, thiết bị vệ sinh cao cấp...\n\nThang bộ, Cửa vân tay, camera, giặt sấy chung, nhận tối đa 02 xe\n\nĐiện 4k/số, Nước 120k/người\nĐiện chung, thang máy, vệ sinh, rác, bảo trì 120k/ng\nGiặt chung 50k/ng\nSấy chung 100k/ng (k dùng k tính tiền)\nWifi 100k/phòng\n\nKhông nhận khách nước ngoài\nChỉ nhận xe điện hãng (sạc phí 300k)\nChỉ nuôi 1 mèo nhỏ\"",
+    "rawRef": "🌹30-40 HĐ 6-12T\n\nH162\n\n⛪31 ngõ 131 Thái Hà - Đống Đa\n\n💵4tr2 - 1/8 vào\n\n- Nhà vị trí đẹp - Ô tô đỗ cách 10m, thông phố ẩm thực Nguyễn Văn Tuyết\n\n❌Diện tích: 25m2 - cửa sổ to, khép kín, không chung chủ, nhà mới hoàn thiện, đủ PCCC\n\nNội thất: giường tủ, tủ bếp, hút mùi, điều hòa, nóng lạnh, tủ lạnh, bàn ghế, rèm, đệm, thiết bị vệ sinh cao cấp...\n\nThang bộ, Cửa vân tay, camera, giặt sấy chung, nhận tối đa 02 xe\n\nĐiện 4k/số, Nước 120k/người\nĐiện chung, thang máy, vệ sinh, rác, bảo trì 120k/ng\nGiặt chung 50k/ng\nSấy chung 100k/ng (k dùng k tính tiền)\nWifi 100k/phòng\n\nKhông nhận khách nước ngoài\nChỉ nhận xe điện hãng (sạc phí 300k)\nChỉ nuôi 1 mèo nhỏ\"",
     "district": "Đống Đa",
     "utilityFees": {},
     "policies": {
@@ -341,19 +403,73 @@
       "allowForeigner": false,
       "maxVehicles": 2
     },
-    "fingerprintHash": "31 ngõ 131 thái hà đống đa||25000000"
+    "fingerprintHash": "31 ngõ 131 thái hà đống đa||4200000"
   },
   {
-    "id": "rec_1784840822155_34",
-    "managerCode": "H105",
+    "id": "rec_1784845373047_22",
+    "managerCode": "H150",
+    "commission": "40-60% HĐ 6-12T",
+    "address": "⏰2N1K , 3N1K2WC Mặt Phố",
+    "roomType": "3N1K",
+    "availableDate": "Ở luôn",
+    "priceVnd": 8000000,
+    "priceMaxVnd": 13000000,
+    "isFull": false,
+    "rawRef": "🌹40-60% HĐ 6-12T\n\nH150\n\n⏰2N1K , 3N1K2WC Mặt Phố\n\n🎉🎉Chương trình ưu đãi cực hấp dẫn dành cho khách hàng ký hợp đồng: Ap dụng khách chốt đến 25/7\n\n🎁 Ký HĐ 06 tháng: TẶNG NGAY 1.000.000 ĐỒNG\n\n🎁 Ký HĐ 12 tháng: TẶNG NGAY 2.000.000 ĐỒNG\n\n🏢 Mặt phố Vũ Tông Phan – Nhà mặt đường lớn, ô tô đỗ cửa, cực kỳ thuận tiện đi lại.\n\n💰 Giá thuê:\n\n2N1K 9tr5 - P602 - 802 Ở Luôn\n3N1K - 13tr - P601 - 1/8 Trống\n\n🛋️ Full nội thất cao cấp – Chỉ việc xách vali vào ở:\n✔️ Thang máy\n✔️ Giường, tủ quần áo, bàn trang điểm\n✔️ Sofa, tủ lạnh, điều hòa, nóng lạnh\n✔️ Tủ bếp – bàn bếp đầy đủ\n✔️ Mỗi phòng có máy giặt riêng siêu tiện lợi\n✔️ Máy sấy chung\n\n🔹 Chi phí dịch vụ:\n• Điện: 4.300đ/số\n• Nước: 35.000đ/m³\n• Dịch vụ: 150.000đ/người\n• Wifi: 100.000đ/phòng\n✨ Ưu điểm nổi bật:\n🌟 Tòa nhà mới 100%, thiết kế hiện đại, sạch đẹp\n🌟 Vị trí mặt đường lớn, dễ tìm, phù hợp hộ gia đình & nhóm bạn\n🌟 Có nhận xe điện (không nhận sạc)\n🌟 Ô tô đỗ cửa thoải mái\n2n1K\n3N1K",
+    "district": "Thanh Xuân",
+    "utilityFees": {
+      "electricityPerKwh": 4300,
+      "waterPerM3": 35000,
+      "internetPerPerson": 100000,
+      "generalServicePerPerson": 150000
+    },
+    "policies": {
+      "allowElectricVehicle": true
+    },
+    "fingerprintHash": "2n1k 3n1k2wc mặt phố|3n1k|8000000"
+  },
+  {
+    "id": "rec_1784845373047_23",
+    "managerCode": "",
     "commission": "",
+    "address": "Ngõ Xã Đàn 2 FULL ❌❌❌ @All",
+    "roomType": "",
+    "availableDate": "",
+    "isFull": true,
+    "rawRef": "Ngõ Xã Đàn 2 FULL ❌❌❌ @All",
+    "district": "Đống Đa",
+    "utilityFees": {},
+    "policies": {},
+    "syncedTo3rdParty": false,
+    "fingerprintHash": "ngõ xã đàn 2 full all||"
+  },
+  {
+    "id": "rec_1784845373047_26",
+    "managerCode": "",
+    "commission": "",
+    "address": "Số 1 ngõ 104 Phương Liệt FULL ❌❌❌ @All",
+    "roomType": "",
+    "availableDate": "",
+    "isFull": true,
+    "rawRef": "Số 1 ngõ 104 Phương Liệt FULL ❌❌❌ @All",
+    "district": "",
+    "utilityFees": {},
+    "policies": {},
+    "syncedTo3rdParty": false,
+    "fingerprintHash": "số 1 ngõ 104 phương liệt full all||"
+  },
+  {
+    "id": "rec_1784845373047_27",
+    "managerCode": "H105",
+    "commission": "30-40 HĐ 6-12T",
     "address": "Ngách 53 ngõ 68 Cầu Giấy - Quận: Cầu Giấy",
     "roomType": "Studio",
     "areaSqm": 25,
     "availableDate": "30/7",
-    "priceVnd": 5000000,
+    "priceVnd": 5600000,
+    "priceMaxVnd": 7000000,
     "isFull": false,
-    "rawRef": "H105\n\n🏠 Địa chỉ: Ngách 53 ngõ 68 Cầu Giấy - Quận: Cầu Giấy\n\n⏰ 30/7 Trống : P601\n\n💰 Giá: 5tr6\n\n👉Phòng : STUDIO\n👉Thang máy\n👉Diện tích: 25m2\n\n✅ Nội thất: Full đồ máy giặt riêng\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước 35k/khối\nDịch vụ chung : 150k/ người\nMạng 100k/ phòng.\n\n❌ Lưu ý\n- Thanh toán 1 cọc 1\n- Được nuôi Pet nhỏ\n- Ko giới hạn người ở và xe\n- Oto đỗ cách 10m\n- Ko nhận xe điện\n- Khách qua gọi trước 30p",
+    "rawRef": "🌹30-40 HĐ 6-12T\n\nH105\n\n🏠 Địa chỉ: Ngách 53 ngõ 68 Cầu Giấy - Quận: Cầu Giấy\n\n⏰ 30/7 Trống : P601\n\n💰 Giá: 5tr6\n\n👉Phòng : STUDIO\n👉Thang máy\n👉Diện tích: 25m2\n\n✅ Nội thất: Full đồ máy giặt riêng\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước 35k/khối\nDịch vụ chung : 150k/ người\nMạng 100k/ phòng.\n\n❌ Lưu ý\n- Thanh toán 1 cọc 1\n- Được nuôi Pet nhỏ\n- Ko giới hạn người ở và xe\n- Oto đỗ cách 10m\n- Ko nhận xe điện\n- Khách qua gọi trước 30p",
     "district": "Cầu Giấy",
     "utilityFees": {
       "generalServicePerPerson": 150000
@@ -362,16 +478,16 @@
       "allowPet": true,
       "allowElectricVehicle": true
     },
-    "fingerprintHash": "ngách 53 ngõ 68 cầu giấy quận cầu giấy|studio|5000000"
+    "fingerprintHash": "ngách 53 ngõ 68 cầu giấy quận cầu giấy|studio|5600000"
   },
   {
-    "id": "rec_1784840822155_35",
+    "id": "rec_1784845373047_28",
     "managerCode": "",
     "commission": "40 HĐ 12T",
     "address": "Ngõ 32/65 Đỗ Đức Dục - Quận: Nam Từ Liêm",
     "roomType": "Studio",
     "availableDate": "",
-    "priceVnd": 4000000,
+    "priceVnd": 4800000,
     "isFull": false,
     "rawRef": "🌹40 HĐ 12T\n\nKHAI TRƯƠNG NHÀ MỚI TẠI ĐỖ ĐỨC DỤC FREE TIỀN NHÀ T7😲\n\n🏠Địa chỉ: Ngõ 32/65 Đỗ Đức Dục - Quận: Nam Từ Liêm\n\n⏰ Đang trống 20p mới tinh\n\n💰 Giá: 4tr8 - ban công\n4tr7 - cửa sổ\n\n👉Loại phòng: STUDIO\n👉Thang MÁY\n\n✅ Nội thất: Full đồ, máy giặt, tủ lạnh, nóng lạnh. hút mùi,...\n\n✅ Dịch vụ:\n- Điện 4k/số\n- Nước 35k/khối\n- Dvc 250k/người (thang máy, mạng, vệ sinh, đổ rác,...)\n\n❌ Lưu ý\n- Đóng 1 cọc 1\n- Hợp đồng 12 tháng\n- Ko xe điện, ko pet\n- Khách gọi trước 30p trước khi qua\nTrục ban công giá 4800k\nTrục cửa sổ 4700k",
     "district": "Nam Từ Liêm",
@@ -379,19 +495,20 @@
     "policies": {
       "allowElectricVehicle": false
     },
-    "fingerprintHash": "ngõ 3265 đỗ đức dục quận nam từ liêm|studio|4000000"
+    "fingerprintHash": "ngõ 3265 đỗ đức dục quận nam từ liêm|studio|4800000"
   },
   {
-    "id": "rec_1784840822155_37",
+    "id": "rec_1784845373047_29",
     "managerCode": "H207",
-    "commission": "",
-    "address": "",
+    "commission": "30",
+    "address": "💥💥 Khai Trương nhà mới tinh tại 236 Khương Đình, Thanh Xuân ( cửa sổ siêu thoáng, pccc đầy đủ)",
     "roomType": "Studio",
     "areaSqm": 20,
     "availableDate": "5/8",
-    "priceVnd": 5000000,
+    "priceVnd": 4300000,
+    "priceMaxVnd": 4600000,
     "isFull": false,
-    "rawRef": "H207\n\n💥💥💥 Khai Trương nhà mới tinh tại 236 Khương Đình, Thanh Xuân ( cửa sổ siêu thoáng, pccc đầy đủ)\n\nNgày ở: 5/8 vào ở được\n\n💰giá phòng: 4tr3-4tr6\n\n👉 Diện tích: 20m2\nLoại phòng : studio\nThang: máy\n\n✅ Nội thất : Điều hòa , nóng lạnh, tủ quần áo, giường,tủ lạnh,hút mùi, bàn học,...\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước:35k/ khối\nMạng 100k/phòng\nDịch chung : 150k/ tháng /người ( vệ sinh+thang máy+phí môi trường )\n\n❌ LƯU Ý\n- Hợp đồng: 13 tháng\n- Số người ở: tối đa 3 người\n- Thanh toán 1 cọc 1",
+    "rawRef": "🌹30\n\nH207\n\n💥💥💥 Khai Trương nhà mới tinh tại 236 Khương Đình, Thanh Xuân ( cửa sổ siêu thoáng, pccc đầy đủ)\n\nNgày ở: 5/8 vào ở được\n\n💰giá phòng: 4tr3-4tr6\n\n👉 Diện tích: 20m2\nLoại phòng : studio\nThang: máy\n\n✅ Nội thất : Điều hòa , nóng lạnh, tủ quần áo, giường,tủ lạnh,hút mùi, bàn học,...\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước:35k/ khối\nMạng 100k/phòng\nDịch chung : 150k/ tháng /người ( vệ sinh+thang máy+phí môi trường )\n\n❌ LƯU Ý\n- Hợp đồng: 13 tháng\n- Số người ở: tối đa 3 người\n- Thanh toán 1 cọc 1",
     "district": "Thanh Xuân",
     "utilityFees": {
       "waterPerM3": 35000
@@ -399,37 +516,63 @@
     "policies": {
       "maxOccupants": 3
     },
-    "fingerprintHash": "|studio|5000000"
+    "fingerprintHash": "khai trương nhà mới tinh tại 236 khương đình thanh xuân cửa sổ siêu thoáng pccc đầy đủ|studio|4300000"
   },
   {
-    "id": "rec_1784840822155_40",
+    "id": "rec_1784845373047_30",
+    "managerCode": "",
+    "commission": "30%",
+    "address": "Ngõ 156 Lê Trọng Tấn – Thanh Xuân – Hà Nội",
+    "roomType": "2N1K",
+    "areaSqm": 50,
+    "availableDate": "",
+    "priceVnd": 10000000,
+    "priceMaxVnd": 10500000,
+    "isFull": false,
+    "rawRef": "🌹30%\n\n🎉KHAI TRƯƠNG TÒA MỚI 2N1K , 1N1K @All\n\n🕍 Địa chỉ: Ngõ 156 Lê Trọng Tấn – Thanh Xuân – Hà Nội\n\n⏰ Đang trống – có thể vào ở ngay\n\n📌Giá: hết 1n1k\nCòn 2 2n1k - 702 giá 10tr và 402 giá 10tr5 (50m², 3 điều hòa)\n👉 Thang máy\n👉 Diện tích: 40m² -50m2\n\n✅ Nội thất full đồ:\nĐiều hòa, nóng lạnh, giường, tủ quần áo, bàn ghế ăn, sofa, tủ bếp trên dưới, hút mùi, bếp từ đôi, TV, tủ lạnh, máy giặt riêng…\n\n✅ Dịch vụ:\n• Điện: 4.000đ/số\n• Nước: 35.000đ/người\n• Dịch vụ chung: 200.000đ/người (mạng, thang máy, điện chung, vệ sinh, thu rác)\n\n✨ Điểm nhấn khu vực:\nNằm sát trục mặt đường ( 30m) Lê Trọng Tấn – 150m ra Hoàng Văn Thái, khu vực dân trí cao, an ninh tốt, cực kỳ tiện di chuyển. Chỉ vài phút ra phố Hoàng Văn Thái, Ngã Tư Sở, Trường Chinh, Nguyễn Ngọc Nại. Xung quanh là chợ, siêu thị, quán ăn, cafe, phòng gym, đầy đủ tiện ích sinh hoạt.\n\n🏫 Gần các trường ĐH: Thủy Lợi, Bách Khoa, Kinh tế Quốc dân, Kiến Trúc…\n🏠 Ngõ rộng, thông thoáng, yên tĩnh, phù hợp ở lâu dài.\n\n❌ Lưu ý:\n• Hợp đồng: 12 tháng\n• Tối đa 4 người, 3 xe\n• Không nuôi động vật, không nhận xe điện",
+    "district": "Thanh Xuân",
+    "utilityFees": {
+      "electricityPerKwh": 4000,
+      "waterPerPerson": 35000,
+      "generalServicePerPerson": 200000
+    },
+    "policies": {
+      "allowPet": false,
+      "allowElectricVehicle": false,
+      "maxOccupants": 4
+    },
+    "fingerprintHash": "ngõ 156 lê trọng tấn thanh xuân hà nội|2n1k|10000000"
+  },
+  {
+    "id": "rec_1784845373047_31",
     "managerCode": "H207",
-    "commission": "",
+    "commission": "30",
     "address": "Cho thuê CCMN 7 tầng 255 Lĩnh Nam ( Thông ngõ 179 vĩnh hưng )",
     "roomType": "Studio",
     "areaSqm": 20,
     "availableDate": "",
-    "priceVnd": 1000000,
+    "priceVnd": 4500000,
     "isFull": false,
-    "rawRef": "H207\n\nCho thuê CCMN 7 tầng 255 Lĩnh Nam ( Thông ngõ 179 vĩnh hưng )\nNhà mặt phố ô tô đỗ cửa\n\n⏰ Ngày ở: 1/8\n\n💰 Giá giảm: 4tr5\n\n👉 Diện tích: 20m2\nLoại phòng : studio\n\n✅ Nội thất : Điều hòa , nóng lạnh, tủ quần áo, giường, bàn học, tủ lạnh, hút mùi, bếp từ,máy giặt máy chung\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước: 35k/khối\nMạng 100k/phòng\nDịch chung : 150k/ tháng /người (dọn vệ sinh+thang máy+máy giặt+phí môi trường)\n❌ lưu ý:\n- Hợp đồng: 1 năm\n- số lượng người: Tối Đa 2-3 người\n- thanh toán 1 cọc 1",
+    "rawRef": "🌹30\n\nH207\n\nCho thuê CCMN 7 tầng 255 Lĩnh Nam ( Thông ngõ 179 vĩnh hưng )\nNhà mặt phố ô tô đỗ cửa\n\n⏰ Ngày ở: 1/8\n\n💰 Giá giảm: 4tr5\n\n👉 Diện tích: 20m2\nLoại phòng : studio\n\n✅ Nội thất : Điều hòa , nóng lạnh, tủ quần áo, giường, bàn học, tủ lạnh, hút mùi, bếp từ,máy giặt máy chung\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước: 35k/khối\nMạng 100k/phòng\nDịch chung : 150k/ tháng /người (dọn vệ sinh+thang máy+máy giặt+phí môi trường)\n❌ lưu ý:\n- Hợp đồng: 1 năm\n- số lượng người: Tối Đa 2-3 người\n- thanh toán 1 cọc 1",
     "district": "Hai Bà Trưng",
     "utilityFees": {
       "waterPerM3": 35000
     },
     "policies": {},
-    "fingerprintHash": "cho thuê ccmn 7 tầng 255 lĩnh nam thông ngõ 179 vĩnh hưng|studio|1000000"
+    "fingerprintHash": "cho thuê ccmn 7 tầng 255 lĩnh nam thông ngõ 179 vĩnh hưng|studio|4500000"
   },
   {
-    "id": "rec_1784840822155_42",
+    "id": "rec_1784845373047_32",
     "managerCode": "H207",
-    "commission": "",
-    "address": "",
+    "commission": "30",
+    "address": "Cho thuê CCMN 6 tầng 254 Minh Khai",
     "roomType": "Studio",
     "areaSqm": 20,
     "availableDate": "Ở luôn",
-    "priceVnd": 20000000,
+    "priceVnd": 4600000,
+    "priceMaxVnd": 4800000,
     "isFull": false,
-    "rawRef": "H207\n\nCho thuê CCMN 6 tầng 254 Minh Khai\nNgõ ba gác hai bà trưng\n\n⏰ Trống 3p\nNgày ở: ở luôn\n\n💰 Giá giảm 4tr6-4tr8\n\n👉 Diện tích: 20m2\nLoại phòng : studio\n\n✅ Nội thất : Điều hòa , nóng lạnh, tủ quần áo, giường,tủ lạnh,bếp từ,hút mùi,máy giặt chung-riêng\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước: 35k/khối\nMạng 100k/phòng\nDịch chung : 150k/ tháng /người ( vệ sinh+thang máy+máy giặt+phí môi trường)\n\n❌ LƯU Ý\n- Hợp đồng: 6 tháng\n- Số người ở: tối đa 3 người\n- Thanh toán 1 cọc 1",
+    "rawRef": "🌹30\n\nH207\n\nCho thuê CCMN 6 tầng 254 Minh Khai\nNgõ ba gác hai bà trưng\n\n⏰ Trống 3p\nNgày ở: ở luôn\n\n💰 Giá giảm 4tr6-4tr8\n\n👉 Diện tích: 20m2\nLoại phòng : studio\n\n✅ Nội thất : Điều hòa , nóng lạnh, tủ quần áo, giường,tủ lạnh,bếp từ,hút mùi,máy giặt chung-riêng\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước: 35k/khối\nMạng 100k/phòng\nDịch chung : 150k/ tháng /người ( vệ sinh+thang máy+máy giặt+phí môi trường)\n\n❌ LƯU Ý\n- Hợp đồng: 6 tháng\n- Số người ở: tối đa 3 người\n- Thanh toán 1 cọc 1",
     "district": "Hai Bà Trưng",
     "utilityFees": {
       "waterPerM3": 35000
@@ -437,18 +580,18 @@
     "policies": {
       "maxOccupants": 3
     },
-    "fingerprintHash": "|studio|20000000"
+    "fingerprintHash": "cho thuê ccmn 6 tầng 254 minh khai|studio|4600000"
   },
   {
-    "id": "rec_1784840822155_44",
+    "id": "rec_1784845373047_33",
     "managerCode": "H284",
-    "commission": "",
+    "commission": "1tr",
     "address": "18/9/77 Bùi Xương Trạch - Thanh Xuân",
     "roomType": "",
     "availableDate": "1/9",
-    "priceVnd": 18000000,
+    "priceVnd": 1000000,
     "isFull": false,
-    "rawRef": "H284\n\nĐịa chỉ: 18/9/77 Bùi Xương Trạch - Thanh Xuân\n\nP304 - 4tr - 1/9 trống\n\nChi phí:\nĐiện: 4.200đ/số\nNước: 35.000đ/khối\nInternet: 100.000đ/tháng\nDịch vụ chung: 200.000đ/người/tháng\n(thang máy, điện hành lang, vệ sinh, đổ rác, máy giặt)",
+    "rawRef": "🌹1tr\n\nH284\n\nĐịa chỉ: 18/9/77 Bùi Xương Trạch - Thanh Xuân\n\nP304 - 4tr - 1/9 trống\n\nChi phí:\nĐiện: 4.200đ/số\nNước: 35.000đ/khối\nInternet: 100.000đ/tháng\nDịch vụ chung: 200.000đ/người/tháng\n(thang máy, điện hành lang, vệ sinh, đổ rác, máy giặt)",
     "district": "Thanh Xuân",
     "utilityFees": {
       "electricityPerKwh": 4200,
@@ -456,18 +599,18 @@
       "generalServicePerPerson": 200000
     },
     "policies": {},
-    "fingerprintHash": "18977 bùi xương trạch thanh xuân||18000000"
+    "fingerprintHash": "18977 bùi xương trạch thanh xuân||1000000"
   },
   {
-    "id": "rec_1784840822156_46",
+    "id": "rec_1784845373047_34",
     "managerCode": "H284",
-    "commission": "",
+    "commission": "1tr1",
     "address": "Số 8 Ngõ 230/21/33 Mễ Trì Thượng- nam từ liêm",
     "roomType": "",
     "availableDate": "",
-    "priceVnd": 1000000,
+    "priceVnd": 1100000,
     "isFull": false,
-    "rawRef": "H284\n\nĐịa chỉ: Số 8 Ngõ 230/21/33 Mễ Trì Thượng- nam từ liêm\n\nLoại phòng: 01\nPhòng: 701\nGiá thuê: 4.500.000đ/tháng\nTình trạng: Trống\n\nChi phí\nĐiện: 4.000đ/số\nNước: 35.000đ/khối\nInternet: 100.000đ/tháng\nDịch vụ chung: 80.000đ/người/tháng\n(thang máy, điện hành lang, vệ sinh, đổ rác)",
+    "rawRef": "🌹1tr1\n\nH284\n\nĐịa chỉ: Số 8 Ngõ 230/21/33 Mễ Trì Thượng- nam từ liêm\n\nLoại phòng: 01\nPhòng: 701\nGiá thuê: 4.500.000đ/tháng\nTình trạng: Trống\n\nChi phí\nĐiện: 4.000đ/số\nNước: 35.000đ/khối\nInternet: 100.000đ/tháng\nDịch vụ chung: 80.000đ/người/tháng\n(thang máy, điện hành lang, vệ sinh, đổ rác)",
     "district": "Nam Từ Liêm",
     "utilityFees": {
       "electricityPerKwh": 4000,
@@ -475,18 +618,18 @@
       "generalServicePerPerson": 80000
     },
     "policies": {},
-    "fingerprintHash": "số 8 ngõ 2302133 mễ trì thượng nam từ liêm||1000000"
+    "fingerprintHash": "số 8 ngõ 2302133 mễ trì thượng nam từ liêm||1100000"
   },
   {
-    "id": "rec_1784840822156_48",
+    "id": "rec_1784845373047_35",
     "managerCode": "H284",
-    "commission": "",
+    "commission": "1tr4",
     "address": "ngõ 143/79/22 Nguyễn Chính, Hai Bà Trưng",
     "roomType": "",
     "availableDate": "",
-    "priceVnd": 4200000,
+    "priceVnd": 1400000,
     "isFull": false,
-    "rawRef": "H284\n\n🎉🎉🎉 KHAI TRƯƠNG TÒA MỚI – GIÁ SIÊU NGON, DỄ CHỐT KHÁCH\n\n🕹️ Địa Chỉ : ngõ 143/79/22 Nguyễn Chính, Hai Bà Trưng\n\n💰 Phòng Còn Trống\n- P204 giá 3tr2\n\n👉 Phù hợp sinh viên, người đi làm muốn ở riêng với chi phí tiết kiệm.\n✨ Tiện ích:\n✅ Thang máy\n✅ Vệ sinh khép kín\n✅ Giờ giấc tự do\n✅ Khu dân cư an ninh\n✅ Máy giặt chung\n✅ Đi lại thuận tiện khu vực Hai Bà Trưng – Hoàng Mai\n💸 Chi phí:\n⚡ Điện: 4.200đ/số\n💧 Nước: 35.000đ/người\n🌐 Wifi: 100.000đ/phòng\n🧹 Dịch vụ chung (thang máy, điện hành lang, vệ sinh, đổ rác, máy giặt): 200.000đ/người/tháng\n\n❌ K pét , xe điện k\nOto cách cửa 30m",
+    "rawRef": "🌹1tr4\n\nH284\n\n🎉🎉🎉 KHAI TRƯƠNG TÒA MỚI – GIÁ SIÊU NGON, DỄ CHỐT KHÁCH\n\n🕹️ Địa Chỉ : ngõ 143/79/22 Nguyễn Chính, Hai Bà Trưng\n\n💰 Phòng Còn Trống\n- P204 giá 3tr2\n\n👉 Phù hợp sinh viên, người đi làm muốn ở riêng với chi phí tiết kiệm.\n✨ Tiện ích:\n✅ Thang máy\n✅ Vệ sinh khép kín\n✅ Giờ giấc tự do\n✅ Khu dân cư an ninh\n✅ Máy giặt chung\n✅ Đi lại thuận tiện khu vực Hai Bà Trưng – Hoàng Mai\n💸 Chi phí:\n⚡ Điện: 4.200đ/số\n💧 Nước: 35.000đ/người\n🌐 Wifi: 100.000đ/phòng\n🧹 Dịch vụ chung (thang máy, điện hành lang, vệ sinh, đổ rác, máy giặt): 200.000đ/người/tháng\n\n❌ K pét , xe điện k\nOto cách cửa 30m",
     "district": "Hai Bà Trưng",
     "utilityFees": {
       "electricityPerKwh": 4200,
@@ -494,19 +637,19 @@
       "internetPerPerson": 100000
     },
     "policies": {},
-    "fingerprintHash": "ngõ 1437922 nguyễn chính hai bà trưng||4200000"
+    "fingerprintHash": "ngõ 1437922 nguyễn chính hai bà trưng||1400000"
   },
   {
-    "id": "rec_1784840822156_50",
+    "id": "rec_1784845373047_36",
     "managerCode": "H25",
-    "commission": "",
+    "commission": "40",
     "address": "lk 01.38 khu đô thị Hinode Lai",
     "roomType": "",
     "areaSqm": 25,
     "availableDate": "",
     "priceVnd": 5000000,
     "isFull": false,
-    "rawRef": "H25\n\nĐịa chỉ: lk 01.38 khu đô thị Hinode Lai\nXá hoài đức (gần Cao đẳng FPT, Đh Đông Á, ĐH Công Nghiệp, ĐH Thành Đô,…)\n\n- Giá phòng: 5 triệu\n- điện 4k/ 1 số\n- nước 100k/ 1 người\n- Mạng: 100.000₫/phòng\n- Máy giặt, dv chung 150k/ 1 phòng\n- thanh toán 1 cọc 1\n- Nhận phòng từ 15/7\n- Diện tích: 25m2\n- Phòng tầng 3\n- Full nội thất ( giường, tủ, tủ lạnh, tủ bếp, giặt và sấy tầng 4 ... )\n- Nhà 5 tầng, thang bộ\n- Đường trước nhà ô tô\n- không giới hạn người ở\n- Được nuôi pet\n- khách qua xem nhà báo trước 1 tiếng\n\n- hợp đồng 6-12 tháng",
+    "rawRef": "🌹40\n\nH25\n\nĐịa chỉ: lk 01.38 khu đô thị Hinode Lai\nXá hoài đức (gần Cao đẳng FPT, Đh Đông Á, ĐH Công Nghiệp, ĐH Thành Đô,…)\n\n- Giá phòng: 5 triệu\n- điện 4k/ 1 số\n- nước 100k/ 1 người\n- Mạng: 100.000₫/phòng\n- Máy giặt, dv chung 150k/ 1 phòng\n- thanh toán 1 cọc 1\n- Nhận phòng từ 15/7\n- Diện tích: 25m2\n- Phòng tầng 3\n- Full nội thất ( giường, tủ, tủ lạnh, tủ bếp, giặt và sấy tầng 4 ... )\n- Nhà 5 tầng, thang bộ\n- Đường trước nhà ô tô\n- không giới hạn người ở\n- Được nuôi pet\n- khách qua xem nhà báo trước 1 tiếng\n\n- hợp đồng 6-12 tháng",
     "district": "Hoài Đức",
     "utilityFees": {},
     "policies": {
@@ -515,32 +658,15 @@
     "fingerprintHash": "lk 0138 khu đô thị hinode lai||5000000"
   },
   {
-    "id": "rec_1784840822156_56",
-    "managerCode": "H261",
-    "commission": "",
-    "address": "Cho thuê phòng tại số nhà 61 ngõ 33 Nguyễn An Ninh - Hai Bà Trưng",
-    "roomType": "",
-    "areaSqm": 25,
-    "availableDate": "",
-    "priceVnd": 25000000,
-    "isFull": false,
-    "rawRef": "H261\n\nGiảm 4tr6\n\nCho thuê phòng tại số nhà 61 ngõ 33 Nguyễn An Ninh - Hai Bà Trưng\n\n💰 giá giảm 4tr6\n\n👉 Diện tích: 25m2\n\n✅ Nội thất : Điều hòa , nóng lạnh, giường, tủ quần áo,bếp từ ,tủ lạnh , hút mùi ....\n\n✅ Dịch vụ:\nĐiện 4k/số\nNước: 35k/khối\nDịch vụ chung 200k/người ( mạng,thang máy,vệ sinh,máy giặt)\n❌ LƯU Ý\n- Hợp đồng 12 tháng\n- Thanh toán 1 cọc",
-    "district": "Hai Bà Trưng",
-    "utilityFees": {
-      "waterPerM3": 35000
-    },
-    "policies": {},
-    "fingerprintHash": "cho thuê phòng tại số nhà 61 ngõ 33 nguyễn an ninh hai bà trưng||25000000"
-  },
-  {
-    "id": "rec_1784840822156_58",
+    "id": "rec_1784845373047_40",
     "managerCode": "H118",
-    "commission": "",
+    "commission": "40",
     "address": "158 Ngõ Trại Cá ( 329 Trần Đại Nghĩa, Hai Bà Trưng)",
     "roomType": "Studio",
     "availableDate": "",
+    "priceVnd": 7500000,
     "isFull": false,
-    "rawRef": "H118\n\n🔥 Ngay sát ĐH Kinh Tế Quốc Dân – Ở là mê!\n\n📍 Địa chỉ:158 Ngõ Trại Cá ( 329 Trần Đại Nghĩa, Hai Bà Trưng)\n\n🏠 Loại phòng: Studio – Full nội thất\n\n💰 Giá thuê: 7tr5\n\n✨ VỊ TRÍ ĐẮC ĐỊA\n✅ Cách ĐH Kinh Tế Quốc Dân ~300m\n✅ Cách ĐH Bách Khoa ~800m\n✅ Ô tô đỗ cách nhà ~70m\n✅ Ba gác đỗ tận cửa\n🛋️ NỘI THẤT & TIỆN ÍCH\nMáy giặt\nTủ lạnh\nGiường + đệm\nKệ bếp\nBan công phơi đồ\nCamera an ninh\nKhóa vân tay\nNhà mới, sạch đẹp, ở cực sướng\n💸 CHI PHÍ DỊCH VỤ\n⚡ Điện: 3.900đ / số\n💧 Nước: 35.000đ / khối\n🌐 Internet: 70.000đ / người\n🧺 thang máy: 50.000đ / người\n🧹 Dịch vụ chung: 100.000đ / phòng\n(điện hành lang, vệ sinh khu chung…)\n🚲 Giới hạn: tối đa 2 xe / phòng\n📌 LƯU Ý\n❌ Không nhận xe điện\n🌍 không khách nước ngoài\n❌ Không nuôi chó\n📞 Phòng đẹp – giá hiếm khu Trần Đại Nghĩa",
+    "rawRef": "🌹40\n\nH118\n\n🔥 Ngay sát ĐH Kinh Tế Quốc Dân – Ở là mê!\n\n📍 Địa chỉ:158 Ngõ Trại Cá ( 329 Trần Đại Nghĩa, Hai Bà Trưng)\n\n🏠 Loại phòng: Studio – Full nội thất\n\n💰 Giá thuê: 7tr5\n\n✨ VỊ TRÍ ĐẮC ĐỊA\n✅ Cách ĐH Kinh Tế Quốc Dân ~300m\n✅ Cách ĐH Bách Khoa ~800m\n✅ Ô tô đỗ cách nhà ~70m\n✅ Ba gác đỗ tận cửa\n🛋️ NỘI THẤT & TIỆN ÍCH\nMáy giặt\nTủ lạnh\nGiường + đệm\nKệ bếp\nBan công phơi đồ\nCamera an ninh\nKhóa vân tay\nNhà mới, sạch đẹp, ở cực sướng\n💸 CHI PHÍ DỊCH VỤ\n⚡ Điện: 3.900đ / số\n💧 Nước: 35.000đ / khối\n🌐 Internet: 70.000đ / người\n🧺 thang máy: 50.000đ / người\n🧹 Dịch vụ chung: 100.000đ / phòng\n(điện hành lang, vệ sinh khu chung…)\n🚲 Giới hạn: tối đa 2 xe / phòng\n📌 LƯU Ý\n❌ Không nhận xe điện\n🌍 không khách nước ngoài\n❌ Không nuôi chó\n📞 Phòng đẹp – giá hiếm khu Trần Đại Nghĩa",
     "district": "Hai Bà Trưng",
     "utilityFees": {
       "electricityPerKwh": 3900,
@@ -553,18 +679,18 @@
       "allowElectricVehicle": false,
       "maxVehicles": 2
     },
-    "fingerprintHash": "158 ngõ trại cá 329 trần đại nghĩa hai bà trưng|studio|"
+    "fingerprintHash": "158 ngõ trại cá 329 trần đại nghĩa hai bà trưng|studio|7500000"
   },
   {
-    "id": "rec_1784840822156_60",
+    "id": "rec_1784845373047_41",
     "managerCode": "H118",
-    "commission": "",
-    "address": "",
+    "commission": "40",
+    "address": "CHO THUÊ NHIỀU PHÒNG – 40 TẠ QUANG BỬU- Hai Bà Trưng",
     "roomType": "",
     "availableDate": "",
-    "priceVnd": 3500000,
+    "priceVnd": 4500000,
     "isFull": false,
-    "rawRef": "H118\n\n🏠 CHO THUÊ NHIỀU PHÒNG – 40 TẠ QUANG BỬU- Hai Bà Trưng\n\n💰 Giá 4.5 triệu/tháng\n\n📍 Vị trí đẹp, cách ĐH Bách Khoa – ĐH Kinh Tế Quốc Dân chỉ 500m, đi bộ vài phút.\n✨ Phòng sạch sẽ, thoáng mát, phù hợp sinh viên – người đi làm khu vực Hai Bà Trưng.\n\n💡 Chi phí dịch vụ:\nĐiện: 3.5k/số\nNước: 100k/người\nWifi: 100k/phòng\nDịch vụ chung: 100k/phòng\nĐể xe: Xe đầu miễn phí, xe thứ 2: 100k/xe\n\n📌 Quy định:\nKhông sạc & không để xe điện\nKhông nuôi chó (có thể nuôi mèo)\nKhông nhận khách nước ngoài\nGiới hạn 2 xe/phòng",
+    "rawRef": "🌹40\n\nH118\n\n🏠 CHO THUÊ NHIỀU PHÒNG – 40 TẠ QUANG BỬU- Hai Bà Trưng\n\n💰 Giá 4.5 triệu/tháng\n\n📍 Vị trí đẹp, cách ĐH Bách Khoa – ĐH Kinh Tế Quốc Dân chỉ 500m, đi bộ vài phút.\n✨ Phòng sạch sẽ, thoáng mát, phù hợp sinh viên – người đi làm khu vực Hai Bà Trưng.\n\n💡 Chi phí dịch vụ:\nĐiện: 3.5k/số\nNước: 100k/người\nWifi: 100k/phòng\nDịch vụ chung: 100k/phòng\nĐể xe: Xe đầu miễn phí, xe thứ 2: 100k/xe\n\n📌 Quy định:\nKhông sạc & không để xe điện\nKhông nuôi chó (có thể nuôi mèo)\nKhông nhận khách nước ngoài\nGiới hạn 2 xe/phòng",
     "district": "Hai Bà Trưng",
     "utilityFees": {
       "electricityPerKwh": 3500,
@@ -577,69 +703,92 @@
       "allowForeigner": false,
       "maxVehicles": 2
     },
-    "fingerprintHash": "||3500000"
+    "fingerprintHash": "cho thuê nhiều phòng 40 tạ quang bửu hai bà trưng||4500000"
   },
   {
-    "id": "rec_1784840822156_62",
+    "id": "rec_1784845373047_42",
     "managerCode": "H118",
-    "commission": "",
+    "commission": "40",
     "address": " Chính chủ vừa xây hoàn thiện tại 18 ngõ 52 Kim Đồng - Bờ sông Trần Đại Nghĩa",
     "roomType": "",
     "availableDate": "",
+    "priceVnd": 5000000,
     "isFull": false,
-    "rawRef": "H118\n\n💯 Chính chủ vừa xây hoàn thiện tại 18 ngõ 52 Kim Đồng - Bờ sông Trần Đại Nghĩa\n\n💵 Giá 5tr\n\n✅ Ô tô đỗ cửa\n✅ Chỉ 1km đến ĐH Kinh Tế Quốc Dân, 2km đến ĐH Bách Khoa, 500m đến bến xe Giáp Bát\n✅ Phòng đủ đồ: giường-đệm, tủ, điều hòa, nóng lạnh, sofa, tủ lạnh\n✅ Tiện ích: thang máy, máy giặt, khóa vân tay, camera 24/7, để xe free\n\nĐiện 3.9k/số\nNước 30k/m3\nInternet 70k/ng\nPhụ phí máy giặt 50k/ng\nDịch vụ chung 100k/phòng( điện hành lang, dọn vệ sinh chung,...)\n\nKo sạc xe điện, không để xe điện\nKo nuôi chó, có nuôi mèo\nKo nhận người nước ngoài\nGiới hạn 2xe/phòng\nÔ tô đỗ cửa\nKí hđ 12 tháng, đóng 1 cọc 1",
+    "rawRef": "🌹40\n\nH118\n\n💯 Chính chủ vừa xây hoàn thiện tại 18 ngõ 52 Kim Đồng - Bờ sông Trần Đại Nghĩa\n\n💵 Giá 5tr\n\n✅ Ô tô đỗ cửa\n✅ Chỉ 1km đến ĐH Kinh Tế Quốc Dân, 2km đến ĐH Bách Khoa, 500m đến bến xe Giáp Bát\n✅ Phòng đủ đồ: giường-đệm, tủ, điều hòa, nóng lạnh, sofa, tủ lạnh\n✅ Tiện ích: thang máy, máy giặt, khóa vân tay, camera 24/7, để xe free\n\nĐiện 3.9k/số\nNước 30k/m3\nInternet 70k/ng\nPhụ phí máy giặt 50k/ng\nDịch vụ chung 100k/phòng( điện hành lang, dọn vệ sinh chung,...)\n\nKo sạc xe điện, không để xe điện\nKo nuôi chó, có nuôi mèo\nKo nhận người nước ngoài\nGiới hạn 2xe/phòng\nÔ tô đỗ cửa\nKí hđ 12 tháng, đóng 1 cọc 1",
     "district": "Hai Bà Trưng",
     "utilityFees": {},
     "policies": {
       "allowPet": true,
       "maxVehicles": 2
     },
-    "fingerprintHash": "chính chủ vừa xây hoàn thiện tại 18 ngõ 52 kim đồng bờ sông trần đại nghĩa||"
+    "fingerprintHash": "chính chủ vừa xây hoàn thiện tại 18 ngõ 52 kim đồng bờ sông trần đại nghĩa||5000000"
   },
   {
-    "id": "rec_1784840822156_64",
+    "id": "rec_1784845373047_43",
     "managerCode": "H118",
-    "commission": "",
+    "commission": "40",
     "address": "354 Trường Chinh – gần Bách Khoa – Kinh Tế – Xây Dựng",
     "roomType": "",
     "availableDate": "Ở luôn",
+    "priceVnd": 4800000,
+    "priceMaxVnd": 5000000,
     "isFull": false,
-    "rawRef": "H118\n\n📍 Vị trí: 354 Trường Chinh – gần Bách Khoa – Kinh Tế – Xây Dựng\n\n🏠 Nhà mới xây, phòng rộng rãi, thoáng mát, có cửa sổ lớn đón nắng\n\n🛋 Nội thất full đồ\ncơ bản + tủ lạnh , có đệm\n\n🚪 Không chung chủ – giờ giấc tự do – an ninh tốt – PCCC đầy đủ đảm bảo từng phòng\n\nPhù hợp cho 1–3 người\n\n💵 Giá: 4TR8- 5TR\n\n⏰ ở luôn\n\n/-li Phí dịch vụ:\n- Điện 3.9k/số\n- Nước 37k/khối\n- Internet 70k/ng\n- Phụ phí thang máy, máy giặt 50k/ng\n- Dịch vụ chung 100k/phòng( điện hành lang, dọn vệ sinh chung,...)\n\n• Không sạc xe điện, không để xe điện\n• Giới hạn 2 xe/phòng\nHợp đông 12 tháng Cọc 1 – thanh toán 1",
+    "rawRef": "🌹40\n\nH118\n\n📍 Vị trí: 354 Trường Chinh – gần Bách Khoa – Kinh Tế – Xây Dựng\n\n🏠 Nhà mới xây, phòng rộng rãi, thoáng mát, có cửa sổ lớn đón nắng\n\n🛋 Nội thất full đồ\ncơ bản + tủ lạnh , có đệm\n\n🚪 Không chung chủ – giờ giấc tự do – an ninh tốt – PCCC đầy đủ đảm bảo từng phòng\n\nPhù hợp cho 1–3 người\n\n💵 Giá: 4TR8- 5TR\n\n⏰ ở luôn\n\n/-li Phí dịch vụ:\n- Điện 3.9k/số\n- Nước 37k/khối\n- Internet 70k/ng\n- Phụ phí thang máy, máy giặt 50k/ng\n- Dịch vụ chung 100k/phòng( điện hành lang, dọn vệ sinh chung,...)\n\n• Không sạc xe điện, không để xe điện\n• Giới hạn 2 xe/phòng\nHợp đông 12 tháng Cọc 1 – thanh toán 1",
     "district": "Hai Bà Trưng",
     "utilityFees": {},
     "policies": {
       "maxVehicles": 2
     },
-    "fingerprintHash": "354 trường chinh gần bách khoa kinh tế xây dựng||"
+    "fingerprintHash": "354 trường chinh gần bách khoa kinh tế xây dựng||4800000"
   },
   {
-    "id": "rec_1784840822156_66",
+    "id": "rec_1784845373047_44",
     "managerCode": "H118",
-    "commission": "",
+    "commission": "40",
     "address": "Ngõ 211 Minh Khai- ngã tư Kim Ngưu - Hai Bà Trưng",
     "roomType": "Studio",
     "availableDate": "",
-    "priceMaxVnd": 5200000,
+    "priceVnd": 5200000,
+    "priceMaxVnd": 5500000,
     "isFull": false,
-    "rawRef": "H118\n\n💒 Địa Chỉ : Ngõ 211 Minh Khai- ngã tư Kim Ngưu - Hai Bà Trưng\n\n💠 Nhà Thang Máy\n\n🌀 Loại Phòng : Studio\n\n💵 Giá Phòng:\n203 - 5,2TR\n201, 402, 501 - 5,5TR\n\n🍄 Nội Thất: Như hình\n\n💰 Phí Dịch Vụ: Điện 3k9/số, nước 35k/khối, internet 70k/người, máy giặt,thang máy 50k/người.. dịch vụ chung 100k/phòng\n\n⛔️ Ghi Chú Khác : Ko xe điện, giới hạn 2 xe/phòng, nuôi mèo dc\n5tr2\n5tr5",
+    "rawRef": "🌹40\n\nH118\n\n💒 Địa Chỉ : Ngõ 211 Minh Khai- ngã tư Kim Ngưu - Hai Bà Trưng\n\n💠 Nhà Thang Máy\n\n🌀 Loại Phòng : Studio\n\n💵 Giá Phòng:\n203 - 5,2TR\n201, 402, 501 - 5,5TR\n\n🍄 Nội Thất: Như hình\n\n💰 Phí Dịch Vụ: Điện 3k9/số, nước 35k/khối, internet 70k/người, máy giặt,thang máy 50k/người.. dịch vụ chung 100k/phòng\n\n⛔️ Ghi Chú Khác : Ko xe điện, giới hạn 2 xe/phòng, nuôi mèo dc\n5tr2\n5tr5",
     "district": "Hai Bà Trưng",
     "utilityFees": {},
     "policies": {
       "allowElectricVehicle": false,
       "maxVehicles": 2
     },
-    "fingerprintHash": "ngõ 211 minh khai ngã tư kim ngưu hai bà trưng|studio|"
+    "fingerprintHash": "ngõ 211 minh khai ngã tư kim ngưu hai bà trưng|studio|5200000"
   },
   {
-    "id": "rec_1784840822156_70",
+    "id": "rec_1784845373047_45",
     "managerCode": "H118",
-    "commission": "",
+    "commission": "40",
+    "address": " 41 ngõ Mai Hương cạnh 335 Bạch Mai (ngã ba Tạ Quang Bửu- Bạch Mai)- Hai Bà Trưng",
+    "roomType": "",
+    "availableDate": "Ở luôn",
+    "priceVnd": 5000000,
+    "priceMaxVnd": 5200000,
+    "isFull": false,
+    "rawRef": "🌹40\n\nH118\n\n💯 41 ngõ Mai Hương cạnh 335 Bạch Mai (ngã ba Tạ Quang Bửu- Bạch Mai)- Hai Bà Trưng\n\n💵Giá :\np203 - 5TR ở luôn\np401,403 - 5,2TR 1/9\n\n✅ Ô tô đỗ cách 20m,\n✅ Chỉ 800km đến ĐH Kinh Tế Quốc Dân, 1km đến ĐH Bách Khoa, 2km đến bến xe Giáp Bát\n✅ Phòng đủ đồ: giường-đệm, tủ, điều hòa, nóng lạnh, sofa, tủ lạnh\n✅ Tiện ích: thang máy, máy giặt, khóa vân tay, camera 24/7, để xe free\n\nĐiện 3.9k/số\nNước 30k/khối\nInternet 70k/ng\nPhụ phí máy giặt 50k/ng\nDịch vụ chung 100k/phòng( điện hành lang, dọn vệ sinh chung,...)\n\nKo sạc xe điện, không để xe điện\nKo nuôi chó, có nuôi mèo\nKo nhận người nước ngoài\nGiới hạn 2xe/phòng\n\n✅ HĐ 15 tháng, đóng 1 cọc 1\n203\n401\n403",
+    "district": "Hai Bà Trưng",
+    "utilityFees": {},
+    "policies": {
+      "allowPet": true,
+      "maxVehicles": 2
+    },
+    "fingerprintHash": "41 ngõ mai hương cạnh 335 bạch mai ngã ba tạ quang bửu bạch mai hai bà trưng||5000000"
+  },
+  {
+    "id": "rec_1784845373047_46",
+    "managerCode": "H118",
+    "commission": "40",
     "address": "H003 - Số 5 ngách 53/1 ngõ Trại Cá, Hai Bà Trưng, Hà Nội.",
     "roomType": "Studio",
     "availableDate": "",
-    "priceVnd": 3900000,
+    "priceVnd": 5200000,
     "isFull": false,
-    "rawRef": "H118\n\n🏡 STUDIO MỚI 100% – GẦN ĐH KINH TẾ QUỐC DÂN, ĐH BÁCH KHOA\n\n📍 Địa chỉ: H003 - Số 5 ngách 53/1 ngõ Trại Cá, Hai Bà Trưng, Hà Nội.\n\n💰 Giá thuê: Từ 5,2 triệu/tháng (8 phòng mới)\n\n📅 Có thể vào ở ngay\n\n✨ Tiện ích nổi bật:\nNhà mới 100%.\nThang máy.\nCửa sổ đón ánh sáng tự nhiên, có ban công.\nCổng khóa vân tay.\nKhông chung chủ, giờ giấc tự do.\nTrang bị đầy đủ hệ thống PCCC và lối thoát hiểm đạt chuẩn.\nÔ tô đỗ cách nhà khoảng 100m.\n\n📍 Vị trí thuận tiện:\nCách ĐH Kinh tế Quốc dân khoảng 900m.\nCách ĐH Bách khoa Hà Nội khoảng 1km.\n\n💸 Chi phí dịch vụ:\nĐiện: 3.900đ/số.\nNước: 35.000đ/m³.\nInternet: 70.000đ/người.\nMáy giặt: 50.000đ/người.\nPhí dịch vụ chung: 100.000đ/phòng.\n\n📌 Chính sách thuê:\nĐóng 1 tháng tiền nhà + 1 tháng tiền cọc.\nHợp đồng 12 tháng.\nKhông nuôi chó.\nKhông nhận khách nước ngoài.\nVui lòng liên hệ trước 30 phút khi đến xem phòng.",
+    "rawRef": "🌹40\n\nH118\n\n🏡 STUDIO MỚI 100% – GẦN ĐH KINH TẾ QUỐC DÂN, ĐH BÁCH KHOA\n\n📍 Địa chỉ: H003 - Số 5 ngách 53/1 ngõ Trại Cá, Hai Bà Trưng, Hà Nội.\n\n💰 Giá thuê: Từ 5,2 triệu/tháng (8 phòng mới)\n\n📅 Có thể vào ở ngay\n\n✨ Tiện ích nổi bật:\nNhà mới 100%.\nThang máy.\nCửa sổ đón ánh sáng tự nhiên, có ban công.\nCổng khóa vân tay.\nKhông chung chủ, giờ giấc tự do.\nTrang bị đầy đủ hệ thống PCCC và lối thoát hiểm đạt chuẩn.\nÔ tô đỗ cách nhà khoảng 100m.\n\n📍 Vị trí thuận tiện:\nCách ĐH Kinh tế Quốc dân khoảng 900m.\nCách ĐH Bách khoa Hà Nội khoảng 1km.\n\n💸 Chi phí dịch vụ:\nĐiện: 3.900đ/số.\nNước: 35.000đ/m³.\nInternet: 70.000đ/người.\nMáy giặt: 50.000đ/người.\nPhí dịch vụ chung: 100.000đ/phòng.\n\n📌 Chính sách thuê:\nĐóng 1 tháng tiền nhà + 1 tháng tiền cọc.\nHợp đồng 12 tháng.\nKhông nuôi chó.\nKhông nhận khách nước ngoài.\nVui lòng liên hệ trước 30 phút khi đến xem phòng.",
     "district": "Hai Bà Trưng",
     "utilityFees": {
       "electricityPerKwh": 3900,
@@ -651,17 +800,17 @@
       "allowPet": false,
       "allowForeigner": false
     },
-    "fingerprintHash": "h003 số 5 ngách 531 ngõ trại cá hai bà trưng hà nội|studio|3900000"
+    "fingerprintHash": "h003 số 5 ngách 531 ngõ trại cá hai bà trưng hà nội|studio|5200000"
   },
   {
-    "id": "rec_1784840822156_72",
+    "id": "rec_1784845373047_48",
     "managerCode": "H98",
     "commission": "",
     "address": "số 14 ngõ 105/1 xuân la tây hồ ƯU ĐIỂM VỊ TRÍ CỰC ĐẸP Ô TÔ ĐUA TRƯỚC NHÀ GẦN HỒ TAY GẦN NGOẠI GIAO ĐOÀN KHU LOTTLE",
     "roomType": "Studio",
     "areaSqm": 30,
     "availableDate": "1/8",
-    "priceVnd": 1000000,
+    "priceVnd": 5700000,
     "isFull": false,
     "rawRef": "H98\n\n🏠Địa chỉ: số 14 ngõ 105/1 xuân la tây hồ ƯU ĐIỂM VỊ TRÍ CỰC ĐẸP Ô TÔ ĐUA TRƯỚC NHÀ GẦN HỒ TAY GẦN NGOẠI GIAO ĐOÀN KHU LOTTLE\n\n⏰ Ngày ở: 1/8 ở được\n\n💰 Giá: p502 5tr7\n\n🚩Mô tả phòng studio rộng ban công full đồ view ban công thoáng sáng\n🚩Diện tích: 30m2\n🚩Cầu thang: Thang máy\n🚩Số phòng: 502\n\n💥Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, kệ bếp, tủ bếp, tủ lạnh, sofa bếp từ âm máy giặt riêng\n\n💵Phí dịch vụ:\nĐiện 4k/ số\nNước 35k/ khối\nMạng 100k/ phòng\nDịch vụ chung 150k/ 1 ng (vệ sinh, thang máy điện chung, rác\n\n‼️LƯU Ý\n- Thanh toán 1 cọc 1. HĐ 6-12th\n- Ko giới hạn người/ 2 xe\n- Ko nhận xe điện\n- Được nuôi pet\n- Ko nhận khách nước ngoài",
     "district": "Tây Hồ",
@@ -671,18 +820,41 @@
       "allowElectricVehicle": true,
       "allowForeigner": true
     },
-    "fingerprintHash": "số 14 ngõ 1051 xuân la tây hồ ưu điểm vị trí cực đẹp ô tô đua trước nhà gần hồ tay gần ngoại giao đoàn khu lottle|studio|1000000"
+    "fingerprintHash": "số 14 ngõ 1051 xuân la tây hồ ưu điểm vị trí cực đẹp ô tô đua trước nhà gần hồ tay gần ngoại giao đoàn khu lottle|studio|5700000"
   },
   {
-    "id": "rec_1784840822156_76",
+    "id": "rec_1784845373047_49",
     "managerCode": "H124",
-    "commission": "",
+    "commission": "35",
+    "address": "Còn trống duy nhất 2 phòng",
+    "roomType": "",
+    "areaSqm": 20,
+    "availableDate": "",
+    "priceVnd": 3200000,
+    "priceMaxVnd": 3500000,
+    "isFull": false,
+    "rawRef": "🌹35\n\nH124\n\n🏠 CHÍNH CHỦ CHO THUÊ CCMN CAO CẤP – KHU ĐẤU GIÁ MAN BỒI GỐC GĂNG\n\n📍 Cách ĐH Đại Nam 600m\nĐH Điện Lực : 900m\nĐH Phenikaa 1,8km\n👉 Còn trống duy nhất 2 phòng\nTrục 2 :\n101 : 3,5tr\n502 : 3,2tr ( vệ sinh chung , bếp chung )\nPhòng chung vs với phòng đối diện\nNấu ăn ở giữa\nPhòng rộng rãi ( 20m2 ) ở thoải mái 2-3 người\nTiện nghi đầy đủ:\n• Giường – tủ – điều hoà – nóng lạnh\n• Tủ bếp\n• Khóa vân tay – thang máy\nChi phí dịch vụ rõ ràng:\n• Điện: 4k/số\n• Nước: 35k/khối\n• Dịch vụ (máy giặt, VS chung, điện hành lang, rác): 150k/người\n• Thang máy: 50k/người\n🛵 Mỗi phòng tối đa 2 xe\n✅ Được nuôi thú cưng\n🚫 Không nhận người nước ngoài & xe điện",
+    "district": "",
+    "utilityFees": {
+      "electricityPerKwh": 4000,
+      "waterPerM3": 35000
+    },
+    "policies": {
+      "maxVehicles": 2
+    },
+    "fingerprintHash": "còn trống duy nhất 2 phòng||3200000"
+  },
+  {
+    "id": "rec_1784845373048_50",
+    "managerCode": "H124",
+    "commission": "35",
     "address": "U08L46 Đô Nghĩa hà đông",
     "roomType": "",
     "availableDate": "Ở luôn",
-    "priceVnd": 3500000,
+    "priceVnd": 3300000,
+    "priceMaxVnd": 3500000,
     "isFull": false,
-    "rawRef": "H124\n\n🏠 CHÍNH CHỦ CHO THUÊ CCMN CAO CẤP – KHU ĐÔ THỊ ĐÔ NGHĨA\n\nĐịa chỉ : U08L46 Đô Nghĩa hà đông\n( thang máy )\n\nHIỆN TRỐNG 2 Phòng\n- 203 : 3,5tr\n- 403 U07 gần đó 3,3tr\n📍 ĐH Phenikaa 1,2km\nCách ĐH Đại Nam : 2,5km\n✨ Phòng full đồ, ở được luôn .\nPhòng rộng rãi, có ban công riêng\nthoáng mát – ở thoải mái 2-4 người\nTiện nghi đầy đủ:\n• Giường – tủ – điều hoà – nóng lạnh\n• Tủ bếp trên - dưới - hút mùi\n• Khóa vân tay\nChi phí dịch vụ rõ ràng:\n• Điện: 4k/số\n• Nước: 35k/khối\n• Dịch vụ (máy giặt, VS chung, điện hành lang, thang máy ,rác): 200k/người\n🛵 Mỗi phòng tối đa 2 xe\n🚫 Không nhận người nước ngoài & xe điện",
+    "rawRef": "🌹35\n\nH124\n\n🏠 CHÍNH CHỦ CHO THUÊ CCMN CAO CẤP – KHU ĐÔ THỊ ĐÔ NGHĨA\n\nĐịa chỉ : U08L46 Đô Nghĩa hà đông\n( thang máy )\n\nHIỆN TRỐNG 2 Phòng\n- 203 : 3,5tr\n- 403 U07 gần đó 3,3tr\n📍 ĐH Phenikaa 1,2km\nCách ĐH Đại Nam : 2,5km\n✨ Phòng full đồ, ở được luôn .\nPhòng rộng rãi, có ban công riêng\nthoáng mát – ở thoải mái 2-4 người\nTiện nghi đầy đủ:\n• Giường – tủ – điều hoà – nóng lạnh\n• Tủ bếp trên - dưới - hút mùi\n• Khóa vân tay\nChi phí dịch vụ rõ ràng:\n• Điện: 4k/số\n• Nước: 35k/khối\n• Dịch vụ (máy giặt, VS chung, điện hành lang, thang máy ,rác): 200k/người\n🛵 Mỗi phòng tối đa 2 xe\n🚫 Không nhận người nước ngoài & xe điện",
     "district": "Hà Đông",
     "utilityFees": {
       "electricityPerKwh": 4000,
@@ -691,18 +863,18 @@
     "policies": {
       "maxVehicles": 2
     },
-    "fingerprintHash": "u08l46 đô nghĩa hà đông||3500000"
+    "fingerprintHash": "u08l46 đô nghĩa hà đông||3300000"
   },
   {
-    "id": "rec_1784840822156_78",
+    "id": "rec_1784845373048_51",
     "managerCode": "H124",
-    "commission": "",
-    "address": "",
+    "commission": "35",
+    "address": "CHÍNH CHỦ CHO THUÊ PHÒNG TRỌ CL21-22 KHU C YÊN NGHĨA - hà đông",
     "roomType": "",
     "availableDate": "",
-    "priceVnd": 1000000,
+    "priceVnd": 3800000,
     "isFull": false,
-    "rawRef": "H124\n\nCHÍNH CHỦ CHO THUÊ PHÒNG TRỌ CL21-22 KHU C YÊN NGHĨA - hà đông\n\n📍 Vị trí thuận tiện:\n• Cách ĐH Phenikaa chỉ 400m\n• Cách ĐH Đại Nam 2,2km\n🛏️ Phòng đầy đủ nội thất:\n• Giường, tủ quần áo\n• Điều hòa, bình nóng lạnh\n• Tủ bếp trên dưới, hút mùi\n• Tủ lạnh , rèm cửa\n• Có cửa sổ, ban công thoáng mát\n🛗 Tiện ích tòa nhà:\n• Thang máy, khóa vân tay an toàn\n• Máy giặt, internet, thu gom rác, vệ sinh chung\n\n🚪 Phòng trống hiện tại: 1 phòng\n701 : 3,8tr\n\n💡 Điện: 4.000đ/số\n💧 Nước: 35.000đ/m³\n🧾 Dịch vụ: 200.000đ/người (gồm thang máy, mạng, máy giặt, vệ sinh, rác)\n\n🚫 Không nhận người nước ngoài và xe máy điện\n🚗 Để xe: 1 phòng 1 xe (có thể cân đối 2 xe nếu ở đông)",
+    "rawRef": "🌹35\n\nH124\n\nCHÍNH CHỦ CHO THUÊ PHÒNG TRỌ CL21-22 KHU C YÊN NGHĨA - hà đông\n\n📍 Vị trí thuận tiện:\n• Cách ĐH Phenikaa chỉ 400m\n• Cách ĐH Đại Nam 2,2km\n🛏️ Phòng đầy đủ nội thất:\n• Giường, tủ quần áo\n• Điều hòa, bình nóng lạnh\n• Tủ bếp trên dưới, hút mùi\n• Tủ lạnh , rèm cửa\n• Có cửa sổ, ban công thoáng mát\n🛗 Tiện ích tòa nhà:\n• Thang máy, khóa vân tay an toàn\n• Máy giặt, internet, thu gom rác, vệ sinh chung\n\n🚪 Phòng trống hiện tại: 1 phòng\n701 : 3,8tr\n\n💡 Điện: 4.000đ/số\n💧 Nước: 35.000đ/m³\n🧾 Dịch vụ: 200.000đ/người (gồm thang máy, mạng, máy giặt, vệ sinh, rác)\n\n🚫 Không nhận người nước ngoài và xe máy điện\n🚗 Để xe: 1 phòng 1 xe (có thể cân đối 2 xe nếu ở đông)",
     "district": "Hà Đông",
     "utilityFees": {
       "electricityPerKwh": 4000,
@@ -710,18 +882,19 @@
       "generalServicePerPerson": 200000
     },
     "policies": {},
-    "fingerprintHash": "||1000000"
+    "fingerprintHash": "chính chủ cho thuê phòng trọ cl2122 khu c yên nghĩa hà đông||3800000"
   },
   {
-    "id": "rec_1784840822156_80",
+    "id": "rec_1784845373048_52",
     "managerCode": "H124",
-    "commission": "",
-    "address": "",
+    "commission": "40",
+    "address": "Khai Trương siêu phẩm xịn sò 50 Phòng full đồ",
     "roomType": "Studio",
     "availableDate": "",
     "priceVnd": 4000000,
+    "priceMaxVnd": 4500000,
     "isFull": false,
-    "rawRef": "H124\n\nCHÍNH CHỦ CHO THUÊ PHÒNG TRỌ - KHU D YÊN NGHĨA hà đông\n\nKhai Trương siêu phẩm xịn sò 50 Phòng full đồ\nHiện còn 6 phòng\n📍 Vị trí thuận tiện:\n• Cách ĐH Phenikaa chỉ 2km\n🛏️ Phòng đầy đủ nội thất:\n• Gác xép , tủ quần áo\n• Điều hòa, bình nóng lạnh\n• Tủ bếp trên dưới\n• Tủ lạnh , máy giặt riêng\n• Có cửa sổ, ban công thoáng mát\n🛗 Tiện ích tòa nhà:\n• Thang máy, khóa vân tay an toàn\n• Máy giặt, internet, thu gom rác, vệ sinh chung\n\nGiá chỉ từ 4tr - 4,2tr -4,3-4,5tr\nTầng 2-3-4-5 mỗi tầng 10 phòng\nTầng 6 : studio có ban công và cửa sổ\n\n💡 Điện: 4.000đ/số\n💧 Nước: 35.000đ/m³\n🧾 Dịch vụ: 200.000đ/người (gồm thang máy, mạng, máy giặt, vệ sinh, rác)\nNhà có bảo vệ 24/24 phí để de 70k/ 1 xe\n🚫 Không nhận người nước ngoài\n🚗 Để xe: 1 phòng 2-3 xe",
+    "rawRef": "🌹40\n\nH124\n\nCHÍNH CHỦ CHO THUÊ PHÒNG TRỌ - KHU D YÊN NGHĨA hà đông\n\nKhai Trương siêu phẩm xịn sò 50 Phòng full đồ\nHiện còn 6 phòng\n📍 Vị trí thuận tiện:\n• Cách ĐH Phenikaa chỉ 2km\n🛏️ Phòng đầy đủ nội thất:\n• Gác xép , tủ quần áo\n• Điều hòa, bình nóng lạnh\n• Tủ bếp trên dưới\n• Tủ lạnh , máy giặt riêng\n• Có cửa sổ, ban công thoáng mát\n🛗 Tiện ích tòa nhà:\n• Thang máy, khóa vân tay an toàn\n• Máy giặt, internet, thu gom rác, vệ sinh chung\n\nGiá chỉ từ 4tr - 4,2tr -4,3-4,5tr\nTầng 2-3-4-5 mỗi tầng 10 phòng\nTầng 6 : studio có ban công và cửa sổ\n\n💡 Điện: 4.000đ/số\n💧 Nước: 35.000đ/m³\n🧾 Dịch vụ: 200.000đ/người (gồm thang máy, mạng, máy giặt, vệ sinh, rác)\nNhà có bảo vệ 24/24 phí để de 70k/ 1 xe\n🚫 Không nhận người nước ngoài\n🚗 Để xe: 1 phòng 2-3 xe",
     "district": "Hà Đông",
     "utilityFees": {
       "electricityPerKwh": 4000,
@@ -729,125 +902,123 @@
       "generalServicePerPerson": 200000
     },
     "policies": {},
-    "fingerprintHash": "|studio|4000000"
+    "fingerprintHash": "khai trương siêu phẩm xịn sò 50 phòng full đồ|studio|4000000"
   },
   {
-    "id": "rec_1784840822156_82",
+    "id": "rec_1784845373048_53",
     "managerCode": "H15",
-    "commission": "",
+    "commission": "35",
     "address": "Số 14 ngõ 261 Phú Diễn- bắc từ liêm",
     "roomType": "",
     "areaSqm": 22,
     "availableDate": "Ở luôn",
+    "priceVnd": 3950000,
     "isFull": false,
-    "rawRef": "H15\n\n🏫 Địa chỉ: Số 14 ngõ 261 Phú Diễn- bắc từ liêm\n\n🍁Trống 1p ở luôn\nP206 ban công 22m2 : 3950k\n\n🕹️Nội thất: giường, tủ, nóng lạnh, điều hoà\n🎈Camera, thang máy, có thiết bị PCCC,k giới hạn xe. Nhà ô tô đỗ cửa 24/24\n\n🧨 Dịch vụ:\nĐiện 4,2k/số\nNước 35k/ khối\nDvu chung 250k/người (wifi, thang máy vs, rác, điện chung, bảo trì, máy giặt...)\nXe free\n\n🧨Lưu ý:\n- Đóng 1 cọc 1\n- K nhận xe điện, cho nuôi pet",
+    "rawRef": "🌹35\n\nH15\n\n🏫 Địa chỉ: Số 14 ngõ 261 Phú Diễn- bắc từ liêm\n\n🍁Trống 1p ở luôn\nP206 ban công 22m2 : 3950k\n\n🕹️Nội thất: giường, tủ, nóng lạnh, điều hoà\n🎈Camera, thang máy, có thiết bị PCCC,k giới hạn xe. Nhà ô tô đỗ cửa 24/24\n\n🧨 Dịch vụ:\nĐiện 4,2k/số\nNước 35k/ khối\nDvu chung 250k/người (wifi, thang máy vs, rác, điện chung, bảo trì, máy giặt...)\nXe free\n\n🧨Lưu ý:\n- Đóng 1 cọc 1\n- K nhận xe điện, cho nuôi pet",
     "district": "Bắc Từ Liêm",
     "utilityFees": {},
     "policies": {
       "allowPet": true,
       "allowElectricVehicle": true
     },
-    "fingerprintHash": "số 14 ngõ 261 phú diễn bắc từ liêm||"
+    "fingerprintHash": "số 14 ngõ 261 phú diễn bắc từ liêm||3950000"
   },
   {
-    "id": "rec_1784840822156_84_tier_1",
+    "id": "rec_1784845373048_54",
     "managerCode": "H15",
-    "commission": "",
+    "commission": "40",
     "address": "Số 6 ngõ 60/40 nguyễn đạo an nam từ liêm",
-    "roomType": "1n1k",
+    "roomType": "1N1K",
     "areaSqm": 45,
     "availableDate": "",
-    "priceVnd": 1000000,
+    "priceVnd": 4700000,
     "isFull": false,
-    "rawRef": "H15\n\n🏫Địa chỉ: Số 6 ngõ 60/40 nguyễn đạo an nam từ liêm\n\n🍁Trống 4 phòng cuối tháng ở\nP102,602,603,404 thiết kế tương tự nhau 1n1k 1 bếp 45m2 giá 4700k\n\n🕹️ Nội thất: giường, tủ, nóng lạnh, 2 điều hoà, Máy giặt chung\n🎈Camera, thang máy, có thiết bị PCCC, k giới hạn xe, k giới hạn người ở\n🧨 Dịch vụ:\nĐiện 4k/số\nNước 35k/khối\nDvu chung 250k/người (wifi, thang máy vs, rác, điện chung, bảo trì, máy giặt...)\nXe free\n\n🧨Lưu ý:\n- Đóng 1 cọc 1\n- Nhận xe điện, cho nuôi pet\nẢnh trục 02\nẢnh trục 04",
+    "rawRef": "🌹40\n\nH15\n\n🏫Địa chỉ: Số 6 ngõ 60/40 nguyễn đạo an nam từ liêm\n\n🍁Trống 4 phòng cuối tháng ở\nP102,602,603,404 thiết kế tương tự nhau 1n1k 1 bếp 45m2 giá 4700k\n\n🕹️ Nội thất: giường, tủ, nóng lạnh, 2 điều hoà, Máy giặt chung\n🎈Camera, thang máy, có thiết bị PCCC, k giới hạn xe, k giới hạn người ở\n🧨 Dịch vụ:\nĐiện 4k/số\nNước 35k/khối\nDvu chung 250k/người (wifi, thang máy vs, rác, điện chung, bảo trì, máy giặt...)\nXe free\n\n🧨Lưu ý:\n- Đóng 1 cọc 1\n- Nhận xe điện, cho nuôi pet\nẢnh trục 02\nẢnh trục 04",
     "district": "Nam Từ Liêm",
     "utilityFees": {},
     "policies": {
       "allowPet": true,
       "allowElectricVehicle": true
     },
-    "fingerprintHash": "số 6 ngõ 6040 nguyễn đạo an nam từ liêm|1n1k|1000000"
+    "fingerprintHash": "số 6 ngõ 6040 nguyễn đạo an nam từ liêm|1n1k|4700000"
   },
   {
-    "id": "rec_1784840822156_84_tier_2",
+    "id": "rec_1784845373048_55",
     "managerCode": "H15",
-    "commission": "",
-    "address": "Số 6 ngõ 60/40 nguyễn đạo an nam từ liêm",
-    "roomType": "trục 0",
-    "areaSqm": 45,
-    "availableDate": "",
-    "priceVnd": 2000000,
-    "isFull": false,
-    "rawRef": "H15\n\n🏫Địa chỉ: Số 6 ngõ 60/40 nguyễn đạo an nam từ liêm\n\n🍁Trống 4 phòng cuối tháng ở\nP102,602,603,404 thiết kế tương tự nhau 1n1k 1 bếp 45m2 giá 4700k\n\n🕹️ Nội thất: giường, tủ, nóng lạnh, 2 điều hoà, Máy giặt chung\n🎈Camera, thang máy, có thiết bị PCCC, k giới hạn xe, k giới hạn người ở\n🧨 Dịch vụ:\nĐiện 4k/số\nNước 35k/khối\nDvu chung 250k/người (wifi, thang máy vs, rác, điện chung, bảo trì, máy giặt...)\nXe free\n\n🧨Lưu ý:\n- Đóng 1 cọc 1\n- Nhận xe điện, cho nuôi pet\nẢnh trục 02\nẢnh trục 04",
-    "district": "Nam Từ Liêm",
-    "utilityFees": {},
-    "policies": {
-      "allowPet": true,
-      "allowElectricVehicle": true
-    },
-    "fingerprintHash": "số 6 ngõ 6040 nguyễn đạo an nam từ liêm|trục 0|2000000"
-  },
-  {
-    "id": "rec_1784840822156_84_tier_3",
-    "managerCode": "H15",
-    "commission": "",
-    "address": "Số 6 ngõ 60/40 nguyễn đạo an nam từ liêm",
-    "roomType": "trục 0",
-    "areaSqm": 45,
-    "availableDate": "",
-    "priceVnd": 4000000,
-    "isFull": false,
-    "rawRef": "H15\n\n🏫Địa chỉ: Số 6 ngõ 60/40 nguyễn đạo an nam từ liêm\n\n🍁Trống 4 phòng cuối tháng ở\nP102,602,603,404 thiết kế tương tự nhau 1n1k 1 bếp 45m2 giá 4700k\n\n🕹️ Nội thất: giường, tủ, nóng lạnh, 2 điều hoà, Máy giặt chung\n🎈Camera, thang máy, có thiết bị PCCC, k giới hạn xe, k giới hạn người ở\n🧨 Dịch vụ:\nĐiện 4k/số\nNước 35k/khối\nDvu chung 250k/người (wifi, thang máy vs, rác, điện chung, bảo trì, máy giặt...)\nXe free\n\n🧨Lưu ý:\n- Đóng 1 cọc 1\n- Nhận xe điện, cho nuôi pet\nẢnh trục 02\nẢnh trục 04",
-    "district": "Nam Từ Liêm",
-    "utilityFees": {},
-    "policies": {
-      "allowPet": true,
-      "allowElectricVehicle": true
-    },
-    "fingerprintHash": "số 6 ngõ 6040 nguyễn đạo an nam từ liêm|trục 0|4000000"
-  },
-  {
-    "id": "rec_1784840822156_86",
-    "managerCode": "H15",
-    "commission": "",
+    "commission": "35",
     "address": "Số 34 ngõ 214 phú diễn- bắc từ liêm",
     "roomType": "1N1K",
     "areaSqm": 25,
     "availableDate": "",
+    "priceVnd": 3950000,
     "isFull": false,
-    "rawRef": "H15\n\n🏫 Địa chỉ: Số 34 ngõ 214 phú diễn- bắc từ liêm\n\n🍁Trống 1p cuối tháng ở\nP504 1n1k ban công 25m2 giá 3950k\n🕹️Nội thất: giường, tủ, nóng lạnh, điều hoà\n🎈Camera, thang máy, có thiết bị PCCC,k giới hạn xe. Nhà ô tô đỗ cửa 24/24\n\n🧨 Dịch vụ:\nĐiện 4k/số\nNước 35k/ khối\nDvu chung 250k/người (wifi, thang máy vs, rác, điện chung, bảo trì, máy giặt...)\nXe free\n\n🧨Lưu ý:\n- Đóng 1 cọc 1\n- K xe điện, cho nuôi pet",
+    "rawRef": "🌹35\n\nH15\n\n🏫 Địa chỉ: Số 34 ngõ 214 phú diễn- bắc từ liêm\n\n🍁Trống 1p cuối tháng ở\nP504 1n1k ban công 25m2 giá 3950k\n🕹️Nội thất: giường, tủ, nóng lạnh, điều hoà\n🎈Camera, thang máy, có thiết bị PCCC,k giới hạn xe. Nhà ô tô đỗ cửa 24/24\n\n🧨 Dịch vụ:\nĐiện 4k/số\nNước 35k/ khối\nDvu chung 250k/người (wifi, thang máy vs, rác, điện chung, bảo trì, máy giặt...)\nXe free\n\n🧨Lưu ý:\n- Đóng 1 cọc 1\n- K xe điện, cho nuôi pet",
     "district": "Bắc Từ Liêm",
     "utilityFees": {},
     "policies": {
       "allowPet": true,
       "allowElectricVehicle": false
     },
-    "fingerprintHash": "số 34 ngõ 214 phú diễn bắc từ liêm|1n1k|"
+    "fingerprintHash": "số 34 ngõ 214 phú diễn bắc từ liêm|1n1k|3950000"
   },
   {
-    "id": "rec_1784840822156_88",
+    "id": "rec_1784845373048_56",
     "managerCode": "H58",
-    "commission": "",
+    "commission": "40",
     "address": ": số 16 ngõ 8/11/186/71 Lê quang đạo hoặc Đi Lối Phú đô công châu văn liêm cách oto 40m là đẹp nhất- nam từ liêm",
     "roomType": "",
     "availableDate": "",
+    "priceVnd": 4150000,
     "isFull": false,
-    "rawRef": "H58\n\n: số 16 ngõ 8/11/186/71 Lê quang đạo hoặc Đi Lối Phú đô công châu văn liêm cách oto 40m là đẹp nhất- nam từ liêm\n\nGiá 4150k ( thêm tủ lạnh +150k )\n\nPhòng 1 ngủ 1 khách ban công cửa sổ trống 701\n\nFull đồ ( hút mùi , điều hoà , nóng lạnh , thang máy , tủ quần áo, máy giặt chung T1 phơi ban công từng phòng\nĐiện 4k\nNước 35k/khối\nDvc 250k/ng ( mạng , thang máy , máy giặt , vệ sinh , đèn điện hành lang , đổ rác )\nKhông nhận xe điện , có nuôi pet\nHợp đồng 12 tháng",
+    "rawRef": "🌹40\n\nH58\n\n: số 16 ngõ 8/11/186/71 Lê quang đạo hoặc Đi Lối Phú đô công châu văn liêm cách oto 40m là đẹp nhất- nam từ liêm\n\nGiá 4150k ( thêm tủ lạnh +150k )\n\nPhòng 1 ngủ 1 khách ban công cửa sổ trống 701\n\nFull đồ ( hút mùi , điều hoà , nóng lạnh , thang máy , tủ quần áo, máy giặt chung T1 phơi ban công từng phòng\nĐiện 4k\nNước 35k/khối\nDvc 250k/ng ( mạng , thang máy , máy giặt , vệ sinh , đèn điện hành lang , đổ rác )\nKhông nhận xe điện , có nuôi pet\nHợp đồng 12 tháng",
     "district": "Nam Từ Liêm",
     "utilityFees": {},
     "policies": {
       "allowElectricVehicle": false
     },
-    "fingerprintHash": "số 16 ngõ 81118671 lê quang đạo hoặc đi lối phú đô công châu văn liêm cách oto 40m là đẹp nhất nam từ liêm||"
+    "fingerprintHash": "số 16 ngõ 81118671 lê quang đạo hoặc đi lối phú đô công châu văn liêm cách oto 40m là đẹp nhất nam từ liêm||4150000"
   },
   {
-    "id": "rec_1784840822156_91_tier_1",
+    "id": "rec_1784845373048_57",
+    "managerCode": "H58",
+    "commission": "40",
+    "address": ": số 16 ngõ 8/11/186/71 Lê quang đạo hoặc Đi Lối Phú đô công châu văn liêm cách oto 40m là đẹp nhất",
+    "roomType": "",
+    "availableDate": "",
+    "priceVnd": 4150000,
+    "isFull": false,
+    "rawRef": "🌹40\n\nH58\n\n: số 16 ngõ 8/11/186/71 Lê quang đạo hoặc Đi Lối Phú đô công châu văn liêm cách oto 40m là đẹp nhất\nNam từ liêm\n\nGiá 4150k ( thêm tủ lạnh +150k )\nPhòng 1 ngủ 1 khách ban công cửa sổ trống 502 , 402 , 302\n\nFull đồ ( hút mùi , điều hoà , nóng lạnh , thang máy , tủ quần áo, máy giặt chung T1 phơi ban công từng phòng\n\nĐiện 4k\nNước 35k/khối\nDvc 250k/ng ( mạng , thang máy , máy giặt , vệ sinh , đèn điện hành lang , đổ rác )\nKhông nhận xe điện , có nuôi pet\nHợp đồng 12 tháng",
+    "district": "Nam Từ Liêm",
+    "utilityFees": {},
+    "policies": {
+      "allowElectricVehicle": false
+    },
+    "fingerprintHash": "số 16 ngõ 81118671 lê quang đạo hoặc đi lối phú đô công châu văn liêm cách oto 40m là đẹp nhất||4150000"
+  },
+  {
+    "id": "rec_1784845373048_58",
+    "managerCode": "",
+    "commission": "",
+    "address": "143/79/22 Nguyễn Chính FULL ❌❌❌ @All",
+    "roomType": "",
+    "availableDate": "",
+    "isFull": true,
+    "rawRef": "143/79/22 Nguyễn Chính FULL ❌❌❌ @All",
+    "district": "Hai Bà Trưng",
+    "utilityFees": {},
+    "policies": {},
+    "syncedTo3rdParty": false,
+    "fingerprintHash": "1437922 nguyễn chính full all||"
+  },
+  {
+    "id": "rec_1784845373048_59_tier_1",
     "managerCode": "",
     "commission": "40%",
     "address": "80/18 Nhân Hoà- Thanh Xuân",
     "roomType": "P301",
     "availableDate": "1/8",
-    "priceVnd": 7000000,
+    "priceVnd": 7200000,
+    "priceMaxVnd": 8000000,
     "isFull": false,
     "rawRef": "🌹 40%\n\n⏰1/8 Trống 2P 1N1K\n\n📍 Địa chỉ: 80/18 Nhân Hoà- Thanh Xuân\n\n💰 P301-7tr2\n💰 P502- 6tr8\n\n✅ Nội thất FULL ĐỒ có máy giặt riêng\n\n💡 Chi phí:\nĐiện: 4.000đ/số\nNước: 35.000đ/khối\nDịch vụ: 150.000đ/người\nWifi: 100.000đ/phòng\n\n❌ Ghi chú\n\nNuôi pet nhỏ ok\nNhận xe điện: 150k/tháng\nBãi ô tô cách nhà 100m\n7tr2 ( k có video mn nhé )\n6tr8",
     "district": "Thanh Xuân",
@@ -860,16 +1031,17 @@
     "policies": {
       "allowElectricVehicle": true
     },
-    "fingerprintHash": "8018 nhân hoà thanh xuân|p301|7000000"
+    "fingerprintHash": "8018 nhân hoà thanh xuân|p301|7200000"
   },
   {
-    "id": "rec_1784840822156_91_tier_2",
+    "id": "rec_1784845373048_59_tier_2",
     "managerCode": "",
     "commission": "40%",
     "address": "80/18 Nhân Hoà- Thanh Xuân",
     "roomType": "P502",
     "availableDate": "1/8",
-    "priceVnd": 6000000,
+    "priceVnd": 6800000,
+    "priceMaxVnd": 8000000,
     "isFull": false,
     "rawRef": "🌹 40%\n\n⏰1/8 Trống 2P 1N1K\n\n📍 Địa chỉ: 80/18 Nhân Hoà- Thanh Xuân\n\n💰 P301-7tr2\n💰 P502- 6tr8\n\n✅ Nội thất FULL ĐỒ có máy giặt riêng\n\n💡 Chi phí:\nĐiện: 4.000đ/số\nNước: 35.000đ/khối\nDịch vụ: 150.000đ/người\nWifi: 100.000đ/phòng\n\n❌ Ghi chú\n\nNuôi pet nhỏ ok\nNhận xe điện: 150k/tháng\nBãi ô tô cách nhà 100m\n7tr2 ( k có video mn nhé )\n6tr8",
     "district": "Thanh Xuân",
@@ -882,19 +1054,19 @@
     "policies": {
       "allowElectricVehicle": true
     },
-    "fingerprintHash": "8018 nhân hoà thanh xuân|p502|6000000"
+    "fingerprintHash": "8018 nhân hoà thanh xuân|p502|6800000"
   },
   {
-    "id": "rec_1784840822156_93",
+    "id": "rec_1784845373048_60",
     "managerCode": "",
-    "commission": "30 AD khách ở sau 2/8",
+    "commission": "40 AD khách ở trước 2/8",
     "address": "147 Xã Đàn 2, Đống Đa",
     "roomType": "1N1K",
-    "areaSqm": 23,
     "availableDate": "",
+    "priceVnd": 7300000,
     "isFull": false,
-    "rawRef": "🌹30 AD khách ở sau 2/8\n\n🏠 KHAI TRƯƠNG CCMN XÃ ĐÀN 2 – ĐỐNG ĐA | FULL ĐỒ | MÁY GIẶT RIÊNG\n\n📍 Địa chỉ: 147 Xã Đàn 2, Đống Đa\n🏢 Tòa nhà có thang máy, khóa vân tay\n\n✨ Phòng trục 02 – 202, 302\n💰 Giá: 7,3 triệu/tháng\n🌿 Cửa sổ thoáng\n\n✨ Phòng trục 01 – 201, 301, 501\n💰 Giá: 7 triệu/tháng\n🌿 Có ban công\n\n✨ Phòng 502, 602 – 1N1K\n💰 Giá: 8,5 triệu/tháng\n🛏️ 1 phòng ngủ + 1 khách\n\n🛋️ Full nội thất: Điều hòa, nóng lạnh, tủ lạnh, tủ quần áo, bàn trang điểm, hệ tủ bếp + bồn rửa, máy giặt riêng\n\n💡 Chi phí:\n• Điện: 4.000đ/số\n• Nước: 120.000đ/người\n• Mạng: 100.000đ/phòng\n• Phí dịch vụ: 250.000đ/người/tháng (để xe, máy giặt chung, máy sấy, rác, vệ sinh, quản lý, đèn hành lang...)\n\n📌 Cọc 1,5 tháng\n🚫 Không nhận xe điện\n🚫 Không nhận nuôi pet\n🚫 Không nhận khách nước ngoài\nTrục 1\nTrục 2\n1n1k\n/-rose/-rose 35% Mã 1542\n\n🏠 Địa chỉ: Ngách 94/5 Ngõ 94 Hồ Tùng Mậu\n\n⏰ Trống : tầng 2 - 3 - 4\n\n💰 Giá: 2tr8 - 3tr2\n\n🚩Diện tích: 23m2 - Thang máy\n\n💥Nội thất: Giường, tủ quần áo, điều hoà , nóng lạnh, máy giặt chung, wifi siêu tốc độ\n\n☘️ Phí dịch vụ:\nĐiện : 4k/số\nNước : 110k/ng\nMạng : 100k/phòng\nDịch vụ chung: 150k\n(Máy giặt, thang máy, vệ sinh)\n‼️LƯU Ý\n- Thanh toán 1 cọc 1. HĐ 6-12th\n- Được nuôi pet - ko xe điện\n- Nhận khách nước ngoài\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1542\n\n🏠 Địa chỉ: 40 Ngõ 54 Tây Tựu - Bắc Từ Liêm\n\n⏰ Trống : 7p\n\n💰 Giá: 3tr\n\n🚩Diện tích: 25m2 - Thang máy\n\n💥Nội thất: Giường, tủ quần áo,kệ bếp, tủ bếp trên-dưới, điều hoà , nóng lạnh, máy giặt riêng , wifi siêu tốc độ\n\n☘️ Phí dịch vụ:\nĐiện : 3k8/số\nNước : 35k/khối\nMạng : 100k/phòng\nDịch vụ chung: 100k\n(Máy giặt, thang máy, vệ sinh)\n‼️LƯU Ý\n- Thanh toán 1 cọc 1. HĐ 6-12th\n- Được nuôi pet - nhận xe điện\n- Nhận khách nước ngoài\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1542\n\n🏠 Địa chỉ: Ngách 54/36 Ngõ 54 Tây Tựu - Bắc Từ Liêm\n\n⏰ Trống : tầng 5 - 6\n\n💰 Giá: 2tr6 - 2tr8\n\n🚩Diện tích: 23m2 - Thang máy\n\n💥Nội thất: Giường, tủ quần áo,kệ bếp, tủ bếp trên-dưới, điều hoà , nóng lạnh, máy giặt chung, wifi siêu tốc độ\n\n☘️ Phí dịch vụ:\nĐiện : 3k7/số\nNước : 30k/khối\nMạng : 100k/phòng\nDịch vụ chung: 150k\n(Máy giặt, thang máy, vệ sinh)\n‼️LƯU Ý\n- Thanh toán 1 cọc 1. HĐ 6-12th\n- Được nuôi pet - nhận xe điện\n- Nhận khách nước ngoài\n\n👉 Gọi trước 30p khi qua xem phòng",
-    "district": "Bắc Từ Liêm",
+    "rawRef": "🌹40 AD khách ở trước 2/8\n🌹30 AD khách ở sau 2/8\n\n🏠 KHAI TRƯƠNG CCMN XÃ ĐÀN 2 – ĐỐNG ĐA | FULL ĐỒ | MÁY GIẶT RIÊNG\n\n📍 Địa chỉ: 147 Xã Đàn 2, Đống Đa\n🏢 Tòa nhà có thang máy, khóa vân tay\n\n✨ Phòng trục 02 – 202, 302\n💰 Giá: 7,3 triệu/tháng\n🌿 Cửa sổ thoáng\n\n✨ Phòng trục 01 – 201, 301, 501\n💰 Giá: 7 triệu/tháng\n🌿 Có ban công\n\n✨ Phòng 502, 602 – 1N1K\n💰 Giá: 8,5 triệu/tháng\n🛏️ 1 phòng ngủ + 1 khách\n\n🛋️ Full nội thất: Điều hòa, nóng lạnh, tủ lạnh, tủ quần áo, bàn trang điểm, hệ tủ bếp + bồn rửa, máy giặt riêng\n\n💡 Chi phí:\n• Điện: 4.000đ/số\n• Nước: 120.000đ/người\n• Mạng: 100.000đ/phòng\n• Phí dịch vụ: 250.000đ/người/tháng (để xe, máy giặt chung, máy sấy, rác, vệ sinh, quản lý, đèn hành lang...)\n\n📌 Cọc 1,5 tháng\n🚫 Không nhận xe điện\n🚫 Không nhận nuôi pet\n🚫 Không nhận khách nước ngoài\nTrục 1\nTrục 2\n1n1k",
+    "district": "Đống Đa",
     "utilityFees": {
       "electricityPerKwh": 4000,
       "waterPerPerson": 120000,
@@ -902,208 +1074,9 @@
       "generalServicePerPerson": 250000
     },
     "policies": {
-      "allowPet": true,
       "allowElectricVehicle": false,
       "allowForeigner": false
     },
-    "fingerprintHash": "147 xã đàn 2 đống đa|1n1k|"
-  },
-  {
-    "id": "rec_1784840822156_94",
-    "managerCode": "",
-    "commission": "🌹35% mã 44",
-    "address": "Ngõ 615B Minh Khai - Hai Bà Trưng",
-    "roomType": "Studio",
-    "areaSqm": 28,
-    "availableDate": "01/08",
-    "priceVnd": 25000000,
-    "priceMaxVnd": 27000000,
-    "isFull": false,
-    "rawRef": "🌹🌹35% mã 44\n\n🏚 Nhà 237 hồng hà hoàn kiếm\n\n⏰ Trống tầng 2 - 3 - 4 - 5\n\n💰 GIÁ : 3tr - rộng 28m2\n\n💥 NỘI THẤT : phòng khép kín,giường, tủ ,kệ bếp,thang máy ,điều hòa nóng lạnh\n\n☘ Phí dv : điện 4k/số ,nước 100k /ng,wifi 100k/p,gửi xe100/xe/th,dịch vụ50k/ng\n\n👉 Đóng 1cọc1 - hợp đồng - 12th\n/-rose/-rose 35% Mã 1296\n\n🏠Địa chỉ: Ngõ 615B Minh Khai - Hai Bà Trưng\n\n⏰ Trống: tầng - 3 - 4\n\n💰 Giá : 3tr8\n\n⛳️Diện tích: 32m2 - thang bộ\n\n💥Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, bàn bếp, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n☘️ Phí Dịch vụ: điện 4k/số, nước 100k/người, mạng,: 100k/phòng, dịch vụ chung: 100k/người\n\n👉 Đóng 1cọc1 hợp đồng 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 19\n\n🏠 Ngách 47 Ngõ 44 Trần Thái Tông\n\n⏰ Trống - 2p\n\n💰 GIÁ : 5tr2 - 5tr6\n\n⚡Diện tích : 25 - 27m2 - thang máy\n\n✅ ô tô đỗ cách 40m - ko giới hạn người, và xe - ko nhận xe điện, ko nhận khách nước ngoài , ko nuôi pet\n\n💥 Nội thất: Full đồ ( Giường tầng ,tủ quần áo, Tủ lạnh, điều hoà, nóng lạnh,tủ bếp trên dưới ,hút mùi) máy giặt riêng ,ko chung chủ , giờ giấc thoải mái\n\n🍀 Phí Dịch vụ :\nĐiện 4k2/số\nNước 35k/khối\nWiFi : 100k / phòng\nDvu : 150k/ng (thang máy, ,điện hành lang vs rác)\n\nĐóng 1cọc1 - hợp đồng -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 19\n\n🏠 Ngõ 144 Dương Văn Bé - Hai Bà Trưng\n\n⏰ Trống - p301\n\n💰 GIÁ : 3tr5\n\n⚡Diện tích : 24m2 - thang bộ - vs chung 1p\n\n👉 Ô tô đỗ cách 100m- ko giới hạn người, và xe - ko nhận xe điện - ko nhận khách nước ngoài - được nuôi pet\n\n💥 Nội thất: giường,đệm ,tủ quần áo, điều hoà, nóng lạnh ,máy Giặt chung, ko chung chủ , giờ giấc thoải mái\n\n🍀 Phí Dịch vụ :\nĐiện 4k/số\nNước 35k/khối\nWiFi : 100k / phòng\nDvu : 100k/ng (máy giặt, điện hành lang vs rác)\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 19\n\n🏠 Địa Chỉ : Ngách 19 Ngõ 328 Tây Mỗ - Nam Từ Liêm\n\n⏰ Trống - tầng 4\n\n💰 GIÁ - 3tr4\n\n🚩 Diện tích - 27m2 - gác xép- thang máy\n\n💥 Nội thất: giường tủ quần áo, điều hoà nóng lạnh, tủ lạnh , tủ bếp trên dưới ,hút mùi máy giặt chung, ko chung chủ\n-giờ giấc tự do, cửa vân tay, xe để free dưới tầng1\n\n🍀 Dịch vụ: Điện 4k/số, nước 35k/khối , wifi 100k/p, dịch vụ chung 150k/ng , máy giặt điện hành lang,vs rác, ko giới hạn người và xe , nhận xe điện, được nuôi pet - Nhận khách nước ngoài - ô tô cách 30m - ở 4ng - 2xe\n\nĐóng 1cọc1 - hợp đồng -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 19\n\n🏠 481 Vũ Tông Phan - Thanh Xuân\n\n⏰ Trống - p301\n\n💰 GIÁ : 6tr6\n\n⚡Diện tích : 35m2 - 1ngủ 1khách- thang máy\n\n✅ ô tô đỗ cách 10m - ko giới hạn người, và xe - ko nhận xe điện,lắp được máy giặt riêng , nhận khách nước ngoài , được nuôi pet\n\n💥 Nội thất: Full đồ ( Giường tủ quần áo, Tủ lạnh, điều hoà, nóng lạnh, sofa ,tủ bếp trên dưới ,hútmùi) máy giặt chung ,ko chung chủ , giờ giấc thoải mái ,ko nhận xe điện, được nuôi pet\n\n🍀 Phí Dịch vụ :\nĐiện 4k2/số\nNước 35k/khối\nWiFi : 100k / phòng\nDvu : 200k/ng (thang máy, giặt,điện hành lang vs rác)\n\nĐóng 1cọc1 - hợp đồng -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% mã 19\n\n🏠 Địa Chỉ : Ngách 57 Ngõ 509 Vũ Tông Phan - Thang Xuân\n\n⏰ Trống - p201 - 601 - 701\n\n💰GIÁ : 4tr8 - 5tr\n\n⚡ Diện tích: 25- 28m2 - thang máy - ban công - ô tô đỗ cách 80m\n\n💥 NỘI THẤT : Giường tủ , điều hòa nóng lạnh ,tủ lạnh, bàn bếp,tủ bếp trên dưới, hút mùi ,máy giặt riêng, ko chung chủ giờ giấc tự do,lắp được máy giặt riêng, ko giới hạn người và xe ,được nuôi pet ,nhận khách nước ngoài,ko nhận xe điện\n\n👉 PHÍ DV : Điện 4k2/số , Nước 35k/ khối, wifi 100k/phòng, Dịch vụ chung 150k/ng ,gồm thang máy, điện hành lang ,rác\n/-rose /-rose 30% Mã 19\n\n🏠 Địa Chỉ : 269/13 Ngõ Quỳnh - Hai Bà Trưng\n\n⏰ Trống - p301 - 302\n\n💰 GIÁ : 4tr5\n\n⚡Diện tích : 30m2 - studio - thang máy - ô tô đỗ cách 30m\n\n✅ ko giới hạn người - ko nhận xe điện, ko nhận khách nước ngoài , được nuôi pet\n\n💥 Nội thất: Full đồ ( Giường tủ quần áo, Tủ lạnh, điều hoà, nóng lạnh, tủ bếp trên dưới ) máy giặt chung ,ko chung chủ , giờ giấc thoải mái\n\n🍀 Phí Dịch vụ :\nĐiện 4k2/số\nNước 35k/khối\nWiFi : 100k / phòng\nDvu : 150k/ng ( giặt,điện hành lang vs rác)\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 19\n\n🏠 Ngách 8 Ngõ 141 Quan Nhân - Thanh Xuân\n\n⏰ Trống - p201 - 205\n\n💰 GIÁ : 5tr8 - 6tr5👉 có fix\n\n⚡Diện tích : 32m2 - 1ngủ 1khách- thang máy\n\n👉 Ô tô đỗ cách 80m - ko giới hạn người, và xe - nhận xe điện - nhận khách nước ngoài - được nuôi pet\n\n💥 Nội thất: Giường,đệm ,tủ quần áo, điều hoà, nóng lạnh, tủ lạnh , tủ bếp trên dưới , hút mùi) ,máy Giặt riêng, ko chung chủ , giờ giấc thoải mái\n\n🍀 Phí Dịch vụ :\nĐiện 4k/số\nNước 35k/khối\nWiFi : 100k / phòng\nDvu : 150k/ng (thang máy ,điện hành lang vs rác)\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 1424\n\n🏠 Địa chỉ: Ngõ 1132 đường Láng - Đống Đa\n\n⏰ Trống- tầng 3\n\n💰 Giá : 4tr\n\n💥Nội thất: tủ lạnh, điều hoà, nóng lạnh, giường, tủ quần áo, kệ tủ bếp, Internet, máy giặt sấy chung\n✅Khóa cửa vân tay, nhà ko chung chủ, giờ giấc tự do, camera an ninh 24/7\n\n👉 Ko nhận xe điện- được nuôi pet\n\n☘️ Phí dv: Điện 4000/số | Nước 100k/người.\nWifi 100k/phòng\nDịch vụ 50k/người (dọn vệ sinh, đổ rác)\nMáy giặt máy sấy 150k/người\nĐể xe tầng 1 free ( 2 xe/phòng )\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 1328\n\n🏠 Địa Chỉ : 237G Ngõ Quỳnh - Hai Bà Trưng\n\n⏰ Trống - tầng 5\n\n💰 GIÁ : 11tr👉 có fix\n\n⚡Diện tích : 45m2 - 2ngủ 1khách - thang máy\n\n✅ ko giới hạn người - ko nhận xe điện, ko nhận khách nước ngoài , được nuôi pet\n\n💥 Nội thất: Full đồ ( Giường tủ quần áo, Tủ lạnh, điều hoà, nóng lạnh, BếpTừ, tủ bếp trên dưới ) máy giặt chung ,ko chung chủ , giờ giấc thoải mái\n\n🍀 Phí Dịch vụ :\nĐiện 4k/số\nNước 35k/khối\nDvu : 250k/ng ( giặt sấy ,điện hành lang vs rác)\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 33\n\n🏢 Địa chỉ: Ngõ 40 Nghiêm Xuân Yêm, Thanh Trì (hoặc 450 Kim Giang), cách ĐH Thăng Long 800m.\n\n⏰ Trông : P203 - 501 -503 - 702\n\n💰 Giá : 3tr9 - 4tr1\n\n⛳️Diện tích: 18m2 + 7m2 gác xép - thang máy\n\n💥Nội thất: tủ lạnh, bàn ghế sofa, điều hòa , nóng lạnh, kệ bếp ,tủ bếp, tủ quần áo, cửa sổ ban công thoáng\n\n🌱 Máy giặt, máy sấy chung\n\n☘️ Phí Dịch vụ: Điện 4k/số, Nước 35k/khối , wifi 100k/p , dịch vụ chung 150k/ng (Dịch vụ chung bao gồm: thang máy, giặt sấy chung tầng 7, vệ sinh chung, điện nước chung, rác...)\n\n❌ Lưu ý:\n- Giới hạn 3 người 2 xe ( không nhận người nước ngoài)\n- Không nhận xe điện\n- Đóng 1 cọc 1\n- Khách qua xem gọi trước 30 phút\n/-rose/-rose 35% Mã 1036\n\n🏡 Địa chỉ : KĐT LOUIS Đại Mỗ, Nam Từ Liêm, Hà Nội ✨\n(Căn Louis II - 174 )\n\n⏰ Trống - p303\n\n💰 Giá : 3tr6\n\n💰 Vị trí siêu đẹp, giá cả phải chăng, dịch vụ hợp lý\n\n💥 Full nội thất : điều hòa , nóng lạnh , tủ lạnh , giường , tủ quần áo , bàn bếp , tủ chạn bếp, hút mùi bếp , hút mùi vệ sinh , máy giặt , sân phơi rộng , vệ sinh khép kín , gương kệ sen vòi tiên tiến , ...\n\n👉 Đóng 1 cọc 1 , không giới hạn người ở , miễn phí chỗ để xe , đường lớn , ô tô đỗ cửa free .\n\n👉 Điện 3,8k/số , nước 100k/người , wifi 100k/phòng ( mỗi phòng 1 model riêng biệt ) , dịch vụ chung 100k/người ( vệ sinh định kì, nước lọc RO miễn phí , đèn điện chung , camera , rác , .. ) , máy giặt 50k/người ( nếu dùng ) , ngoài ra không phát sinh thêm chi phí gì\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1036\n\n🏠 Địa điểm: căn G11-L15 An Quý Villa - Dương Nội\n\n⏰ Trống : p303\n\n💰 Giá : 3tr6\n\n👉 Phòng mới tinh, view đẹp, vị trí đẹp, thời điểm vàng để chốt sale nào ae ơi\n\n👉 Full nội thất : điều hòa , nóng lạnh , giường , tủ quần áo , bàn bếp , tủ chạn bếp , hút mùi bếp , hút mùi vệ sinh , máy giặt , sân phơi rộng , vệ sinh khép kín , gương kệ sen vòi tiên tiến , ... 💰\n\n👉 Hợp đồng 6 tháng, đóng 1 cọc 1 , không giới hạn người ở , miễn phí chỗ để xe , đường lớn , ô tô đỗ cửa free .\n\n👉 Điện 3,8k/số , nước 100k/người , wifi 100k/phòng ( mỗi phòng 1 model riêng biệt ) , dịch vụ chung 100k/người ( vệ sinh , đèn điện chung , camera , rác , .. ) , máy giặt 50k/người ( nếu dùng ) , ngoài ra không phát sinh thêm chi phí gì\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1275\n\n🏡 ĐỊA CHỈ : 10C Ngõ 230 Võ Chí Công\n\n⏰TRỐNG: Nhiều phòng\n803,903 : 4tr3\n801,802: 5tr\n704, 705: 5tr3\n\n🍀 𝗚𝗜𝗔́ 𝗗𝗜̣𝗖𝗛 𝗩𝗨̣:\n* Điện: 4.000đ/số\n* Nước: 35.000đ/số\n* Dịch vụ chung: 180.000đ/người\n* Phí xe máy: 150.000đ/xe\n\n💥 NỘI THẤT: điều hòa, nóng lạnh, giường, tủ quần áo, tủ lạnh, kệ bếp\n\n📍 𝗖𝗔́𝗖 𝗧𝗛𝗢̂𝗡𝗚 𝗧𝗜𝗡 𝗞𝗛𝗔́𝗖:\n- Nhà thang máy\n- khoá vân tay,\nko giới hạn giờ giấc,\nđược nuôi pet,\nko nhận xe điện\n\n👉 Đóng 1cọc 1 hợp đồng 9 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1275\n\n🏡 ĐỊA CHỈ : Số 5 Ngõ 57 Phú Mỹ - Nam Từ Liêm\n\n💰 Giá : 4tr2 - p904\n\n💰 Giá : 3tr6 - 3tr8 - p401- 305 - 805 - 605 - 704 - 204\n\n🍀 𝗚𝗜𝗔́ 𝗗𝗜̣𝗖𝗛 𝗩𝗨̣:\n* Điện 3k8/số,\nNước 35k/số,\nDịch vụ chung 100k/người(thang máy, rác, quét dọn, điện chung,...),\nMáy giặt 80k/người,\nmạng 100k/phòng,\nXe 80k/xe\n\n💥 NỘI THẤT: điều hòa, nóng lạnh, giường, tủ quần áo, tủ lạnh, kệ bếp\n\n📍 𝗖𝗔́𝗖 𝗧𝗛𝗢̂𝗡𝗚 𝗧𝗜𝗡 𝗞𝗛𝗔́𝗖:\n- Nhà thang máy\n- khoá vân tay,\nko giới hạn giờ giấc,\nđược nuôi pet,\nnhận xe điện\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1275\n\n🏠 Địa chỉ: Ngách 66 Ngõ 43 Trung Kính - Cầu Giấy\n\n⏰ Trống - 504 - 604\n\n💰 Giá : 6tr2👉 có fix\n\n⛳️ Diện tích: 38m2 - 1ngủ 1khách - thang máy\n\n💥Nội thất: Giường, tủ quần áo, Điều hoà, tủ lạnh, nóng lạnh, bàn bếp, tủ bếp máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n👉 Ko giới hạn người - Ko nhận xe điện - được nuôi pet\n\n☘️ Phí dv: Điện 3k8/số\nNước 35k/khối\nMạng 100k/phòng\nDịch vụ chung 50k/người\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1275\n\n🏡 ĐỊA CHỈ : 49 Phú Mỹ - Nam Từ Liêm\n\n⏰Trống : p302 -602 -701 - 801- 401\n\n💰 Giá : 3tr7 - 3tr8\n\n🍀 𝗚𝗜𝗔́ 𝗗𝗜̣𝗖𝗛 𝗩𝗨̣:\n* Điện 3k8/số, Nước 35k/số, Dịch vụ chung 100k/người(thang máy, rác, quét dọn, điện chung,...)\nMạng 100k/p\nXe 80k/xe\nMáy giặt 80k/ng\n\n🍀 NỘI THẤT: có thang máy, đầy đủ đh, nl, giường, tủ quần áo, tủ lạnh, kệ bếp, máy giặt chung..\n\n📍 𝗖𝗔́𝗖 𝗧𝗛𝗢̂𝗡𝗚 𝗧𝗜𝗡 𝗞𝗛𝗔́𝗖:\n- Nhà thang máy\n- khoá vân tay,\nko giới hạn giờ giấc,\nđược nuôi pet,\nko nhận xe điện\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% ( Mã 485)\n\n🏢 Địa chỉ : 108 Ngõ 750 Kim Giang - Hoàng Mai\n\n⏰ Trống : tầng 2\n\n💰 GIÁ : 5tr5👉 có fix\n\n👉 Diện tích : 50m2 - 1ngủ 1khách -Thang máy\n\n💥 Nội thất : Giường, Tủ Quần Áo, Điều Hòa, Nóng Lạnh, Bàn Bếp,Trên Dưới sofa bàn trà,tủ lạnh ,Hút Mùi, Máy Giặt Chung ,có chỗ lắp máy giặt riêng,ngõ to ô tô tránh nhau, có bãi ôtô cạnh nhà\n👉 ko giới hạn người và xe, ko nhận xe điện, được nuôi pet\n\n🍀 Dịch vụ : Điện 3,8k, Nước 30K, wifi 100k/p dịch vụ chung 150k/ng ,gồm +thang máy +máy giặt+vs+điện hành lang\n\n❌ Lưu ý:\n👉 Đóng 1 cọc 1\n👉 Khách gọi trước 30p-1h trước khi qua.\n/-rose /-rose 35% ( Mã 485)\n\n🏢 Địa chỉ : 158 Ngõ 750 Kim Giang - Hoàng Mai\n\n⏰ Trống: tầng 3 - 4\n\n💰 GIÁ 4tr5\n\n⛳️Diện tích : 30m2 - Thang máy\n\n🍀 Nội thất : Giường, Tủ Quần Áo, Điều Hòa, Nóng Lạnh, Bàn Bếp,Trên Dưới, bàn ghế,Hút Mùi, Máy Giặt Chung ,có chỗ lắp máy giặt riêng,ngõ to ô tô tránh nhau, có bãi ôtô cạnh nhà\n👉 ko giới hạn người và xe, ko nhận xe điện, được nuôi pet\n\n🍀 Dịch vụ : Điện 3,8k, Nước 35K, wifi 100k/p dịch vụ chung 150k/ng ,gồm +thang máy +máy giặt+vs+điện hành lang\n\n❌ Lưu ý:\n👉 Đóng 1 cọc 1\n👉 Khách gọi trước 30p-1h trước khi qua.\n/-rose /-rose 35% ( Mã 485)\n\n🏢 Địa chỉ : Ngõ 298 Ngọc Hồi- Tứ Hiệp- Văn Điển\n\n⏰ Trống : 4p\n\n💰 GIÁ : 3tr5 - 3tr9 - 4tr5\n\n⛳️Diện tích : 27 - 35m2 - Thang máy\n\n💥 Nội thất : Giường, Tủ Quần Áo, Điều Hòa, Nóng Lạnh,sofa, Bàn Bếp,Trên Dưới Bàn Ghế ,Hút Mùi, Máy Giặt Chung ,có chỗ lắp máy giặt riêng ,ngõ to ô tô tránh nhau, có bãi ôtô cạnh nhà\n👉 ko giới hạn người và xe, ko nhận xe điện, được nuôi pet\n\n🍀 Dịch vụ : Điện 3,8k, Nước 35K, wifi 100k/p dịch vụ chung 120k/ng ,gồm +thang máy +máy giặt+vs+điện hành lang\n\n❌ Lưu ý:\n👉 Đóng 1 cọc 1\n👉 Khách gọi trước 30p-1h trước khi qua.\n/-rose/-rose 30% Mã 1186\n\n🏠 Địa Chỉ : Ngõ185 Hồng Đô - Nam Từ Liêm\n\n⏰ Trống : tầng 9\n\n💰 Giá : 4tr1\n\n⛳️ Diện tích: 28m2 - thang máy\n\n💥 Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, máy giặt riêng từng phòng ( máy sấy chung tang 9) phòng nào cũng có cửa sổ ban công. Oto qua nhà\n\n☘️ Phí dv: Điện 4k\nNước 35k\nDvchung 250k/ người\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 1186\n\n🏠 Địa Chỉ : Ngõ 8 Lê QuangĐạo- Nam Từ Liêm\n\n⏰ Trống : tầng 2- 7\n\n💰 Giá : 4tr3\n\n⛳️ Diện tích: 28m2 - thang máy - được nuôi pet - Nhận xe điện Vinfast\n\n💥 Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, máy giặt riêng từng phòng ( máy sấy chung\n\n☘️ Phí dv: Điện 4k\nNước 35k\nDvchung 250k/ người\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 1186\n\n🏠 Địa Chỉ : Ngõ 205/123/3 Xuân Đỉnh- Bắc Từ Liêm\n\n💰 Giá : 3tr9 tầng 1\n\n💰 Giá : 4tr1 tầng 7\n\n⛳️ Diện tích: 25m2 - thang máy - được nuôi pet - Nhận xe điện Vinfast\n\n💥 Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, máy giặt riêng từng phòng ( máy sấy chung\n\n☘️ Phí dv: Điện 4k\nNước 35k\nDvchung 250k/ người\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 141\n\n🏠 Ngõ 214 Phú Diễn - Bắc Từ Liêm\n\n⏰01/08 Trống - p504\n\n💰 GIÁ - 3tr950\n\n⚡ Diện tích - 32m2 - 1ngủ 1khách - thang máy - ô tô đỗ cửa\n\n💥 Nội thất : giường tủ quần áo, điều hòa , nóng lạnh , bàn ghế, bàn bếp , tủ bếp trên dưới , máy giặt chung, ko chung chủ, giờ giấc thoải mái\n👉 Nhận xe điện, được nuôi pet - Đường to, ô tô tránh nhau, ô tô để trước cửa nhà, đi bộ ra trường Tài nguyên\n\n🍀 Phí dv :\nĐiện 4k\nNước 35k/khối\nDv chung 250k/ng,gồm thang máy, máy giặt, wifi , điện hành lang, vs rác\n\nĐóng 1cọc1 - hợp đồng 12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 141\n\n🏠 Địa chỉ : Ngõ 261 Phú Diễn - Bắc Từ Liêm\n\n⏰ Trống : tầng 2\n\n💰 Giá : 3tr950\n\n⛳️ Diện tích: 30m2 - thang máy- ban công\n\n💥 Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, bàn bếp, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n👉Ô tô đỗ cửa ngày đêm\nK giới hạn người ở, được nuôi pet\nK nhận xe điện\nCó thang máy, máy giặt chung, pccc đầy đủ\n\n☘️ Phí Giá dv\nĐiện 4k2/số\nNước 35k/khối\nDv 250k/người\n\n👉 Đóng 1cọc1 hợp đồng 8 -12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 1186\n\n🏠 Địa chỉ: Ngõ 444 Đội Cấn - Ba Đình\n\n⏰ Trống - p301 - 302 - 602\n\n💰 GIÁ : 5tr - 5tr2\n\n🚩 Diện tích: 28m2 - ban công - thang máy\n\n💥 Nội thất: Điều hòa, nóng lạnh,giường, tủ quần áo, tủ lạnh, kệ bếp, tủ bếp, máy giặt riêng. Camera , cổng vân tay, wifi từng phòng.ko chung chủ, giờ giấc thoải mái\n\n☘️ Dịch vụ :\nĐiện: 4k/số, Nước: 35k/khối ,dịch vụ chung 250k/ng gồm thang máy, máy sấy, wifi, điện hành lang vs rác\n⛔️ Lưu ý:\n- nhận xe điện vinfat\n- Cho nuôi pet\n- Đóng 1cọc1 - HĐ 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 805\n\n🏠 Địa chỉ: Ngõ 59 Phạm Văn Đồng, Cầu Giấy\n\n⏰ Trống - tầng 4\n\n💰 Giá : 4tr\n\n⛳️ Diện tích: 25m2 - thang bộ\n\n💥 Nội thất: Giường, tủ quần áo, sofa, nóng lạnh, điều hòa, tủ lạnh, tủ bếp trên dưới, mặt giặt sấy chung\n\n☘️ Phí dv: Điện 3.9k/ số; nước 100k/người; dvc 100k/ người, wifi 50k/ng\n- Cách đường oto Phạm Văn Đồng 100m\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 805\n\n🏠Địa chỉ: Số 9 Lương Sử C, Văn Miếu Quốc Tử Giám, HN\n\n⏰ 01/08 Trống: tầng 2\n\n💰 Giá : 7tr5\n\n⛳️ Diện tích: 42m2 - 1ngủ 1khách- thang máy\n\n- Toà thang máy, cho 2 xe máy, PCCC đầy đủ\n\n💥Nội thất: Giường, tủ quần áo, điều hoà, nóng lạnh, sofa, tivi, tủ lạnh,tủ bếp trên dưới, MÁY GIẶT RIÊNG\n\n☘️Phí dịch vụ 150k/ người, wifi 50k/ người, nước 100k/ người, điện 4k/ số\n\n👉 Đóng 1cọc1 hợp đồng 9 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1470\n\n🏡 ĐỊA CHỈ: Ngõ 149 Cự Lộc - Thanh Xuân - Hà Nội\n(Gần Royal City – gần chợ, xung quanh đầy đủ tiện ích)\n\n⏰ Trống : tầng 1 - 2 - 3\n\n💰 GIÁ : 4tr - 4tr5 - 5tr 👉 có fix\n\n⛳️ Diện tích: 25m2 - thang bộ\n\n☘️ Phí dv:\n• Điện: 4.000đ/số\n• Nước: 120.000đ/người\n• Wifi: 100.000đ/phòng\n• Phí dịch vụ cư dân: 140.000đ/người\n• Gửi xe: 100.000đ/xe\n\n💥NỘI THẤT:\nFull đồ như ảnh: giường, tủ, điều hoà, nóng lạnh, máy giặt, tủ lạnh\nKhoá vân tay\nPCCC đầy đủ\n\n📌 GHI CHÚ:\n• Phòng sạch đẹp, vào ở ngay\n• Khu dân cư văn minh, an ninh tốt\n\n✨ TIỆN ÍCH XUNG QUANH:\n• Gần Royal City\n• Gần chợ dân sinh Cự Lộc\n• Gần tạp hoá, quán ăn, café\n• Gần các tuyến xe buýt khu Nguyễn Trãi – Trường Chinh\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 40% Mã 463\n\n🏠 194 Đội Cấn - Ba Đình\n\n⏰ Trống - tầng 1- 3 -4\n\n💰 GIÁ : 4tr5 - 5tr -5tr5👉 có fix\n\n⚡ Diện tích : 30m2 - thang máy\n\n💥 Nội thất: (Điều hòa, nóng lạnh, giường, tủ quần áo, đệm ,tủ bếp, tủ lạnh, bàn ghế, máy giặt riêng từng phòng...\n\n🍀 Phí dv :\nĐiện 3,8k/ số\nNước 32k/ khối\nMạng 100k/ phòng\nDv 150k/ người\n\n👉 Đóng 1cọc1 - hợp đồng 6 -12th\nGọi trước 30p khi qua xem phòng",
-    "district": "Cầu Giấy",
-    "utilityFees": {
-      "electricityPerKwh": 4000,
-      "waterPerM3": 35000,
-      "internetPerPerson": 100000,
-      "generalServicePerPerson": 100000
-    },
-    "policies": {
-      "allowPet": true,
-      "allowElectricVehicle": false,
-      "allowForeigner": true
-    },
-    "fingerprintHash": "ngõ 615b minh khai hai bà trưng|studio|25000000"
-  },
-  {
-    "id": "rec_1784840822156_95",
-    "managerCode": "",
-    "commission": "🌹 40% Mã 463",
-    "address": "Ngõ 121 Thịnh Quang - Đống Đa",
-    "roomType": "1N1K",
-    "areaSqm": 28,
-    "availableDate": "",
-    "priceVnd": 6000000,
-    "isFull": false,
-    "rawRef": "🌹🌹 40% Mã 463\n\n🏠 Ngõ 124 Hoàng Ngân Địa chỉ đón khách mn lên địa chỉ này nha để kh đi oto hay taxi cho dễ oto cách nhà 5m\n\n⏰Trống -p202- 1ngủ 1khách\n\n💰 Giá - 7tr5👉có fix\n\n💥Full đồ như hình nội thất cao cấp, bếp từ, máy giặt riêng từng phòng 🌸🌸🌸\n\n☘️ Dịch vụ : Điện 4k/số , nước 35k/m3 . Mạng 100k/phòng , dvc 150k/người ( Thang máy , điện chung , vệ sinh chung ... )\nNhận xe điện, cho nuôi thú cưng, khách nước ngoài ưu tiên hộ gia đình\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 40% Mã 463\n\n🏠 Địa Chỉ : Ngõ 121 Thịnh Quang - Đống Đa\n\n⏰ Trống : tầng 2\n\n💰 Giá : 6tr5\n\n⛳️ Diện tích: 28m2 - thang máy\n\n💥 Nội thất: Giường, tủ, điều hòa, nóng lạnh, tủ lạnh, sofa ,bàn bếp, tủ bếp, máy giặt chung\n\n✅ Dịch vụ: Có sân phơi, máy giặt chung, chỗ để xe rộng.\n✅ Đặc biệt: Không chung chủ, được nuôi pet - ko xe điện\n\n☘️ Điện 4k, Nước 120k,wifi 100k/p,dv chung 150k/ng\n\n👉 Đóng 1cọc1 hợp đồng\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 429\n\n🏠 Địa chỉ: Ngõ 37 Cầu Noi - Cổ Nhuế\n\n⏰ Trống - 2p\n\n⚡ Diện tích - 32m2 - 1N1k - ban công - thang máy - ô tô đỗ cạnh nhà\n\n💰 Giá: 4tr8 - 5tr\n\n💥 Nội thất: Full Đồ như hình, Giường tủ, điều hòa nóng lạnh, sofa ,tủ bếp trên dưới, hút mùi, tủ lạnh ,máy giặt , ko chung chủ ,giờ giấc thoải mái\n\n💵Phí dịch vụ:\nĐiện 3k9/1 số, nước 30k/khối ,dịch Vụ chung 150k/phòng, gồm wifi, thang máy, máy giặt vệ sinh rác, điện hành lang\n\n👉 Ko giới hạn người - để 2xe , xe thứ 3 phí 150k/xe\n⚠️Lưu ý\n* Ko chung chủ, tự do giờ giấc, cổng vân tay\n* Đóng 1 cọc 1. HĐ -1năm\n\n👉Gọi trước 30p khi qua xem phòng",
-    "district": "Đống Đa",
-    "utilityFees": {},
-    "policies": {
-      "allowPet": true,
-      "allowElectricVehicle": false
-    },
-    "fingerprintHash": "ngõ 121 thịnh quang đống đa|1n1k|6000000"
-  },
-  {
-    "id": "rec_1784840822156_96",
-    "managerCode": "",
-    "commission": "🌹 35% Mã 429",
-    "address": "Ngõ 5 Phú Mỹ- Nam Từ Liêm",
-    "roomType": "Gác xép",
-    "areaSqm": 33,
-    "availableDate": "",
-    "priceVnd": 6000000,
-    "priceMaxVnd": 12000000,
-    "isFull": false,
-    "rawRef": "🌹🌹 35% Mã 429\n\n🏠 Ngõ 14 /20 Hồ Tùng Mậu\n\n⏰ Trống : p702\n\n💰 GIÁ : 6tr5\n\n⚡ Diện tích : 33m2 - thang máy\n\n💥 Nội thất : giường, tủ quần áo, điều hòa, nóng lạnh,tủ lạnh, bếp từ, bàn bếp tủ bếp trên dưới, hút mùi, máy giặt chung, ko chung chủ , giờ giấc tự do,\n\n✅ Dịch vụ:\nĐiện : 3k8/ số\nNước : 100k/người\nwifi : 100k/1 phòng\nDịch vụ chung 130k/ng : gồm thang máy , máy giặt ,điện hành lang , vs chung, ko giới hạn người, free 2xe\n\n👉 Đóng 1cọc1 - hợp đồng - 12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1292\n\n🏠 Địa Chỉ : Ngõ 5 Phú Mỹ- Nam Từ Liêm\n\n💰 Giá : 3tr2 Phòng tầng 5\n💰 Giá : 3tr6 Phòng tầng 4\n💰 Giá : 3tr8 Phòng tầng 3\n\n☘️ Phí dv: Nước 100k.ng .Dọn vs 100k mạng.ng 100k.p điện 4k số .Giặt + xấy 100k.ng\nNhà Thang Bộ nhé\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 751\n\n🏠 Địa chỉ : Ngõ 14/30/16 Mễ Trì Hạ- Nam Từ Liêm - Hà Nội\n\n⏰ Trống tầng 2 - 5\n\n💰 GIÁ 4tr6\n\n⛳️ Diện tích : 30m2 - thang máy - ban công - bếp riêng\n\n💥 Nội thất: Giường, tủ quần áo, điều hoà, nóng lạnh , bàn ghế Tủ lạnh , tủ bếp trên dưới, máy giặt riêng, ko chung chủ, giờ giấc thoải mái\n\n☘️ Thông tin phí:\n- Điện 4k/số\n- Nước 35k/khối\n- Wifi 100k/ phòng\n- Dịch vụ chung 85k/người\n- Free 3xe\n\n✅ Ô tô có bãi xe cách 500m\n- ko nhận xe điện\n- ko nhận khách nước ngoài\n- HĐ -12th\n👉 Gọi trước 30p khi qua xem hàng\n/-rose/-rose 35% Mã 726\n\n🏠Địa chỉ : Ngách 51 Ngõ 1 Bùi Xương Trạch - Thanh Xuân\n\n⏰ Trống - p402 - 502 - 601\n\n💰 Giá : 4tr5\n\n⛳️Diện tích: 28m2 - gác xép - ban công - thang máy\n\n💥 Nội thất : Tủ quần áo, điều hoà, nóng lạnh, tủ lạnh, bàn bếp, tủ bếp trên dưới, hút mùi, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n☘️ Phí Dịch vụ:\nĐiện 4k/ số\nNước 32k/ khối\nMạng 100k/phòng\nDv chung: Thang máy, máy giặt, vệ sinh rác,... 150k/ người.\n📛Lưu ý:\n- Hợp đồng :12 tháng\n- 1 phòng tối đa 2 xe free\n- Không khách nước ngoài\n- không nhận nuôi pet.\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 791\n\n🏠 Địa chỉ: Ngõ 21 Quan Hoa - Cầu Giấy\n\n⏰ Trống - tầng 2 - 3\n\n💰 GIÁ - 4tr\n\n🚩 Diện tích - 35m2 - thang bộ\n\n💥 Nội thất: giường ,tủ quần áo , điều hòa, nóng lạnh, tủ lạnh, bàn bếp , máy giặt chung, ko chung chủ , giờ giấc thoải mái\n\n🍀 Phí Dv: điện 4k, nước 100/ng, mạng 100/phòng, phí chung: 120/ng( máy giặt, vệ sinh.)\n\n- được nuôi pet\n- nhận khách nước ngoài\n- hđ: 6 -12 tháng\n- k nhận xe điện\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 791\n\n🏠 Địa chỉ: Ngách 26 Ngõ 20 Đường Mỹ Đình - 20m ra đường Nguyễn Hoàng\n\n⏰ Trống - tầng 2 - 3\n\n💰 GIÁ : 4tr👉 có fix\n\n🚩 Diện tích : 25m2 - thang bộ\n\n👉 Pccc đạt tiêu chuẩn.\n💥 Full đồ: Giường, Điều hoà, nóng lạnh, tủ lạnh, máy giặt chung, khoá vân tay, thang máy, ko chung chủ.\n\n🍀 phí Dv .Điện 4k/số.Nước 35k/khối .Mạng 100k/phòng.điện hành lang, vệ sinh rác 70k/ng , máy giặt 90k/ng\n❌Lưu ý. để 2xe - nhận xe điện, được nuôi pet,ko người nước ngoài\n\n👉 Đóng 1cọc1 - hợp đồng 6 -12th\nGọi trước khi qua xem phòng\n/-rose/-rose 35% Mã 955\n\n🏠 Địa Chỉ : Ngõ 192 LÊ TRỌNG TẤN - ĐỊNH CÔNG.HÀ NỘI\n\n⏰ Trống : p101\n\n💰 Giá : 3tr2\n\n🚩Diện Tích : 25m2 - thang bộ ( vệ sinh khép kín) ban công cửa sổ rộng thoáng\n\n💥 Nội thất : Điều hoà,nóng lạnh,giường ,Tủ quần áo 4 cánh,bếp từ đơn,bàn bếp,hút mùi,máy giặt, tủ lạnh…\n- Tiện ích nhà cách chợ 50 mét,ba gác đỗ tận cửa nhà,chỗ để xe thoải mái…\n\n🍀 Phí Dv : Điện 4k/ số\nNước 120k/ người\nMạng 100k/phòng\nDịch vụ chung: 150k/người\nLƯU Ý:\nKo giới hạn người ở\nCho nuôi chó mèo nhưng ko cho ra khỏi phòng ( Đảm bảo không ảnh hưởng đến phòng khác)\nNhận xe điện đổi pin .( Không sạc )\n\n👉 Đóng 1cọc 1 hợp đồng - 12th_có ký ngắn hơn\n\n👉 Gọi trước 30p khi qua xem phòng",
-    "district": "Cầu Giấy",
-    "utilityFees": {
-      "waterPerPerson": 100000,
-      "generalServicePerPerson": 150000
-    },
-    "policies": {
-      "allowPet": true,
-      "allowElectricVehicle": true,
-      "allowForeigner": true,
-      "maxVehicles": 2
-    },
-    "fingerprintHash": "ngõ 5 phú mỹ nam từ liêm|gác xép|6000000"
-  },
-  {
-    "id": "rec_1784840822156_97",
-    "managerCode": "",
-    "commission": "🌹30% Mã 851",
-    "address": "246 Mỹ Đình - Nam Từ Liêm",
-    "roomType": "Studio",
-    "areaSqm": 38,
-    "availableDate": "",
-    "priceVnd": 26000000,
-    "priceMaxVnd": 38000000,
-    "isFull": false,
-    "rawRef": "🌹🌹30% Mã 851\n\n🏠 Địa Chỉ : 246 Mỹ Đình - Nam Từ Liêm\n\n⏰Trống - 5p\n\n💰Giá - 3tr3 - 5tr\n\n🚩 Diện tích : 26 - 38m2 - thang máy\n\n💥 Nội thất: Giường , tủ quần áo,bàn ghế, kệ bếp, tủ bếp, điều hoà, nóng lạnh, máy giặt chung ,ko chung chủ giờ giấc thoải mái\n\n👉 có lối thoát hiểm, trang bị an toàn PCCC từng phòng đảm bảo\n\nKhông chung chủ, giờ giấc tự do\nCamera an ninh 24/24. Chỗ để xe rộng rãi - ko nhận xe điện\n\n☘️Phí dịch vụ: điện 3k8/số, nước 100k/ng, Wifi 80k/p dịch vụ chung 80k/ng\nĐóng 1cọc1 - hợp đồng 6 -12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 723\n\n🏠 Địa chỉ : Ngõ 53/23 Phố Tân Ấp - Phúc Xá - Ba Đình - Hà Nội\n\n⏰ Trống - 4p\n\n💰 GIÁ : 5tr3 - 6tr\n\n🚩 Diện tích 35m2 - Thang máy - ban công\n\n💥 Nội thất : Full đồ Giường đệm, tủ quẩn áo, điều hòa, tủ lạnh, sofa , bàn trà, nóng lạnh, bếp từ, tủ bàn bếp trên dưới, hút mùi, tivi, kệ để đồ máy giặt sấy chung,ko chung chủ giờ giấc thoải mái\n\n☘️ Dịch vụ : Dv chung 200k/p (Giặt sấy, để xe, thang máy, vệ sinh, đổ rác, Nước :35k/khối . điện 4k5/kWh, mạng miễn phí\n⛔️ Lưu ý:\n- ko nhận xe điện,ko nuôi thú cưng\n- free 2 xe /p không giới hạn người ở\nĐóng 1cọc1 - hợp đồng 6 - 12th\n/-rose/-rose 35% Mã 46\n\n🏡 ĐỊA CHỈ: Ngõ 75/46 Phú Diễn - Bắc Từ Liêm\n\n⏰ Trống : p302 - 303 - 304 - 702\n\n💰 Giá : 3tr5\n\n⛳️ Diện tích: 25m2 - thang máy\n\n💥 Nội thất: Giường, đệm , tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, bếp từ ,nồi ,tủ bếp trên dưới, hút mùi, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n☘️ 𝗚𝗜𝗔́ 𝗗𝗜̣𝗖𝗛 𝗩𝗨̣:\nĐiện 4K/ số\nNước 35k/khối\nThang máy 50k/ng\nVệ sinh 30k/ng\nMạng 100k/p\nMáy giặt 100k/n\nXe máy free\n\n📍 𝗖𝗔́𝗖 𝗧𝗛𝗢̂𝗡𝗚 𝗧𝗜𝗡 𝗞𝗛𝗔́𝗖:\n• Phơi đồ ở tầng 7\n• 6 máy giặt chung\n• 0 giới hạn xe\n• 0 nhận xe đạp điện\n• Ngõ ô tô 0 vào được cách 30m\n• Nhà 2 thang máy\n• 0 giới hạn người\n• PCCC của nhà đã hoàn thiện?\n• Nhận giữ phòng 10 ngày\n• Cọc giữ phòng từ 01 triệu\n• Fixx qua xem thương lượng\n• Có cho nuôi pet không? Nuôi mèo\n• Có nhận khách nước ngoài không : không?\n\n✨ 𝗧𝗜𝗘̣̂𝗡 𝗜́𝗖𝗛:\n• Cách chợ 30m\n• Cách hàng tạp hoá 30m\n• Cách tiện giặt là 30m\n• Cách bến xe buýt : 200m\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 993\n\n🏠 Ngõ 69 Xuân La - Tây Hồ\n\n⏰ Trống - 3p\n\n💰 GIÁ : 4tr5 - 6tr5\n\n⚡ Diện tích : 30 - 38m2 - studio- 1ngủ 1khách- thang máy\n\n💥 Nội thất : Giường, Tủ Quần Áo Nóng Lạnh, Điều Hòa ,Tủ Lạnh, Tủ Bếp Trên Dưới, Hút Mùi, Máy Giặt riêng,Ko Chung Chủ, Giờ giấc Thoải Mái\n\n🍀 Phí dv : Điện 4k/số, nước 30k/khối, dvu 200k/ng bao gồm ,máy giặt, wifi, để xe ,đổ rác vệ sinh , thang máy …..\nKhông giới hạn người và xe máy, ko nhận người nước ngoài, cho nuôi thú cưng - ko xe điện\n\nĐóng 1cọc1 - hợp đồng -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 993\n\n🏠 Ngõ 35/20 Tu Hoàng ( cách đại học công nghiệp 1km)\n\n⏰ Trống - tầng 2 - 3 - 6\n\n💰 GIÁ : 3tr8\n\n⚡ Diện tích : 26m2 - thang máy\n\n💥 Nội thất : Tủ Quần Áo Nóng Lạnh, Điều Hòa ,Tủ Bếp Trên Dưới, Hút Mùi, Máy Giặt chung,Ko Chung Chủ\n\n🍀 Phí dv : Điện 4k/số, nước 35k/khối,wifi 100k/p ,dvu 150k/ng bao gồm ,máy giặt, để xe ,đổ rác vệ sinh , thang máy …..\nKhông giới hạn người và xe máy, ko nhận người nước ngoài, cho nuôi thú cưng - ko xe điện\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 55% Mã 858\n\n🏠 Địa chỉ: Ngõ 8/11/36 đường Lê Quang Đạo (Phú Đô) Nam Từ Liêm, Hà Nội.\n\n⏰ Trống - 7p\n\n💰 Giá : 5tr6 - 5tr7 - 5tr8 - 5tr9\n\n🚩 Diện tích - 32 - 35m2 - thang máy.\n\n💥 Nội thất : Pccc, khoá vân tay, Giường, tủ quần áo, nóng lạnh,tủ lạnh, điều hoà, tủ bếp trên dưới, hút mùi, máy giặt riêng, giờ giấc thoải mái, ko giới hạn người\n\n🍀 Dịch vụ : Điện 4.000/số\nNước 35.000/khối\nMạng 100.000/phòng\nDvc 150.000/người\nNhận xe điện 150k/1 xe\nNhận người nước ngoài.\nĐược nuôi pét\n\n❌ Lưu ý:\n👉 HD 6-12 tháng\n👉 Đóng 1 cọc 1\n👉 Khách gọi trước 30p-1h trước khi qua",
-    "district": "Nam Từ Liêm",
-    "utilityFees": {
-      "waterPerM3": 35000
-    },
-    "policies": {
-      "allowPet": true,
-      "allowElectricVehicle": false,
-      "allowForeigner": true
-    },
-    "fingerprintHash": "246 mỹ đình nam từ liêm|studio|26000000"
-  },
-  {
-    "id": "rec_1784840822156_98_tier_1",
-    "managerCode": "",
-    "commission": "🌹 30% Mã 328",
-    "address": "134 Đường La Thành - Đống Đa",
-    "roomType": "studio",
-    "areaSqm": 28,
-    "availableDate": "01/08",
-    "priceVnd": 1000000,
-    "priceMaxVnd": 28000000,
-    "isFull": false,
-    "rawRef": "🌹🌹 30% Mã 328\n\n🏢Địa chỉ : 134 Đường La Thành - Đống Đa\n\n⏰ Trống - tầng 4\n\n💰 Giá : 4tr4\n\n⛳️ Diện tích 30m - Thang bộ\n\n💥 Nội thất : Giường chăn đệm Điều hòa, nóng lạnh,tủ lạnh, bàn bêp, tủ bếp, bếp từ, tủ quần áo.máy giặt chung,ko chung chủ, giờ giấc thoải mái\n☘️Dịch vụ :\n+ DV chung 50k/ người . nét 100k/ phòng\n+ Điện 3k8/ số. Nước 30k/m3.\n☘️ Tiện ích : Gần đại học ngoại thương, đại học luật, đại học văn hoá, đài truyền hình VTV, bệnh viện phụ sản, bệnh viện nhi trung ương, giao thông thuận tiện, gần chợ, gần các trường học, có gần bãi đỗ ô tô thông minh\n\n❌Lưu ý:\n👉 Giới hạn 4 người 2 xe\n👉 HD 6-12 tháng\n👉 Đóng 1 cọc 1\n👉 Khách gọi trước 30p-1h trước khi qua.\n/-rose/-rose 40% Mã 1159\n\n🏠 Ngõ 1/51 Bùi Xương Trạch - GIÁ SINH VIÊN\nNgay gần Royal City, Ngã Tư Sở, khu vực sầm uất, giao thông thuận lợi, chợ lớn, trường học, bệnh viện\n\n⏰ Trống - 5p\n\n💰 Giá: 4tr2\n\n💥 Full nội thất mới 100%\n✅ Điều hoà, nóng lạnh\n✅ Giường, Tủ quần áo\n✅ Tủ bếp trên dưới\n✅ Bếp từ, Hút mùi\n✅ Tủ lạnh\n✅ Vệ sinh khép kín, vòi sen, thiết bị vệ sinh\n✅ Máy giặt, máy sấy chung\n\nNgoại thất:\n✅ Thang máy, khóa vân tay, camera giám sát, Hệ thống PCCC\n\n☘️Dịch vụ chung gồm điện thang máy, hành lang, máy giặt, máy sấy, rác vệ sinh: 250k/người\n• Wifi: 100k/phòng\n• Điện: 4k/số\n• Nước: 30k/m³\n🚫 Không nhận khách xe điện\n\n👉 Đóng 1cọc1 hợp đồng 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 234\n\n🏠 Địa chỉ: 21 Trung Kính -Cầu Giấy, Hà Nội Nhà mặt đường\n\n⏰ Trống : 3p\n\n💰Giá : 4tr1 - 4tr8\n\n🚩 Diện Tích : 25 - 28m2 - thang máy\n✨ Tiện ích:\nPhòng sạch đẹp, thoáng mát\n\n💥Full nội thất: điều hòa, nóng lạnh, giường, tủ quần áo, tủ bếp trên dưới,máy giặt chung\nCó thang máy, chỗ để xe\nGiờ giấc tự do, an ninh tốt\nGần nhiều văn phòng, trường đại học, thuận tiện di chuyển\n\n🍀 Phí Dv : Điện 4k/số,nước 35k/khối, wifi 100k/p ,dịch vụ chung 150k/ng\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% mã 850\n\n🏠 Ngách 74/63 Ngõ 63 Trần Quốc Vượng - Cầu Giấy\n\n⏰Trống - tầng 7\n\n⚡ Diện tích : 25m2 - gác xép - thang máy\n\n💰 GIÁ : 4tr8\n\n💥 NỘI THẤT : phòng khép kín, tủ quần áo, điều hòa , nóng lạnh , tủ lạnh, bàn bếp, tủ bếp trên dưới, bếp từ, hút mùi ,máy Giặt sấy riêng , ko chung chủ ,giờ giấc thoải mái, ko giới hạn người , nhận xe điện, được nuôi pet\n\n🍀 PHÍ DV : Điện 4/số ,Nước 100k/ng ,wifi 100k/p ,dịch vụ chung 150k/ng, gồm thang máy, điện hành lang,cam an ninh, khóa vân tay ,vs rác\n\n👉 Đóng 1cọc1 hợp đồng 6 - 12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1361\n\n🏠 Địa Chỉ : Ngõ 127 Hào Nam -Đống\n\n💰 Giá : 4tr1Tầng 1\n\n💰 Giá : 4tr5 tầng 2\n\n💰 Giá : 4tr8 tầng 3\n\n💥 Nội thất : điều hòa, nóng lạnh, tủ quần áo, giường, tủ lạnh, máy giặt, máy sấy chung, thang bộ\nKhoá Vân Tay - Không chung chủ\n\n☘️ Phí dv : Điện 4k/số\nNước 100k/ng\nMạng 100k/ph\nMáy giặt máy sấy 120k/ng\nĐiện chung, vệ sinh... 100k/ph\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 736\n\n🏠 địa chỉ: Ngõ 230 Mễ Trì Thượng - Nam Từ Liêm\n\n⏰ Trống : p501 - 801\n\n💰 Giá : 4tr5\n\n⛳️ Diện tích: 27m2 - thang máy\n\n💥 Full nội thất gồm: Giường, tủ quần áo, Tủ lạnh, điều hoà, nóng lạnh, sofa, bàn trà, tủ bếp trên dưới, hút mùi…\n👉 Ô tô đỗ cửa thuận tiện đi lại\n\n☘️Phí dịch vụ:\n- Điện: 4k/1 số\n- Nước: 35k/1 khối\n- Wifi: 100k/1 phòng\n- DVC & Máy giặt T1: 150k/1người\n- Hợp đồng: 12th (TT 1 cọc 1)\n- Nuôi pet: có (ko nhận chó)\n- Không nhận xe điện\n- Không nhận khách nước ngoài\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 736\n\n🏠 địa chỉ: 140 Phú Mỹ - Nam Từ Liêm\n\n⏰ Trống : 3p\n\n💰 Giá : 4tr5 - 4tr7\n\n⛳️ Diện tích: 27m2 - thang máy\n\n💥 Full nội thất gồm: Giường, tủ quần áo, Tủ lạnh, điều hoà, nóng lạnh, sofa, bàn trà, tủ bếp trên dưới, hút mùi,máy giặt riêng\n\n☘️Phí dịch vụ:\n- Điện: 4k/1 số\n- Nước: 35k/1 khối\n- Wifi: 100k/1 phòng\n- DVC 150k/1người\n- Hợp đồng: 12th (TT 1 cọc 1)\n- Nuôi pet: có (ko nhận chó)\n- Không nhận xe điện\n- Không nhận khách nước ngoài\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 765\n\n🏠 Địa Chi: Ngách 65 Ngõ 68 Phú Diễn - Bắc Từ Liêm\n\n⏰ Trống - 6p\n\n💰 GIÁ - 3tr8 - 4tr\n\n⚡ Diện tích : 25m2 - gác xép - thang máy - ban công\n\n💥 Nội thất: đệm , tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, bàn ghế, tủ bếp trên dưới, hút mùi, chậu rửa, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n🍀 Phí dv : Điện 3k8/ số , nước 100k/ng, wifi 100k/p ,dvu 200k/ng gồm máy giặt, thang máy ,đổ rác vệ sinh,điện hành lang\nKhông giới hạn người, free 2xe , cho nuôi thú cưng ,nhận xe điện\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1678\n\n🏠 Địa Chỉ : Ngách 118 Ngõ 80 Xuân Phương - Nam Từ Liêm\n\n⏰ Trống: 15p tòa nhà mới tinh\n\n💰 Giá : 4tr - 4tr1 - 4tr2👉 có fix\n\n⛳️ Diện tích: 24m2 - thang máy\n\n💥 Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, tủ bếp trên dưới, máy giặt riêng\n\n👉 nhận xe điện phí 150k/xe - được nuôi pet\n\n☘️Phí dv:\nđiện 4k/ số\nnước 35k/ khối\ndvc 140k/ người\nmạng 100k/ phòng\n\n👉 Đóng 1cọc1 hợp đồng 9 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 1362\n\n🏠 Địa chỉ : Ngách 5 Ngõ 77 Bùi Xương Trạch- thanh Xuân\n\n⏰ Trống - 8/16p tòa nhà mới tinh\n\n💰 Giá : 4tr4 - 4tr5 - 4tr6 - 4tr7 - 4tr8 - 6tr\n\n⚡ Diện tích : 23 - 25 - 35m2 - thang máy\n\n💥 Nội thất : Giường, tủ quần áo , điều hòa , nóng lạnh, tủ lạnh , bàn bếp tủ bếp , máy giặt sấy chung, ko chung chủ giờ giấc thoải mái\n\n👉 Giới hạn 3ng - 2xe - Ko xe điện- ko nuôi mèo\n\n🍀 PHÍ DV :\n- Điện : 3k990/số\n- Nước : 35k/khối\n- Dịch vụ chung - 150k/ng ,vệ sinh , thang máy- máy giặt sấy 70k/ng\n\n👉 Đóng 1cọc1 - hợp đồng 8- 12th\nGọi trước 30p khi qua xem phòng\n/-rose/-rose 40% Mã 153\n\n🏠 Địa Chỉ : Ngõ 207 Xuân Đỉnh - Bắc Từ Liêm\n\n⏰ Trống: 25/28p tòa nhà mới tinh\n\n💰 Giá : 6tr2 - 6tr5 👉 có fix\n\n⛳️ Diện tích: 40m2 - 1ngủ 1khách\n\n👉 Đường trước nhà xe cứu hoả, xe tải tránh nhau, 2 thang thoát hiểm trước sau , thang bộ riêng biệt, hệ thống PCCC theo tiêu chuẩn.\n- Tất cả các phòng đều có ban công riêng, máy giặt riêng, thang máy sức chứa 12 người.\n\n💥Nội thất : cửa ra vào vân tay, tủ lạnh, bếp từ đôi, máy giặt riêng từng phòng, điều hoà, nóng lạnh, sofa, tủ quần áo, tủ bếp, bàn bếp, rèm, thang máy, khoá vân tay, riêng chủ, hút mùi, các phòng đều có ban công cực rộng và thoáng.\n\n☘️ Phí Dịch vụ : điện 4k/số, nước: 35k/m3, mạng 150k/phòng, dvc: 200k/ng bao gồm( máy giặt riêng từng phòng, thang máy, đèn điện chiếu sáng, vệ sinh hành lang, rác thải sinh hoạt, free 2 xe ).\n\n⛔️ Lưu ý:\n👉 Free 2 xe máy\n👉 HĐ 12 tháng\n👉 Đóng 1 cọc 1(khách cọc 1,5 tháng giảm ngay 200k vào giá)\n👉 Khách gọi trước 30p-1h trước khi qua\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 40% Mã 1588\n\n🏠 Địa Chỉ : Ngõ 27/56/12 Tây Mỗ hoặc ngõ 8 quang tiến\n- Ô tô tải cách 10m , Cách Cao đẳng Y Hà Nội 500m , cách vincom Tây mỗ 300m\n\n⏰Trống : 14/20p tòa nhà mới tinh\n\n💰 Giá : 3tr650 - 3tr850 - 3tr950\n\n🚩 Diện Tích : 25 - 27m2 - thang máy\n\n💥Full đồ, máy giặt riêng , thang máy, tủ lạnh, tủ quần áo, hút mùi, điều hòa, nóng lạnh\n\n🍀 Phí Dv : Điện 4.2k/số\n- Nước 35k/khối\n- Pdv 200k/người (gồm thang máy, máy sấy , dọn vệ sinh, đổ rác hàng ngày)\nMạng 100k/ phòng\n[KO THU PHÍ GÌ NỮA]\n- Hđ ký 12 tháng\nKO GIỚI HẠN NGƯỜI VÀ XE\nNhận pét , không nhận xe điện\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1679\n\n🏠 KHAI TRƯƠNG TOÀ MỚI\nNgõ 151 Láng Hạ - Đống Đa\n\n⏰ Trống : tòa nhà mới tinh\n\n💰 Giá : 4tr5 - 5tr5 - 6tr\n\n🚩 Diện Tích : 23 - 27m2 - thang máy\n\n💥 Nội thất : tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, tủ bếp trên dưới, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n• 01 máy giặt từng phòng\n• Không nhận xe đạp điện\n• Nhà có thang máy\n• Giới hạn 2 xe máy / phòng\n• PCCC của nhà đã hoàn thiện\n• Nhận giữ phòng 05 ngày\n• Thanh toán 1 tháng cọc 1 tháng\n• Thời hạn thuê 01 năm\n• Không cho nuôi pet\n• Không nhận xe điện\n• không nhận khách tây\n\n🍀 phí Dv :\nĐiện 4k/số;\nnước 35k/khối;\nphí dịch vụ 150k/người,\ninternet 100k/phòng\n\n👉 Đóng 1cọc 1 hợp đồng - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 40% Mã 1599\n\n🏠 Địa chỉ: Ngõ 162 Tôn Đức Thắng- Đống Đa -Hà Nội\n\n⏰01/08 Trống: 12p tòa nhà mới tinh\n\n💰 Giá : 6tr\n\n⛳️ Diện tích: 27m2 - thang máy- ban công\n\n💥Nội thất: Giường,Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, bếp từ,tủ bếp trên dưới, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n✅ Có thể ở 3–4 người\n✅ Chỗ để xe rộng rãi\n\n☘️ Phí dv: Điện 4k/số - Nước 35k/khối - Dịch vụ chung 200k/ng ,gồm thang máy, máy giặt ,wifi, điện hành lang, vs rác\n\n✅ Nhận khách nước ngoài\n\n🚫 Không nuôi pet\n🚫 Không xe điện\n\n👉 Đóng 1cọc1 hợp đồng 12th có ký ngắn hơn\n/-rose/-rose 40% Mã 1599\n\n🏠 Địa chỉ: 147 Xã Đàn 2 - Đống Đa -Hà Nội\n\n⏰01/08 Trống: 10p tòa nhà mới tinh\n\n💰 Giá : 6tr9 - 8tr5\n\n⛳️ Diện tích: 30 - 40m2 - studio- 1ngủ 1khách- thang máy- ô tô đỗ cửa\n\n💥Nội thất: Giường,Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, bếp từ,tủ bếp trên dưới, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n✅ Có thể ở 3–4 người\n✅ Chỗ để xe rộng rãi\n\n☘️ Phí dv: Điện 4k/số - Nước 35k/khối - Dịch vụ chung 200k/ng ,gồm thang máy, máy giặt ,wifi, điện hành lang, vs rác\n\n✅ Nhận khách nước ngoài\n\n🚫 Không nuôi pet\n🚫 Không xe điện\n\n👉 Đóng 1cọc1 hợp đồng 12th có ký ngắn hơn\n/-rose/-rose 40% Mã 1599\n\n🏠 Địa chỉ: Ngõ 7 Hà Trì 1 - Hà Đông\n\n⏰01/08 Trống: 8p tòa nhà mới tinh\n\n💰 Giá : 4tr - 4tr2\n\n⛳️ Diện tích: 25m2 - gác xép- thang máy\n\n💥Nội thất: Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh,tủ bếp trên dưới, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n✅ Có thể ở 3–4 người\n✅ Chỗ để xe rộng rãi\n\n☘️ Phí dv: Điện 4k/số - Nước 35k/khối - Dịch vụ chung 200k/ng ,gồm thang máy, máy giặt ,wifi, điện hành lang, vs rác\n\n✅ Nhận khách nước ngoài\n\n🚫 Không nuôi pet\n🚫 Không xe điện\n\n👉 Đóng 1cọc1 hợp đồng 12th có ký ngắn hơn\n/-rose/-rose 40% Mã 1599\n\n🏠 Địa chỉ: Ngõ 5 Quang Trung - Hà Đông\n\n⏰01/08 Trống: tòa nhà mới tinh\n\n💰 Giá : 5tr5 - 5tr7\n\n⛳️ Diện tích: 27 - 30m2 - thang máy- ban công - cách phố 20m\n\n💥Nội thất: Giường,Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, bếp từ,tủ bếp trên dưới, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n✅ Có thể ở 3–4 người\n✅ Chỗ để xe rộng rãi\n\n☘️ Phí dv: Điện 4k/số - Nước 35k/khối - Dịch vụ chung 200k/ng ,gồm thang máy, máy giặt ,wifi, điện hành lang, vs rác\n\n✅ Nhận khách nước ngoài\n\n🚫 Không nuôi pet\n🚫 Không xe điện\n\n👉 Đóng 1cọc1 hợp đồng 12th có ký ngắn hơn\n376 Khâm Thiên Full hết phòng ❌️❌️❌️\nNgõ 250 Kim Giang Full hết phòng ❌️❌️❌️\n/-rose/-rose 40% Mã 1284\n\n🏠 Địa Chỉ : Ngõ 32/65 Đỗ Đức Dục - Nam Từ Liêm\n\n⏰ Trống : 20p tòa nhà mới tinh\n\n💰 Giá : 4tr7 - 4tr8\n\n🚩 Diện Tích : 28m2 - thang máy\n\n💥 Nội thất : Giường tầng ,tủ quần áo, ,máy giặt riêng ,tủ lạnh, , hút mùi, điều hòa, nóng lạnh , bếp từ , rèm ....\n\n🍀 Phí Dv : Điện 4k/số\n- Nước 35k/khối\n- Pdv 250k/người (gồm thang máy, mạng , dọn vệ sinh, đổ rác hàng ngày...) [KO THU PHÍ GÌ NỮA]\n- không xe điện\n- không nuôi pet\n- Hđ ký 12 tháng\n\n👉 Gọi trước 30p khi qua xem phòng\n178 đường ngõ chợ Khâm Thiên Full hết phòng ❌️❌️❌️\nNgõ 230 định công Full hết phòng ❌️❌️❌️\n/-rose/-rose 35% Mã 1599\n\n🏠 Địa Chỉ : Ngõ 162 Khương Đình - Thanh Xuân\n\n⏰ Trống: 2p\n\n💰 Giá : 4tr8 tầng 4\n💰 Giá : 4tr9 Tầng 3\n\n⛳️ Diện tích: 30m2 - thang máy\nChính chủ cho thuê!\nPhòng đầy đủ chỉ việc đến ở\n\n💥Nội thất : Điều hoà, nóng lạnh, bàn ghế, giường tủ, máy giặt sấy, bếp từ, hút mùi, tủ bếp, tủ lạnh, đệm xinh,…\n\n+ Được nuôi pet, ở được 2-4 người/phòng\n+ 2 xe máy/phòng, có nhận xe điện\n+ Có Thang máy, khoá vân tay, an ninh tốt\n+ Không chung chủ, ngõ gần 30m ra phố\n\n☘️Phí dv Điện 4k/số\nNước 35k/khối\nMạng 100k/p\nDịch Vụ chung 150k/ng\nCó nhận xe điện\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 1405\n\n🏚 Địa Chỉ : Ngõ 8/174 Lê Quang Đạo - Nam Từ Liêm\n\n⏰ 01/08 Trống : 3p\n\n💰 Giá : 3tr9 - 4tr7 👉 có fix\n\n⛳️ Diện Tích : 27 - 35m2 - studio- 1ngủ 1khách- thang máy\n\n💥 NỘI THẤT : Giường, tủ ,điều hòa, nóng lạnh , bàn bếp , tủ lạnh, tủ bếp trên dưới, ko chung chủ , ban công cửa sổ tự do giờ giấc, máy giặt chung , ko giới hạn người ,free 2xe ,pccc thang thoát hiểm đầy đủ\n\n⚡ PHÍ DV : điện 4k/số , nước 35k/khối ,dich vụ chung 250k/ng gồm thang máy, vs rác ,điện hành lang,wifi- máy giặt\n\n👉 Đóng 1cọc1 , hợp đồng 6- 12th\n👉 Gọi trước 30 phút khi qua xem phòng\n/-rose /-rose 35% Mã 1405\n\n🏚 Ngõ 60 Phú Đô - Nam Từ Liêm\n\n⏰ 01/08 Trống : 3p\n\n💰 Giá : 4tr6 - 4tr8 - 4tr9 👉 có fix\n\n⛳️ Diện Tích : 35m2 - 1ngủ 1khách- thang máy - ô tô đỗ cửa\n\n💥 NỘI THẤT : Giường, tủ ,điều hòa, nóng lạnh , bàn bếp ,tủ bếp trên dưới, ko chung chủ , ban công cửa sổ tự do giờ giấc, máy giặt chung , ko giới hạn người ,free 2xe ,pccc thang thoát hiểm đầy đủ\n\n⚡ PHÍ DV : điện 4k/số , nước 35k/khối ,dich vụ chung 250k/ng gồm thang máy, vs rác ,điện hành lang,wifi- máy giặt\n\n👉 Đóng 1cọc1 , hợp đồng 6- 12th\n👉 Gọi trước 30 phút khi qua xem phòng\n/-rose /-rose 35% Mã 979\n\n🏠 Ngõ 63 Phú Đô - Nam Từ Liêm\n\n⏰ Trống - p202 - 205 - 301 - 401\n\n💰 GIÁ - 4tr5 - 4tr6 - 4tr8\n\n🚩 Diện tích: 35 - 40m2 - ban công - thang máy\n\n💥 Nội thất : Giường, tủ quần áo, nóng lạnh, điều hòa, kệ bếp, tủ bếp, tủ lạnh,hút mùi, máy giặt chung tầng 1,ko chung chủ, giờ giấc thoải mái\n\n👉 Ghi chú:\n- Ở tối đa 4 người 2xe - xe thứ 3 Phí 100k/xe\n- Được nuôi pet - ko nhận xe điện\n\n🍀 Phí dv : điện 4k/số, nước 35k/khối ,wifi 100k/ng, dịch vụ chung 130k/ng, gồm thang máy, máy giặt sấy , điện hành lang, vs rác\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 599\n\n🏠Địa chỉ : 165/2 Dương Quảng Hàm - CẦU GIẤY\n\n⏰Trống: p301 - 501 - 502\n\n💰 Giá : 6tr5 - 6tr7 - 7tr\n\n⛳️Diện tích : 35m2 - 1ngủ 1khách- thang máy\n\n💥 Nội thất: Full nội thất: Điều hoà, nóng lạnh, giường, tủ quần áo, bàn ăn + ghế, tủ lạnh, máy giặt RIÊNG,… - Thang máy\n\n☘️phí: Dịch vụ: Điện 4k/ số, nước 30k/ khối, internet 100k/ phòng (150k/ 3 người trở lên), gửi xe 100k/ xe, 150k/ xe điện + sạc, dịch vụ chung 100k/ người (đổ rác, quét dọn + chiếu sáng khu vực chung)\n🔹Lưu ý:\n- Đóng 1 cọc 1- hợp đồng 12th - Không nuôi pet\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 599\n\n🏠Địa chỉ : 72/12 Dương Quảng Hàm - CẦU GIẤY\n\n⏰ Trống: 2p\n\n💰 Giá : 5tr - 5tr3\n\n⛳️ Diện tích: 27m2 - Thang bộ- Studio - gác xép\n\n💥 Nội thất: Điều hoà, nóng lạnh, giường, tủ quần áo, bếp, bàn học + ghế, tủ lạnh- Thang bộ\n\n☘️phí dv :\nĐiện 4k/ số, nước 30k/ khối, internet 100k/ phòng (150k/ 3 người trở lên), gửi xe 100k/ xe, 150k/ xe điện (cả sạc), dịch chung 100k/ người (máy giặt, đổ rác, quét dọn + chiếu sáng khu vực chung)\n\n🔹Lưu ý:\n- 50m ra Đại học Thủ Đô, Nguyễn Khánh Toàn, Cầu Giấy, 10’ ra Hồ Tây\nXe ba gác đỗ cửa\nThích hợp hộ gia đình, nhóm bạn (tối đa 3 người) , không pet\n\n👉 Đóng 1cọc1 hợp đồng 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 599\n\n🏠 Địa chỉ : Ngõ 51 Tương Mai - Hoàng Mai\n\n⏰ Trống: 2p\n\n💰 Giá : 4tr550 - 4tr650\n\n⛳️Diện tích : 25m2 - Thang máy\n\n💥 Nội thất: Giường, tủ quần áo, điều hoà, nóng lạnh, tủ bếp, Tủ lạnh, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n☘️ Điện 4k/số , nước 120k/người, mạng 100k/phòng, dịch vụ chung 140k/người, xe 100k/xe\n\n✅Lưu ý:\n❌Ô tô đỗ cửa - Không động vật\n❌Không xe điện, không nước ngoài\n❌Hợp đồng: 11-12 tháng\n\n👉 Gọi trước 30p khi qua xem\n/-rose/-rose 30% Mã 599\n\n🏠Địa chỉ: 7/8/36 Trung Hoà - Cầu Giấy - Hà Nội\n\n⏰ Trống : tầng 1 - 4 - 7\n\n💰Giá: 4tr6 - 5tr\n\n⛳️ Diện tích : 25m2 - thang máy\n\n💥Nội thất: Giường, tủ quần áo, điều hoà, nóng lạnh , tủ bếp, Tủ lạnh ( phụ kiện khác )- Thang máy\n\n☘️ Phí Dịch vụ: :Điện 3,8k/số , nước 32k/m3, net 100k/ phòng , dv chung 140k/ ng , 100k/ xe ( nếu có)\n❌ Lưu ý:\nNgõ rộng, ô tô có bãi xe cách 150m\n- Không nhận xe điện\n- Không nhận khách nuôi pet\n- Không nhận nước ngoài\n\n👉 Đóng 1cọc1 hợp đồng 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 599\n\n🏠Địa chỉ : Ngách 56 Ngõ 79 Cầu Giấy, Hà Nội.\n\n⏰ Trống : tầng 2 - 4\n\n💰 Giá: 4tr550 - 4tr8\n\n🔹Mô tả : Studio\n🔹Diện tích : 22m2\n\n🔹THÔNG TIN CHUNG:\n- Toà nhà 7 tầng\n- Mỗi tầng 4 phòng\n- Để xe tầng 1\n- Mỗi tầng 1 máy giặt- 1 máy sấy\n\n💥Nội thất: Giường, tủ quần áo, điều hoà, nóng lạnh, tủ lạnh , tủ bếp, bếp từ, hút mùi, , máy giặt sấy chung( phụ kiện khác )\n🔹Loại thang: Thang máy\n\n☘️ phí dv :\n- Điện 4k/số\n- Nước 120k/người\n- Wifi 100k/ phòng\n- Dịch vụ chung 140k/người\n- Xe máy 100k/xe\n\n🔹 Lưu ý:\n- Không nuôi pet\n- Không khách nước ngoài\n- Không đi xe điện\n- Giới hạn 1 xe máy\n- Hợp đồng 10-12 tháng\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 13\n\n🏠 Địa Chỉ : 246 Phương Canh - Nam Từ Liêm\n\n⏰ Trống - 5p\n\n💰 GIÁ : 3tr9 - 4tr1 - 4tr3\n\n⚡ Diện tích : 35m2 - thang máy - bếp riêng biệt\n\n💥 Nội thất : Phòng đầy đủ đồ cao cấp: tủ lanh, máy giặt, bếp từ, tranh tráng gương, điều hòa, nóng lạnh, giường, tủ quần áo, bàn bếp, tủ bếp trên dưới, hút mùi nấu ăn. Hút mùi phòng khách...\n\n🍀 Phí dịch vụ: Điện 4k/số, nước 35k/khối. Mạng 100k/ phòng, Dv chung 150k/ người - máy giặt chung 50k/ng\n- Ôto đỗ cửa, bãi oto cạnh nhà\n- Chỗ để xe rộng rãi thoải mái\n- Nhà giờ giấc tự do\n- Ra vào khóa vân tay, camera an ninh đầy đủ, thang máy tốc độ cao\n- Được nuôi Pet - nhận xe điện\n- Không giới hạn người ở.\n\n👉 Đóng 1cọc1 -hợp đồng - 12th\nGọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 13\n\n🏠 Ngõ 406 Xuân phương - Nam Từ Liêm\n\n⏰ Trống - p501 - 502\n\n💰 GIÁ : 4tr2 - 4tr4\n\n⚡ Diện tích : 30m2 - thang máy\n\n💥 Nội thất : Phòng đầy đủ đồ cao cấp: tủ lanh, bếp từ, điều hòa, nóng lạnh, giường, tủ quần áo, bàn bếp, tủ bếp trên dưới, hút mùi ,máy giặt chung, ko chung chủ\n\n🍀 Phí dịch vụ: Điện 4k/số, nước 35k/khối. Mạng 100k/ phòng, Dv chung 150k/ người - máy giặt 50k/ng\n\n- Ôto đỗ cửa, bãi oto cạnh nhà\n- Chỗ để xe rộng rãi thoải mái\n- Nhà giờ giấc tự do\n- Ra vào khóa vân tay, camera an ninh đầy đủ, thang máy tốc độ cao\n- Được nuôi Pet\n- Không giới hạn người và xe - nhận xe điện\n\n👉 Đóng 1cọc1 -hợp đồng 12th\nGọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 13\n\n🏠 Ngõ 208 Phương Canh - Nam Từ Liêm- đi bộ ra FPT\n\n⏰ Trống - p104 - 408 - 202 - 502 - 601\n\n💰 GIÁ : 3tr8 - 3tr9 - 4tr2👉 có fix\n\n⚡ Diện tích : 28m2 - thang máy - ban công - ô tô đỗ cửa\n\n💥 Nội thất : Giường ,điều hòa, nóng lạnh, tủ quần áo,tủ lạnh, bàn bếp, bếp từ ,tủ bếp trên dưới, hút mùi nấu ăn.Máy giặt chung\n\n🍀 Phí dịch vụ: Điện 4k/số, nước 35k/khối. Mạng 100k/ phòng, Dv chung 150k/ người - máy giặt 50k/ng\n- Ôto đỗ cửa, bãi oto cạnh nhà\n- Chỗ để xe rộng rãi thoải mái\n- Nhà giờ giấc tự do\n- Ra vào khóa vân tay, camera an ninh đầy đủ, thang máy tốc độ cao\n- Được nuôi Pet\n- Không giới hạn người và xe - nhận xe điện\n\n👉 Đóng 1cọc1 -hợp đồng 12th\nGọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 13\n\n🏠 Địa Chỉ : 174 Phương Canh - Nam Từ Liêm\n\n⏰ Trống : p101 - 202 - 402\n\n💰 GIÁ : 3tr7\n\n⚡ Diện tích : 26m2 - thang máy\n\n💥 Nội thất : Phòng đầy đủ đồ cao cấp: tủ lanh, bếp từ, tranh tráng gương, điều hòa, nóng lạnh, giường, tủ quần áo, bàn bếp, tủ bếp trên dưới, hút mùi nấu ăn.Máy giặt chung\n\n🍀 Phí dịch vụ: Điện 4k/số, nước 35k/khối. Mạng 100k/ phòng, Dv chung 200k/ người\n- Ôto đỗ cửa, bãi oto cạnh nhà\n- Chỗ để xe rộng rãi thoải mái\n- Nhà giờ giấc tự do\n- Ra vào khóa vân tay, camera an ninh đầy đủ, thang máy tốc độ cao\n- Được nuôi Pet - nhận xe điện\n- Không giới hạn người ở.\n\n👉 Đóng 1cọc1 -hợp đồng - 12th\nGọi trước 30p khi qua xem phòng\n/-rose /-rose 40% Mã 13\n\n🏠 Địa Chỉ : Ngõ 246/38 Phương Canh - Nam Từ Liêm\n\n⏰ Trống - 4p\n\n💰 GIÁ : 3tr7 - 3tr8\n\n⚡ Diện tích : 26 - 30m2 - thang máy\n\n💥 Nội thất : Gìương, điều hòa, nóng lạnh, tủ quần áo, bàn bếp, tủ bếp trên dưới, hút mùi nấu ăn.Máy giặt chung\n\n🍀 Phí dịch vụ: Điện 4k/số, nước 35k/khối. Mạng 100k/ phòng, Dv chung 200k/ người\n- Ôto đỗ cửa, bãi oto cạnh nhà\n- Chỗ để xe rộng rãi thoải mái\n- Nhà giờ giấc tự do\n- Ra vào khóa vân tay, camera an ninh đầy đủ, thang máy tốc độ cao\n- Được nuôi Pet - nhận xe điện\n- Không giới hạn người ở.\n\n👉 Đóng 1cọc1 -hợp đồng - 12th\nGọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 13\n\n🏠 Địa Chỉ : 225 Phương Canh - Nam Từ Liêm.\nCCMN CAO CẤP - Hệ Thống PCCC đầy đủ - cửa sổ lớn siêu thoáng\n\n⏰ Trống - p303 - 402 - 401 - 502 - 603\n\n⚡ Diện tích : 30m2 - thang máy\n\n💰 GIÁ : 4tr2 - 4tr5\n\n💥 NỘI THẤT: Phòng đầy đủ đồ cao cấp: tủ lanh, máy giặt, bếp từ, sofa, bàn trà, tranh tráng gương, điều hòa, nóng lạnh, giường, tủ quần áo, bàn bếp, tủ bếp trên dưới,..\n.\n🍀 Phí dịch vụ: Điện 4k/số, nước 35k/khối , Mạng 100k/ phòng, Dv chung 150k/ người - máy giặt 50k/ng\n\n- Ôto đỗ cửa, bãi oto cạnh nhà\n- Chỗ để xe rộng rãi thoải mái\n- Nhà không chung chủ, giờ giấc tự do\n- Ra vào khóa vân tay, camera an ninh đầy đủ, thang máy tốc độ cao\n- Được nuôi Pet\n- Không giới hạn người ở\n👉 Đóng 1cọc1 - hợp đồng -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 561\n\n🏠 Địa chỉ: Ngách 27 Ngõ 87 Yên Xá - Tân Triều\n\n⏰ 01/08 Trống - p201\n\n💰 : GIÁ 3tr7\n\n⚡DIỆN TÍCH : 25m2 - Thang máy\n\n💥 Nội thất : Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh ,bàn bếp ,tủ bếp trên dưới, máy giặt chung, cửa chống khói,thoát hiểm trước sau ,nhà để xe rộng rãi, khoá vân tay, ko chung chủ, giờ giấc thoải mái\n\n☘️ Dịch vụ: Điện 3k, nước 28k/khối , wifi 100k/p dv khác giặt chung, vệ sinh, rác, thang máy,...) 130k/ng\n\n👉 Đóng 1cọc1 ,hợp đồng 9- 12th\n👉 Gọi trước 30 khi qua xem phòng\n👉 Tối đa 3ng ,được nuôi pet\n/-rose/-rose 35% Mã 1068\n\n🏠 Địa Chỉ : NGÕ 217 YÊN HÒA, Cầu Giấy\n\n⏰ Trống : 2p\n\n💰 Giá : 4tr3 - 5tr3👉 xem phòng buổi tối\n\n👉 Phòng Studio\n👉 Thang máy\n👉 Diện tích : 27- 30m2, có cửa sổ thoáng từng phòng.\n👉 PCCC đạt chuẩn, có hệ thống báo cháy và đầu phun báo cháy vào tưng phòng, thang thoát hiểm,…\n\n💥 Nội thất : Điều hoà, nóng lạnh, giường, tủ quần áo, đệm, tủ bếp trên và tủ bếp dưới, hút mùi, thang máy, máy giặt chung, khoá cửa vân tay...\n\n☘ Dịch vụ :\nĐiện: 4k/số.\nNước: 33k/ m3.\nWiFi riêng từng phòng: 100k/ phòng.\nThang máy: 50k/ng.\nMáy giặt: 50k/ng.\nDịch vụ chung: để xe, rác ,vệ sinh,quản lí đèn hành lang ,... 150k/phòng.\n\n❌ Lưu ý:\n- Thanh toán 1 cọc 1.\n- Hợp đồng 6 -12 tháng.\n-Nhận xe điện có giờ giới nghiêm sạc (không sạc qua đêm và có tính thêm phí).\n- Được nuôi pet nhỏ.\n- Không giới hạn người ở, không giới hạn để xe.\n- PHƠI ĐỒ + MÁY GIẶT chung tầng6.\n- GIÁ CẢ SẼ LINH ĐỘNG VỚI KHÁCH THUÊ DÀI HẠN VÀ THANH TOÁN DÀI\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1586\n\n🏠 Địa Chỉ : Ngõ 97 Khương Trung- Thanh Xuân- ngay Ngã Tư Sở, ngõ phân lô ô tô,2 mặt thoáng…\n\n⏰ 01/08 Trống tầng - 4 - 6\n\n💰 Giá : 5tr5 👉 có fix\n\n⛳️ Diện tích: 30m2 - thang máy- nhận xe điện- ko nuôi pet\n\n✔️Phòng mới tinh thoáng 2 bên, đầy đủ PCCC, thang máy, ban công thoáng mát, sạch sẽ,…..\n\n💥Nội thất: điều hoà, nóng lạnh, tủ lạnh, giá bát đĩa, hút mùi, tủ bếp, tủ quần áo, rèm cửa, máy giặt riêng, sofa ....\n\n☘️ Phí Dịch vụ\nĐiện 3,8k/ số\nNước 30k/ khối\nDvchung 150k/ ng\nMạng 100k/phòng\nGiới hạn 3ng2xe\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 556\n\n🏠 Ngách 59 Ngõ 562 Thụy Khuê - Tây Hồ\n\n⏰ Trống - 3p\n\n⚡ Diện tích : 33m2 - thang máy\n\n💰 GIÁ : 5tr7 - 5tr9👉 có fix\n\n💥 Nội thất Đầy đủ : điều hoà, nóng lạnh, giường, đệm tủ, bàn trang điểm, tủ lạnh, sofa ,bếp từ , hút mùi. May giặt riêng. Thang máy - ban công\ngiới hạn 4ng - 2xe, ko nhận khách nước ngoài, ko nuôi pet , ko sạc xe điện\n\n🍀 Dịch vụ: điện 4k/số nước 30/ng, dv 150/ng. Mạng 150/p\n👉 Đóng 1cọc1 hợp đồng 6 - 12th\nGọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 1654\n\n🏠 Ngõ 88/105 Trần Quý Cáp - Đống Đa\n\n⏰ Trống: p401 - 403 - 604 - 803\n\n💰 GIÁ : 4tr8 -5tr2\n\n⚡Diện tích : 28m2 - thang máy- ban công - ô tô cách 10m\n\n💥 Nội thất: Full đồ (Giường ,Tủ quần áo, Tủ lạnh, điều hoà, nóng lạnh,tủ bếp trên dưới,hút mùi, bếp từ ,máy giặt riêng ,ko chung chủ , giờ giấc thoải mái\n\n🍀 Phí Dịch vụ :\nĐiện 4k/số\nNước 35k/khối\nWifi 100k/p\nDvu : 200k/ng\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% mã 1587\n\n🏠 Địa chỉ: LK13 - L11 Khu Đấu Giá QSD Đất Mậu Lương- Kiến Hưng - Hà Đông\n\n⏰Trống -6/ 22p tòa nhà mới tinh\n\n💰 GIÁ : 3tr1 - 3tr4👉 thêm tủ lạnh + 200k\n\n🚩 Diện tích : 28m2 - gác xép - thang máy- ô tô đỗ cửa\n\n💥 Nội thất : Điều hòa, nóng lạnh, wifi riêng, máy giặt chung, khu phơi đồ, tủ bếp chậu rửa, tủ quần áo, nhà để xe rộng rãi, khoá vân tay, vệ sinh khép kín.\n\n☘ Dịch vụ: Điện 4k, nước 35k/khối , wifi100k/ phòng, dv khác chung , giặt chung, vệ sinh, rác, thang máy,...) 150k/ng, để xe free ,xe điện 150k/xe - ko nuôi pet\n\n👉 Đóng 1cọc1 ,hợp đồng - 12th\n\n👉 Gọi trước 30 khi qua xem phòng\n/-rose /-rose 35% Mã 1649\n\n🏠 Địa Chỉ : Ngõ 280 Vũ Hữu - Thanh Xuân. (Vị trí đắc địa nhiều trường Đại Học, ĐH Hà Nội ...) giao thông thuận tiện.\n\n⏰ Trống - 3p tòa nhà mới tinh\n\n💰 GIÁ - 5tr - 6tr👉 có fix\n\n🚩 Diện tích : 26 - 30m2 - thang máy\n\n✅ Nhà sát ngõ oto, có bãi gửi xe ngay sát nhà - nhận xe điện - ko nuôi pet\n\n💥 full nội thất, Giuờng đệm, tủ quần áo, điều hòa , nóng lạnh ,tủ lạnh , bàn trang điểm ,tủ bếp trên dưới hút mùi,cửa sổ to , máy giặt sấy chung , ko chung chủ, giờ giấc thoải mái\n\n🍀 Phí dv : Điện 4k/số. Nước 30k/khối , giặt sấy 100k/ng. DVC: 150k/người,gồm thang máy, wifi, điện hành lang, vs rác\n\nĐóng 1cọc1 - hợp đồng -12th có ký ngắn hơn\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1466\n\n🏡 Địa chỉ: Hẻm 36/23/17 Ngõ 36 Miếu Đầm - Nam Từ Liêm\n\n⏰ Trống : p302 - 402\n\n💰 Giá : 4tr\n\n⛳️ Diện tích: 25m2 - Thang máy\n\n💥 Nội thất: Giường, Điều hòa, nóng lạnh, tủ lạnh, tủ bếp trên dưới, hút mùi, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n☘️ Phí Dịch vụ:\nĐiện: 4k/ số , Nước: 35k/1 khối, Dịch vụ chung: 160k/1 người\nWifi 100k/ phòng\n- Đóng 1 cọc 1\n- K nhận xe điện\n- K nuôi Pet\n- K nhận người nước ngoài.\n\n👉 Đóng 1cọc1 hợp đồng -12th\n\n👉 Gọi trước 30p khi qua xem phòng",
-    "district": "Cầu Giấy",
-    "utilityFees": {
-      "electricityPerKwh": 4000,
-      "waterPerM3": 30000,
-      "internetPerPerson": 100000,
-      "generalServicePerPerson": 200000
-    },
-    "policies": {
-      "allowPet": false,
-      "allowElectricVehicle": false,
-      "allowForeigner": false,
-      "maxOccupants": 4,
-      "maxVehicles": 2
-    },
-    "fingerprintHash": "134 đường la thành đống đa|studio|1000000"
-  },
-  {
-    "id": "rec_1784840822157_99",
-    "managerCode": "",
-    "commission": "🌹 35% Mã 105",
-    "address": "Ngách 29 Ngõ 218 Lạc Long Quân - Tây hồ",
-    "roomType": "Studio",
-    "areaSqm": 45,
-    "availableDate": "01/08",
-    "priceVnd": 8000000,
-    "priceMaxVnd": 8000000,
-    "isFull": false,
-    "rawRef": "🌹🌹 35% Mã 105\n\n🏠 Địa chỉ : Ngách 29 Ngõ 218 Lạc Long Quân - Tây hồ\n\n⏰ Trống - 10p tòa nhà mới tinh\n\n💰 Giá: 8tr - 8tr2 - 8tr5 tuỳ tầng\n\n🚩 Diện tích - 45m2 - 2ngủ 1khách- thang máy\n\n💥Nội thất : Giường, tủ quần áo, Tủ lạnh, điều hòa, nóng lạnh, sofa ,bàn trà , bếp Từ, tủ bếp trên dưới, rèm cửa,máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n☘️Dịch vụ : Điện 3,8k/số\nNước 30k/khối\nMạng 100k/phòng\nDịch vụ chung: 250k/ng (thang máy, điện hành lang, vệ sinh rác, camera,máy sấy chung, đổ rác)\n\n⛔️ Lưu ý:\n👉 HD 9 - 12 tháng\n👉 Đóng 1 cọc 1\n👉 Khách gọi trước 30p-1h trước khi qua\n/-rose/-rose 35% Mã 1660\n\n🏠 Địa chỉ: Ngõ 33 Văn Cao - Ngọc Hà - Ba Đình\n\n⏰ Trống : tòa nhà mới tinh\n\n💰 Giá : 4tr8 - 5tr2\n\n🚩 Diện Tích : 26 - 28m2 - thang máy\n\n💥 Full nội thất: Giường, tủ quần áo, điều hoà, nóng lạnh,tủ lạnh, hút mùi, tủ bếp,máy giặt chung\n✅ Nhà có thang máy, di chuyển tiện lợi\n✅ Khoá vân tay an toàn, chỗ để xe riêng - nhận xe điện - được nuôi pet\n\n🍀 Phí Dv : DV:\nĐiện:4k2\nNước:40k/1 khối\nMạng:100k/1p\nDVC:200k/1n\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 1567\n\n🏠Địa chỉ: Ngõ 358 Bùi Xương Trạch - Khương Đình - Thanh Xuân - Hà Nội\n\n⏰ Trống: 10/35p tòa nhà mới tinh\n\n💰 Giá : 4tr5 - 4tr8\n\n⛳️ Diện tích: 26 - 28m2 - studio - thang máy\n\n💥 Nội thất (giường, tủ quần áo, điều hoà, nóng lạnh, tủ lạnh máy giặt, tủ bếp trên dưới, hút mùi,…)\n✅ Có thiết kế bàn Bi - a cho mọi người giải trí\n\n👉 Nhận xe điện- được nuôi pet\n\n☘️ Phí dv: Điện 4k - nước 35k/khối - dịch vụ 150k/ng - internet 100k/ng\n✅ Vệ sinh khép kín\n✅ Giờ giấc tự do\n✅ Phòng có cửa mật khẩu riêng từng phòng —> An ninh cực tốt\nNgõ ô tô tránh nhau.\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1642\n\n🏠Địa chỉ: Ngõ 445 Nguyễn Khang Nghách 79/56 - Cầu Giấy\n\n⏰ Trống: 3p\n\n💰 Giá : 4tr6 - 5tr2\n\n⛳️ Diện tích: 25 - 28m2 - Thang máy\n\n💥 Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, tủ bếp trên dưới, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n👉 Nhận xe điện- được nuôi pet\n\n☘️ Phí dv: Điện 4k/số,nước 120k/ng ,wifi 100k/p,dịch vụ chung 200k/ng\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 30% Mã 1184\n\n🏡 Địa chỉ : Ngõ 1 Thành Thái hoặc ngách 55 Ngõ 381 Nguyễn Khang Cầu Giấy\n\n⏰ Trống - tầng 4\n\n💰 GIÁ - 6tr5\n\n🚩 Diện tích - 45m2 - 2ngủ 1khách- thang máy -cổng vân tay - ô tô đỗ cửa\n\n💥 Nội thất : Giường tủ quần ao, điều hòa ,nóng lạnh ,sofa ,bàn trà, bàn bếp , tủ bếp, tủ lạnh, máy giặt chung, ko chung chủ, giờ giấc thoải mái\n\n🍀 GIÁ DỊCH VỤ:\nĐiện 4k2/số\nNước 32k\nWiFi 100k,\nVS + Thang máy 90k.\nMáy giặt chung 50k/phòng\n📍 CÁC THÔNG TIN KHÁC:\n- Phơi đồ sân thượng\n- máy giặt chung trên sân thượng\n- K gh người và xe\n\n- Ngõ rộng ô tô vào đến cổng\n- Nhà có thang máy\n- PCCC đầy đủ\n- Cho nước ngoài thuê\n- ko Nhận xe điện\n\nĐóng 1cọc1 - hợp đồng -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 1184\n\n🏡 Địa chỉ : 139A Hoa Bằng - Cầu Giấy\n\n⏰ Trống - tầng 3\n\n💰 GIÁ - 5tr8👉 có fix\n\n🚩 Diện tích - 30m2 - thang máy -cổng vân tay - ô tô đỗ cửa\n\n💥 Nội thất : Giường tủ quần áo điều hòa ,nóng lạnh, bàn bếp , tủ bếp, tủ lạnh,sofa,bàn trà, máy giặt chung, ko chung chủ, giờ giấc thoải mái\n\n🍀 GIÁ DỊCH VỤ:\nĐiện 4k2/số\nNước 100k/ng\nWiFi 100k,\nVS + Thang máy 90k/ng\nMáy giặt chung 50k/ng\n📍 CÁC THÔNG TIN KHÁC:\n- Phơi đồ sân thượng\n- PCCC đầy đủ\n- Cho nước ngoài thuê\n- ko Nhận xe điện - được nuôi pet\n\nĐóng 1cọc1 - hợp đồng -6 - 12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1354\n\n🏠 Địa Chỉ : Ngõ - 254 Minh Khai - Hai Bà Trưng\n\n⏰ Trống - 3p\n\n💰 Giá: 4tr6 - 4tr8\n\n⛳️Diện tích: 23m2 - thang máy - ngõ ba gác- ko nhận xe điện- được nuôi pet\n\n💥Nội thất : Điều hòa , nóng lạnh, tủ quần áo, giường,tủ lạnh,bếp từ,hút mùi,máy giặt chung-riêng\n\n☘️ Phí Dịch vụ:\nĐiện 4k/số\nNước: 35k/khối\nMạng 100k/phòng\nDịch chung : 150k/ tháng /người ( vệ sinh+thang máy+máy giặt+phí môi trường)\n\n❌ LƯU Ý\n- Hợp đồng: 6 tháng\n- Số người ở: tối đa 3 người\n- Thanh toán 1 cọc 1\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 1579\n\n🏠 Địa chỉ : Ngõ 273 Chợ Khâm Thiên - Đống Đa\n\n⏰ Trống - tầng - 6\n\n⚡ Diện tích : 28m2 - thang máy\n\n💰 GIÁ : 5tr2\n\n💥 Nội thất : Giường , tủ quần áo , điều hòa ,nóng lạnh, tủ lạnh, bàn bếp tủ bếp , máy giặt riêng , ko chung chủ giờ giấc thoải mái\n\n👉 để ưxe - Ko xe điện- được nuôi pet\n\n🍀 PHÍ DV :\n- Điện : 4/số\n- Nước : 35k/khối\n- Dịch vụ chung - 200k/ng ,vệ sinh , thang máy - wifi, điện hành lang\n\n👉 Đóng 1cọc1 - hợp đồng - 6- 12th\nGọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1648\n\n🏠 Địa Chỉ : Ngách 32B NGÕ 481 Vũ Tông Phan - Thanh Xuân\n\n⏰ 01/08 Trống : p401\n\n💰 Giá : 4tr5\n\n🚩 Diện tích : 23m2 - Gác xép - thang máy\n👉 PCCC đạt chuẩn, có hệ thống báo cháy và đầu phun báo cháy vào tưng phòng, thang thoát hiểm,…\n\n💥 Nội thất : Điều hoà, nóng lạnh, tủ quần áo,tủ lạnh, bếp từ, tủ bếp trên dưới, hút mùi, thang máy, máy giặt riêng , khoá cửa vân tay...\n\n☘ Dịch vụ :\nĐiện: 4k/số.\nNước: 35k/ m3.\nWiFi riêng từng phòng: 100k/ phòng.\nDịch vụ chung: 150k/ng ,thang máy, vs rác ,vệ sinh,quản lí đèn hành lang\n\n❌ Lưu ý:\n- Thanh toán 1 cọc 1.\n- Hợp đồng 6 -12 tháng.\n- ko nhận khách nước ngoài\n- ko nuôi pet\n- Không giới hạn người ở - free 1xe - xe thứ 2 phí 100k/xe\n- PHƠI ĐỒ + MÁY GIẶT chung tầng6.\n- GIÁ CẢ SẼ LINH ĐỘNG VỚI KHÁCH THUÊ DÀI HẠN VÀ THANH TOÁN DÀI\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1354\n\n🏠 Địa Chỉ : Ngõ 236 Khương Đình -Thanh Xuân ( cửa sổ siêu thoáng, pccc đầy đủ)\n\n⏰ Ngày 5/08 Trống tòa nhà mới tinh\n\n💰 Giá : 4tr3 -4tr6\n\n⛳️Diện tích: 25m2 - Thang: máy\n\n💥Nội thất : Điều hòa , nóng lạnh, tủ quần áo, giường,tủ lạnh,hút mùi, bàn học,...\n\n☘️ Phí Dịch vụ:\nĐiện 4k/số\nNước:35k/ khối\nMạng 100k/phòng\nDịch chung : 150k/ tháng /người ( vệ sinh+thang máy+phí môi trường )\n\n❌ LƯU Ý\n- Hợp đồng: 13 tháng\n- Số người ở: tối đa 3 người\n- Thanh toán 1 cọc 1\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 20\n\n🏠 Địa Chỉ : Ngõ 562 Đường Láng - Đống Đa\n\n⏰ Trống : 10/20p tòa nhà mới tinh\n\n💰 Giá : 5tr3 - 5tr5👉 miễn phí tiền phòng tháng 6\n\n⛳️ Diện tích: 27m2 - thang máy\n\n💥 Nội thất : Giường tầng ,tủ quần áo , tủ lạnh , điều hoà , nóng lạnh,máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n👉 Thang máy , khoá vân tay , PCCC an toàn\n\n📍 Vị Trí : gần trường ĐH ngoại Thương , ĐH mỏ , ĐH Thuỷ lợi , ngân hàng ...\n\n☘️ Phí dv: Điện 4k\nNước 38\nDvc 150/ng\nWf 100/p\n\nHĐ : hợp đồng 12th có ký ngắn hơn\nCho nuôi pet ( yc sạch sẽ )\nNhận nước ngoài\nGh:3-4ng -2xe\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 20\n\n🏠Địa chỉ : 277/8 Vũ Tông Phan - Thanh Xuân\n\n⏰ Trống: 22p tòa nhà mới tinh\n\n💰 Giá : 4tr8 - 5tr5 - 6tr8👉 có fix\n\nThông các tuyến đường lớn Khuong Đình , Nguyễn Trãi , Trường Chinh …vài bước chân ra Trường tiều học , trung học Nguyễn Trãi , Royalcity ….\n⚙️Thiết kế 7 tầng , mỗi tầng 4phòng ,\nThang máy, khóa vân tay ,trang bị đầy đủ\n\n💥 Nội thất : điều hoà , nóng lạnh , giường tủ quần áo,tủ lạnh, bếp từ,tủ bếp trên dưới, máy giặt chung ….phòng nào cũng ban công chills thoáng , nhà để xe rộng , lên xuống dễ dàng …\nÔ tô đỗ cửa.\n\n☘️Phí Dịch vụ :\nĐiện 4n/ số\nNước 35n/ khối\nDvc 200n/ng\nWf 100n/p\n🚫Xe điện, nuôi thú\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1673\n\n🏠 Địa Chi: Ngõ 48 Trần Duy Hưng ( Thông ngõ 39 Trung kính)\n\n⏰ Trống : tòa nhà mới tinh\n\n💰 Gia : 4tr2 - 5tr - 5tr2 - 5tr4 -5tr5 - 5tr6 - 5tr7👉 có fix\n\n⛳️ Diện tích: 20 - 25m2 - gác xép- thang máy\n\n💥 Nội thất: Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, tủ bếp trên dưới, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n☘️ Phí dv: Điện 4k/ số\nNước 35k/ số\nMạng 100k/ phòng\nDịch vụ chung: 200k/ người (thang máy, vệ sinh, máy giặt, vệ sinh, điện chung)\nThêm máy giặt riêng: 200k/tháng\nLưu ý:\nPhụ thu người thứ 3 thêm 200k/người\nPhòng nhỏ 3 người, 2 xe\nPhòng to 4 người, 2 xe\nNuôi mèo\nXe máy: 100k/ xe\nPhí sạc xe điện: 200k/ xe\nĐóng 1 cọc 1\nHĐ 12 tháng\n\n👉 Gọi trước 30p trước khi qua xem\n/-rose/-rose 35% Mã 21\n\n🏠 Địa Chỉ : Ngõ 25 Cự Lộc Thanh Xuân\n\n/-li Diện tích: 28m2 - thang máy - cách 5m ra đường ô tô\n\n💰Giá : 5tr5 - 5tr6 - 5tr7 - 5tr9 - 6tr - 6tr1 - 6tr2 - 6tr3👉 có fix\n\n⏰25/07 Trống - 28p\n\n💥 Full Nột thất : sofa, bàn trà ,bàn làm việc, giường, tủ quần áo, tủ bếp trên dưới, hút mùi, bếp từ, tủ lạnh. Rèm\nGiặt riêng\n\n👉 Được nuôi pet- Nhận khách nước ngoài- nhận xe điện\n\n☘️Dịch vụ : Điện 4k/số , nước 35k/m3, wifi 100k/p, dịch vụ chung 200k/ng/th,gồm thang máy, máy sấy, vs rác, điện hành lang\n\n👉 Đóng 1cọc1 hợp đồng 9-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 21\n\n🏠Ngõ 205 Lương Thế Vinh, Nam Từ Liêm\n\n/-li Diện tích: 28m2 - thang máy\n\n💰Giá 4tr5 - 4tr6👉 có fix\n\n⏰ Trống - 6p\n\n💥 Full Nột thất : bàn làm việc, giường, tủ quần áo, tủ bếp trên dưới, hút mùi, bếp từ, tủ lạnh. Rèm\nGiặt sấy chung\n\nHợp đồng 6 - 12th\n👉 Dịch vụ : Điện 4k/số , nước 35k/m3, Dịch vụ chung 250k/ng/th,gồm thang máy, máy giặt sấy,wifi, vs rác, điện hành lang\n/-rose/-rose 35% Mã 1638\n\n🏠 Địa Chỉ : Ngõ 50/100 Mễ trì Thượng - Nam Từ Liêm\n\n⏰ Trống : 8/18p tòa nhà mới tinh\n\n💰 Giá : 4tr\n\n🚩 Diện Tích : 27m2 - Thang máy\nCách đường ô tô 20m\n\n💥 Nội thất : Giường, tủ quần áo, điều hòa,nóng lạnh, tủ lạnh, tủ bếp trên dưới ,Máy giặt riêng từng phòng\n\n🍀 Phí Dv : Điện 4K\nNước 35k/khoi\nDịch vụ 150k/nguoi\nMạng 100/phong\nHợp đồng 9-12 tháng\nĐóng 1 cọc 1\nKhông nhận xe điện không nuôi pet\n\n👉 Gọi trước 30p khi qua xem phòng",
-    "district": "Cầu Giấy",
-    "utilityFees": {
-      "electricityPerKwh": 4000,
-      "waterPerM3": 35000,
-      "generalServicePerPerson": 250000
-    },
-    "policies": {
-      "allowPet": false,
-      "allowElectricVehicle": false,
-      "allowForeigner": true,
-      "maxOccupants": 3
-    },
-    "fingerprintHash": "ngách 29 ngõ 218 lạc long quân tây hồ|studio|8000000"
-  },
-  {
-    "id": "rec_1784840822157_100",
-    "managerCode": "",
-    "commission": "🌹35% - Mã 1668",
-    "address": "Ngõ 230 Mễ Trì Thượng",
-    "roomType": "Studio",
-    "areaSqm": 25,
-    "availableDate": "01/08",
-    "priceVnd": 28000000,
-    "priceMaxVnd": 30000000,
-    "isFull": false,
-    "rawRef": "🌹 🌹35% - Mã 1668\n\n🏢 Ngõ 147 Phú Đô - Mễ Trì - Nam Từ Liêm\n\n⏰ Trống - 15/20p tòa nhà mới tinh\n\n💰 Giá : 3tr5 - 3tr8\n\n⚡DIỆN TÍCH : 25m2 - thang máy - ban công\n\n💥 Nội thất : tủ quần áo, tủ lạnh,điều hòa, nóng lạnh, bếp từ, kê bếp, chậu rửa , hút mùi, tủ bếp trên dưới ,máy giặt chung ,ko chung chủ , giờ giấc tự do,, ban công cửa sổ, free 1 xe - xe thứ 2 phí 100k/xe - nhận xe điện - được nuôi pet- ko nhận khách nước ngoài\n\n🍀 Phí dvu :\nĐiện 4k/số\nNước 35k/khối\nThang máy 70k/ người\nMạng 100k/ phòng\nMáy giặt 70k/ người\nPhí chung 60k/ người\nGiới hạn mỗi phòng 1xe thêm xe thêm 100k\n\n❌ Lưu ý\n- HD 6 - 12 th\n- Đóng 1 cọc 1\n- Gọi trước 30p khi qua\n/-rose/-rose 40% Mã 246\n\n🏠 Địa Chỉ : Ngõ 230 Mễ Trì Thượng\n\n⏰ Trống : 30/50p tòa nhà mới tinh\n\n💰 Giá : 4tr4 - 4tr6👉 có fix\n\n🚩 Diện Tích : 28 - 30m2 - thang máy\n\n💥 Nội thất : Giường ,Tủ quần áo, điều hòa, nóng lạnh ,bàn trang điểm, tủ bếp trên dưới, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n👉 Nhận xe điện - được nuôi pet\n\n🍀 Phí Dv :\nĐiện 4k/số\nNước 35k/khối\nDv chung cả giặt 200k / ng (\nMang 100k\n\n👉 Đóng 1cọc 1 hợp đồng - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 50% Mã 1559\n\n🏠 Địa Chỉ : Ngõ 143 Quan Hoa - Cầu Giấy\n\n⏰ Trống: 35/43p tòa nhà mới tinh\n\n💰Giá 4tr5\n\n⛳️ Diện tích: 28m2 - thang máy\n\n💥Nội thất : giường tủ dh nl , tủ lạnh , tủ bếp trên dưới hút mùi ,máy giặt chung\nPccc đầy đủ\nMặt ngõ ô tô tránh\n\n☘️ Phí dv: Điện 4k nước 120k/ng\nMạng 100/phòng\nDvu 150k/ng gồm vệ sinh máy giặt thang máy\nFree 1 xe , từ xe thứ 2 100k/xe\nDc nuôi pet, k nhận khách nc ngoài - ko nhận xe điện\nNhận cọc giữ tới 1/8\n\n👉 Đóng 1cọc1 hợp đồng 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 1164\n\n🏡 Địa Chỉ : 66C Phố Hoàng Sâm - Hoàng Quốc Việt - Cầu Giấy\n\n⏰ Trống- tầng 3 - 4\n\n💰 Giá 4tr8👉có fix\n\n⛳️ Diện tích : 27m2 - gác xép- thang máy\n\n💥 Nội thất : Đệm, tủ quần áo,Điều Hoà ,Nóng Lạnh, BếpTừ ,Tủ lạnh, Bàn Ăn,Tủ bếp trên dưới, Máy Giặt Chung,ko chung chủ giờ giấc thoải mái\n\n☘️Dịch vụ : Điện 3k9/ số , nước 35k/ khối,dịch vụ chung 300k/ người ,gồm thang máy máy giặt, wifi, điện hành lang, vs rác\n\n❌ Lưu ý:\nKhông nhận xe điện - ko nuôi pet\nHđ -12th\n👉Không qua khi chưa gọi được cho dẫn\n/-rose/-rose 35% Mã 1681\n\n🏠 Địa Chỉ : Ngõ 55 chính kinh - thanh Xuân\n\n⏰ Trống : tầng 4 - 5\n\n💰Giá : 5tr - 5tr3\n\n🚩 Diện Tích : 26m2 - thang máy\n\n💥 Nội thất : Giường ,tủ quần áo, điều hoà ,nóng lạnh, tủ lạnh,tủ bếp trên dưới, hút mùi , bếp từ,máy giặt chung\n\n🍀 Phí Dv : điện 3.8k/số\nnước 35k/ khối\ndvc 250k/người\nmạng 100k/phòng\nthang máy\nthang bộ thoát hiểm\ngiặt sấy chung t1\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1430\n\n🏠Địa chỉ: Ngõ 165 Dương quảng hàm - Cầu giấy (Ngõ 3 gác siêu rộng)\n\n💰 Giá : 6tr2 - 6tr7 👉 có fix sâu cho khách chốt phòng\n\n⏰01/08 Trống: 14p tòa nhà mới tinh\n\n⛳️ Diện tích 35- 45m2 - 1ngủ 1khách- thang máy\n\n💥Nội thất : Sofa to, bàn trà, Giường, tủ quần áo, điều hòa, nóng lạnh, kệ tủ bếp, hút mùi, chậu rửa, tủ lạnh, wifi, máy giặt riêng, có cửa sổ thoáng, có ban công để phơi đồ riêng( hoặc phơi trên tầng 6 )\n\nTv 43 inch internet bóc seal ( thêm 250k/tháng )\n\n❤️Thanh toán: - Đóng 1 cọc 1\n\n🔥Ghi chú\n\nKhông giới hạn người ở và xe\n\nNhận xe điện\n\nNhận khách nước ngoài\n\nCho nuôi pet\n\n☘️phí dvu: 180k mạng 50k/người, điện 4k nước 35k\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 40% Mã 15\n\n🏚 Ngõ 850 Láng - Đống Đa\n\n⏰ Trống : p203\n\n💰 GIÁ : 5tr3\n\n⚡ Diện tích 28m2 - thang máy\n\n💥 NỘI THẤT : Full đồ như hình ,giường tủ ,bàn ghế ,điều hòa ,nóng lạnh,tủ lạnh,tủ bếp trên dưới\nSofa ,hút mùi ,cửa sổ thoáng ,máy giặt chung,vs khép kín, giờ giấc tự do ,ko chung chủ\n\n☘️ Phí dv : điện 4k2/số, nước 100k/ng ,wifi 100k/p, dịch vụ chung 150k/ng gồm thang may,giặt sấy ,vs rác thải ,đèn chiếu sáng\n\n👉 Đóng 1cọc 1 , hợp đồng -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 40% Mã 15\n\n🏠 Địa chỉ : 36 Ngõ 100 Yên lãng - Đống Đa\n\n⏰ Trống : p403\n\n⛳️ Diện tích: 45m2 - 1khách 1 ngủ - thang máy - ô tô đỗ cửa\n\n💰 Giá : 7tr8\n\n💥Nội thất : Máy giặt sấy riêng,điều hòa . giường, tủ, nóng lạnh, tủ lạnh, bếp từ, quạt, bàn ghế, sofa, bàn trà.\n\n☘️ Phí Dịch vụ : Căn Hộ\nĐiện: 4K2 số\nNước 120k / ng\nDVC: 200K/ ng\nMạng: 100K/ Phòng.\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% -Mã 482\n\n🏠Địa chỉ: Ngõ 250/60/50 Đối diện ngõ 910 Kim Giang. Gần ĐH Thăng Long. Gần Tây Nam Linh Đàm. The Manor Nguyễn Xiển.\n\n⏰ Trống : p602\n\n💰 Giá 4tr5\n\n🚩 Diện tích - 35m2 -1ngủ 1khách -thang máy - ban công\n\n♻️ Hệ thống PCCC đạt chuẩn.\n\n💥 Nội thất: Giường tủ, điều hòa, nóng lạnh, tủ bếp, hút mùi, tủ lạnh, bàn ghế sofa.\nMáy giặt chung. (Các phòng có thể lắp máy giặt riêng tại ban công của từng phòng).\n\n☘️ Phí dịch vụ:\nĐiện: 4k/ số\nInternet: 100k/phòng\nNước: 35k/khối\nDịch vụ chung: 150k/ 1ng/ phòng Xe máy MIỄN PHÍ\n\n⚠️Lưu ý\n* Ko chung chủ, tự do giờ giấc, cửa vân tay\n* Đóng 1 cọc 1. HĐ 6 tháng\n* Giới hạn 4ng/ 2 xe/ 1p. Không nhận xe điện.\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 482\n\n🏠Địa chỉ: 634 Kim Giang. Gần ĐH Thăng Long. Gần Tây Nam Linh Đàm.\n\n⏰ Trống- p401\n\n💰 Giá : 5tr3👉 có fix\n\n🚩 Diện tích : 38m2 - 1ngủ 1khách - thang máy\n\n♻️ Hệ thống PCCC đạt chuẩn.\n\n💥Nội thất: Giường tủ, điều hòa, nóng lạnh, tủ bếp, hút mùi, tủ lạnh, bàn ghế. Máy giặt riêng\n\n🍀Phí dịch vụ:\nĐiện: 4k/số\nInternet: 100k/phòng\nNước: 100k/ 1ng\nDịch vụ chung: 150k/ 1ng phòng Studio, 130k/người phòng 1N1K Xe máy MIỄN PHÍ\n\n⚠️Lưu ý\n* Ko chung chủ, tự do giờ giấc, cửa vân tay\n* Đóng 1 cọc 1. HĐ - 12 tháng\n* Giới hạn 4ng/ 2 xe/ 1p\n/-rose /-rose 35% Mã 482\n\n🏠 Ngõ 136 Phố Trung Liệt - Đống Đa ( sát phố thái hà - gần học viện ngân hàng\n\n⏰ Trống - tầng 3\n\n💰 GIÁ - 5tr\n\n🚩 Diện tích : 28m2 - thang máy - ban công lớn\n\n💥 full nội thất, Giuờng đệm, tủ quần áo, điều hòa , nóng lạnh ,tủ lạnh ,tủ bếp trên dưới hút mùi , máy giặt chung , ko chung chủ, giờ giấc thoải mái\n\n🍀 Phí dv : Điện 4k/số. Nước 100k/người, Internet 100k/phòng. DVC: 150k/người\n\nĐóng 1cọc1 - hợp đồng -12th có ký ngắn hơn\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 1056\n\n🏠 Ngõ 286 Nguyễn Xiển- Thanh Xuân\n\n⏰ Trống - 2p\n\n💰 GIÁ - 3tr5\n\n🚩 Diện tích - 25m2 - thang máy\n\n💥 Nội thất: Giường tủ quần áo, điều hoà nóng lạnh,tủ lạnh, bàn ghế ,bàn bếp, tủ bếp trên dưới, máy giặt sấy chung, ko chung chủ\n-giờ giấc tự do, cửa vân tay, xe để free dưới tầng1\n\n🍀 Dịch vụ: Điện 3k8/số nước 100k/ng, wifi 100k/p,dịch vụ chung 100k/ng ,gồm thang máy, máy giặt, vs rác, điện hành lang\n\n👉 phí trông xe - 50k/xe t\n\nĐóng 1cọc1 - hợp đồng -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 1056\n\n🏠 Ngõ 59/59 Phạm Văn Đồng- Mai Dịch Cầu Giấy\n\n⏰ Trống - tầng 7\n\n💰 GIÁ - 4tr5\n\n🚩 Diện tích - 35m2 - ngủ 1khách - thang máy\n\n💥 Nội thất: Giường tủ quần áo, điều hoà nóng lạnh,tủ lạnh,sofa ,bàn trà, bàn bếp, tủ bếp trên dưới, máy giặt sấy chung, ko chung chủ\n-giờ giấc tự do, cửa vân tay, xe để free dưới tầng1\n\n🍀 Dịch vụ: Điện 3k8/số nước 30k/khối, wifi 100k/p,dịch vụ chung 100k/ng ,gồm thang máy, máy giặt, vs rác, điện hành lang\n\nĐóng 1cọc1 - hợp đồng 6 -12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 916\n\n🏠 Địa chỉ : Ngách 56 Ngõ 63 Trần Quốc Vượng - Cầu Giấy\n\n⏰Trống - 2p\n\n💰 GIÁ : 5tr\n\n🚩 Diện tích : 30m2 - gác xép - thang máy\n\n💥 Nội thất: chăn ga gối đệm, tủ quần áo, điều hoà, nóng lạnh , tủ bếp, trên dưới, Tủ lạnh, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n👉 Free 2xe - xe thứ 3 phí 80k/xe - ko nhận xe điện\n\n☘️Thông tin phí:\n- Điện 3k8/số\n- Nước 32k/m3 - Wifi 100k/p\n- Dịch vụ chung 200k/ng , gồm, thang máy, vs rác, điện hành lang\n\n👉Hợp đồng - 12 tháng\n- Cọc 1 đóng 1\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 916\n\n🏠 Địa chỉ : Ngõ 114 Nguyễn Đạo An - Bắc Từ Liêm\n\n⏰ Trống - 3p\n\n💰 GIÁ : 3tr8\n\n🚩 Diện tích : 25m2 - thang máy - ban công cửa sổ\n\n💥 Nội thất: Giường,chăn ga gối đệm, tủ quần áo, điều hoà, nóng lạnh , tủ bếp, trên dưới, Tủ lạnh, máy giặt sấy chung, ko chung chủ giờ giấc thoải mái\n\n☘️Thông tin phí:\n- Điện 3k8/số\n- Nước 32k/m3\n- wifi 50k/ng\n- Dịch vụ chung 200k/ng , gồm máy giặt, thang máy, vs rác, điện hành lang\n\n- free 2xe - xe thứ 3 phí 80k/xe\n- Hợp đồng - 12 tháng\n- Cọc 1 đóng 1\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 916\n\n🏠 Địa chỉ : Ngõ 151/22 Trung Kiên Tây Tựu - Bắc Từ Liêm\n\n⏰ Trống - 5p\n\n💰 GIÁ : 3tr5\n\n🚩 Diện tích : 25m2 - thang máy - ban công cửa sổ\n\n💥 Nội thất: Giường,chăn ga gối đệm, tủ quần áo, điều hoà, nóng lạnh ,bếp từ ,tủ bếp, trên dưới, Tủ lạnh, máy giặt sấy chung, ko chung chủ giờ giấc thoải mái\n\n☘️Thông tin phí:\n- Điện 3k5/số\n- Nước 35k/m3\n- Dịch vụ chung 200k/ng , gồm máy giặt, thang máy, vs rác, điện hành lang\n\n- free 2xe - xe thứ 3 phí 80k/xe\n- Hợp đồng - 12 tháng\n- Cọc 1 đóng 1\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 916\n\n🏚 Ngõ 50/60/06 Mễ Trì Thượng- Từ Liêm\n\n⏰Trống - 5p\n\n🚩 Diện Tích : 30m2 - gác xép - thang máy - ban công - bếp riêng biệt\n\n💰 GIÁ - 3tr5 - 3tr8 - 4tr2\n\n💥 NỘI THẤT : Như hình ,phòng khép kín , tủ ,điều hòa,nóng lạnh ,bếp bàn bếp ,tủ bếp trên dưới, hút mùi,\nko chung chủ ,tự do giờ giấc, máy giặt chung,phơi đồ ban công hoặc sân thượng, ko giới hạn người ,free 2xe - xe thứ 3 phí 80k/xe - pccc thang thoát hiểm đầy đủ\n\n👉 Ko nhận xe điện- ko nhận khách nước ngoài\n\n⚡ PHÍ DV : điện 3k8/số , nước 100k/ng ,wifi 100/p ,dich vụ chung 170k/ng, gồm thang máy ,máy giặt vs ,điện hành lang\n\n👉 Đóng 1cọc1 , hợp đồng 12th\n👉 Gọi trước 30 phút khi qua xem phòng\n/-rose/-rose 35% Mã 1626\n\n🏠 Địa Chỉ : Ngõ 210B Võ Chí Công - Tây Hồ\n\n⏰ Trống: 4p tòa nhà mới tinh\n\n💰 Giá : 6tr5 - 7tr\n\n⛳️ Diện tích: 40m2 - 1ngủ 1khách\n\n💥Full đồ: 2 Giường ,2 tủ quần áo, điều hòa, nóng lạnh, tủ lạnh,tivi, bàn ghế, tủ bếp trên dưới, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n☘️ Phí dv: Điện 3k8/số; nước 100K/người, internet 100K/1 phòng. Phí dịch vụ : 100K/1 người.\n\n• K giới hạn người ở\nThông tin khác:\n- Xe điện: có\n- nước ngoài : có\n- nuôi pet: mèo ok\n- ko giơi hạn người - để 3xe\n- oto cách cửa , bãi gửi oto : cách 100m\n- Nhà có thang máy\n- không giới hạn người ở\n- nhà 7tầng\n-pccc đầy đủ\n- có máy sấy tầng 7\n- Đóng 1cọc1 - Hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1629\n\n🏠 Địa Chỉ : Ngõ 120 Yên Lãng- Đống Đa\n\n⏰ Trống: 2p tòa nhà mới tinh\n\n💰 Giá : 6tr5 👉 có fix\n\n⛳️ Diện tích: 30m2 - thang máy\n\nNgõ rộng Ô tô vào nhà, thang máy, khoá vân tay, PCCC đầy đủ\n\n💥 Full nội thất: giường, tủ, bàn ăn, tủ bếp, điều hoà, nóng lạnh, tủ lạnh, bếp từ, hút mùi, máy giặt riêng từng phòng.\n✔ WC khép kín, phòng nào cũng có ban công riêng và cửa sổ rộng thoáng\n\n👉 ko.nhận xe điện- ko nuôi pet- ko nhận khách nước ngoài\n\n☘️ Phí dv:➖Điện 3,9 k /số\n➖Nước 34K/khối\n➖ Net 100 k/phòng\n➖ Điện chung 100k/1 người (Bao gồm điện thang máy , điện thắp sáng khu vực chung , điện máy bơm nước...),\n➖ Vệ sinh chung 70 k/1 người\n➖ Xe để tầng một miễn phí\n/-rose/-rose 35% Mã 540\n\n🏠 Địa chỉ: 239 Quan Nhân, Thanh Xuân, Ngã Tư Sở\n\n⏰ Trống : 4p\n\n💰 Giá: 5tr3 - 5tr8👉 có fix\n\n🚩 Diện tích : 28m2 - thang máy - ô tô đỗ cửa\n\n💥 Nội thất : điều hoà, nóng lạnh, tủ lạnh, giường, tủ quần áo, bếp từ, tủ bếp trên dưới, hút mùi, trang thiết bị vệ sinh, rèm cửa , táp đầu giường, Máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n☘️ Dịch vụ:\nĐiện 3k8/số\nNước 35k/ khối\nMạng 100k/ phòng\nDịch vụ chung 200k/ người( Giặt , thang máy , rác, điện dùng chung , để xe, vệ sinh khu vực chung)\n\n👉 LƯU Ý\n- Hợp đồng 9-12 tháng\n- ĐÓNG 1 cọc 1 tháng\n- Giới hạn tối đa 4người, tiêu chuẩn mỗi phòng 2xe\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1389\n\n🏠 Địa Chỉ : Ngách 85 Ngõ 164 Vương Thừa Vũ\n\n⏰ Trống : 6p tòa nhà mới tinh\n\n💰 Giá : 6tr8👉 có fix\n\n⛳️ Diện tích: 45m2 - 2ngủ 1khách- thang máy\n\n💥 Nội thất: Giường, tủ quần áo ,điều hòa, nóng lạnh, tủ bếp trên dưới, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n☘️ Phí dv 150k/1 ng\nđiện 4k\nnước 32 k\nwifi 100k/1p\nở ngay đc\nxe điện vfast oke\nko nc ngoài !\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 126\n\n🏠 Địa Chỉ : Ngách 5 ngõ 80 Đại Linh - Trung Văn\n\n⏰ Trống: tòa nhà mới tinh\n\n💰 Giá : 4tr3 - 4tr5 - 5tr - 5tr5\n\n💥 Nội thất: Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, tủ bếp trên dưới, máy giặt riêng - nhận xe điện- ko nuôi pet\n\nThanh toán 1 tháng đặt cọc 1,5 tháng, hợp đồng tối thiểu 6 tháng,\nDịch vụ: điện 4000k, nước 35000k, thang máy 50 k/ người, mạng 100k/ phòng, vệ sinh chung 40000/ người\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 588\n\n🏠 Địa chỉ: Ngõ 225 Quan Hoa - Cầu Giấy\n\n⏰ Trống - 4p\n\n💰 GIÁ - 4tr - 5tr\n\n🚩 Diện tích - 28m2 - thang máy\n\n💥 Nội thất: giường ,tủ quần áo , điều hòa, nóng lạnh, tủ lạnh, bàn bếp , máy giặt chung, ko chung chủ , giờ giấc thoải mái\n\n🍀 Phí Dv: điện 4k, nước 100/ng, mạng 100/phòng, phí chung: 180/ng( thang máy, máy giặt, vệ sinh.)\n\n- không nuôi pet\n- nhận khách nước ngoài\n- hđ: 12 tháng\n- k nhận xe điện\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 40% Mã 815\n\n🏡Địa chỉ: Ngõ 69 Đồng Me - Nam Từ Liêm\n\n🔔 Trống: 12 phòng\nTrục 1 trống tầng 5 giá 5tr6\nTrục 2 trống tầng 7 giá 5tr6\nTrục 3 trống 2-4-5-8 giá 5tr6\nTrục 4 trống t3 giá 5tr6\nTrục 5 trống t2 giá 5tr6\nTrục 6 trống t3-4-5-7 giá 5tr6\n\n⏩ Thang máy\n⏩ Diện tích 30m2\n\n💥 Nội thất : điều hòa, nóng lạnh, giường đệm ga gối, 2 tủ quần áo, tủ bếp trên dưới, bàn ghế, tủ lạnh, bếp từ, gương, bàn làm việc, tủ giày, máy giặt chung...\n\n🍀 Phí Dịch vụ\nĐiện 4k / số\nNước 30k / khối\nDịch vụ chung 190k / người (wifi, vệ sinh, thang máy, máy giặt chung, để xe...)\n\n❌ LƯU Ý\n- Hợp đồng 12 tháng có ký ngắn hơn\n- Thanh toán 1 cọc 1\n- Không giới hạn người, xe\n- Cho nuôi pet\n- Nhận khách nước ngoài\n- Ô tô cách nhà 5m, ngõ 3 gác, ra ngõ là chợ\n- Khóa cổng vân tay\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1674\n\n🏡 ĐỊA CHỈ: Ngách 30 Ngõ 89 Phan Kế Bính\n\n⏰ TRỐNG TỔNG 6 𝗣𝗛𝗢̀𝗡𝗚:\n\n💰 Giá : 4tr8 - p201- 301\n\n💰 Giá : 4tr5 - p202 -302\n\n💰 Giá : 5tr2 - p203 - 303\n\n⛳️ Diện tích: 25 - 27m2 - thang máy\n\n💥NỘI THẤT: Giường, tủ quần áo, nóng lạnh, tủ lạnh, điều hòa, bàn bếp,tủ bếp, máy giặt chung\n\n☘️ Phí dv: Điện 4k/số,dịch vụ chung 300k/ng ,gồm nước, wifi, máy giặt sấy,điện hành lang, vs rác\n\n📍 𝗖𝗔́𝗖 𝗧𝗛𝗢̂𝗡𝗚 𝗧𝗜𝗡 𝗞𝗛𝗔́𝗖:\n• Phơi đồ ở tầng ( có máy sấy quần áo)\n• 1 máy giặt chung\n• 1ng/1xe: giới hạn xe\n• 0 nhận xe đạp điện\n• Ngõ ô tô có vào được\n• Nhà có thang máy\n• không giới hạn người\n• PCCC của nhà đã/đang hoàn thiện?\n• Nhận giữ phòng 3 ngày\n• Cọc giữ phòng từ 2 triệu\n• Fixx qua xem thương lượng\n• Có cho nuôi pet không? CÓ\n• Có nhận khách nước ngoài không? KHÔNG\n\n✨ 𝗧𝗜𝗘̣̂𝗡 𝗜́𝗖𝗛:\n• Cách chợ … km\n• Cách hàng tạp hoá … km\n• Cách tiện giặt là … km\n• Cách bến xe buýt … km\n\n👉 Đóng 1cọc1 hợp đồng 9 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 1674\n\n🏡 ĐỊA CHỈ: Ngách 77 Ngõ 612 La Thành- Đống Đa\n\n⏰ TRỐNG 6 𝗣𝗛𝗢̀𝗡𝗚:\n\n💰 Giá : 4tr8 - p201 -202 -301 - 302\n\n💰 Giá : 4tr1 - p203,303:\n\n⛳️ Diện tích: 23 - 25m2 thang máy\n\n💥 NỘI THẤT: Giường, tủ quần áo,nóng lạnh, tủ lạnh, điều hòa, bàn bếp\n\n📍 𝗖𝗔́𝗖 𝗧𝗛𝗢̂𝗡𝗚 𝗧𝗜𝗡 𝗞𝗛𝗔́𝗖:\n• Phơi đồ ở tầng ( có máy sấy quần áo)\n• 1 máy giặt chung\n• 1ng/1xe giới hạn xe\n• 0 nhận xe đạp điện\n• Ngõ ô tô 0 vào được\n• Nhà CÓ thang máy\n• 0 giới hạn người\n• PCCC của nhà đã/đang hoàn thiện?\n• Nhận giữ phòng 3 ngày\n• Cọc giữ phòng từ 2 triệu\n• Fixx qua xem thương lượng\n• Có cho nuôi pet không? CÓ\n• Có nhận khách nước ngoài không? KHÔNG\n\n✨ 𝗧𝗜𝗘̣̂𝗡 𝗜́𝗖𝗛:\n• Cách chợ … km\n• Cách hàng tạp hoá … km\n• Cách tiện giặt là … km\n• Cách bến xe buýt … km\n\n☘️ Phí dv: Điện 4k/số,dịch vụ chung 300k/ng ,gồm, nước, máy giặt, wifi, điện hành lang, vs rác\n\n👉 Đóng 1cọc1 hợp đồng 9 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 951\n\n🏠 Địa chỉ: Ngõ 224/80 Hoàng Mai - cách hồ đề lừ 40m\n\n⏰ 20/07 Trống - 2p\n\n💰 GIÁ : 5tr5 - 5tr8👉 có fix\n\n🚩 Diện tích : 35m2 - thang máy - cách công viên hồ đền lừ 20m\n\n👉 Pccc đạt tiêu chuẩn.\n💥 Full đồ: Giường, Điều hoà, nóng lạnh, tủ lạnh, bàn ghế ,máy giặt riêng ,tủ bếp trên dưới, hút mùi, khoá vân tay, thang máy, ko chung chủ.\n\n🍀 phí Dv .Điện 4k/số.Nước 35k/khối, wifi 100k/p ,dịch vụ chung 150k/ng ,gồm thang máy, điện hành lang, vs rác\n❌Lưu ý. để 2xe - ko xe điện, được nuôi pet, nhận người nước ngoài\n\n👉 Đóng 1cọc1 - hợp đồng 6 -12th\nGọi trước khi qua xem phòng\n/-rose/-rose 35% Mã 1111\n\n🏠 Ngách 108 Ngõ 296 Minh Khai - HBT ( Nhà mới đập hộp, còn thơm mùi sơn )\n\n⏰ Trống : tầng 2 - 6\n\n💰 Giá : 4tr8\n\n🚩 Diện tích : 30m2 - thang máy - ban công\n\n💥 Nội thất : Đầy đủ nội thất cao cấp: Giường tầng, tủ quần áo, bàn phấn, kệ sách, tủ bếp trên dưới, máy giặt, tủ lạnh, điều hoà, nóng lạnh đầy đủ. Phơi đồ tại phòng hoặc trên tum. Phòng ban công & cửa sổ thoáng đón ánh sáng tự nhiên.\n🔆 Cửa tự động.\n🧯PCCC đầy đủ, spinkler tự động từng phòng.\n🛵 Xe để T1 rộng rãi.\n\n✨ Dịch vụ:\n- WIFI : 100k/phòng\n- Dịch vụ chung: 150k/người\n- Điện: 4k/số\n- Nước: 35k/khối\n- Mỗi phòng free 2 xe. Từ xe thứ 3. 100k/xe\n\n‼️⚠️ LƯU Ý :\n- HD 6 THÁNG. ĐÓNG 1 CỌC 1\n- Không nhận xe điện, không nuôi pet.\n- Tuân thủ nội quy nhà.\n👉 Xem phòng liên hệ trước 30p. Nhà không chung chủ giờ giấc tự do.\n/-rose /-rose 35% Mã 1650\n\n🏠 Địa Chỉ: Ngách 40 Ngõ 79 Cầu Giấy\n\n⏰ Trống - 6/11p\n\n💰 GIÁ : 4tr9 - 6tr\n\n⚡ Diện tích : 23 - 28 - 30m2 - gác xép - thang máy\n\n💥 Nội thất: đệm ,tủ quần áo, Điều hòa, nóng lạnh ,tủ bếp, tủ lạnh,sofa, máy giặt chung,ko chung chủ giờ giấc thoải mái - nhận xe điện - ko nuôi pet\n\n🍀 Phí dv :\nĐiện 3k9/ số\nNước 35k/ khối\nDv 250k/ người gồm, thang máy, máy giặt, wifi, điện hành lang, vs rác\n\n👉 Đóng 1cọc1 - hợp đồng 6 -12th\n\n👉Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 20\n\n🏠Địa chỉ : Ngõ 162 Khương Đình - Thanh Xuân\n\n⏰ Trống: tòa nhà mới tinh\n\n💰 Giá : 4tr8 - 5tr4👉 có fix\n\nThông các tuyến đường lớn Vũ Tông Phan , Nguyễn Trãi , Trường Chinh …vài bước chân ra Trường tiều học , trung học Nguyễn Trãi , Royalcity ….\nThang máy, khóa vân tay ,\n\n💥 Nôị thất : điều hoà , nóng lạnh , giường tủ quần áo,tủ lạnh, tủ bếp trên dưới, máy giặt riêng….phòng nào cũng ban công chills thoáng , nhà để xe rộng , lên xuống dễ dàng\n\n☘️Phí Dịch vụ :\nĐiện 4n/ số\nNước 35n/ khối\nDvc 150n/ng\nWf 100n/p\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 20\n\n🏠Địa chỉ : Ngõ 79/61 Cầu Giấy\n\n⏰ Trống tòa nhà mới tinh\n\n💰 Giá : 5tr3 👉 miễn phí tiền phòng tháng 6\n\n⛳️ Diện tích: 25m2 - Thang máy\n\n💥Nội thất: Full nội thất: giường, tủ, điều hòa, nóng lạnh, tủ lạnh, hút mùi, máy giặt riêng\n\n👉Vị trí cực đẹp: gần ĐH Giao thông Vận Tải, ĐH Thủ , Học viện Báo Chí và Tuyên Truyền,...\n\n☘️ Phí dv: Điện 4k\nNước 38\nDVC 150/ng\nWf : 100/p\n\nNhận xe điện\nGh 3-4ng -2x\nCho nuôi pet ( yc sạch sẽ )\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 525\n\n🏠 Ngõ 43/10/3 Trung kính - Cầu Giấy - Gần Hồ- Chợ Trung kính\n\n⏰ Trống - tầng 3\n\n💰 Giá 6tr5\n\n⚡ Diện tích: 30m2 - thang máy - ban công rộng\n\n💥 Nội thất: Như Hình, Giường, tủ quần áo, điều hoà, bình nóng lạnh,tủ lạnh, ban công, sofa bàn trà, bàn bếp, tủ bếp trên dưới,hút mùi máy giặt riêng, camera an ninh, thang máy, cửa vân tay, nhà xe cực rộng, ...\nĐể xe miễn phí.\nKhông chung chủ, giờ giấc thoải mái.\nGiới hạn mỗi phòng 2 xe.\nKo cho nuôi pet.\nCó cho khách nước ngoài.\n\n🍀 Phí dv :\nĐiện 3k8/số, nước 35k/m3 ,wifi 100k/p\ndv chung : thang máy , vs rác điện hành lang 160k/ng.\n\n👉 Đóng 1cọc1 - hợp đồng 6 -12th\nGọi trước 30p khi qua xem phòng\n/-rose/-rose 40% Mã 729\n\n🏠Địa chỉ: Ngõ 43 Ngách 113 Trung Kính - Cầu Giấy\n\n⏰ Trống : tầng 2 - 3 - 4 - 5 tòa nhà mới tinh\n\n💰 Giá: 6tr3 - 6tr7\n\n👉 Diện tích 35m2 - thang máy\n\n💥 Nội thất: Máy giặt, Bếp từ, Thang Máy, Tủ Lạnh,Hút Mùi, tủ bếp, điều hòa nóng lạnh, giường, tủ quần áo, sofa + bàn trà..\n\n🍀 Dịch vụ:\nĐiện 4k/số\nNước 35k/số\nNét: 100k/phòng\nDịch vụ chung 200k /người (vệ sinh , rác thải, đèn điện chiếu sáng, thang máy,,...)\n\n👉 Đóng 1cọc 1 hợp đồng 12th có ký ngắn hơn\n/-rose/-rose 35% Mã 1617\n\n🏢 Địa Chỉ : Ngõ 250/11 Kim Giang - Thanh Xuân . Sát Đại Học Thăng Long (nhà số 2 ngách 100)\n\n⏰Trống : 20 phòng từ tầng 2->5\n\n💰Giá: 3tr3 - 3tr5\n\n⛳️ Diện tích: 27m2 - Thang bộ - bếp tách biệt\n\n💥 Nội thất : Giường, quần áo, điều hoà, nóng lạnh,tủ lạnh,tủ bếp trên dưới, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n🌿Dịch vụ :\nĐiện 4k/số\nNước 35k/Khối\nMạng 100k/phòng\n🪸Dịch vụ chung : máy giặt, vệ sinh, điện chung .120k/ng\n📛Lưu ý:\n- Cọc 1 đóng 1\n- Tối đa 1p free 2 xe\n- Nhận nuôi pet - ko xe điện\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n\n👉 Gọi trước 30p khi qua xem\n/-rose /-rose 35% Mã 112\n\n🏠 Địa Chỉ : Ngõ 59 Phạm Văn Đồng\n\n⏰ Trống - p402 - 602\n\n💰 Giá - 5tr5 👉 có fix\n\n⚡ Diện Tích : 40m2 - Thang máy - ban công\n\n📍 Tiện ích: Thang máy, máy giặt chung, free để xe tầng 1.\n📍 Có camera an ninh, cửa vân tay - Đảm bảo an toàn tuyệt đối.\n📍 Hệ thống PCCC đầy đủ.\n💥 Nội thất: Vskk, tủ bếp trên dưới, tủ áo, giường, đh, nl, tủ lạnh, bàn bếp, máy giặt chung - ko giới hạn người và xe - cho nuôi pet\n\n🍀 Phí dv : điện 3k8/số , nước 35k/khối ,dịch vụ chung 250k/ng, gồm , wifi thang máy, máy giặt, điện hành lang,vs rác\n\n👉 Đóng 1cọc1 hợp đồng 6-12th\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 30% Mã 20\n\n🏠 Địa Chỉ : Ngách 12 Ngõ 18 Phố Định Công Thượng.\n\n⏰ Trống : 15p tòa nhà mới tinh\n\n💰 Giá : 4tr8👉 có fix\n\n⛳️ Diện tích: 26m2 - thang máy\n\n💥Nội thất : Giường tầng, tủ quần áo, Tủ lạnh , máy giặt , điều hoà , nóng lạnh , máy giặt riêng, tủ bếp trên dưới, ko chung chủ\n\n☘️ Phí Dv : Điện 4.000/số\nNước 35.000/ khối\nDvc : 150.000/ người\nWf : 100.000/ phòng\nKhông xe điện, Không nuôi pet\nHĐ 12th\nĐóng 1 cọc 1\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose /-rose 35% Mã 853\n\n🏠 ĐỊA CHỈ: Ngõ 70 Văn Trì -Bắc Từ Liêm\n\n⏰ Trống - 6p\n\n💰 Giá : 3tr8 - 3tr9 - 4tr👉 có fix\n\n🚩 Diện tích - 28m2\n- Thang máy\n\n💥 Nội thất : Giường,tủ quần áo, điều hoà ,nóng lạnh,tủ lạnh, sofa, bàn trà ,máy giặt chung, ko chung chủ, giờ giấc thoải mái\n\n👉 Ko nhận xe điện- được nuôi pet\n\n☘️ Dịch vụ :\nĐiện 4k/số\nNước 100k/ng\nDịch vụ chung 200k/người ( gồm wifi, máy giặt chung,thang máy, vệ sinh, để xe, thu rác,...)\n\n⛔️ Lưu ý:\n👉 HD 6-12 tháng\n👉 Đóng 1 cọc 1\n👉 ko giới hạn người\n👉 Khách gọi trước 30p-1h trước khi qua\n👉 Không tự ý qua khi chưa liên hệ được!\n/-rose/-rose 40% Mã 1599\n\n🏠 Địa chỉ: 82 Ngõ Lan Bá - Đi Lối Ô Đầm Lầm - Hồ Ba Mẫu\n\n⏰01/08 Trống: 12p tòa nhà mới tinh\n\n💰 Giá : 5tr6 - 7tr\n\n⛳️ Diện tích: 27 - 35m2 - studio- 1ngủ 1khách- thang máy\n\n💥Nội thất: Giường,Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, bếp từ,tủ bếp trên dưới, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n✅ Có thể ở 3–4 người\n✅ Chỗ để xe rộng rãi\n\n☘️ Phí dv: Điện 4k/số - Nước 120k/khối - Wifi 100k/ng ,Dịch vụ chung 200k/ng ,gồm thang máy, máy giặt , điện hành lang, vs rác\n\n✅ Nhận khách nước ngoài\n\n👉 Được nuôi pet - Không xe điện - ko khách nước ngoài\n\n👉 Đóng 1cọc1 hợp đồng 12th có ký ngắn hơn\nNgõ 261 phú diễn Full hết phòng ❌️❌️❌️\n481 vũ tông phan Full hết phòng ❌️❌️❌️\nNgõ 354/99 Trường chinh Full hết phòng ❌️❌️❌️\nSố 8 trần điền Full hết phòng ❌️❌️❌️\n/-rose /-rose 45% Mã 624\n\n🏠 Địa chỉ : Ngõ 105 Láng Hạ Đống Đa\n\n⏰ Trống - p402 - 502\n\n💰 Giá: 6tr👉 tặng khách 2tr tháng đầu\n\n🚩Diện tích: 35m2 - 1ngủ 1khách-Thang máy\n\n💥 Nội thất : Giường , tủ quần áo , điều hoà , nóng lạnh ,tủ lạnh ,bàn trang điểm, tủ bếp trên dưới , hút mùi, máy giặt riêng ,máy sấy chung\n\n☘️ Dịch vụ :\nĐiện 4k/số\nNước 150k/ng\nMạng 100k/phòng\nDịch vụ chung 150k/người\n( thang máy, + sấy chung, vệ sinh, để xe, thu rác,...)\n\n⛔️ Lưu ý:\n👉 Không giới hạn người - nhận xe điện- được nuôi pet\n\n👉 Đóng 1 cọc 1 Hợp đồng 12th\n👉 Khách gọi trước 30p-1h trước khi qua.\n/-rose /-rose 45% Mã 624\n\n🏠 Địa chỉ : 107 Phố Trung Phụng - Đống Đa\n\n⏰ Trống - tầng - 9\n\n💰 Giá : 7tr👉 tặng khách 2tr tháng đầu\n\n🚩Diện tích: 40m2 - 1ngủ 1khách- thang máy - bãi gửi ô tô cạnh nhà\n\n💥 Nội thất : Giường , tủ quần áo , điều hoà , nóng lạnh , sofa, tủ lạnh ,bàn trang điểm, tủ bếp trên dưới , hút mùi, máy giặt riêng ,máy sấy chung\n\n☘️ Dịch vụ :\nĐiện 4k3/số\nNước 35k/khối\nMạng 100k/phòng\nDịch vụ chung 150k/người\n( thang máy, + sấy chung, vệ sinh, để xe, thu rác,...)\n\n⛔️ Lưu ý:\n👉 Không giới hạn người - nhận xe điện- được nuôi pet\n\n👉 Đóng 1 cọc 1 Hợp đồng 12th\n👉 Khách gọi trước 30p-1h trước khi qua.\n/-rose /-rose 45% Mã 624\n\n🏠 Địa chỉ : 369 Mặt Phố Vũ Tông Phan\n\n⏰Trống - p602 - 802\n\n💰 Giá : 9tr5 👉 tặng khách 2tr tháng đầu\n\n🚩Diện tích: 48 - 2ngủ 1khách - thang máy - ô tô đỗ cửa\n\n💥 Nội thất : Giường , tủ quần áo , điều hoà , nóng lạnh , sofa, tủ lạnh ,bàn trang điểm, tủ bếp trên dưới , hút mùi, máy giặt riêng ,máy sấy chung\n\n☘️ Dịch vụ :\nĐiện 4k3/số\nNước 35k/khối\nMạng 100k/phòng\nDịch vụ chung 150k/người\n( thang máy, + sấy chung, vệ sinh, để xe, thu rác,...)\n\n⛔️ Lưu ý:\n👉 Không giới hạn người - nhận xe điện- được nuôi pet\n\n👉 Đóng 1 cọc 1 Hợp đồng 12th\n👉 Khách gọi trước 30p-1h trước khi qua.",
-    "district": "Cầu Giấy",
-    "utilityFees": {
-      "electricityPerKwh": 4000,
-      "waterPerM3": 35000,
-      "internetPerPerson": 100000,
-      "generalServicePerPerson": 200000
-    },
-    "policies": {
-      "allowPet": false,
-      "allowElectricVehicle": false,
-      "allowForeigner": true,
-      "maxOccupants": 4
-    },
-    "fingerprintHash": "ngõ 230 mễ trì thượng|studio|28000000"
-  },
-  {
-    "id": "rec_1784840822157_101",
-    "managerCode": "",
-    "commission": "🌹45% Mã 624",
-    "address": "204 Trung Kính - Yên Hòa - Cầu Giấy",
-    "roomType": "1N1K",
-    "areaSqm": 50,
-    "availableDate": "05/08",
-    "priceVnd": 4000000,
-    "isFull": false,
-    "rawRef": "🌹🌹45% Mã 624\n\n🏠Địa chỉ : 204 Trung Kính - Yên Hòa - Cầu Giấy\n\n⏰ 05/08 Trống - tầng 2\n\n💰 GIÁ - 10tr800👉tặng khách 2tr tháng đầu\n\n⛳️ Diện tích: 50m2 - 2ngủ 1khách - Thang máy\n\n💥Nội thất : Full đồ ,Giường, tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, bàn trang điểm ,bàn ăn ,tủ bếp trên dưới,Máy giặt riêng, máy sấy chung\n\n👉 Nhận khách nước ngoài- nhận xe điện- được nuôi pet\n\n🍀Dịch vụ : Điện 3,8k/số, Nước 30/khối, Mạng 100k/phòng\nDịch vụ chung\n1 ng : 150k/người,\n(thang máy, máy sấy chung, vệ sinh, thu rác,...)\nXe để free rộng\n\n❌Lưu ý:\n- Đóng 1 cọc 1- hợp đồng 12th\n- Khách gọi trước 30p trước khi qua\n- được nuôi pet, nhận khách nước ngoài, k giới hạn người\n/-rose/-rose 35% Mã 1441\n\n🏠 Địa Chỉ : Ngõ 153/30 Phú Đô - Nam Từ Liêm\n\n⏰ Trống: 12p tòa nhà mới tinh\n\n💰 Giá : 4tr - 703 - 4tr5 - p702\n\n💰 Giá : 4tr6 - 4tr8\n\n⛳️ Diện tích: 35 m2 - Thang máy\n\n💥Nội thất : Điều hòa , nóng lạnh,tủ quần áo , giường tầng , bàn bếp , tủ bếp hút mùi ....\n\n☘️ Phí Dịch vụ:\nĐiện 4k/số\nNước: 35k/ khối\nMạng: 100k/phòng\nDịch vụ chung 150k/ người ( vệ sinh / thang máy / máy giặt )\n- Nhận nuôi pet , khách nước ngoài\n- Nhận xe điện 100k/ tháng\n\n❌ LƯU Ý\n- Hợp đồng 6- 12 tháng\n- Số người ở: không giới hạn người ở\n- Tối đa 4 xe\n- Thanh toán 1 cọc 1\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 267\n\n🏠 Địa Chỉ : Ngõ 50 Mễ Trì Thượng\n\n⏰01/08 Trống : 1p\n\n💰 Giá : 4tr8👉 có fix\n\n🚩 Diện Tích : 35m2 - 1ngủ 1khách- thang máy - ô tô đỗ cửa\n\n💥 Nội thất : Giường ,Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh,sofa, tủ bếp trên dưới, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n👉 nhận xe điện - được nuôi pet\n\n🍀 Phí Dv :\nĐiện 3k8/số\nNước 35k/khối\nDv chung 180k / ng\nMang 100k\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 267\n\n🏠 Địa Chỉ : Ngõ 142 Mễ Trì Thượng\n\n⏰01/08 Trống : 1p\n\n💰 Giá : 5tr3👉 có fix\n\n🚩 Diện Tích : 35m2 - 1ngủ 1khách- thang máy - ô tô đỗ cửa\n\n💥 Nội thất : Giường ,Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh, tủ bếp trên dưới, máy giặt riêng, ko chung chủ giờ giấc thoải mái\n\n👉 nhận xe điện - được nuôi pet\n\n🍀 Phí Dv :\nĐiện 3k8/số\nNước 35k/khối\nDv chung cả giặt 180k / ng\nMang 100k\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 35% Mã 267\n\n🏠 Địa Chỉ : Ngách 55 Ngõ 230 Mễ Trì Thượng\n\n⏰ Trống : 12/20p tòa nhà mới tinh\n\n💰 Giá : 3tr8 - 5tr\n\n🚩 Diện Tích : 23m2 - gác xép - thang máy\n\n💥 Nội thất : Tủ quần áo, điều hòa, nóng lạnh, tủ lạnh,bếp từ , tủ bếp trên dưới, máy giặt chung, ko chung chủ giờ giấc thoải mái\n\n👉 nhận xe điện - được nuôi pet\n\n🍀 Phí Dv :\nĐiện 3k8/số\nNước 35k/khối\nDv chung cả giặt 200k / ng ( ko giặt 180k\nMang 100k\n\n👉 Đóng 1cọc 1 hợp đồng 6 - 12th\n\n👉 Gọi trước 30p khi qua xem phòng\n/-rose/-rose 40% Mã 1680\n\n🏠 Địa chỉ: Ngõ 124/1 Phú Mỹ - Nam Từ Liêm\n\n⏰ Trống : 8p tòa nhà mới tinh\n\n💰 Giá: 5tr - 6tr - 6tr150k\n\n🚩 Diện Tích : 45m2 - 1n1k - Thang máy\n\n💥 Nội thất: Giường, tủ quần áo, Điều hòa, nóng lạnh, sofa, bàn trà, rèm, tủ, bàn bếp, tủ bếp,máy giặt chung\n\n🍀 Dịch vụ : Phí dvu 130k/ng, Điện 4K/s, Nước 35k/kh, mạng 100k/ph\n\n❌ Lưu ý\n- Thanh toán 1 cọc 1 hợp đồng 12th có ký ngắn hơn\n\n👉Khách qua gọi trước 30p\n23 đường chùa bụt mọc Full hết phòng ❌️❌️❌️\n16 Nguyễn như đổ Full hết phòng❌️❌️❌️\nNgách 96 ngõ linh quang Full hết phòng ❌️❌️❌️",
-    "district": "Cầu Giấy",
-    "utilityFees": {
-      "waterPerM3": 35000,
-      "internetPerPerson": 100000
-    },
-    "policies": {
-      "allowPet": true,
-      "allowElectricVehicle": true,
-      "allowForeigner": true,
-      "maxVehicles": 4
-    },
-    "fingerprintHash": "204 trung kính yên hòa cầu giấy|1n1k|4000000"
+    "fingerprintHash": "147 xã đàn 2 đống đa|1n1k|7300000"
   }
 ]
