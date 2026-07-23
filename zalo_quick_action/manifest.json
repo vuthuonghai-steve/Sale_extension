@@ -29,6 +29,13 @@
         "mac": "Alt+S"
       },
       "description": "Chuyển tiếp nhanh văn bản bôi đen (Alt+S)"
+    },
+    "district-lookup-a": {
+      "suggested_key": {
+        "default": "Alt+A",
+        "mac": "Alt+A"
+      },
+      "description": "Xác định Quận Huyện bôi đen và lưu biến A (Alt+A)"
     }
   },
   "background": {
@@ -46,10 +53,22 @@
         "content/content-config.js",
         "content/content-text.js",
         "content/content-ui.js",
+        "content/modules/admin-filter/admin-lookup.js",
         "content/content-zalo-adapter.js",
         "content/content.js"
       ],
       "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "data/hanoi_admin_data.min.json"
+      ],
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ]
     }
   ],
   "icons": {

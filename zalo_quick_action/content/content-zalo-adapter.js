@@ -112,6 +112,155 @@
       return false;
     },
 
+    // Target and inject text specifically into Zalo Web's "Chia sẻ" (Share Modal Dialog) search input
+    async tryInjectShareModalSearchInput(text) {
+      if (!text) return false;
+
+      console.group('🔍 [ZaloAdapter Diagnostic] Share Modal Search Input Injection');
+      console.log('Text to inject into Share Modal search box:', text);
+
+      // Helper to find the search input inside Zalo's Share modal popup dialog
+      const findShareModalInput = () => {
+        // 1. Look inside visible modal dialog containers (e.g. "Chia sẻ" dialog)
+        const modalContainers = Array.from(document.querySelectorAll('div[role="dialog"], .modal, [class*="modal"], [class*="dialog"], [class*="popup"], [class*="share-modal"]'));
+        const visibleModals = modalContainers.filter(el => el.offsetWidth > 0 && el.offsetHeight > 0);
+
+        for (const modal of visibleModals) {
+          const input = modal.querySelector('input[placeholder*="Tìm kiếm"], input[placeholder*="Search"], input[type="search"], input[type="text"]');
+          if (input && input.offsetWidth > 0 && input.offsetHeight > 0) {
+            return input;
+          }
+        }
+
+        // 2. Search for any visible input element with placeholder "Tìm kiếm..."
+        const allInputs = Array.from(document.querySelectorAll('input[placeholder*="Tìm kiếm"], input[placeholder*="Search"], input[placeholder="Tìm kiếm..."]'));
+        return allInputs.find(inp => inp.offsetWidth > 0 && inp.offsetHeight > 0) || null;
+      };
+
+      // Poll up to 10 attempts (1 second total) to allow Share Modal opening animation to complete
+      for (let attempt = 1; attempt <= 10; attempt++) {
+        const inputEl = findShareModalInput();
+        if (inputEl) {
+          console.log(`🎯 Found Share Modal Search Input on attempt ${attempt}:`, inputEl);
+          inputEl.focus();
+
+          const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+            window.HTMLInputElement.prototype,
+            'value'
+          )?.set || Object.getOwnPropertyDescriptor(
+            window.HTMLTextAreaElement.prototype,
+            'value'
+          )?.set;
+
+          if (nativeInputValueSetter) {
+            nativeInputValueSetter.call(inputEl, text);
+          } else {
+            inputEl.value = text;
+          }
+
+          // Trigger full suite of React/DOM input events
+          inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+          inputEl.dispatchEvent(new Event('change', { bubbles: true }));
+          inputEl.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Enter', keyCode: 13 }));
+          inputEl.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'Enter', keyCode: 13 }));
+
+          console.groupEnd();
+          return true;
+        }
+
+        await new Promise(r => setTimeout(r, 100));
+      }
+
+      console.warn('❌ Could not locate Share Modal Search Input after 10 attempts.');
+      console.groupEnd();
+      return false;
+    },
+
+    // Inject text directly into Zalo Web Search Input Box (#contact-search-input) or active search field
+    tryInjectSearchInput(text) {
+      if (!text) return false;
+
+      console.group('🔍 [ZaloAdapter Diagnostic] Search Input Injection Triggered');
+      console.log('Text to inject into search box:', text);
+
+      // Search input candidates on Zalo Web & general web pages
+      const searchSelectors = [
+        '#contact-search-input',
+        'input[data-id="contact-search-input"]',
+        'input[placeholder*="Tìm kiếm"]',
+        'input[placeholder*="Search"]',
+        'input[placeholder*="tim kiem"]',
+        'input[type="search"]',
+        '#search-input',
+        'input.search-input',
+        'input[class*="search"]'
+      ];
+
+      let targetInput = null;
+      for (const sel of searchSelectors) {
+        const el = document.querySelector(sel);
+        if (el && el.offsetWidth > 0 && el.offsetHeight > 0) {
+          targetInput = el;
+          break;
+        }
+      }
+
+      // Fallback: check currently active/focused element or chat input
+      if (!targetInput) {
+        if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' || document.activeElement.isContentEditable)) {
+          targetInput = document.activeElement;
+        } else {
+          targetInput = document.querySelector('#input_chat_topic') ||
+                        document.querySelector('[contenteditable="true"]') ||
+                        document.querySelector('.chat-input');
+        }
+      }
+
+      if (targetInput) {
+        targetInput.focus();
+
+        try {
+          if (targetInput.isContentEditable) {
+            document.execCommand('selectAll', false, null);
+            document.execCommand('insertText', false, text);
+            targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+            targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+          } else {
+            // Trigger native input value setter for React compatibility
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+              window.HTMLInputElement.prototype,
+              'value'
+            )?.set || Object.getOwnPropertyDescriptor(
+              window.HTMLTextAreaElement.prototype,
+              'value'
+            )?.set;
+
+            if (nativeInputValueSetter) {
+              nativeInputValueSetter.call(targetInput, text);
+            } else {
+              targetInput.value = text;
+            }
+
+            targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+            targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+            // Dispatch keyboard enter events to trigger live search filters
+            targetInput.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Enter', keyCode: 13 }));
+            targetInput.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'Enter', keyCode: 13 }));
+          }
+          console.log('✅ Successfully injected text into search/chat input:', targetInput);
+          console.groupEnd();
+          return true;
+        } catch (err) {
+          console.error('❌ Failed to inject text into input:', err);
+        }
+      }
+
+      console.warn('❌ Could not find search input or chat input element on page.');
+      console.groupEnd();
+      return false;
+    },
+
     // Direct DOM Automation for Single Message or Chat Input
     tryTriggerWebShare(cleanedText) {
       if (!this.isZaloWeb()) return false;
@@ -119,26 +268,10 @@
       console.group('🔍 [ZaloAdapter Diagnostic] Single Text Web Share Triggered');
       console.log('Text to inject:', cleanedText);
 
-      // 1. Try active chat input box in Zalo Web
-      const chatInput = document.querySelector('#input_chat_topic') ||
-                        document.querySelector('[contenteditable="true"]') ||
-                        document.querySelector('.chat-input');
-
-      if (chatInput && cleanedText) {
-        chatInput.focus();
-        try {
-          if (chatInput.isContentEditable) {
-            document.execCommand('insertText', false, cleanedText);
-          } else if (chatInput.tagName === 'TEXTAREA' || chatInput.tagName === 'INPUT') {
-            chatInput.value = cleanedText;
-            chatInput.dispatchEvent(new Event('input', { bubbles: true }));
-          }
-          console.log('✅ Injected text into chat input:', chatInput);
-          console.groupEnd();
-          return true;
-        } catch (e) {
-          console.warn('Failed to inject text into chat input:', e);
-        }
+      // 1. Try search input first if available, else active chat input
+      if (this.tryInjectSearchInput(cleanedText)) {
+        console.groupEnd();
+        return true;
       }
 
       // 2. Try share icon on hovered message
@@ -154,6 +287,40 @@
       console.warn('❌ Could not locate active chat input or share icons on Zalo Web.');
       console.groupEnd();
       return false;
+    },
+
+    // Re-check a message container if clicking/selecting text unticked it in multi-select mode
+    tryRecheckMessageFromNode(node) {
+      if (!this.isZaloWeb() || !node) return false;
+
+      const targetEl = node.nodeType === 3 ? node.parentElement : node;
+      const msgItem = targetEl ? targetEl.closest('[class*="msg-item"], [class*="chat-item"], .msg-body, [data-id*="msg"], div[role="row"]') : null;
+      if (!msgItem) return false;
+
+      // Find selection checkbox or tick circle within or next to msgItem
+      const checkbox = msgItem.querySelector('input[type="checkbox"], [class*="checkbox"], [class*="check"], svg[class*="check"]');
+      if (checkbox) {
+        const isChecked = checkbox.checked || checkbox.classList.contains('active') || checkbox.getAttribute('aria-checked') === 'true' || msgItem.classList.contains('selected');
+        if (!isChecked) {
+          console.log('[ZaloAdapter] 🔄 Re-checking message unticked by text selection click.');
+          this.simulateClick(checkbox);
+          return true;
+        }
+      }
+      return false;
+    },
+
+    // Extract text content from currently selected multi-select messages if user didn't highlight text manually
+    getSelectedMessagesText() {
+      if (!this.isZaloWeb()) return '';
+      const selectedItems = Array.from(document.querySelectorAll('[class*="selected"], [aria-checked="true"], .msg-item.active'));
+      for (const item of selectedItems) {
+        const txt = item.textContent ? item.textContent.trim() : '';
+        if (txt && txt.length > 5 && !txt.includes('http')) {
+          return txt;
+        }
+      }
+      return '';
     }
   };
 })();

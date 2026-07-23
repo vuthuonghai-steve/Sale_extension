@@ -230,6 +230,9 @@
         <button class="btn-action btn-primary" id="btnZaloShare">
           🚀 Chia sẻ Zalo
         </button>
+        <button class="btn-action" id="btnDistrictA">
+          📌 Alt+A (Quận)
+        </button>
         <button class="btn-action" id="btnCleanCopy">
           📋 Copy
         </button>
@@ -241,6 +244,11 @@
       bar.querySelector('#btnZaloShare').onclick = (e) => {
         e.stopPropagation();
         if (handlers.onShare) handlers.onShare();
+      };
+
+      bar.querySelector('#btnDistrictA').onclick = (e) => {
+        e.stopPropagation();
+        if (handlers.onDistrictA) handlers.onDistrictA();
       };
 
       bar.querySelector('#btnCleanCopy').onclick = (e) => {

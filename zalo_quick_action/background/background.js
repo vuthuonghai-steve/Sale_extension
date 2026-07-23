@@ -1,5 +1,4 @@
 // Background Service Worker for Zalo Quick Action Extension
-importScripts('hot-reload.js');
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('[Zalo Quick Action] 🚀 Extension installed successfully.');
@@ -28,6 +27,12 @@ chrome.runtime.onInstalled.addListener(() => {
     title: '📋 Sao chép & Chuẩn hóa văn bản',
     contexts: ['selection']
   });
+
+  chrome.contextMenus.create({
+    id: 'zalo-district-lookup-a',
+    title: '📌 Xác định Quận/Huyện bôi đen (Alt+A)',
+    contexts: ['selection']
+  });
 });
 
 // Helper for safe message sending to active tabs
@@ -54,16 +59,29 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
       action: 'EXECUTE_CLEAN_COPY',
       selectedText: info.selectionText
     });
+  } else if (info.menuItemId === 'zalo-district-lookup-a') {
+    safeSendMessage(tab.id, {
+      action: 'TRIGGER_HOTKEY_DISTRICT_A',
+      selectedText: info.selectionText
+    });
   }
 });
 
-// Handle Commands (Keyboard Hotkeys e.g., Alt+S)
+// Handle Commands (Keyboard Hotkeys e.g., Alt+S, Alt+A)
 chrome.commands.onCommand.addListener((command) => {
   if (command === 'quick-share-zalo') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0 && tabs[0].id) {
         safeSendMessage(tabs[0].id, {
           action: 'TRIGGER_HOTKEY_SHARE'
+        });
+      }
+    });
+  } else if (command === 'district-lookup-a') {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs.length > 0 && tabs[0].id) {
+        safeSendMessage(tabs[0].id, {
+          action: 'TRIGGER_HOTKEY_DISTRICT_A'
         });
       }
     });
