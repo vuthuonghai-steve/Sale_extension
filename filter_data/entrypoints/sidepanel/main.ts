@@ -7,8 +7,8 @@ import { VirtualList } from '../../components/VirtualList';
 import { StatSummary } from '../../components/StatSummary';
 import { DetailModal } from '../../components/DetailModal';
 
-// State Management cho Popup
-class PopupController {
+// Controller điều phối cho Chrome Side Panel Entrypoint
+class SidePanelController {
   private filterQuery: ListingFilterQuery = {};
   private searchKeyword = '';
 
@@ -28,18 +28,18 @@ class PopupController {
     this.resultsCountEl = document.querySelector('#results-count');
     this.statusBarEl = document.querySelector('#status-bar');
 
-    // 0. Tự động nạp Dữ liệu chuẩn hóa nếu Database trống
-    this.updateStatus('Đang kiểm tra cơ sở dữ liệu...');
+    // 0. Nạp dữ liệu vào IndexedDB nếu trống
+    this.updateStatus('Đang khởi tạo cơ sở dữ liệu...');
     await listingRepository.ensureSeeded();
 
-    // 1. Stat Summary Component
+    // 1. Stat Summary
     const statContainer = document.querySelector<HTMLElement>('#stat-summary-container');
     if (statContainer) {
       this.statSummary = new StatSummary(statContainer);
       await this.statSummary.update();
     }
 
-    // 2. Search Bar Component
+    // 2. Search Bar
     const searchContainer = document.querySelector<HTMLElement>('#search-bar-container');
     if (searchContainer) {
       this.searchBar = new SearchBar(searchContainer, (kw) => {
@@ -68,7 +68,7 @@ class PopupController {
         callbacks: {
           onFillData: (record) => this.handleFillData(record),
           onViewDetail: (record) => DetailModal.show(record),
-          onCopyText: (record) => this.updateStatus(`Đã copy bài đăng: ${record.address}`),
+          onCopyText: (record) => this.updateStatus(`📋 Đã copy bài đăng thô: ${record.address}`),
         },
       });
     }
@@ -92,12 +92,12 @@ class PopupController {
 
   private async loadData(): Promise<void> {
     try {
-      this.updateStatus('Đang truy vấn IndexedDB...');
+      this.updateStatus('Đang truy vấn dữ liệu IndexedDB...');
 
       const queryParams: ListingFilterQuery = {
         ...this.filterQuery,
         searchKeyword: this.searchKeyword || undefined,
-        limit: 100, // Top 100 kết quả cho Popup
+        limit: 500, // Side panel mở rộng 500 kết quả
         offset: 0,
       };
 
@@ -106,10 +106,10 @@ class PopupController {
       this.virtualList.setItems(items);
 
       if (this.resultsCountEl) {
-        this.resultsCountEl.textContent = `Tìm thấy ${total} phòng (${items.length} hiển thị)`;
+        this.resultsCountEl.textContent = `Hiển thị ${items.length}/${total} phòng`;
       }
 
-      this.updateStatus(`Đã tải ${items.length}/${total} phòng trọ.`);
+      this.updateStatus(`Đã tải ${items.length} phòng trọ trùng khớp.`);
     } catch (err: any) {
       this.updateStatus(`Lỗi truy vấn: ${err.message || 'Unknown error'}`, true);
     }
@@ -141,7 +141,6 @@ class PopupController {
   }
 }
 
-// Khởi chạy Popup Controller khi DOM sẵn sàng
 document.addEventListener('DOMContentLoaded', () => {
-  new PopupController();
+  new SidePanelController();
 });

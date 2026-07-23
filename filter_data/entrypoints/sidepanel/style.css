@@ -1,4 +1,4 @@
-/* Design System Tokens (Dark Slate Palette) */
+/* Design System Tokens (Dark Slate Palette) for Side Panel */
 :root {
   --bg-dark: #0f172a;
   --bg-surface: #1e293b;
@@ -23,9 +23,11 @@
   padding: 0;
 }
 
-body {
-  width: 440px;
-  height: 600px;
+html, body {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   background-color: var(--bg-dark);
   color: var(--text-main);
   font-family: var(--font-sans);
@@ -34,12 +36,13 @@ body {
   overflow: hidden;
 }
 
-.popup-container {
+.sidepanel-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
   padding: 12px;
   gap: 8px;
+  overflow: hidden;
 }
 
 /* Header Component */
@@ -49,6 +52,7 @@ body {
   justify-content: space-between;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
 }
 
 .brand {
@@ -141,6 +145,7 @@ body {
   border-radius: var(--radius-md);
   padding: 8px 10px;
   border: 1px solid var(--border-color);
+  flex-shrink: 0;
 }
 
 .stat-header {
@@ -201,6 +206,10 @@ body {
 }
 
 /* Search Bar */
+.section-search {
+  flex-shrink: 0;
+}
+
 .search-bar-wrapper {
   position: relative;
   display: flex;
@@ -247,6 +256,10 @@ body {
 }
 
 /* Filter Panel */
+.section-filter {
+  flex-shrink: 0;
+}
+
 .filter-panel {
   display: flex;
   flex-direction: column;
@@ -261,6 +274,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .filter-group {
@@ -268,6 +282,7 @@ body {
   align-items: center;
   gap: 4px;
   flex: 1;
+  min-width: 120px;
 }
 
 .filter-group label {
@@ -329,6 +344,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 2px 4px;
+  flex-shrink: 0;
 }
 
 .results-count {
@@ -352,7 +368,7 @@ body {
 }
 
 .virtual-list-viewport::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 .virtual-list-viewport::-webkit-scrollbar-thumb {
@@ -414,7 +430,7 @@ body {
 
 .listing-price-badge {
   display: flex;
-  align-baseline: baseline;
+  align-items: baseline;
   gap: 2px;
 }
 
@@ -505,6 +521,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .status-bar {

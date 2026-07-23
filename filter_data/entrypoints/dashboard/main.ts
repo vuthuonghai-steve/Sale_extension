@@ -7,8 +7,7 @@ import { VirtualList } from '../../components/VirtualList';
 import { StatSummary } from '../../components/StatSummary';
 import { DetailModal } from '../../components/DetailModal';
 
-// State Management cho Popup
-class PopupController {
+class DashboardController {
   private filterQuery: ListingFilterQuery = {};
   private searchKeyword = '';
 
@@ -17,29 +16,27 @@ class PopupController {
   private virtualList!: VirtualList;
   private statSummary!: StatSummary;
 
-  private resultsCountEl: HTMLElement | null = null;
-  private statusBarEl: HTMLElement | null = null;
+  private totalCountEl: HTMLElement | null = null;
+  private currentItems: CleanListingRecord[] = [];
 
   constructor() {
     this.init();
   }
 
   private async init(): Promise<void> {
-    this.resultsCountEl = document.querySelector('#results-count');
-    this.statusBarEl = document.querySelector('#status-bar');
+    this.totalCountEl = document.querySelector('#dashboard-total-count');
 
-    // 0. Tự động nạp Dữ liệu chuẩn hóa nếu Database trống
-    this.updateStatus('Đang kiểm tra cơ sở dữ liệu...');
+    // 0. Tự động nạp dữ liệu mẫu từ snapshot nếu Database trống
     await listingRepository.ensureSeeded();
 
-    // 1. Stat Summary Component
+    // 1. Stat Summary
     const statContainer = document.querySelector<HTMLElement>('#stat-summary-container');
     if (statContainer) {
       this.statSummary = new StatSummary(statContainer);
       await this.statSummary.update();
     }
 
-    // 2. Search Bar Component
+    // 2. Search Bar
     const searchContainer = document.querySelector<HTMLElement>('#search-bar-container');
     if (searchContainer) {
       this.searchBar = new SearchBar(searchContainer, (kw) => {
@@ -48,11 +45,11 @@ class PopupController {
       });
     }
 
-    // 3. Filter Panel Component
+    // 3. Filter Panel
     const filterContainer = document.querySelector<HTMLElement>('#filter-panel-container');
     if (filterContainer) {
       this.filterPanel = new FilterPanel(filterContainer, {
-        compact: true,
+        compact: false,
         onFilterChange: (query) => {
           this.filterQuery = query;
           this.loadData();
@@ -60,24 +57,22 @@ class PopupController {
       });
     }
 
-    // 4. Virtual List Component
+    // 4. Virtual List
     const listContainer = document.querySelector<HTMLElement>('#virtual-list-container');
     if (listContainer) {
       this.virtualList = new VirtualList(listContainer, {
-        compact: true,
+        compact: false,
         callbacks: {
           onFillData: (record) => this.handleFillData(record),
           onViewDetail: (record) => DetailModal.show(record),
-          onCopyText: (record) => this.updateStatus(`Đã copy bài đăng: ${record.address}`),
+          onCopyText: (record) => alert(`Đã copy bài đăng: ${record.address}`),
         },
       });
     }
 
-    // 5. Button Listeners
-    const btnOpenDashboard = document.querySelector('#btn-open-dashboard');
-    btnOpenDashboard?.addEventListener('click', () => {
-      browser.runtime.sendMessage({ action: 'OPEN_DASHBOARD' });
-    });
+    // 5. Export JSON & Refresh
+    const btnExportJson = document.querySelector('#btn-export-json');
+    btnExportJson?.addEventListener('click', () => this.exportJSON());
 
     const btnRefresh = document.querySelector('#btn-refresh');
     btnRefresh?.addEventListener('click', async () => {
@@ -86,38 +81,32 @@ class PopupController {
       await this.loadData();
     });
 
-    // Initial Data Load
     await this.loadData();
   }
 
   private async loadData(): Promise<void> {
     try {
-      this.updateStatus('Đang truy vấn IndexedDB...');
-
       const queryParams: ListingFilterQuery = {
         ...this.filterQuery,
         searchKeyword: this.searchKeyword || undefined,
-        limit: 100, // Top 100 kết quả cho Popup
+        limit: 5000, // Dashboard render up to 5000 items via Virtual List
         offset: 0,
       };
 
       const { items, total } = await listingRepository.queryListings(queryParams);
+      this.currentItems = items;
 
       this.virtualList.setItems(items);
 
-      if (this.resultsCountEl) {
-        this.resultsCountEl.textContent = `Tìm thấy ${total} phòng (${items.length} hiển thị)`;
+      if (this.totalCountEl) {
+        this.totalCountEl.textContent = `Tổng bản ghi tìm thấy: ${total.toLocaleString()} phòng`;
       }
-
-      this.updateStatus(`Đã tải ${items.length}/${total} phòng trọ.`);
     } catch (err: any) {
-      this.updateStatus(`Lỗi truy vấn: ${err.message || 'Unknown error'}`, true);
+      console.error('[Dashboard] Error querying listings:', err);
     }
   }
 
   private async handleFillData(record: CleanListingRecord): Promise<void> {
-    this.updateStatus(`Đang gửi dữ liệu phòng ${record.address}...`);
-
     try {
       const response = await browser.runtime.sendMessage({
         action: 'FILL_LISTING_DATA',
@@ -125,23 +114,31 @@ class PopupController {
       });
 
       if (response?.status === 'SUCCESS') {
-        this.updateStatus(`✅ ${response.res?.status || 'Đã điền dữ liệu thành công'}`);
+        alert(`✅ ${response.res?.status || 'Đã gửi thông tin phòng trọ tới active tab'}`);
       } else {
-        this.updateStatus(`❌ Lỗi: ${response?.message || 'Không điền được data'}`, true);
+        alert(`❌ Lỗi: ${response?.message || 'Không kết nối được trang active tab'}`);
       }
     } catch (err: any) {
-      this.updateStatus(`❌ Lỗi: ${err.message || 'Không kết nối được active tab'}`, true);
+      alert(`❌ Lỗi: ${err.message || 'Chưa mở tab web host'}`);
     }
   }
 
-  private updateStatus(msg: string, isError = false): void {
-    if (!this.statusBarEl) return;
-    this.statusBarEl.textContent = msg;
-    this.statusBarEl.style.color = isError ? '#f87171' : '#cbd5e1';
+  private exportJSON(): void {
+    if (this.currentItems.length === 0) {
+      alert('Không có dữ liệu để export.');
+      return;
+    }
+
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.currentItems, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', dataStr);
+    downloadAnchor.setAttribute('download', `normalized_listings_${Date.now()}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
   }
 }
 
-// Khởi chạy Popup Controller khi DOM sẵn sàng
 document.addEventListener('DOMContentLoaded', () => {
-  new PopupController();
+  new DashboardController();
 });

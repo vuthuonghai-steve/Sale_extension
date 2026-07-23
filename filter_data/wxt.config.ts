@@ -6,7 +6,16 @@ export default defineConfig({
     name: 'Automation & Data Scraper',
     description: 'Lightweight automation tool for form filling, data scraping, auto-clicking, and hotkeys.',
     version: '1.0.0',
-    permissions: ['storage', 'activeTab'],
+    permissions: ['storage', 'activeTab', 'sidePanel'],
+    side_panel: {
+      default_path: 'sidepanel.html',
+    },
+    web_accessible_resources: [
+      {
+        resources: ['dashboard.html', 'sidepanel.html'],
+        matches: ['<all_urls>'],
+      },
+    ],
     commands: {
       'trigger-fill': {
         suggested_key: {

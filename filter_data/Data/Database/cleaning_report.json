@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-07-23T21:07:02.164Z",
+  "totalInputRecords": 2,
+  "totalOutputRecords": 54,
+  "droppedRecordsCount": 0,
+  "totalExecutionTimeMs": 16,
+  "stepLogs": [
+    {
+      "stepName": "PostSplitterStep",
+      "processedCount": 2,
+      "filteredCount": 0,
+      "executionTimeMs": 2
+    },
+    {
+      "stepName": "SanitizerStep",
+      "processedCount": 102,
+      "filteredCount": 0,
+      "executionTimeMs": 4
+    },
+    {
+      "stepName": "ListingParserStep",
+      "processedCount": 102,
+      "filteredCount": 0,
+      "executionTimeMs": 4
+    },
+    {
+      "stepName": "NormalizerStep",
+      "processedCount": 113,
+      "filteredCount": 0,
+      "executionTimeMs": 6
+    },
+    {
+      "stepName": "FilterStep",
+      "processedCount": 113,
+      "filteredCount": 53,
+      "executionTimeMs": 0
+    },
+    {
+      "stepName": "DeduplicateStep",
+      "processedCount": 60,
+      "filteredCount": 6,
+      "executionTimeMs": 1
+    }
+  ],
+  "errors": []
+}
