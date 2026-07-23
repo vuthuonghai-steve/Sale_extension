@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zalo Quick Action Control Panel</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="title-badge">
+        <span class="icon">🚀</span>
+        <h1>Zalo Quick Action</h1>
+      </div>
+      <span class="version">v1.0.0</span>
+    </header>
+
+    <div class="subtitle">Thao tác nhanh & Bán tự động chuyển tiếp tin nhắn</div>
+
+    <!-- Main Settings Card -->
+    <main class="card">
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-title">Thanh công cụ nổi (Floating Bar)</span>
+          <span class="setting-desc">Tự động hiện nút Share khi bôi đen text</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="enableFloatingToolbar" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-title">Tự động Sao chép khi Chia sẻ</span>
+          <span class="setting-desc">Lưu văn bản vào Clipboard sẵn sàng để dán</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoCopyOnShare" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-title">Thông báo Toast trên trang</span>
+          <span class="setting-desc">Hiển thị phản hồi thao tác góc màn hình</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toastEnabled" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </main>
+
+    <!-- Shortcut Guide Box -->
+    <div class="shortcut-box">
+      <div class="shortcut-title">⚡ Phím tắt nhanh:</div>
+      <div class="shortcut-row">
+        <span class="key-badge">Alt + S</span>
+        <span>Chuyển tiếp nhanh văn bản bôi đen</span>
+      </div>
+      <div class="shortcut-row">
+        <span class="key-badge">Esc</span>
+        <span>Đóng nhanh thanh công cụ nổi</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>Zalo Web & Work Automation</span>
+      <span class="status-dot">● Sẵn sàng</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
