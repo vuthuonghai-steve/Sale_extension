@@ -1,0 +1,2 @@
+// Feature bounded contexts
+export {};

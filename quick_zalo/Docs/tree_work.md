@@ -1,577 +1,198 @@
-Blueprint dưới đây giữ **WXT chỉ là shell** (entrypoints + build), còn business nằm ở core layers độc lập TypeScript. Cấu trúc bám `srcDir` và entrypoints của WXT, nhưng không để framework “nuốt” domain. [wxt](https://wxt.dev/guide/essentials/project-structure)
+# 🏗️ Kiến trúc & Cấu trúc Dự án (Architecture, Layers & Design Patterns) — `quick_zalo`
 
-## Nguyên tắc cốt lõi
+Tài liệu đặc tả toàn bộ **Kiến trúc Tổng thể (Architecture)**, **Phân tầng (Layers)**, **Quy tắc Phụ thuộc (Dependency Boundaries)**, cùng các **Mẫu thiết kế (Design Patterns)** chủ đạo và chiến lược **Logging & Testing** của dự án Chrome Extension `quick_zalo` (Chrome Manifest V3, WXT Framework, Clean Architecture, React & TypeScript).
 
-- WXT lo: entrypoints, manifest generation, HMR, build/publish. [github](https://github.com/gakeez/agents_md_collection/blob/main/examples/chrome-extension-development.md)
-- Core lo: domain, use cases, ports, typed contracts, DI.
-- `browser.*` / `chrome.*` chỉ xuất hiện trong `infra/browser`.
-- Content script mỏng; background là orchestration hub. [dev](https://dev.to/hewitt/how-to-structure-a-production-ready-chrome-extension-manifest-v3-2hlf)
-- Feature-first + layer-second: mỗi feature có application/domain/infra/ui riêng.
+---
 
-***
+## 1. 🏛️ Architecture Overview (Kiến trúc Tổng thể)
 
-## Sơ đồ kiến trúc
+### Nguyên tắc cốt lõi: "WXT chỉ là Shell — Domain nằm ở Core TypeScript"
+- **WXT Shell (`entrypoints/`)**: Đóng vai trò vỏ bọc tích hợp với Chrome API (Manifest generation, Service Worker lifecycle, Content Script injection, Popup/Sidepanel UI, HMR & Build/Publish). **Cấm chứa Business logic**.
+- **Core System (`domain/`, `app/`, `infra/`, `composition/`)**: Thuần TypeScript, hoàn toàn độc lập với WXT Framework.
+- **Browser Isolation**: Mọi truy xuất API `browser.*` hoặc `chrome.*` chỉ được phép xuất hiện tại các Adapters thuộc tầng hạ tầng (`@infra/browser`).
+- **Background Orchestration**: Background Service Worker đóng vai trò trung tâm điều phối (Orchestration Hub); Content Scripts giữ vai trò mỏng (DOM Bridge).
+
+### Sơ đồ Luồng Kiến trúc (Layered & Component Flow):
 
 ```txt
 ┌─────────────────────────────────────────────────────────────┐
-│  ENTRYPOINTS (WXT shell)                                    │
+│  ENTRYPOINTS (WXT Shell - Chrome Manifest V3 Entry Points)   │
 │  background | content | popup | options | sidepanel         │
 └───────────────┬─────────────────────────────────────────────┘
-                │ thin adapters only
+                │ Thin Adapters & Event Listeners
 ┌───────────────▼─────────────────────────────────────────────┐
-│  COMPOSITION ROOT                                           │
+│  COMPOSITION ROOT (Dependency Injection Wiring)             │
 │  background-container | content-container | ui-container    │
 └───────────────┬─────────────────────────────────────────────┘
-                │
+                │ Instantiates & Injects Dependencies
 ┌───────────────▼─────────────────────────────────────────────┐
-│  APPLICATION                                                │
+│  APPLICATION LAYER (Use Cases, Handlers, DTOs & Ports)       │
 │  use-cases | handlers | dto | ports (interfaces)            │
 └───────────────┬─────────────────────────────────────────────┘
-                │
+                │ Consumes Domain Logic
 ┌───────────────▼─────────────────────────────────────────────┐
-│  DOMAIN                                                     │
+│  DOMAIN LAYER (Pure Business Entities & Logic)               │
 │  entities | value-objects | policies | domain-events        │
 └─────────────────────────────────────────────────────────────┘
-                ▲
+                ▲ Implements Application Ports
 ┌───────────────┴─────────────────────────────────────────────┐
-│  INFRASTRUCTURE                                             │
-│  browser adapters | storage | http | auth | logging         │
+│  INFRASTRUCTURE LAYER (Adapters & External Drivers)          │
+│  browser storage | tabs | http | auth | evlog logger | DB    │
 └─────────────────────────────────────────────────────────────┘
 
-SHARED CONTRACTS: messages | commands | queries | events | errors
+SHARED CONTRACTS: messages | commands | queries | events | errors | kernel (result.ts)
 ```
 
-***
+---
 
-## Folder structure production
+## 2. 🧱 Layer Architecture & Directory Structure
 
-Bật `srcDir: 'src'` trong `wxt.config.ts` để tách source khỏi config. [wxt](https://wxt.dev/guide/essentials/project-structure)
+Cấu trúc nguồn được quy hoạch tại thư mục `src/` (`srcDir: 'src'` trong `wxt.config.ts`) giúp tách biệt hoàn toàn mã nguồn khỏi các file cấu hình gốc.
+
+### Cấu trúc Thư mục Chuẩn (Production Structure):
 
 ```txt
-extension-advanced/
-├── wxt.config.ts
-├── tsconfig.json
-├── package.json
-├── public/
-│   └── icon-*.png
-├── modules/                         # WXT modules (tooling only)
-└── src/
-    ├── entrypoints/                 # WXT shell — KHÔNG chứa business
-    │   ├── background/
-    │   │   └── index.ts
-    │   ├── content/
-    │   │   └── index.ts
-    │   ├── popup/
-    │   │   ├── index.html
-    │   │   └── main.tsx
-    │   ├── options/
-    │   │   ├── index.html
-    │   │   └── main.tsx
-    │   ├── sidepanel/
-    │   │   ├── index.html
-    │   │   └── main.tsx
-    │   └── page-bridge.unlisted.ts  # MAIN world bridge nếu cần
-    │
-    ├── composition/                 # DI / wiring theo runtime
-    │   ├── background-container.ts
-    │   ├── content-container.ts
-    │   └── ui-container.ts
-    │
-    ├── shared/
-    │   ├── contracts/
-    │   │   ├── messages.ts          # discriminated unions
-    │   │   ├── commands.ts
-    │   │   ├── queries.ts
-    │   │   ├── events.ts
-    │   │   └── errors.ts
-    │   ├── kernel/
-    │   │   ├── result.ts            # Result/Either
-    │   │   ├── brand.ts
-    │   │   └── clock.ts
-    │   └── types/
-    │
-    ├── domain/                      # pure TS, zero browser deps
-    │   ├── entities/
-    │   ├── value-objects/
-    │   ├── policies/
-    │   └── events/
-    │
-    ├── app/                         # application layer
-    │   ├── ports/                   # interfaces (IStorage, ITabs, IBus)
-    │   ├── use-cases/
-    │   ├── handlers/                # message → use-case mapping
-    │   └── dto/
-    │
-    ├── infra/
-    │   ├── browser/
-    │   │   ├── runtime-bus.ts
-    │   │   ├── tabs.ts
-    │   │   ├── scripting.ts
-    │   │   └── storage.ts
-    │   ├── http/
-    │   ├── auth/
-    │   └── logging/
-    │
-    ├── features/                    # bounded contexts
-    │   ├── page-capture/
-    │   │   ├── domain/
-    │   │   ├── application/
-    │   │   ├── infra/
-    │   │   └── ui/
-    │   ├── automation/
-    │   ├── settings/
-    │   └── sync/
-    │
-    ├── ui/                          # shared presentation
-    │   ├── components/
-    │   ├── hooks/
-    │   └── styles/
-    │
-    └── assets/
+src/
+├── entrypoints/                 # WXT Shell — KHÔNG chứa Business logic
+│   ├── background/              # Background Service Worker (Event Handlers)
+│   ├── content/                 # Content Script (DOM Bridge & Form Automation)
+│   ├── popup/                   # Popup React UI App
+│   ├── sidepanel/               # Sidepanel React UI App
+│   └── options/                 # Options Page App
+├── composition/                 # Composition Root — Dependency Injection (DI) per runtime
+│   ├── background-container.ts
+│   ├── content-container.ts
+│   └── ui-container.ts
+├── app/                         # Application Layer — Use Cases & Interfaces
+│   ├── ports/                   # Interfaces (IStorage, ITabs, IMessageBus, ILogger)
+│   ├── use-cases/               # Application Use Cases
+│   ├── handlers/                # Message → Use Case Mapping
+│   └── dto/                     # Data Transfer Objects
+├── domain/                      # Pure Domain Layer — Zero Browser / Framework Deps
+│   ├── entities/                # Business Entities
+│   ├── value-objects/           # Value Objects (Validations)
+│   ├── policies/                # Domain Business Rules & Policies
+│   └── events/                  # Pure Domain Events
+├── infra/                       # Infrastructure Layer — Adapters implementation
+│   ├── browser/                 # Chrome Storage, Tabs, Scripting Adapters
+│   ├── logging/                 # Evlog Logger Core, Dual Dispatcher & Ring Buffer
+│   ├── storage/                 # IndexedDB / Dexie Repositories
+│   └── http/                    # External API Clients
+├── features/                    # Bounded Contexts (Feature-First Modules)
+│   ├── crm/                     # CRM Feature (domain, app, infra, ui)
+│   ├── automation/              # Automation Feature
+│   └── sync/                    # Data Sync Feature
+├── ui/                          # Shared UI System (React Components, Hooks & Styles)
+└── shared/                      # Shared Contracts & Domain Kernel
+    ├── contracts/               # Messages, Commands, Queries, Events, Errors
+    ├── kernel/                  # Result<T,E>, Brand, Clock utilities
+    └── types/                   # Common Type Definitions
 ```
 
-***
+### Path Aliases (`wxt.config.ts`):
+- `@domain` $\rightarrow$ `src/domain`
+- `@app` $\rightarrow$ `src/app`
+- `@infra` $\rightarrow$ `src/infra`
+- `@shared` $\rightarrow$ `src/shared`
+- `@features` $\rightarrow$ `src/features`
+- `@composition` $\rightarrow$ `src/composition`
 
-## Config WXT tối thiểu
+### Quy tắc Phụ thuộc giữa các Layer (Dependency Boundary Rules):
 
-```ts
-// wxt.config.ts
-import { defineConfig } from 'wxt';
-import { resolve } from 'node:path';
+| Layer | Được phép Import | Cấm Import |
+|:---|:---|:---|
+| `domain/` | Pure TS standard libraries | `browser`, WXT, React, `infra`, `app`, `entrypoints` |
+| `app/` | `domain`, `shared`, `ports` | `browser`, WXT, React, `entrypoints`, `ui`, `infra` internals |
+| `infra/` | `app/ports`, `shared`, external libraries | `domain` internals (chỉ tương tác qua `ports` hoặc `entities`) |
+| `features/*/ui` | `app/dto`, `shared/contracts`, React | `infra/browser` trực tiếp |
+| `entrypoints/` | `composition` ONLY | `use-case` / `domain` / `infra` trực tiếp |
+| `composition/` | Tất cả các tầng (Wiring & DI) | — |
 
-export default defineConfig({
-  srcDir: 'src',
-  modules: ['@wxt-dev/module-react'], // hoặc vue
-  alias: {
-    '@domain': resolve('src/domain'),
-    '@app': resolve('src/app'),
-    '@infra': resolve('src/infra'),
-    '@shared': resolve('src/shared'),
-    '@features': resolve('src/features'),
-    '@composition': resolve('src/composition'),
-  },
-  manifest: {
-    name: 'Advanced Extension',
-    permissions: ['storage', 'tabs', 'scripting', 'alarms', 'sidePanel'],
-    host_permissions: ['https://*/*'],
-  },
-});
-```
+---
 
-Alias nên khai báo trong `wxt.config.ts` (không nhét tay vào `tsconfig`) để bundler + TS cùng resolve. [wxt](https://wxt.dev/guide/essentials/config/typescript)
+## 3. 🎨 Design Patterns Cốt lõi của Dự án
 
-***
+1. **Clean Architecture & Hexagonal (Ports & Adapters):**
+   - Tách biệt tuyệt đối phần lõi nghiệp vụ (`domain` và `app`) khỏi chi tiết kỹ thuật và API môi trường (`infra` và `entrypoints`).
+   - Tầng `app` khai báo các giao diện `ports` (`IStorage`, `ITabs`, `IMessageBus`, `ILogger`); tầng `infra` chịu trách nhiệm implement các cổng này.
 
-## Shared contracts (trái tim hệ thống)
+2. **Feature-First + Layer-Second Architecture:**
+   - Các tính năng nghiệp vụ lớn được tổ chức độc lập theo Bounded Context trong `src/features/{feature-name}/` (chứa đủ `domain`, `app`, `infra`, `ui`), giúp hệ thống mở rộng dễ dàng mà không gây phình to các thư mục chung.
 
-```ts
-// src/shared/contracts/messages.ts
-import type { CapturePageCommand } from './commands';
-import type { GetSettingsQuery } from './queries';
-import type { AppError } from './errors';
+3. **Dependency Injection (DI) via Composition Root:**
+   - Khởi tạo và kết nối các đối tượng Use Cases và Adapters tại duy nhất tầng `composition/` cho từng môi trường thực thi (`background-container`, `content-container`, `ui-container`).
+   - Loại bỏ hoàn toàn side-effects tại top-level của các file entrypoints.
 
-export type Message =
-  | { type: 'command'; name: 'page.capture'; payload: CapturePageCommand }
-  | { type: 'query'; name: 'settings.get'; payload: GetSettingsQuery }
-  | { type: 'event'; name: 'page.captured'; payload: { tabId: number; url: string } };
+4. **Discriminated Union Message Bus (`shared/contracts/messages.ts`):**
+   - Mọi thông điệp giao tiếp giữa Background, Content Script và Popup được định nghĩa dạng Discriminated Union (`Message = Command | Query | Event`), đảm bảo Type-Safety 100% khi phát và xử lý tin nhắn.
 
-export type MessageResponse<T = unknown> =
-  | { ok: true; data: T }
-  | { ok: false; error: AppError };
+5. **Functional Error Handling Pattern (`Result<T, E>`):**
+   - Loại bỏ mẫu `throw new Error()` không kiểm soát. 100% hàm tại `@domain` và `@infra` trả về kiểu `Result<T, E>` (`Ok<T>` hoặc `Err<E>`), bắt buộc caller phải xử lý cả nhánh thành công lẫn thất bại một cách tường minh.
 
-export type MessageName = Message['name'];
-```
+---
 
-```ts
-// src/shared/contracts/errors.ts
-export type AppError =
-  | { code: 'VALIDATION'; message: string }
-  | { code: 'NOT_FOUND'; message: string }
-  | { code: 'PERMISSION'; message: string }
-  | { code: 'INFRA'; message: string; cause?: unknown };
-```
+## 4. 📊 Observability & Logging Engine (`Evlog`)
 
-```ts
-// src/shared/kernel/result.ts
-export type Result<T, E = { code: string; message: string }> =
-  | { ok: true; value: T }
-  | { ok: false; error: E };
+Phân hệ Logging được đặc tả chi tiết tại hồ sơ [`logging-and-testing/spec.md`](file:///home/stveve/Documents/workspace/Sales/extension/quick_zalo/Docs/Specs/logging-and-testing/spec.md), chịu trách nhiệm theo dõi toàn bộ runtime của Extension trên cả 3 entrypoints (`background`, `content`, `popup`).
 
-export const ok = <T>(value: T): Result<T> => ({ ok: true, value });
-export const err = <E>(error: E): Result<never, E> => ({ ok: false, error });
-```
+### 1. Triết lý Observability (LLM Self-Debugging < 3s RCA)
+- Mọi log entry đều được đóng gói dưới định dạng JSON cấu trúc chuẩn `Evlog`.
+- Định dạng này cho phép LLM Agent tự động phân tích stream log terminal và định vị chính xác file lỗi (`file_line`) cùng nguyên nhân nghiệp vụ (`decision_reason`) trong **< 3 giây**.
 
-***
-
-## Ports (application không biết Chrome)
-
-```ts
-// src/app/ports/storage.port.ts
-export interface IKeyValueStore {
-  get<T>(key: string): Promise<T | undefined>;
-  set<T>(key: string, value: T): Promise<void>;
-  remove(key: string): Promise<void>;
-}
-
-// src/app/ports/tabs.port.ts
-export interface ITabs {
-  getActive(): Promise<{ id: number; url?: string } | null>;
-  sendToTab<T>(tabId: number, message: unknown): Promise<T>;
-}
-
-// src/app/ports/message-bus.port.ts
-import type { Message, MessageResponse } from '@shared/contracts/messages';
-
-export interface IMessageBus {
-  request<T>(message: Message): Promise<MessageResponse<T>>;
-  publish(message: Message): Promise<void>;
-  on(
-    name: Message['name'],
-    handler: (msg: Message) => Promise<MessageResponse> | MessageResponse,
-  ): () => void;
+### 2. Evlog Schema (7 Trường Bắt buộc):
+```typescript
+interface AgenticLogEntry<TPayload = Record<string, unknown>> {
+  trace_id: string;        // UUIDv4 correlation ID theo vết request/event
+  scope: string;           // Tên module (ví dụ '@domain/crm', '@infra/logging')
+  level: LogLevel;         // DEBUG | INFO | WARN | ERROR | FATAL
+  file_line: string;       // Tọa độ file và dòng code ('src/infra/logging/indexeddb-adapter.ts:142')
+  decision_reason: string; // Lý do nghiệp vụ hoặc nguyên nhân sự cố
+  payload: TPayload;       // Metadata và biến ngữ cảnh dạng JSON
+  timestamp: string;       // Thời gian ISO-8601 UTC
+  stack_trace?: string;    // Chuỗi vết gọi hàm khi gặp lỗi ERROR/FATAL
 }
 ```
 
-***
+### 3. Dual Transport Architecture & FIFO Ring Buffer:
+- **Dual Transport Dispatcher**: Đẩy log đồng thời ra 2 kênh:
+  1. **DevTools Console Transport**: Format màu ANSI/CSS trực quan để developer debug.
+  2. **Storage Transport (IndexedDB Ring Buffer)**: Lưu bền vững vào IndexedDB theo cơ chế FIFO Ring Buffer (tối đa 5.000 bản ghi ~ 5MB, TTL 7 ngày). Khi vượt ngưỡng, hệ thống tự động xóa 10% (500 bản ghi) cũ nhất.
+- **Hiệu năng**: Độ trễ đóng gói log p95 **< 5ms**, không bao giờ làm dừng UI Main Loop quá **16ms**.
 
-## Infrastructure adapters
+### 4. Storage Fallback & Circuit Breaker:
+- Nếu IndexedDB gặp sự cố `QuotaExceededError` hoặc bị khóa, hệ thống tự động chuyển sang **In-Memory Fallback Ring Buffer** và phát cảnh báo ra DevTools Console.
+- Tích hợp **Logging Circuit Breaker** tự động ngắt ghi log khi bị burst log > 30 calls/sec để bảo vệ hiệu năng Extension.
 
-```ts
-// src/infra/browser/storage.ts
-import type { IKeyValueStore } from '@app/ports/storage.port';
+---
 
-export class BrowserStorage implements IKeyValueStore {
-  constructor(private area: 'local' | 'sync' = 'local') {}
+## 5. 🧪 Testing Strategy (Co-located & Centralized)
 
-  async get<T>(key: string): Promise<T | undefined> {
-    const bag = await browser.storage[this.area].get(key);
-    return bag[key] as T | undefined;
-  }
+Hệ thống áp dụng chiến lược kiểm thử 2 tầng khép kín nhằm bảo đảm chất lượng tuyệt đối theo chuẩn nhị phân (Pass/Fail Gate).
 
-  async set<T>(key: string, value: T): Promise<void> {
-    await browser.storage[this.area].set({ [key]: value });
-  }
+### 1. Co-located Unit & Component Testing (`@domain` & `@infra`)
+- **Vị trí**: Đặt đồng vị trí ngay cạnh file mã nguồn (`*.test.ts` hoặc `*.spec.ts`).
+  - Ví dụ: `src/domain/crm/contact-validator.ts` $\rightarrow$ `src/domain/crm/contact-validator.test.ts`.
+- **Môi trường & Công cụ**: Vitest Browser Mode.
+- **Chỉ số Bắt buộc**:
+  - Thời gian thực thi single test file **< 1000ms**.
+  - Code Statement Coverage $\ge$ **85%**.
 
-  async remove(key: string): Promise<void> {
-    await browser.storage[this.area].remove(key);
-  }
-}
-```
+### 2. Centralized Integration & E2E Testing (`tests/e2e/`)
+- **Vị trí**: Đặt tập trung tại thư mục `tests/e2e/`.
+- **Môi trường & Công cụ**: Playwright E2E Integration Suite giả lập trình duyệt Chrome nạp Extension thật + MSW (Mock Service Worker) để mock 100% network APIs.
+- **Chỉ số Bắt buộc**: Thời gian thực thi toàn bộ suite **< 30s**.
 
-```ts
-// src/infra/browser/runtime-bus.ts
-import type { IMessageBus } from '@app/ports/message-bus.port';
-import type { Message, MessageResponse } from '@shared/contracts/messages';
-
-type Handler = (msg: Message) => Promise<MessageResponse> | MessageResponse;
-
-export class RuntimeMessageBus implements IMessageBus {
-  private handlers = new Map<Message['name'], Handler>();
-
-  constructor() {
-    browser.runtime.onMessage.addListener((raw, _sender, sendResponse) => {
-      const msg = raw as Message;
-      const handler = this.handlers.get(msg.name);
-      if (!handler) {
-        sendResponse({
-          ok: false,
-          error: { code: 'NOT_FOUND', message: `No handler: ${msg.name}` },
-        } satisfies MessageResponse);
-        return false;
-      }
-      Promise.resolve(handler(msg)).then(sendResponse);
-      return true; // async response
-    });
-  }
-
-  on(name: Message['name'], handler: Handler) {
-    this.handlers.set(name, handler);
-    return () => this.handlers.delete(name);
-  }
-
-  async request<T>(message: Message): Promise<MessageResponse<T>> {
-    return browser.runtime.sendMessage(message) as Promise<MessageResponse<T>>;
-  }
-
-  async publish(message: Message): Promise<void> {
-    await browser.runtime.sendMessage(message);
-  }
-}
-```
-
-***
-
-## Domain + Use case mẫu
-
-```ts
-// src/features/page-capture/domain/page-snapshot.ts
-export type PageSnapshot = {
-  readonly url: string;
-  readonly title: string;
-  readonly capturedAt: number;
-  readonly textSample: string;
-};
-
-export function createPageSnapshot(input: {
-  url: string;
-  title: string;
-  textSample: string;
-  now: number;
-}): PageSnapshot {
-  if (!input.url.startsWith('http')) {
-    throw new Error('Invalid url');
-  }
-  return {
-    url: input.url,
-    title: input.title.trim() || 'Untitled',
-    textSample: input.textSample.slice(0, 2000),
-    capturedAt: input.now,
-  };
-}
-```
-
-```ts
-// src/features/page-capture/application/capture-page.use-case.ts
-import type { IKeyValueStore } from '@app/ports/storage.port';
-import type { ITabs } from '@app/ports/tabs.port';
-import { createPageSnapshot } from '../domain/page-snapshot';
-import { err, ok, type Result } from '@shared/kernel/result';
-import type { AppError } from '@shared/contracts/errors';
-
-export class CapturePageUseCase {
-  constructor(
-    private readonly tabs: ITabs,
-    private readonly store: IKeyValueStore,
-    private readonly clock: () => number = () => Date.now(),
-  ) {}
-
-  async execute(): Promise<Result<{ id: string }, AppError>> {
-    const tab = await this.tabs.getActive();
-    if (!tab?.id || !tab.url) {
-      return err({ code: 'NOT_FOUND', message: 'No active tab' });
-    }
-
-    // content script trả raw DOM data — không chứa business rules
-    const raw = await this.tabs.sendToTab<{ title: string; text: string }>(
-      tab.id,
-      { type: 'query', name: 'dom.extract', payload: {} },
-    );
-
-    try {
-      const snapshot = createPageSnapshot({
-        url: tab.url,
-        title: raw.title,
-        textSample: raw.text,
-        now: this.clock(),
-      });
-      const id = `snap_${snapshot.capturedAt}`;
-      await this.store.set(`snapshot:${id}`, snapshot);
-      return ok({ id });
-    } catch (e) {
-      return err({
-        code: 'VALIDATION',
-        message: e instanceof Error ? e.message : 'Invalid snapshot',
-      });
-    }
-  }
-}
-```
-
-***
-
-## Composition roots (DI theo runtime)
-
-```ts
-// src/composition/background-container.ts
-import { BrowserStorage } from '@infra/browser/storage';
-import { RuntimeMessageBus } from '@infra/browser/runtime-bus';
-import { BrowserTabs } from '@infra/browser/tabs';
-import { CapturePageUseCase } from '@features/page-capture/application/capture-page.use-case';
-import type { Message, MessageResponse } from '@shared/contracts/messages';
-
-export function createBackgroundContainer() {
-  const store = new BrowserStorage('local');
-  const bus = new RuntimeMessageBus();
-  const tabs = new BrowserTabs();
-
-  const capturePage = new CapturePageUseCase(tabs, store);
-
-  bus.on('page.capture', async (_msg: Message): Promise<MessageResponse> => {
-    const result = await capturePage.execute();
-    return result.ok
-      ? { ok: true, data: result.value }
-      : { ok: false, error: result.error };
-  });
-
-  return { bus, store, tabs, capturePage };
-}
-```
-
-```ts
-// src/composition/content-container.ts
-export function createContentContainer() {
-  return {
-    extractDom() {
-      return {
-        title: document.title,
-        text: document.body?.innerText ?? '',
-      };
-    },
-  };
-}
-```
-
-```ts
-// src/composition/ui-container.ts
-import { RuntimeMessageBus } from '@infra/browser/runtime-bus';
-
-export function createUiContainer() {
-  const bus = new RuntimeMessageBus(); // client side: request/publish only
-  return {
-    bus,
-    capturePage: () =>
-      bus.request<{ id: string }>({
-        type: 'command',
-        name: 'page.capture',
-        payload: {},
-      }),
-  };
-}
-```
-
-***
-
-## Entrypoints — chỉ bootstrap
-
-Runtime code **phải nằm trong `main`**, không để top-level side effects (WXT import entrypoint lúc build trên Node). [github](https://github.com/gakeez/agents_md_collection/blob/main/examples/chrome-extension-development.md)
-
-```ts
-// src/entrypoints/background/index.ts
-import { createBackgroundContainer } from '@composition/background-container';
-
-export default defineBackground(() => {
-  const container = createBackgroundContainer();
-
-  browser.runtime.onInstalled.addListener(() => {
-    console.log('[bg] installed');
-  });
-
-  // alarms, contextMenus, sidePanel wiring...
-  void container;
-});
-```
-
-```ts
-// src/entrypoints/content/index.ts
-import { createContentContainer } from '@composition/content-container';
-
-export default defineContentScript({
-  matches: ['https://*/*', 'http://*/*'],
-  runAt: 'document_idle',
-  main() {
-    const { extractDom } = createContentContainer();
-
-    browser.runtime.onMessage.addListener((raw, _s, sendResponse) => {
-      const msg = raw as { name?: string };
-      if (msg.name === 'dom.extract') {
-        sendResponse(extractDom());
-        return true;
-      }
-      return false;
-    });
-  },
-});
-```
-
-```tsx
-// src/entrypoints/popup/main.tsx
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { createUiContainer } from '@composition/ui-container';
-import { PopupApp } from '@features/page-capture/ui/PopupApp';
-
-const container = createUiContainer();
-
-createRoot(document.getElementById('root')!).render(
-  <PopupApp onCapture={() => container.capturePage()} />,
-);
-```
-
-***
-
-## Luồng runtime chuẩn
+### 3. Vòng lặp Tự sửa Lỗi (Self-Debugging Loop cho LLM Agent):
 
 ```txt
-Popup / Sidepanel
-    │  command: page.capture
-    ▼
-Background (composition + use-case)
-    │  query: dom.extract
-    ▼
-Content script (DOM bridge only)
-    │  raw { title, text }
-    ▼
-Domain createPageSnapshot
-    │
-    ▼
-Infra storage / http / telemetry
-    │
-    ▼
-MessageResponse { ok, data | error }
+┌─────────────────┐     ┌───────────────────────┐     ┌────────────────────────┐
+│  Run Test Suite │ ──> │ Evlog Error Emission  │ ──> │ LLM Parses Terminal    │
+│ (Vitest/PW CLI) │     │ (Terminal Log Stream) │     │ Log Stream (< 3000ms)  │
+└─────────────────┘     └───────────────────────┘     └────────────────────────┘
+         ▲                                                         │
+         │                                                         ▼
+┌─────────────────┐     ┌───────────────────────┐     ┌────────────────────────┐
+│ Verify & Pass   │ <── │ LLM Applies Code Fix  │ <── │ Extract file_line &    │
+│ Quality Gate    │     │ to Source File        │     │ decision_reason        │
+└─────────────────┘     └───────────────────────┘     └────────────────────────┘
 ```
-
-***
-
-## Quy tắc dependency (enforce bằng ESLint)
-
-| Layer | Được import | Cấm import |
-|---|---|---|
-| `domain/` | pure TS only | `browser`, WXT, React, infra |
-| `app/` | domain, shared, ports | `browser`, entrypoints, UI |
-| `infra/` | app ports, shared | domain internals (nên qua ports) |
-| `features/*/ui` | app dto, shared contracts | infra browser trực tiếp |
-| `entrypoints/` | composition only | use-case / domain trực tiếp |
-| `composition/` | mọi layer (wiring) | — |
-
-Gợi ý ESLint boundaries:
-
-```js
-// eslint.config — ý tưởng
-// domain: no-restricted-imports browser, wxt, react
-// app: no-restricted-imports browser, wxt
-// entrypoints: only allow @composition/*
-```
-
-***
-
-## Checklist advanced
-
-- Typed message bus + `Result`/`MessageResponse` thống nhất
-- Background là single orchestration hub
-- Content script / MAIN-world unlisted script tách rõ ISOLATED vs MAIN [github](https://github.com/gakeez/agents_md_collection/blob/main/examples/chrome-extension-development.md)
-- Storage schema versioning (`settings:v2`, migration on install)
-- Feature flags trong `app.config.ts` / remote config adapter
-- Logging structured (`infra/logging`) với correlation id theo message
-- Test: domain unit (pure), use-case với fake ports, e2e Playwright + load extension
-- Không auto-import lung tung `utils/` cho business — tránh magic coupling với convention WXT [wxt](https://wxt.dev/guide/essentials/project-structure)
-
-***
-
-## Thứ tự triển khai đề xuất
-
-1. Scaffold WXT + `srcDir` + alias  
-2. `shared/contracts` + `kernel/result`  
-3. ports + `RuntimeMessageBus` + `BrowserStorage`  
-4. 1 feature end-to-end (`page-capture`)  
-5. composition roots cho bg/content/ui  
-6. ESLint boundary + unit tests domain/use-case  
-7. Thêm sidepanel/options/alarms theo cùng pattern  
-
-***
-
-## Nguồn tham chiếu
-
-- [WXT Project Structure](https://wxt.dev/guide/essentials/project-structure) — `srcDir`, entrypoints, modules. [wxt](https://wxt.dev/guide/essentials/project-structure)
-- [WXT Entrypoints](https://wxt.dev/guide/essentials/entrypoints) — background/content/popup/sidepanel, unlisted scripts, rule “no runtime outside main”. [github](https://github.com/gakeez/agents_md_collection/blob/main/examples/chrome-extension-development.md)
-- [WXT TypeScript config & alias](https://wxt.dev/guide/essentials/config/typescript) — path alias qua `wxt.config.ts`. [wxt](https://wxt.dev/guide/essentials/config/typescript)
-- Production MV3 structure patterns — tách UI / worker / core modules. [dev](https://dev.to/hewitt/how-to-structure-a-production-ready-chrome-extension-manifest-v3-2hlf)
