@@ -2,7 +2,10 @@ import React, { useCallback } from 'react';
 import { useExtractedMessages, useZaloTabStatus } from './hooks';
 import { Header, SearchBar, MessageList } from './components';
 
-export const SidepanelApp: React.FC = () => {
+/**
+ * MessageExtractionScreen — Screen đại diện chính của feature Message Extraction.
+ */
+export const MessageExtractionScreen: React.FC = () => {
   const status = useZaloTabStatus();
   const {
     messages,
@@ -21,7 +24,8 @@ export const SidepanelApp: React.FC = () => {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100vh',
+        height: '100%',
+        minHeight: '100%',
         backgroundColor: '#f5f5f5',
         fontFamily:
           '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -39,3 +43,6 @@ export const SidepanelApp: React.FC = () => {
     </div>
   );
 };
+
+// Aliased export cho tương thích ngược
+export { MessageExtractionScreen as SidepanelApp };

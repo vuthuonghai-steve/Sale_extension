@@ -62,18 +62,24 @@ src/
 ├── composition/                 # Composition Root — Dependency Injection (DI) per runtime
 │   ├── background-container.ts
 │   ├── content-container.ts
-│   └── ui-container.ts
+│   ├── sidepanel-container.ts
+│   ├── ui-container.ts
+│   └── config-container.ts      # Config Service & Use Cases Wiring
 ├── app/                         # Application Layer — Use Cases & Interfaces
-│   ├── ports/                   # Interfaces (IStorage, ITabs, IMessageBus, ILogger)
+│   ├── ports/                   # Interfaces (IStorage, ITabs, IMessageBus, IConfigService)
+│   │   └── config.port.ts
 │   ├── use-cases/               # Application Use Cases
+│   │   └── config/              # GetConfig, UpdateConfig, ResetConfig Use Cases
 │   ├── handlers/                # Message → Use Case Mapping
 │   └── dto/                     # Data Transfer Objects
 ├── domain/                      # Pure Domain Layer — Zero Browser / Framework Deps
+│   ├── config/                  # Pure Config Entities, Schema & Validators
 │   ├── entities/                # Business Entities
 │   ├── value-objects/           # Value Objects (Validations)
 │   ├── policies/                # Domain Business Rules & Policies
 │   └── events/                  # Pure Domain Events
 ├── infra/                       # Infrastructure Layer — Adapters implementation
+│   ├── config/                  # Static Config & ConfigService Storage Adapter
 │   ├── browser/                 # Chrome Storage, Tabs, Scripting Adapters
 │   ├── logging/                 # Evlog Logger Core, Dual Dispatcher & Ring Buffer
 │   ├── storage/                 # IndexedDB / Dexie Repositories

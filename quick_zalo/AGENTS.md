@@ -16,6 +16,7 @@ Agent **bắt buộc** tham chiếu bản đồ dưới đây để xác định
 | **Chiến lược Quản lý Context & Routing** | `@.agents/rules/context-routing-and-modularity.md` | `Always On` |
 | **Cổng Kiểm soát Chất lượng & Build Gate** | `@.agents/rules/code-quality-and-gates.md` | `Always On` |
 | **Cú pháp TypeScript, Tech Stack & Conventions** | `@.agents/rules/tech-stack-and-conventions.md`<br>`wxt.config.ts`, `package.json` | `Glob` (`*.ts`, `*.tsx`, `package.json`, `wxt.config.ts`) |
+| **Quy chuẩn Kiến trúc UI (Shell vs Feature)** | `@.agents/rules/ui-architecture-conventions.md` | `Glob` (`src/ui/**`, `src/features/**`) |
 | **Kiến trúc Extension WXT & Clean Layers** | `@.agents/rules/wxt-extension-architecture.md`<br>`@.agents/rules/architecture-and-flow.md`<br>`@Docs/tree_work.md` | `Model Decision` / `Glob` (`entrypoints/**`, `composition/**`) |
 | **Observability, Evlog Schema & Result<T,E>** | `@.agents/rules/logging-and-observability.md`<br>`@Docs/Specs/logging-and-testing/spec.md`<br>`@infra/logging/*`, `@shared/kernel/result.ts` | `Glob` (`src/infra/logging/**`, `src/domain/**`, `src/infra/**`) |
 | **Module Database & Storage (IndexedDB/Dexie)** | `@.agents/rules/database-and-indexeddb-storage.md` | `Glob` (`src/infra/storage/**`, `Data/Database/*`) |

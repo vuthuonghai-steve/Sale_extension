@@ -1,2 +1,2 @@
 // Feature bounded contexts
-export {};
+export { MODULES, type ModuleDef } from './registry';
