@@ -5,7 +5,9 @@ import type {
 } from '../../shared/types/evlog.types';
 import { LoggingCircuitBreaker } from './circuit-breaker';
 import { ChromeStorageAdapter } from './chrome-storage-adapter';
-import { sanitizePII, formatConsoleStyle, getFileLineCoordinate } from './formatters';
+import { IndexedDBAdapter } from './indexeddb-adapter';
+import { DualTransportDispatcher } from './dual-dispatcher';
+import { sanitizePII, getFileLineCoordinate } from './formatters';
 
 const LOG_LEVEL_PRIORITY: Record<LogLevel, number> = {
   DEBUG: 10,
@@ -19,7 +21,9 @@ export class EvlogLogger {
   private static instance: EvlogLogger | null = null;
   private config: LoggerConfig;
   private circuitBreaker: LoggingCircuitBreaker;
-  private storageAdapter: ChromeStorageAdapter;
+  private chromeStorageAdapter: ChromeStorageAdapter;
+  private indexedDBAdapter: IndexedDBAdapter;
+  private dispatcher: DualTransportDispatcher;
 
   constructor(config?: Partial<LoggerConfig>) {
     this.config = {
@@ -32,9 +36,18 @@ export class EvlogLogger {
     };
 
     this.circuitBreaker = new LoggingCircuitBreaker(this.config.maxCallsPerSec);
-    this.storageAdapter = new ChromeStorageAdapter({
+    this.chromeStorageAdapter = new ChromeStorageAdapter({
       capacity: this.config.bufferCapacity,
       storageKey: this.config.storageKey,
+    });
+    this.indexedDBAdapter = new IndexedDBAdapter({
+      capacity: this.config.bufferCapacity,
+    });
+
+    this.dispatcher = new DualTransportDispatcher({
+      enableConsole: this.config.enableConsole,
+      enableStorage: this.config.enableStorage,
+      storageAdapter: this.chromeStorageAdapter,
     });
   }
 
@@ -79,7 +92,7 @@ export class EvlogLogger {
       return null;
     }
 
-    // Circuit Breaker Rate Check (> 30 calls/sec)
+    // Circuit Breaker Rate Check (> 30 calls/sec limit)
     if (!this.circuitBreaker.allowCall()) {
       return null;
     }
@@ -107,54 +120,56 @@ export class EvlogLogger {
       ...(stack_trace ? { stack_trace } : {}),
     };
 
-    // Dual Transport Execution
-    if (this.config.enableConsole) {
-      this.emitToConsole(entry);
-    }
+    // Parallel Dual Transport Emission via Dispatcher
+    this.dispatcher.dispatch(entry as unknown as AgenticLogEntry);
 
+    // Also persist entry into IndexedDB Adapter
     if (this.config.enableStorage) {
-      this.storageAdapter.push(entry as unknown as AgenticLogEntry);
+      this.indexedDBAdapter.push(entry as unknown as AgenticLogEntry).catch(() => {});
     }
 
     return entry;
   }
 
-  private emitToConsole(entry: AgenticLogEntry): void {
-    const { messageString, styles } = formatConsoleStyle(entry);
-    switch (entry.level) {
-      case 'DEBUG':
-        console.debug(messageString, ...styles, entry.payload);
-        break;
-      case 'INFO':
-        console.info(messageString, ...styles, entry.payload);
-        break;
-      case 'WARN':
-        console.warn(messageString, ...styles, entry.payload);
-        break;
-      case 'ERROR':
-      case 'FATAL':
-        console.error(messageString, ...styles, entry.payload, entry.stack_trace ?? '');
-        break;
-    }
-  }
-
-  public debug<T extends Record<string, unknown> = Record<string, unknown>>(scope: string, reason: string, payload?: T) {
+  public debug<T extends Record<string, unknown> = Record<string, unknown>>(
+    scope: string,
+    reason: string,
+    payload?: T
+  ) {
     return this.log(scope, 'DEBUG', reason, payload);
   }
 
-  public info<T extends Record<string, unknown> = Record<string, unknown>>(scope: string, reason: string, payload?: T) {
+  public info<T extends Record<string, unknown> = Record<string, unknown>>(
+    scope: string,
+    reason: string,
+    payload?: T
+  ) {
     return this.log(scope, 'INFO', reason, payload);
   }
 
-  public warn<T extends Record<string, unknown> = Record<string, unknown>>(scope: string, reason: string, payload?: T) {
+  public warn<T extends Record<string, unknown> = Record<string, unknown>>(
+    scope: string,
+    reason: string,
+    payload?: T
+  ) {
     return this.log(scope, 'WARN', reason, payload);
   }
 
-  public error<T extends Record<string, unknown> = Record<string, unknown>>(scope: string, reason: string, payload?: T, err?: unknown) {
+  public error<T extends Record<string, unknown> = Record<string, unknown>>(
+    scope: string,
+    reason: string,
+    payload?: T,
+    err?: unknown
+  ) {
     return this.log(scope, 'ERROR', reason, payload, err);
   }
 
-  public fatal<T extends Record<string, unknown> = Record<string, unknown>>(scope: string, reason: string, payload?: T, err?: unknown) {
+  public fatal<T extends Record<string, unknown> = Record<string, unknown>>(
+    scope: string,
+    reason: string,
+    payload?: T,
+    err?: unknown
+  ) {
     return this.log(scope, 'FATAL', reason, payload, err);
   }
 
@@ -163,15 +178,24 @@ export class EvlogLogger {
   }
 
   public getStorageAdapter(): ChromeStorageAdapter {
-    return this.storageAdapter;
+    return this.chromeStorageAdapter;
+  }
+
+  public getIndexedDBAdapter(): IndexedDBAdapter {
+    return this.indexedDBAdapter;
   }
 
   public exportLogs(): string {
-    return this.storageAdapter.exportLogs();
+    const entries = this.chromeStorageAdapter.getEntries();
+    if (entries.length > 0) {
+      return JSON.stringify(entries, null, 2);
+    }
+    return JSON.stringify(this.indexedDBAdapter.getInMemoryEntries(), null, 2);
   }
 
   public async clearLogs(): Promise<void> {
-    await this.storageAdapter.clear();
+    await this.chromeStorageAdapter.clear();
+    await this.indexedDBAdapter.clear();
   }
 }
 
