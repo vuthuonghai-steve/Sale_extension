@@ -1,2 +1,3 @@
 // Shared presentation UI components & hooks
-export {};
+export * from './hooks/use-app-config';
+export * from './hooks/use-extension-shortcuts';

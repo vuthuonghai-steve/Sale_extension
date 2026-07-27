@@ -5,7 +5,9 @@ import { validateConfig, DEFAULT_APP_CONFIG } from '../../domain/config/config.v
 import { getStaticConfig } from './static-config';
 import { Result, ok, err } from '../../shared/kernel/result';
 
-const CONFIG_STORAGE_KEY = 'quick_zalo_app_config_v1';
+import { CONFIG_CONSTANTS } from '../../shared/constants/config.constants';
+
+const CONFIG_STORAGE_KEY = CONFIG_CONSTANTS.STORAGE_KEYS.APP_CONFIG;
 
 export class ConfigService implements IConfigService {
   private cachedConfig: AppConfig | null = null;
