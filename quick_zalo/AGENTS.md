@@ -29,8 +29,8 @@ Hệ thống tuân thủ nguyên tắc **"WXT chỉ là shell — Domain nằm �
 
 ```txt
 src/
-├── entrypoints/                 # WXT Shell (Background, Content, Popup, Sidepanel) — KHÔNG chứa business logic
-├── composition/                 # Dependency Injection (DI) & Wiring cho từng runtime context
+├── entrypoints/                 # WXT Shell (Background, Content, Sidepanel - Primary UI, Popup) — KHÔNG chứa business logic
+├── composition/                 # Dependency Injection (DI) & Wiring cho từng runtime context (sidepanel-container, background-container, etc.)
 ├── app/                         # Application Layer (Use Cases, Ports/Interfaces, Handlers, DTOs)
 ├── domain/                      # Pure Business Logic (Entities, Value Objects, Policies) — 0 browser deps
 ├── infra/                       # Infrastructure Adapters (Browser Storage, Tabs, Evlog Logger, IndexedDB, HTTP)

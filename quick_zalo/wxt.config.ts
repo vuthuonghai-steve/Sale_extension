@@ -18,5 +18,12 @@ export default defineConfig({
     description: 'Chrome Extension for Quick Zalo Integration',
     permissions: ['storage', 'tabs', 'scripting', 'alarms', 'sidePanel'],
     host_permissions: ['https://*/*'],
+    action: {
+      default_title: 'Open Quick Zalo Sidepanel',
+    },
+    side_panel: {
+      default_path: 'sidepanel.html',
+    },
   },
 });
+
