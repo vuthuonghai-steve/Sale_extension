@@ -9,6 +9,8 @@ export type Message =
   | { type: 'event'; name: 'page.captured'; payload: { tabId: number; url: string } }
   | { type: 'event'; name: 'zalo.message.extracted'; payload: ZaloMessage }
   | { type: 'command'; name: 'zalo.observer.toggle'; payload: { enabled: boolean } }
+  | { type: 'command'; name: 'zalo.cache.clear'; payload: Record<string, never> }
+  | { type: 'command'; name: 'zalo.messages.rescan'; payload: { clearCache?: boolean } }
   | {
       type: 'query';
       name: 'zalo.status.get';

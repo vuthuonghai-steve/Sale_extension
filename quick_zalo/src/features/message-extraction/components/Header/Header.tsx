@@ -5,9 +5,16 @@ import { UI_CONSTANTS } from '../../lib/constants';
 interface HeaderProps {
   status: ZaloTabStatus;
   onExport: () => string | null;
+  onReExtract?: () => void;
+  isExtracting?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ status, onExport }) => {
+export const Header: React.FC<HeaderProps> = ({
+  status,
+  onExport,
+  onReExtract,
+  isExtracting = false,
+}) => {
   const [toast, setToast] = useState<string | null>(null);
 
   const handleExport = useCallback(() => {
@@ -28,6 +35,14 @@ export const Header: React.FC<HeaderProps> = ({ status, onExport }) => {
         position: 'relative',
       }}
     >
+      <style>
+        {`
+          @keyframes quick-zalo-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        `}
+      </style>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 600, color: '#0068ff' }}>
@@ -36,7 +51,48 @@ export const Header: React.FC<HeaderProps> = ({ status, onExport }) => {
           <span style={{ fontSize: '11px', color: '#8c8c8c' }}>{UI_CONSTANTS.SUBTITLE}</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {/* Re-extract button with loading state */}
+          <button
+            onClick={onReExtract}
+            disabled={isExtracting || !status.isConnected}
+            title="Trích xuất lại tin nhắn từ khung chat Zalo hiện tại"
+            style={{
+              padding: '4px 8px',
+              fontSize: '11px',
+              fontWeight: 500,
+              backgroundColor: isExtracting ? '#f5f5f5' : '#0068ff',
+              color: isExtracting ? '#bfbfbf' : '#ffffff',
+              border: `1px solid ${isExtracting ? '#d9d9d9' : '#0068ff'}`,
+              borderRadius: '6px',
+              cursor: isExtracting || !status.isConnected ? 'not-allowed' : 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              lineHeight: 1,
+              opacity: status.isConnected ? 1 : 0.6,
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{
+                animation: isExtracting ? 'quick-zalo-spin 0.8s linear infinite' : 'none',
+              }}
+            >
+              <polyline points="23 4 23 10 17 10" />
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+            </svg>
+            {isExtracting ? 'Đang trích xuất...' : 'Trích xuất lại'}
+          </button>
+
           {/* Export JSON button */}
           <button
             onClick={handleExport}

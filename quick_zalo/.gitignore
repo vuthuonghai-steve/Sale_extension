@@ -38,3 +38,6 @@ pnpm-debug.log*
 .agents/
 .claude/
 .omo/
+
+# file 
+*.test.ts

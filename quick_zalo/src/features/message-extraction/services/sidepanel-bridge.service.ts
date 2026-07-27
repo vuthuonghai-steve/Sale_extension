@@ -62,4 +62,42 @@ export class SidepanelBridgeService {
       return fallbackStatus;
     }
   }
+
+  public async clearMessageCache(): Promise<boolean> {
+    try {
+      if (typeof browser === 'undefined' || !browser.tabs?.query) {
+        return false;
+      }
+      const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+      const activeTab = tabs?.[0];
+
+      if (activeTab?.id && activeTab.url?.includes('zalo.me')) {
+        await browser.tabs.sendMessage(activeTab.id, { name: 'zalo.cache.clear' }).catch(() => undefined);
+        return true;
+      }
+    } catch (err) {
+      console.warn('[SidepanelBridgeService] Failed to clear message cache:', err);
+    }
+    return false;
+  }
+
+  public async reExtractMessages(): Promise<number> {
+    try {
+      if (typeof browser === 'undefined' || !browser.tabs?.query) {
+        return 0;
+      }
+      const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+      const activeTab = tabs?.[0];
+
+      if (activeTab?.id && activeTab.url?.includes('zalo.me')) {
+        const res = (await browser.tabs.sendMessage(activeTab.id, { name: 'zalo.messages.rescan' }).catch(() => undefined)) as
+          | { ok: boolean; data?: { count: number } }
+          | undefined;
+        return res?.data?.count ?? 0;
+      }
+    } catch (err) {
+      console.warn('[SidepanelBridgeService] Failed to re-extract messages:', err);
+    }
+    return 0;
+  }
 }

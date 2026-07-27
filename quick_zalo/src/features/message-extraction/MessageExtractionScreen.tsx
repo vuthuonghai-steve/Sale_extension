@@ -11,7 +11,9 @@ export const MessageExtractionScreen: React.FC = () => {
     messages,
     searchTerm,
     setSearchTerm,
+    isExtracting,
     clearMessages,
+    reExtractMessages,
     handleExport,
   } = useExtractedMessages();
 
@@ -33,7 +35,12 @@ export const MessageExtractionScreen: React.FC = () => {
         overflow: 'hidden',
       }}
     >
-      <Header status={status} onExport={handleExportClick} />
+      <Header
+        status={status}
+        onExport={handleExportClick}
+        onReExtract={reExtractMessages}
+        isExtracting={isExtracting}
+      />
       <SearchBar
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}

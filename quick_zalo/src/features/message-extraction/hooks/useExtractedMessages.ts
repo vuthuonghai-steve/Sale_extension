@@ -8,6 +8,7 @@ const bridge = new SidepanelBridgeService();
 export function useExtractedMessages() {
   const [messages, setMessages] = useState<ZaloMessage[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isExtracting, setIsExtracting] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = bridge.subscribeExtractedMessages((newMsg) => {
@@ -24,6 +25,22 @@ export function useExtractedMessages() {
 
   const clearMessages = useCallback(() => {
     setMessages([]);
+    void bridge.clearMessageCache();
+  }, []);
+
+  const reExtractMessages = useCallback(async () => {
+    setIsExtracting(true);
+    setMessages([]);
+    const startTime = Date.now();
+    try {
+      await bridge.reExtractMessages();
+    } finally {
+      const elapsed = Date.now() - startTime;
+      const minDelay = Math.max(0, 600 - elapsed);
+      setTimeout(() => {
+        setIsExtracting(false);
+      }, minDelay);
+    }
   }, []);
 
   const filteredMessages = useMemo(() => {
@@ -55,7 +72,9 @@ export function useExtractedMessages() {
     messages: filteredMessages,
     searchTerm,
     setSearchTerm,
+    isExtracting,
     clearMessages,
+    reExtractMessages,
     handleExport,
   };
 }

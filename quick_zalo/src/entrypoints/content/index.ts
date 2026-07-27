@@ -106,6 +106,16 @@ export default defineContentScript({
           observer.stop();
         }
         sendResponse({ ok: true, data: { enabled: msg.payload?.enabled } });
+      } else if (msg.name === 'zalo.cache.clear' && observer) {
+        observer.clearCache();
+        sendResponse({ ok: true });
+      } else if (msg.name === 'zalo.messages.rescan' && observer) {
+        const count = observer.forceScanCurrentChat(true);
+        const conversationName = observer.getActiveConversation();
+        showToastNotification(
+          `⚡ Quick Zalo: Đã trích xuất lại ${count} tin nhắn từ [${conversationName || 'Khung chat'}]`
+        );
+        sendResponse({ ok: true, data: { count } });
       }
 
       return true;
