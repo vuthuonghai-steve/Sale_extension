@@ -12,6 +12,7 @@ export interface FeatureFlagsConfig {
   enableAutoSync: boolean;
   syncIntervalMinutes: number;
   enableNotifications: boolean;
+  moduleStatuses?: Record<string, boolean>;
 }
 
 export interface AppConfig {

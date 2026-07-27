@@ -7,6 +7,7 @@ interface HeaderProps {
   onExport: () => string | null;
   onReExtract?: () => void;
   isExtracting?: boolean;
+  isEnabled?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -14,6 +15,7 @@ export const Header: React.FC<HeaderProps> = ({
   onExport,
   onReExtract,
   isExtracting = false,
+  isEnabled = true,
 }) => {
   const [toast, setToast] = useState<string | null>(null);
 
@@ -55,22 +57,22 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Re-extract button with loading state */}
           <button
             onClick={onReExtract}
-            disabled={isExtracting || !status.isConnected}
-            title="Trích xuất lại tin nhắn từ khung chat Zalo hiện tại"
+            disabled={isExtracting || !status.isConnected || !isEnabled}
+            title={isEnabled ? "Trích xuất lại tin nhắn từ khung chat Zalo hiện tại" : "Module hiện đang bị tắt"}
             style={{
               padding: '4px 8px',
               fontSize: '11px',
               fontWeight: 500,
-              backgroundColor: isExtracting ? '#f5f5f5' : '#0068ff',
-              color: isExtracting ? '#bfbfbf' : '#ffffff',
-              border: `1px solid ${isExtracting ? '#d9d9d9' : '#0068ff'}`,
+              backgroundColor: isExtracting || !isEnabled ? '#f5f5f5' : '#0068ff',
+              color: isExtracting || !isEnabled ? '#bfbfbf' : '#ffffff',
+              border: `1px solid ${isExtracting || !isEnabled ? '#d9d9d9' : '#0068ff'}`,
               borderRadius: '6px',
-              cursor: isExtracting || !status.isConnected ? 'not-allowed' : 'pointer',
+              cursor: isExtracting || !status.isConnected || !isEnabled ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
               lineHeight: 1,
-              opacity: status.isConnected ? 1 : 0.6,
+              opacity: status.isConnected && isEnabled ? 1 : 0.6,
               transition: 'all 0.2s ease',
             }}
           >
@@ -96,20 +98,22 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Export JSON button */}
           <button
             onClick={handleExport}
-            title="Xuất tất cả tin nhắn ra file JSON"
+            disabled={!isEnabled}
+            title={isEnabled ? "Xuất tất cả tin nhắn ra file JSON" : "Module hiện đang bị tắt"}
             style={{
               padding: '4px 8px',
               fontSize: '11px',
               fontWeight: 500,
-              backgroundColor: '#ffffff',
-              color: '#0068ff',
-              border: '1px solid #91caff',
+              backgroundColor: isEnabled ? '#ffffff' : '#f5f5f5',
+              color: isEnabled ? '#0068ff' : '#bfbfbf',
+              border: `1px solid ${isEnabled ? '#91caff' : '#d9d9d9'}`,
               borderRadius: '6px',
-              cursor: 'pointer',
+              cursor: isEnabled ? 'pointer' : 'not-allowed',
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
               lineHeight: 1,
+              opacity: isEnabled ? 1 : 0.6,
             }}
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

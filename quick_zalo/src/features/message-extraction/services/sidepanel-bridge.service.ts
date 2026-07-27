@@ -117,4 +117,24 @@ export class SidepanelBridgeService {
     }
     return 0;
   }
+
+  public async toggleObserver(enabled: boolean): Promise<boolean> {
+    try {
+      if (typeof browser === 'undefined' || !browser.tabs?.query) {
+        return false;
+      }
+      const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+      const activeTab = tabs?.[0];
+
+      if (activeTab?.id && activeTab.url?.includes('zalo.me')) {
+        await browser.tabs
+          .sendMessage(activeTab.id, { name: 'zalo.observer.toggle', payload: { enabled } })
+          .catch(() => undefined);
+        return true;
+      }
+    } catch (err) {
+      console.warn('[SidepanelBridgeService] Failed to toggle observer:', err);
+    }
+    return false;
+  }
 }

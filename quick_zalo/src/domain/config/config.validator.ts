@@ -20,6 +20,9 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
     enableAutoSync: true,
     syncIntervalMinutes: 15,
     enableNotifications: true,
+    moduleStatuses: {
+      'message-extraction': true,
+    },
   },
 };
 
@@ -69,6 +72,10 @@ export function validateConfig(data: unknown): Result<AppConfig, ConfigError> {
     features: {
       ...DEFAULT_APP_CONFIG.features,
       ...(raw.features ?? {}),
+      moduleStatuses: {
+        ...DEFAULT_APP_CONFIG.features.moduleStatuses,
+        ...(raw.features?.moduleStatuses ?? {}),
+      },
     },
   };
 

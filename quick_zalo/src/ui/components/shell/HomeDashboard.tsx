@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ModuleDef } from '@features/registry';
 import { ModuleCard } from './ModuleCard';
+import { useModuleManagement } from '../../hooks/use-module-management';
 
 export interface HomeDashboardProps {
   modules: ModuleDef[];
@@ -11,6 +12,8 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   modules,
   onSelect,
 }) => {
+  const { isModuleEnabled, toggleModule } = useModuleManagement();
+
   return (
     <div className="flex flex-col min-h-full bg-slate-50 font-sans antialiased text-slate-800 selection:bg-blue-500 selection:text-white">
       {/* Header Banner */}
@@ -60,6 +63,8 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
               description={module.description}
               badge={module.badge}
               icon={module.icon}
+              enabled={isModuleEnabled(module.id)}
+              onToggleEnabled={(enabled) => void toggleModule(module.id, enabled)}
               onClick={() => onSelect(module)}
             />
           ))}

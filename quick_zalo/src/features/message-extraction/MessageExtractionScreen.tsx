@@ -1,12 +1,16 @@
 import React, { useCallback } from 'react';
 import { useExtractedMessages, useZaloTabStatus } from './hooks';
 import { Header, SearchBar, MessageList } from './components';
+import { useModuleManagement } from '../../ui/hooks/use-module-management';
 
 /**
  * MessageExtractionScreen — Screen đại diện chính của feature Message Extraction.
  */
 export const MessageExtractionScreen: React.FC = () => {
   const status = useZaloTabStatus();
+  const { isModuleEnabled, toggleModule } = useModuleManagement();
+  const isEnabled = isModuleEnabled('message-extraction');
+
   const {
     messages,
     searchTerm,
@@ -40,13 +44,54 @@ export const MessageExtractionScreen: React.FC = () => {
         onExport={handleExportClick}
         onReExtract={reExtractMessages}
         isExtracting={isExtracting}
+        isEnabled={isEnabled}
       />
+
+      {!isEnabled && (
+        <div
+          style={{
+            margin: '8px 12px 0 12px',
+            padding: '10px 14px',
+            backgroundColor: '#fffbe6',
+            border: '1px solid #ffe58f',
+            borderRadius: '8px',
+            fontSize: '12px',
+            color: '#d46b08',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '8px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '14px' }}>⚠️</span>
+            <span>Module Trích xuất tin nhắn đang ở trạng thái <strong>TẠM DỪNG</strong>.</span>
+          </div>
+          <button
+            onClick={() => void toggleModule('message-extraction', true)}
+            style={{
+              padding: '4px 10px',
+              fontSize: '11px',
+              fontWeight: 600,
+              backgroundColor: '#fa8c16',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Bật lại
+          </button>
+        </div>
+      )}
+
       <SearchBar
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
         onClear={clearMessages}
       />
-      <MessageList messages={messages} isConnected={status.isConnected} />
+      <MessageList messages={messages} isConnected={status.isConnected && isEnabled} />
     </div>
   );
 };
