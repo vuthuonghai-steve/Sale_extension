@@ -1,3 +1,15 @@
+/**
+ * @file entrypoints/content/index.ts
+ * @layer WXT Shell Layer (Content Script)
+ * @description Điểm khởi chạy (Entrypoint) Content Script tiêm trực tiếp vào trang web (đặc biệt là `chat.zalo.me`).
+ *
+ * Trách nhiệm chính:
+ * - Khởi tạo `ZaloDomObserver` theo dõi biến đổi DOM thời gian thực trên Zalo Web.
+ * - Lắng nghe phím tắt `Alt + A` từ người dùng để kích hoạt trích xuất lại khung chat.
+ * - Nhận và phản hồi tín hiệu Runtime Messages từ Extension (`SHORTCUT_EXTRACT_CHAT`, `zalo.status.get`, `zalo.messages.rescan`).
+ * - Hiển thị thông báo Toast (`showToastNotification`) khi thực thi các tác vụ trích xuất tin nhắn.
+ */
+
 import { createContentContainer } from '@composition/content-container';
 import { ZaloDomObserver } from '@infra/extraction/zalo-dom-observer';
 
@@ -61,6 +73,14 @@ export default defineContentScript({
             type: 'event',
             name: 'zalo.message.extracted',
             payload: zaloMsg,
+          });
+        },
+        onMessagesBatchExtracted: (batch) => {
+          console.log('[ContentScript] Extracted Zalo Messages Batch:', batch.length);
+          void browser.runtime.sendMessage({
+            type: 'event',
+            name: 'zalo.messages.extracted_batch',
+            payload: batch,
           });
         },
       });

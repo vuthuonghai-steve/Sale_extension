@@ -1,11 +1,23 @@
+/**
+ * @file zalo-dom-observer.ts
+ * @layer Infrastructure Layer (@infra/extraction)
+ * @description Bộ quan sát biến đổi DOM thực tế (Realtime MutationObserver) trên trang Zalo Web (`chat.zalo.me`).
+ *
+ * Trách nhiệm chính:
+ * - `start` / `stop`: Khởi chạy/dừng lắng nghe sự kiện thay đổi trên `document.body`.
+ * - `scanContainer`: Quét toàn bộ DOM tin nhắn hiện tại, lọc rác sidebar/header, phân loại tin nhắn cũ (`position: 'top'`) khi lướt lên và tin mới (`position: 'bottom'`) khi nhận trực tiếp.
+ * - `forceScanCurrentChat`: Ép quét lại thủ công và phát tín hiệu trích xuất dạng đơn (`onMessageExtracted`) lẫn dạng lô (`onMessagesBatchExtracted`).
+ */
+
 import type { ZaloMessage } from '@domain/message-extraction/entities/zalo-message.entity';
 import { MessageDeduplicator } from '@domain/message-extraction/services/deduplicator.service';
 import { parseActiveConversationName } from './zalo-header-parser';
 import { getLeafMessageNodes } from './zalo-element-filter';
-import { parseMessageNode } from './zalo-message-parser';
+import { parseMessageNode, peekMessageId } from './zalo-message-parser';
 
 export interface ZaloDomObserverOptions {
   onMessageExtracted: (message: ZaloMessage) => void;
+  onMessagesBatchExtracted?: (messages: ZaloMessage[]) => void;
   onConversationChanged?: (name: string) => void;
 }
 
@@ -64,16 +76,7 @@ export class ZaloDomObserver {
     }
     this.updateActiveConversation();
 
-    const elements = getLeafMessageNodes();
-
-    let extractedCount = 0;
-    elements.forEach((el) => {
-      if (this.processMessageNode(el)) {
-        extractedCount++;
-      }
-    });
-
-    return extractedCount;
+    return this.scanContainer();
   }
 
   private updateActiveConversation(): void {
@@ -84,19 +87,34 @@ export class ZaloDomObserver {
     }
   }
 
-  private scanContainer(): void {
+  private scanContainer(): number {
     const elements = getLeafMessageNodes();
+    const batch: ZaloMessage[] = [];
+
+    const hasSeenBefore = this.deduplicator.size > 0;
+    let encounteredSeenInThisScan = false;
 
     elements.forEach((el) => {
-      this.processMessageNode(el);
+      const msgId = peekMessageId(el, this.currentConversation, this.deduplicator);
+
+      if (msgId && this.deduplicator.isDuplicate(msgId)) {
+        encounteredSeenInThisScan = true;
+        return;
+      }
+
+      const position: 'top' | 'bottom' = hasSeenBefore && !encounteredSeenInThisScan ? 'top' : 'bottom';
+      const message = parseMessageNode(el, this.currentConversation, this.deduplicator, position);
+
+      if (message) {
+        batch.push(message);
+        this.options.onMessageExtracted(message);
+      }
     });
-  }
 
-  private processMessageNode(node: HTMLElement): boolean {
-    const message = parseMessageNode(node, this.currentConversation, this.deduplicator);
-    if (!message) return false;
+    if (batch.length > 0 && this.options.onMessagesBatchExtracted) {
+      this.options.onMessagesBatchExtracted(batch);
+    }
 
-    this.options.onMessageExtracted(message);
-    return true;
+    return batch.length;
   }
 }

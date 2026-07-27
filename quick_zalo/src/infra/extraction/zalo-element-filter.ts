@@ -1,3 +1,14 @@
+/**
+ * @file zalo-element-filter.ts
+ * @layer Infrastructure Layer (@infra/extraction)
+ * @description Bộ lọc vị trí và cấu trúc phần tử DOM Zalo Web.
+ *
+ * Trách nhiệm chính:
+ * - `isSidebarElement`: Loại bỏ các phần tử trùng selector nằm ở danh sách cuộc trò chuyện bên trái (Left Sidebar).
+ * - `isHeaderOrBannerElement`: Loại bỏ các banner ghim, chủ đề topic header ở trên cùng khung chat.
+ * - `getLeafMessageNodes`: Truy vấn và trả về danh sách các HTML Node tin nhắn lá (Leaf nodes) nằm trong khung chat chính theo thứ tự từ trên xuống dưới.
+ */
+
 import { SELECTOR_MESSAGE_NODES } from './zalo-selectors.const';
 
 export function isSidebarElement(node: HTMLElement, dataId: string): boolean {
