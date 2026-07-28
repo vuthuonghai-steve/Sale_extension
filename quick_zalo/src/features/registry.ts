@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { moduleMeta as msgExtMeta, Component as MsgExtComponent } from './message-extraction';
+import { moduleMeta as dataNormMeta, Component as DataNormComponent } from './data-normalization';
 
 /**
  * ModuleDef — Định nghĩa contract cho một feature module UI trong Home Dashboard.
@@ -28,5 +29,11 @@ export const MODULES: ModuleDef[] = [
     component: MsgExtComponent,
     icon: 'message-square',
     badge: 'Mới',
+  },
+  {
+    ...dataNormMeta,
+    component: DataNormComponent,
+    icon: 'database',
+    badge: 'Dexie DB',
   },
 ];
