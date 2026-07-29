@@ -1,8 +1,9 @@
-import { NormalizedMessage, RawJsonInputMessage, IngestionMetrics } from '../entities/normalized-message.entity';
+import { NormalizedListing } from '../entities/normalized-listing.entity';
+import { RawJsonInputMessage } from '../entities/normalized-message.entity';
 import { DataNormalizationService } from './normalization.service';
 
 export interface Stage1DeduplicationResult {
-  uniqueMessages: NormalizedMessage[];
+  uniqueMessages: NormalizedListing[];
   dupesInFile: number;
 }
 
@@ -19,14 +20,14 @@ export class MessageDeduplicationService {
    */
   public deduplicateFileInput(rawMessages: RawJsonInputMessage[]): Stage1DeduplicationResult {
     const seenHashes = new Set<string>();
-    const uniqueMessages: NormalizedMessage[] = [];
+    const uniqueMessages: NormalizedListing[] = [];
     let dupesInFile = 0;
 
     for (const rawMsg of rawMessages) {
       if (!rawMsg.data_raw || rawMsg.data_raw.trim() === '') {
         continue;
       }
-      const normalized = this.normalizationService.normalize(rawMsg);
+      const normalized = this.normalizationService.normalizeListing(rawMsg);
 
       if (seenHashes.has(normalized.contentHash)) {
         dupesInFile++;
