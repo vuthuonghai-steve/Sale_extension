@@ -1,0 +1,72 @@
+{
+  "groups": {
+    "95_home": {
+      "total": 504,
+      "long": 243,
+      "short": 261,
+      "long_percent": 48.2,
+      "short_percent": 51.8
+    },
+    "TNR": {
+      "total": 1212,
+      "long": 782,
+      "short": 430,
+      "long_percent": 64.5,
+      "short_percent": 35.5
+    },
+    "sky_groub": {
+      "total": 1451,
+      "long": 446,
+      "short": 1005,
+      "long_percent": 30.7,
+      "short_percent": 69.3
+    }
+  },
+  "details": {
+    "95_home": {
+      "room_listing/structured_template": 229,
+      "short_message/full_notification": 37,
+      "short_message/numeric_room_id": 5,
+      "short_message/price_only": 32,
+      "short_message/axis_only": 83,
+      "short_message/room_description": 8,
+      "short_message/unknown_short": 15,
+      "short_message/admin_announcement": 5,
+      "room_listing/free_text_listing": 14,
+      "short_message/floor_info": 2,
+      "short_message/room_code_with_price": 12,
+      "short_message/room_code_only": 25,
+      "short_message/axis_with_price": 9,
+      "short_message/media_description": 15,
+      "short_message/room_type_label": 12,
+      "short_message/price_followup": 1
+    },
+    "TNR": {
+      "room_listing/structured_template": 764,
+      "short_message/axis_only": 94,
+      "short_message/price_only": 43,
+      "short_message/unknown_short": 53,
+      "short_message/numeric_room_id": 8,
+      "short_message/room_code_only": 75,
+      "short_message/room_code_with_price": 102,
+      "short_message/admin_announcement": 2,
+      "short_message/media_description": 7,
+      "short_message/room_type_label": 10,
+      "short_message/room_description": 13,
+      "short_message/price_followup": 1,
+      "room_listing/free_text_listing": 18,
+      "short_message/floor_info": 4,
+      "short_message/axis_with_price": 18
+    },
+    "sky_groub": {
+      "short_message/heart_reaction": 450,
+      "room_listing/structured_template": 446,
+      "short_message/full_notification": 30,
+      "short_message/price_followup": 487,
+      "short_message/axis_only": 22,
+      "short_message/room_code_only": 10,
+      "short_message/admin_announcement": 2,
+      "short_message/unknown_short": 4
+    }
+  }
+}

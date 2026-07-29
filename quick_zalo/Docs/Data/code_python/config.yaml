@@ -1,0 +1,16 @@
+# Configuration for Zalo Message Classification Pipeline
+raw_dir: "/home/stveve/Documents/workspace/Sales/extension/quick_zalo/Docs/Data/Raw"
+output_dir: "/home/stveve/Documents/workspace/Sales/extension/quick_zalo/Docs/Data/result"
+
+long_threshold: 120
+
+confidence_thresholds:
+  terminal: 0.99
+  high_pattern: 0.90
+  medium_pattern: 0.70
+  low_pattern: 0.40
+  unknown: 0.10
+
+export_formats:
+  - json
+  - markdown

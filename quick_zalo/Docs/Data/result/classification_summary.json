@@ -1,0 +1,344 @@
+{
+  "total_messages": 3167,
+  "threshold": 120,
+  "categories": {
+    "room_listing/structured_template": {
+      "category": "room_listing",
+      "sub_category": "structured_template",
+      "count": 822,
+      "percent": 26.0,
+      "length_range": [
+        183,
+        1332
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-213709.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-214101.json"
+      ],
+      "pattern_summary": {
+        "has_dia_chi": 743,
+        "has_house_emoji": 669,
+        "has_price_emoji": 698,
+        "has_check_cross": 686,
+        "has_gia": 759,
+        "has_noi_that": 714,
+        "has_dich_vu": 791,
+        "has_rose_emoji": 192,
+        "has_khai_truong": 83,
+        "has_luu_y": 564,
+        "has_thang_may": 571,
+        "has_update_or_discount": 27,
+        "has_availability": 692,
+        "has_ma_code": 638
+      }
+    },
+    "short_message/full_notification": {
+      "category": "short_message",
+      "sub_category": "full_notification",
+      "count": 70,
+      "percent": 2.2,
+      "length_range": [
+        16,
+        119
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-213709.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-214101.json"
+      ],
+      "pattern_summary": {
+        "full_notification": 70
+      }
+    },
+    "short_message/unknown_short": {
+      "category": "short_message",
+      "sub_category": "unknown_short",
+      "count": 68,
+      "percent": 2.1,
+      "length_range": [
+        2,
+        119
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-213709.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-214101.json"
+      ],
+      "pattern_summary": {
+        "unrecognized": 68
+      }
+    },
+    "short_message/price_only": {
+      "category": "short_message",
+      "sub_category": "price_only",
+      "count": 75,
+      "percent": 2.4,
+      "length_range": [
+        3,
+        18
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "bare_price": 75
+      }
+    },
+    "short_message/axis_only": {
+      "category": "short_message",
+      "sub_category": "axis_only",
+      "count": 199,
+      "percent": 6.3,
+      "length_range": [
+        6,
+        33
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-213709.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-214101.json"
+      ],
+      "pattern_summary": {
+        "axis_only": 199
+      }
+    },
+    "short_message/room_description": {
+      "category": "short_message",
+      "sub_category": "room_description",
+      "count": 26,
+      "percent": 0.8,
+      "length_range": [
+        10,
+        39
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "room_desc_short": 26
+      }
+    },
+    "short_message/heart_reaction": {
+      "category": "short_message",
+      "sub_category": "heart_reaction",
+      "count": 1072,
+      "percent": 33.8,
+      "length_range": [
+        23,
+        1892
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-213709.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-214101.json"
+      ],
+      "pattern_summary": {
+        "heart_reaction": 1072
+      }
+    },
+    "short_message/numeric_room_id": {
+      "category": "short_message",
+      "sub_category": "numeric_room_id",
+      "count": 11,
+      "percent": 0.3,
+      "length_range": [
+        3,
+        3
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "bare_room_number": 11
+      }
+    },
+    "room_listing/free_text_listing": {
+      "category": "room_listing",
+      "sub_category": "free_text_listing",
+      "count": 23,
+      "percent": 0.7,
+      "length_range": [
+        122,
+        725
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "has_gia": 5,
+        "has_rose_emoji": 8,
+        "has_availability": 6,
+        "has_noi_that": 6,
+        "has_thang_may": 6,
+        "has_price_emoji": 7,
+        "has_dia_chi": 2,
+        "has_dich_vu": 5,
+        "has_ma_code": 12,
+        "has_house_emoji": 1
+      }
+    },
+    "short_message/floor_info": {
+      "category": "short_message",
+      "sub_category": "floor_info",
+      "count": 6,
+      "percent": 0.2,
+      "length_range": [
+        6,
+        18
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "floor_number": 6
+      }
+    },
+    "short_message/room_code_with_price": {
+      "category": "short_message",
+      "sub_category": "room_code_with_price",
+      "count": 114,
+      "percent": 3.6,
+      "length_range": [
+        9,
+        27
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "room_code_with_price": 114
+      }
+    },
+    "short_message/room_code_only": {
+      "category": "short_message",
+      "sub_category": "room_code_only",
+      "count": 110,
+      "percent": 3.5,
+      "length_range": [
+        3,
+        39
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-213709.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-214101.json"
+      ],
+      "pattern_summary": {
+        "room_code_only": 110
+      }
+    },
+    "short_message/axis_with_price": {
+      "category": "short_message",
+      "sub_category": "axis_with_price",
+      "count": 27,
+      "percent": 0.9,
+      "length_range": [
+        12,
+        33
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "axis_with_price": 27
+      }
+    },
+    "short_message/media_description": {
+      "category": "short_message",
+      "sub_category": "media_description",
+      "count": 22,
+      "percent": 0.7,
+      "length_range": [
+        6,
+        29
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "photo_video_note": 22
+      }
+    },
+    "short_message/room_type_label": {
+      "category": "short_message",
+      "sub_category": "room_type_label",
+      "count": 24,
+      "percent": 0.8,
+      "length_range": [
+        4,
+        70
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "room_type": 24
+      }
+    },
+    "short_message/admin_announcement": {
+      "category": "short_message",
+      "sub_category": "admin_announcement",
+      "count": 8,
+      "percent": 0.3,
+      "length_range": [
+        4,
+        889
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json"
+      ],
+      "pattern_summary": {
+        "admin_at_all": 8
+      }
+    },
+    "short_message/price_followup": {
+      "category": "short_message",
+      "sub_category": "price_followup",
+      "count": 490,
+      "percent": 15.5,
+      "length_range": [
+        7,
+        531
+      ],
+      "source_files": [
+        "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json",
+        "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-213709.json",
+        "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-214101.json"
+      ],
+      "pattern_summary": {
+        "price_starts": 490
+      }
+    }
+  }
+}

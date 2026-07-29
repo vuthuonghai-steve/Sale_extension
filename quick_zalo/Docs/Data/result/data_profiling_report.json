@@ -1,0 +1,228 @@
+{
+  "dataset_summary": {
+    "total_messages": 3167,
+    "raw_groups_count": 3,
+    "file_counts": {
+      "95_home/zalo-messages-NGUỒN_HÀNG_95_HOME-20260728-212809.json": 504,
+      "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-214807.json": 577,
+      "TNR/zalo-messages-TNR_HOME_-_NGUỒN_TỔNG_HỢP_CTV_ĐÃ_CẮT_HH-20260728-220148.json": 635,
+      "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-213709.json": 894,
+      "sky_groub/zalo-messages-Phòng_Trống_Sky_Group-20260728-214101.json": 557
+    },
+    "group_totals": {
+      "95_home": 504,
+      "TNR": 1212,
+      "sky_groub": 1451
+    }
+  },
+  "character_length_distribution": {
+    "overall": {
+      "count": 3167,
+      "min_length": 2,
+      "max_length": 1892,
+      "mean_length": 260.03,
+      "median_length": 31,
+      "threshold_breakdown": {
+        "geq_120": {
+          "count": 1471,
+          "percent": 46.45
+        },
+        "lt_120": {
+          "count": 1696,
+          "percent": 53.55
+        }
+      }
+    },
+    "by_group": {
+      "95_home": {
+        "count": 504,
+        "min_length": 2,
+        "max_length": 1892,
+        "mean_length": 273.84,
+        "median_length": 62.5,
+        "threshold_breakdown": {
+          "geq_120": {
+            "count": 243,
+            "percent": 48.21
+          },
+          "lt_120": {
+            "count": 261,
+            "percent": 51.79
+          }
+        }
+      },
+      "TNR": {
+        "count": 1212,
+        "min_length": 3,
+        "max_length": 1758,
+        "mean_length": 330.88,
+        "median_length": 377.5,
+        "threshold_breakdown": {
+          "geq_120": {
+            "count": 782,
+            "percent": 64.52
+          },
+          "lt_120": {
+            "count": 430,
+            "percent": 35.48
+          }
+        }
+      },
+      "sky_groub": {
+        "count": 1451,
+        "min_length": 4,
+        "max_length": 1049,
+        "mean_length": 196.05,
+        "median_length": 23,
+        "threshold_breakdown": {
+          "geq_120": {
+            "count": 446,
+            "percent": 30.74
+          },
+          "lt_120": {
+            "count": 1005,
+            "percent": 69.26
+          }
+        }
+      }
+    }
+  },
+  "pattern_occurrence_audit": {
+    "95Home_Template": {
+      "count": 243,
+      "coverage_percent": 7.67,
+      "by_group": {
+        "95_home": 243,
+        "TNR": 0,
+        "sky_groub": 0
+      }
+    },
+    "FULL": {
+      "count": 67,
+      "coverage_percent": 2.12,
+      "by_group": {
+        "95_home": 37,
+        "TNR": 0,
+        "sky_groub": 30
+      }
+    },
+    "BareNumbers": {
+      "count": 13,
+      "coverage_percent": 0.41,
+      "by_group": {
+        "95_home": 5,
+        "TNR": 8,
+        "sky_groub": 0
+      }
+    },
+    "Price": {
+      "count": 620,
+      "coverage_percent": 19.58,
+      "by_group": {
+        "95_home": 49,
+        "TNR": 84,
+        "sky_groub": 487
+      }
+    },
+    "Axis": {
+      "count": 226,
+      "coverage_percent": 7.14,
+      "by_group": {
+        "95_home": 92,
+        "TNR": 112,
+        "sky_groub": 22
+      }
+    },
+    "RoomCode": {
+      "count": 224,
+      "coverage_percent": 7.07,
+      "by_group": {
+        "95_home": 37,
+        "TNR": 177,
+        "sky_groub": 10
+      }
+    },
+    "@All": {
+      "count": 7,
+      "coverage_percent": 0.22,
+      "by_group": {
+        "95_home": 5,
+        "TNR": 0,
+        "sky_groub": 2
+      }
+    },
+    "TNR_Template": {
+      "count": 782,
+      "coverage_percent": 24.69,
+      "by_group": {
+        "95_home": 0,
+        "TNR": 782,
+        "sky_groub": 0
+      }
+    },
+    "/-heart": {
+      "count": 450,
+      "coverage_percent": 14.21,
+      "by_group": {
+        "95_home": 0,
+        "TNR": 0,
+        "sky_groub": 450
+      }
+    },
+    "Sky_Template": {
+      "count": 446,
+      "coverage_percent": 14.08,
+      "by_group": {
+        "95_home": 0,
+        "TNR": 0,
+        "sky_groub": 446
+      }
+    }
+  },
+  "existing_result_comparison": {
+    "summary_total": 3167,
+    "threshold": 120,
+    "category_counts": {
+      "room_listing/free_text_listing": 32,
+      "room_listing/structured_template": 1439,
+      "short_message/admin_announcement": 9,
+      "short_message/axis_only": 199,
+      "short_message/axis_with_price": 27,
+      "short_message/floor_info": 6,
+      "short_message/full_notification": 67,
+      "short_message/heart_reaction": 450,
+      "short_message/media_description": 22,
+      "short_message/numeric_room_id": 13,
+      "short_message/price_followup": 489,
+      "short_message/price_only": 75,
+      "short_message/room_code_only": 110,
+      "short_message/room_code_with_price": 114,
+      "short_message/room_description": 21,
+      "short_message/room_type_label": 22,
+      "short_message/unknown_short": 72
+    },
+    "groups": {
+      "95_home": {
+        "total": 504,
+        "long": 243,
+        "short": 261,
+        "long_percent": 48.2,
+        "short_percent": 51.8
+      },
+      "TNR": {
+        "total": 1212,
+        "long": 782,
+        "short": 430,
+        "long_percent": 64.5,
+        "short_percent": 35.5
+      },
+      "sky_groub": {
+        "total": 1451,
+        "long": 446,
+        "short": 1005,
+        "long_percent": 30.7,
+        "short_percent": 69.3
+      }
+    }
+  }
+}

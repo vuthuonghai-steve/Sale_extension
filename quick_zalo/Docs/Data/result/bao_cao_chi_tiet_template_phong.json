@@ -1,0 +1,135 @@
+{
+  "report_title": "Báo Cáo Phân Loại & Phân Tích Mẫu Tin Nhắn Phòng Trống (Zalo Room Listing Analysis)",
+  "dataset_overview": {
+    "total_raw_messages": 3167,
+    "total_room_listings": 1471,
+    "room_listing_percentage": 46.45,
+    "character_length_stats": {
+      "min_length": 122,
+      "max_length": 1892,
+      "mean_length": 539.83,
+      "median_length": 522,
+      "threshold_breakdown": {
+        "geq_120": {
+          "count": 1471,
+          "percent": 46.45
+        },
+        "lt_120": {
+          "count": 1696,
+          "percent": 53.55
+        }
+      }
+    },
+    "group_breakdown": {
+      "TNR": {
+        "total_room_listings": 782,
+        "group_share_percent": 53.16
+      },
+      "sky_groub": {
+        "total_room_listings": 446,
+        "group_share_percent": 30.32
+      },
+      "95_home": {
+        "total_room_listings": 243,
+        "group_share_percent": 16.52
+      }
+    }
+  },
+  "structure_breakdown": {
+    "structured_template": {
+      "count": 1439,
+      "percent_of_room_listings": 97.83,
+      "by_group": {
+        "TNR": 770,
+        "sky_groub": 446,
+        "95_home": 223
+      }
+    },
+    "free_text_listing": {
+      "count": 32,
+      "percent_of_room_listings": 2.17,
+      "by_group": {
+        "TNR": 12,
+        "sky_groub": 0,
+        "95_home": 20
+      }
+    }
+  },
+  "template_types": {
+    "TNR_Standard": {
+      "name": "TNR Standard Template",
+      "count": 770,
+      "percent_of_structured": 53.51,
+      "source_group": "TNR",
+      "signature_features": [
+        "Tiêu đề mã phòng dạng Mã A[Mã số] hoặc Mã: B[Mã số]",
+        "Trường địa chỉ cố định: 🏠 Địa chỉ: Nhà [Số nhà] [Đường] - Quận: [Quận]",
+        "Trạng thái phòng: ⏰ Trống / ⏰ Trống tầng [X]",
+        "Giá thuê & mã phòng: 💰 Giá: P[Số phòng] - [Số tiền]tr",
+        "Cấu trúc phòng & thang máy: 👉Phòng : STUDIO / 1N1K, 👉Thang máy / 👉Thang bộ",
+        "Nội thất: ✅ Nội thất: Full nội thất",
+        "Chi phí dịch vụ: ✅ Dịch vụ: dvc [Số tiền]/người, Mạng, Điện, Nước, Máy giặt",
+        "Quy định: ❌ Lưu ý: Thanh toán 1 cọc 1, Khách qua gọi trước 30p"
+      ]
+    },
+    "Sky_Group_Standard": {
+      "name": "Sky Group Standard Template",
+      "count": 446,
+      "percent_of_structured": 30.99,
+      "source_group": "sky_groub",
+      "signature_features": [
+        "Tiêu đề hoa hồng & mã: /-rose/-rose [Hoa hồng %] Mã [Mã số]",
+        "Địa chỉ: 🏠 Địa chỉ: [Số ngõ/đường] - [Quận]",
+        "Thời gian & tình trạng: ⏰[Ngày/tháng] Trống: [Số phòng/Tòa nhà mới]",
+        "Khoảng giá: 💰 Giá : [Số tiền từ] - [Số tiền đến]",
+        "Diện tích & tiện ích tòa nhà: ⛳️ Diện tích: [m2] - [gác xép/thang máy/ban công]",
+        "Trang thiết bị: 💥Nội thất: [Danh sách nội thất]",
+        "Sức chứa & để xe: ✅ Có thể ở [X] người, ✅ Chỗ để xe rộng rãi",
+        "Chi tiết phí: ☘️ Phí dv: Điện, Nước, wifi, Dịch vụ chung",
+        "Chính sách: ✅ Nhận khách nước ngoài, 🚫 Không nuôi pet, 🚫 Không xe điện, 👉 Đóng 1cọc1",
+        "Icon cảm xúc Zalo cuối tin: /-heart"
+      ]
+    },
+    "95_Home_Standard": {
+      "name": "95 Home Standard Template",
+      "count": 223,
+      "percent_of_structured": 15.5,
+      "source_group": "95_home",
+      "signature_features": [
+        "Header hoa hồng: 🌹[Commission %] hoặc H[Code] 🌹[Commission %]",
+        "Tiêu đề tòa nhà: 🏡KHAI TRƯƠNG TÒA MỚI [X]P TRUNG TÂM QUẬN [Quận] hoặc 🎉🎉 Khai trương toà mới",
+        "Địa chỉ: 🕌 Địa chỉ: [Ngõ/Đường] - [Quận] hoặc 🏢 Địa chỉ : [Ngõ/Đường]",
+        "Vị trí địa lý: 📍 Khu vực [Quận] – Vị trí trung tâm, tiện đi lại / Gần Bách Kinh Xây",
+        "Giá thuê: 💰 Giá thuê: Trục ngoài - [Số tiền] hoặc 💰Giá : Phòng 02 [Số tiền]",
+        "Chi phí dịch vụ: ⚡ Chi phí dịch vụ: Điện, Nước, Internet, Phí dịch vụ chung hoặc ✅ Dịch vụ :",
+        "Nội thất: 🛋 Nội thất: Full đồ / ✅ Nội thất: Full đồ",
+        "Ghi chú & quy định: ❌ K nuôi Pet, ✅ Ở [X] người, ❌Nhận xe Vin k sạc / ❌ Lưu ý"
+      ]
+    }
+  },
+  "free_text_patterns": {
+    "count": 32,
+    "patterns": [
+      {
+        "name": "Room Availability Update / Multi-axis Status List",
+        "description": "Danh sách cập nhật phòng trống theo trục hoặc danh sách phòng mà không sử dụng template chi tiết đầy đủ.",
+        "example_snippet": "Em gửi update phòng trống ạ: + Trục 01: 101, 201, 301... + Trục 02: 202..."
+      },
+      {
+        "name": "Amenity/Furniture-Only Description",
+        "description": "Tin nhắn chỉ liệt kê trang thiết bị nội thất gọn lẹ mà không có cấu trúc địa chỉ, giá cả, dịch vụ tiêu chuẩn.",
+        "example_snippet": "Nội thất gác xép: Giường, tủ quần áo, tủ bếp, điều hòa, nóng lạnh, tủ lạnh, bếp từ, máy giặt riêng..."
+      },
+      {
+        "name": "Narrative Landlord Listing Post",
+        "description": "Bài đăng dưới dạng văn bản tự do, viết liền đoạn theo phong cách chủ nhà cho thuê.",
+        "example_snippet": "Chính chủ cho thuê phòng tại ngõ 105 xuân la, Tây Hồ (cách học viện hành chính qgia 200m) Tầng 4 thang bộ Đủ đồ, vskk 22-25m2..."
+      },
+      {
+        "name": "Compact Non-Emoji Key-Value Post",
+        "description": "Bài đăng tối giản, trình bày theo dòng nhưng loại bỏ hầu hết biểu tượng emoji và nhãn tiêu chuẩn.",
+        "example_snippet": "Mã: A1180. Số 56 ngõ 1333 giải phóng, Hoàng Mai. Còn 1 phòng 3,6tr khép kín... Điện 4K, Nước 120k..."
+      }
+    ]
+  }
+}
