@@ -1,4 +1,4 @@
-import type { ExtensionShortcutCommand } from '@shared/constants/shortcuts.constants';
+import type { ExtensionShortcutCommand } from '@config/shortcuts.config';
 
 export interface CommandShortcutInfo {
   name: string;

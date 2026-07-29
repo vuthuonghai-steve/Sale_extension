@@ -10,6 +10,7 @@ export default defineConfig({
     startUrls: ['https://chat.zalo.me'],
   },
   alias: {
+    '@config': resolve('src/config'),
     '@domain': resolve('src/domain'),
     '@app': resolve('src/app'),
     '@infra': resolve('src/infra'),

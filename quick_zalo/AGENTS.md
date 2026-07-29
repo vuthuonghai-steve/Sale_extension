@@ -42,6 +42,7 @@ src/
 ```
 
 ### Path Aliases được quy định chuẩn tại `wxt.config.ts`:
+- `@config` $\rightarrow$ `src/config`
 - `@domain` $\rightarrow$ `src/domain`
 - `@app` $\rightarrow$ `src/app`
 - `@infra` $\rightarrow$ `src/infra`

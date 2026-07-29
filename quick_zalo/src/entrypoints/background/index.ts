@@ -1,5 +1,5 @@
 import { createBackgroundContainer } from '@composition/background-container';
-import { EXTENSION_SHORTCUTS } from '@shared/constants/shortcuts.constants';
+import { EXTENSION_SHORTCUTS } from '@config/shortcuts.config';
 
 export default defineBackground(() => {
   const container = createBackgroundContainer();

@@ -1,5 +1,5 @@
 import type { IShortcutService, CommandShortcutInfo } from '@app/ports/shortcut.port';
-import type { ExtensionShortcutCommand } from '@shared/constants/shortcuts.constants';
+import type { ExtensionShortcutCommand } from '@config/shortcuts.config';
 
 export class ShortcutServiceAdapter implements IShortcutService {
   public onCommand(handler: (command: ExtensionShortcutCommand) => void): () => void {
