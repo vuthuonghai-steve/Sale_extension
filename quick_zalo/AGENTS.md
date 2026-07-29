@@ -57,19 +57,22 @@ src/
 
 ---
 
-## 🧠 3. 7 Nguyên tắc Định hướng Cốt lõi (LLM Semantic Core)
+## 🧠 3. 8 Nguyên tắc Định hướng Cốt lõi (LLM Semantic Core)
 
-1. **Domain Anchoring:** Neo chắc không gian vector với đúng thực thể thao tác (WXT Shell, Service Worker, Content Script Isolation, UI Popup React Component, IndexedDB Ring Buffer).
-2. **Semantic Density over Ceremony:** Bắt buộc hợp đồng dữ liệu minh bạch (`Result<T, E>`, discriminated union `Message`, `AgenticLogEntry`). Không dùng prose rác.
-3. **Context Hydration:** Chỉ đọc tài liệu và rule có liên quan trực tiếp tới nhiệm vụ được giao qua Routing Index.
-4. **Dual Knowledge Stream:** Tách biệt kịch bản kỹ thuật (`technical contracts` như strict types, interfaces, schemas) và kịch bản nhận thức (`cognitive intent` như luồng thao tác tự động hóa của người dùng).
-5. **Binary Mechanical Quality Gates:** Mọi chỉnh sửa mã nguồn phải vượt qua 100% kiểm tra cơ học (`npm run typecheck`, `npm run test`).
-6. **Negative Space (`must_not`):**
+1. **Implicit Scoping & Zero-Artifact Lean Execution:** Tự phân rã bài toán ngầm trong tư duy suy luận trước khi sửa code. **CẤM** tự ý tạo file kế hoạch/báo cáo rác (`implementation_plan.md`, report files) gây ô nhiễm workspace và lãng phí dung lượng context.
+2. **Domain Anchoring:** Neo chắc không gian vector với đúng thực thể thao tác (WXT Shell, Service Worker, Content Script Isolation, UI Popup React Component, IndexedDB Ring Buffer).
+3. **Semantic Density over Ceremony:** Bắt buộc hợp đồng dữ liệu minh bạch (`Result<T, E>`, discriminated union `Message`, `AgenticLogEntry`). Ưu tiên code mô-đun hóa sạch thay cho thủ tục văn bản rác.
+4. **Context Hydration:** Chỉ đọc tài liệu và rule có liên quan trực tiếp tới nhiệm vụ được giao qua Routing Index.
+5. **Dual Knowledge Stream:** Tách biệt kịch bản kỹ thuật (`technical contracts` như strict types, interfaces, schemas) và kịch bản nhận thức (`cognitive intent` như luồng thao tác tự động hóa của người dùng).
+6. **Binary Mechanical Quality Gates:** Mọi chỉnh sửa mã nguồn phải vượt qua 100% kiểm tra cơ học (`npm run typecheck`, `npm run test`).
+7. **Negative Space (`must_not`):**
+   - `must_not`: Không tạo các file markdown rác, file nháp thủ tục kế hoạch không được yêu cầu.
+   - `must_not`: Không viết code dạng khối lớn (Monolithic File) nhét chung UI, Logic và Storage vào 1 file.
    - `must_not`: Không nuốt ngoại lệ (silent catch), không văng unhandled exceptions trong `@domain` và `@infra`.
    - `must_not`: Không dùng `any` bừa bãi hoặc ép kiểu `as any` không có lý do.
    - `must_not`: Không viết side-effects ở top-level của `entrypoints/` (phải nằm trong hàm `main()` hoặc `defineBackground()`).
    - `must_not`: Không import API `browser` hay `chrome` trực tiếp trong tầng `@domain` và `@app`.
-7. **Graceful Degradation:** Xử lý fallback an toàn khi thao tác Chrome API, Storage hoặc IndexedDB gặp sự cố (ví dụ: chuyển sang In-Memory Buffer khi trúng `QuotaExceededError`).
+8. **Graceful Degradation:** Xử lý fallback an toàn khi thao tác Chrome API, Storage hoặc IndexedDB gặp sự cố (ví dụ: chuyển sang In-Memory Buffer khi trúng `QuotaExceededError`).
 
 ---
 
