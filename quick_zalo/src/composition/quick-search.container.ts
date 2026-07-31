@@ -7,10 +7,10 @@
 import { InMemoryEventBusAdapter } from '@infra/events/in-memory-event-bus.adapter';
 import { RingBufferService } from '@domain/quick-search/services/ring-buffer.service';
 import { MessageMatcherService } from '@domain/quick-search/services/message-matcher.service';
-import { VerifySelectionUseCase } from '@app/features/quick-search/use-cases/verify-selection.use-case';
+import { VerifySelectionUseCase } from '@app/use-cases/quick-search/verify-selection.use-case';
 import { UIOverlayController } from '../ui/controllers/ui-overlay.controller';
 import { DOMSelectionListener } from '@infra/listeners/dom-selection.listener';
-import type { IDexieMessageRepository } from '@app/features/quick-search/ports/message-repository.port';
+import type { IDexieMessageRepository } from '@app/ports/message-repository.port';
 import { MESSAGE_EVENT_TYPES, MessageCapturedPayload, ConversationChangedPayload } from '@shared/contracts/events/message-events.contract';
 
 export interface BootstrapQuickSearchOptions {

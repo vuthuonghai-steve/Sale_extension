@@ -1,6 +1,6 @@
 /**
  * @file extract-message.use-case.ts
- * @layer Application Layer (@app/features/message-extraction)
+ * @layer Application Layer (@app/use-cases/message-extraction)
  * @description Use case trích xuất tin nhắn: luôn phát MESSAGE_CAPTURED lên Event Bus,
  * chỉ lưu IndexedDB khi Full Extraction được bật (isFullExtractionEnabled).
  */

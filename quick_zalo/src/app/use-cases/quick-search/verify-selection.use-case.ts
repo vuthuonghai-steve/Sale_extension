@@ -1,13 +1,13 @@
 /**
  * @file verify-selection.use-case.ts
- * @layer Application Layer (@app/features/quick-search/use-cases)
+ * @layer Application Layer (@app/use-cases/quick-search)
  * @description UseCase verifying text selection against 2-layer match (RAM RingBuffer & Dexie DB).
  */
 
 import { Result, ok, err } from '@shared/kernel/result';
 import type { RingBufferService } from '@domain/quick-search/services/ring-buffer.service';
 import type { MessageMatcherService } from '@domain/quick-search/services/message-matcher.service';
-import type { IDexieMessageRepository } from '../ports/message-repository.port';
+import type { IDexieMessageRepository } from '@app/ports/message-repository.port';
 import type { EvlogLogger } from '@infra/logging/evlog-logger';
 
 export class VerifyError extends Error {

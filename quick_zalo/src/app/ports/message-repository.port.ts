@@ -1,6 +1,7 @@
 import { NormalizedMessage, IngestionMetrics } from '../../domain/data-normalization/entities/normalized-message.entity';
 import { Result } from '../../shared/kernel/result';
-import { AppError } from '../../shared/contracts/errors';
+import { AppError, StorageError } from '../../shared/contracts/errors';
+import type { BufferedMessageEntity } from '../../domain/quick-search/entities/buffered-message.entity';
 
 export interface QueryOptions {
   searchQuery?: string;
@@ -48,3 +49,17 @@ export interface IMessageRepository {
    */
   count(): Promise<Result<number, AppError>>;
 }
+
+export interface IDexieMessageRepository {
+  findByHash(hash: string): Promise<Result<BufferedMessageEntity | null, StorageError>>;
+  findByAddressAndPrice(
+    address: string | null,
+    priceNumeric: number | null,
+    priceText: string | null
+  ): Promise<Result<{ found: boolean; matchType?: 'ADDRESS_PRICE'; details?: string }, StorageError>>;
+  findByRawData(
+    rawContent: string,
+    hash: string
+  ): Promise<Result<{ found: boolean; matchType?: 'RAW_DATA'; details?: string }, StorageError>>;
+}
+
