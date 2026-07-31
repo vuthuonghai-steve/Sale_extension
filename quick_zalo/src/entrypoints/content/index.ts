@@ -83,6 +83,14 @@ export default defineContentScript({
             payload: batch,
           });
         },
+        onConversationChanged: (conversationName) => {
+          console.log('[ContentScript] Conversation changed to:', conversationName);
+          void browser.runtime.sendMessage({
+            type: 'event',
+            name: 'zalo.conversation.changed',
+            payload: { conversationName },
+          });
+        },
       });
 
       observer.start();
@@ -120,12 +128,12 @@ export default defineContentScript({
           },
         });
       } else if (msg.name === 'zalo.observer.toggle' && observer) {
-        if (msg.payload?.enabled) {
+        const isEnabled = Boolean(msg.payload?.enabled);
+        observer.setFullExtractionEnabled(isEnabled);
+        if (!observer.isObserving()) {
           observer.start();
-        } else {
-          observer.stop();
         }
-        sendResponse({ ok: true, data: { enabled: msg.payload?.enabled } });
+        sendResponse({ ok: true, data: { enabled: isEnabled } });
       } else if (msg.name === 'zalo.cache.clear' && observer) {
         observer.clearCache();
         sendResponse({ ok: true });
