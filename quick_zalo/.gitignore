@@ -38,7 +38,7 @@ pnpm-debug.log*
 .agents/
 .claude/
 .omo/
-.omc
+.omc/
 .skill-context
 
 # file 
