@@ -14,6 +14,8 @@ zalo_quick_action/
 ├── tree_work_space.md         # Sơ đồ kiến trúc pattern & danh sách trách nhiệm các file
 ├── manifest.json              # Khai báo cấu hình Extension V3 & thứ tự nạp Content Scripts
 ├── README.md                  # Tài liệu dự án cho người dùng
+├── config/
+│   └── app.js                 # [CENTRAL CONFIG] Quản lý tập trung Shortcuts, Actions & Special Constants
 ├── background/
 │   └── background.js          # Service Worker xử lý sự kiện nền (Context Menu, Hotkey Shortcuts)
 ├── content/
@@ -45,17 +47,19 @@ zalo_quick_action/
 Các script độc lập (Utilities/Services) phải được nạp trước `content.js`:
 ```json
 "js": [
-  "content/content-logger.js",      // 1. Logger (Luôn đứng đầu để các file khác dùng)
-  "content/content-config.js",      // 2. Storage Config
-  "content/content-text.js",        // 3. Text Helper
-  "content/content-ui.js",          // 4. Shadow DOM & UI Engine
-  "content/content-zalo-adapter.js",// 5. Zalo Automation Adapter
-  "content/content.js"              // 6. Main Orchestrator (Luôn đứng cuối)
+  "config/app.js",                  // 1. App Global Config & Shortcuts (Đứng đầu tiên)
+  "content/content-logger.js",      // 2. Logger System
+  "content/content-config.js",      // 3. Storage Config Service
+  "content/content-text.js",        // 4. Text Helper
+  "content/content-ui.js",          // 5. Shadow DOM & UI Engine
+  "content/content-zalo-adapter.js",// 6. Zalo Automation Adapter
+  "content/content.js"              // 7. Main Orchestrator (Luôn đứng cuối)
 ]
 ```
 
 ### 3. Namespace & Global Objects Pattern
-Mỗi module xuất ra một Object duy nhất dưới dạng Singleton trên `window`:
+Mỗi module xuất ra một Object duy nhất dưới dạng Singleton trên `window` / `globalThis`:
+- `config/app.js` $\rightarrow$ `window.ZaloQuickActionApp`
 - `content-logger.js` $\rightarrow$ `window.ZaloQuickActionLogger`
 - `content-config.js` $\rightarrow$ `window.ZaloQuickActionConfig`
 - `content-text.js` $\rightarrow$ `window.ZaloQuickActionText`

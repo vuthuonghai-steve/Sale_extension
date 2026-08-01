@@ -1,14 +1,23 @@
 // Background Service Worker for Zalo Quick Action Extension
+importScripts('../config/app.js');
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('[Zalo Quick Action] 🚀 Extension installed successfully.');
 
   // Initialize Default Settings in Chrome Storage
-  chrome.storage.local.get(['enableFloatingToolbar', 'autoCopyOnShare', 'toastEnabled'], (res) => {
+  const storageKeys = [
+    ZaloQuickActionApp.STORAGE_KEYS.ENABLE_FLOATING_TOOLBAR,
+    ZaloQuickActionApp.STORAGE_KEYS.AUTO_COPY_ON_SHARE,
+    ZaloQuickActionApp.STORAGE_KEYS.TOAST_ENABLED
+  ];
+
+  chrome.storage.local.get(storageKeys, (res) => {
     const defaults = {};
-    if (res.enableFloatingToolbar === undefined) defaults.enableFloatingToolbar = true;
-    if (res.autoCopyOnShare === undefined) defaults.autoCopyOnShare = true;
-    if (res.toastEnabled === undefined) defaults.toastEnabled = true;
+    for (const key of storageKeys) {
+      if (res[key] === undefined) {
+        defaults[key] = ZaloQuickActionApp.DEFAULTS[key];
+      }
+    }
 
     if (Object.keys(defaults).length > 0) {
       chrome.storage.local.set(defaults);
@@ -17,8 +26,8 @@ chrome.runtime.onInstalled.addListener(() => {
 
   // Create Context Menus
   chrome.contextMenus.create({
-    id: 'zalo-quick-share',
-    title: '🚀 Chuyển tiếp nhanh qua Zalo Web (Alt+S)',
+    id: ZaloQuickActionApp.SHORTCUTS.QUICK_SHARE.id,
+    title: `🚀 Chuyển tiếp nhanh qua Zalo Web (${ZaloQuickActionApp.SHORTCUTS.QUICK_SHARE.description})`,
     contexts: ['selection']
   });
 
@@ -29,8 +38,8 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 
   chrome.contextMenus.create({
-    id: 'zalo-district-lookup-a',
-    title: '📌 Xác định Quận/Huyện bôi đen (Alt+A)',
+    id: ZaloQuickActionApp.SHORTCUTS.DISTRICT_LOOKUP_A.id,
+    title: `📌 Xác định Quận/Huyện bôi đen (${ZaloQuickActionApp.SHORTCUTS.DISTRICT_LOOKUP_A.description})`,
     contexts: ['selection']
   });
 });
@@ -49,19 +58,19 @@ function safeSendMessage(tabId, message) {
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (!tab || !tab.id) return;
 
-  if (info.menuItemId === 'zalo-quick-share') {
+  if (info.menuItemId === ZaloQuickActionApp.SHORTCUTS.QUICK_SHARE.id) {
     safeSendMessage(tab.id, {
-      action: 'EXECUTE_QUICK_SHARE',
+      action: ZaloQuickActionApp.ACTIONS.EXECUTE_QUICK_SHARE,
       selectedText: info.selectionText
     });
   } else if (info.menuItemId === 'zalo-clean-copy') {
     safeSendMessage(tab.id, {
-      action: 'EXECUTE_CLEAN_COPY',
+      action: ZaloQuickActionApp.ACTIONS.EXECUTE_CLEAN_COPY,
       selectedText: info.selectionText
     });
-  } else if (info.menuItemId === 'zalo-district-lookup-a') {
+  } else if (info.menuItemId === ZaloQuickActionApp.SHORTCUTS.DISTRICT_LOOKUP_A.id) {
     safeSendMessage(tab.id, {
-      action: 'TRIGGER_HOTKEY_DISTRICT_A',
+      action: ZaloQuickActionApp.ACTIONS.TRIGGER_HOTKEY_DISTRICT_A,
       selectedText: info.selectionText
     });
   }
@@ -69,21 +78,22 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 // Handle Commands (Keyboard Hotkeys e.g., Alt+S, Alt+A)
 chrome.commands.onCommand.addListener((command) => {
-  if (command === 'quick-share-zalo') {
+  if (command === ZaloQuickActionApp.SHORTCUTS.QUICK_SHARE.id) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0 && tabs[0].id) {
         safeSendMessage(tabs[0].id, {
-          action: 'TRIGGER_HOTKEY_SHARE'
+          action: ZaloQuickActionApp.ACTIONS.TRIGGER_HOTKEY_SHARE
         });
       }
     });
-  } else if (command === 'district-lookup-a') {
+  } else if (command === ZaloQuickActionApp.SHORTCUTS.DISTRICT_LOOKUP_A.id) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0 && tabs[0].id) {
         safeSendMessage(tabs[0].id, {
-          action: 'TRIGGER_HOTKEY_DISTRICT_A'
+          action: ZaloQuickActionApp.ACTIONS.TRIGGER_HOTKEY_DISTRICT_A
         });
       }
     });
   }
 });
+

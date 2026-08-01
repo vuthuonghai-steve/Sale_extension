@@ -12,7 +12,9 @@
       if (!element) return;
       
       const target = element.closest('button, div[role="button"], a, [class*="btn"], [class*="button"]') || element;
-      console.log('[ZaloAdapter Diagnostic] 🖱️ Simulating click sequence on target element:', target);
+      if (window.ZaloQuickActionLogger) {
+        window.ZaloQuickActionLogger.info('ZaloAdapter', 'Simulating click sequence on target element', { targetTagName: target.tagName, className: target.className });
+      }
       
       const events = ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'];
       events.forEach(evtName => {
@@ -28,21 +30,12 @@
       }
     },
 
-    // Robust Trigger for Multi-Select Share Bar on Zalo Web with Detailed Diagnostic Logging
+    // Robust Trigger for Multi-Select Share Bar on Zalo Web
     async tryTriggerMultiSelectShare() {
-      if (!this.isZaloWeb()) {
-        console.log('[ZaloAdapter Diagnostic] ℹ️ Not on zalo.me domain.');
-        return false;
-      }
-
-      console.group('🔍 [ZaloAdapter Diagnostic] Multi-Select Share Search Triggered');
-      console.log('Timestamp:', new Date().toISOString());
-      console.log('Current URL:', window.location.href);
+      if (!this.isZaloWeb()) return false;
 
       // Retry loop to handle Zalo Web DOM animation/transition
       for (let attempt = 1; attempt <= 3; attempt++) {
-        console.log(`--- Scan Attempt ${attempt}/3 ---`);
-
         // 1. Detect if Zalo Web is in Multi-Select Mode (e.g. contains "Đã chọn")
         const allTextNodes = Array.from(document.querySelectorAll('div, span, p, b, strong, button, a, div[class]'));
         const selectedCounterEl = allTextNodes.find(el => {
@@ -51,7 +44,6 @@
         });
 
         const isMultiSelectActive = !!selectedCounterEl;
-        console.log(`Multi-select counter detected ("Đã chọn"):`, isMultiSelectActive, selectedCounterEl);
 
         // 2. Scan visible elements and prioritize direct text matching ("Chia sẻ" / "Share") as seen in Zalo action bar
         const candidateEls = Array.from(document.querySelectorAll('button, div, span, a, p, b, strong'));
@@ -68,10 +60,6 @@
         });
 
         if (textMatchEls.length > 0) {
-          // Sort text matches:
-          // 1. Exact match 'chia sẻ' or 'share'
-          // 2. Shortest text content (leaf node / button label preferred over outer container)
-          // 3. Smallest bounding rect area
           textMatchEls.sort((a, b) => {
             const aTxt = (a.textContent || '').trim().toLowerCase();
             const bTxt = (b.textContent || '').trim().toLowerCase();
@@ -85,8 +73,9 @@
           });
 
           const targetBtn = textMatchEls[0];
-          console.log('🎯 SELECTED TARGET BUTTON BY TEXT ("Chia sẻ"):', targetBtn, 'Text:', targetBtn.textContent.trim());
-          console.groupEnd();
+          if (window.ZaloQuickActionLogger) {
+            window.ZaloQuickActionLogger.success('ZaloAdapter', '🎯 Triggered Multi-Select Share button by text', { buttonText: targetBtn.textContent.trim() });
+          }
 
           this.simulateClick(targetBtn);
           return true;
@@ -97,20 +86,18 @@
         const visibleIconBtn = iconShareBtns.find(el => el.offsetWidth > 0 && el.offsetHeight > 0);
 
         if (visibleIconBtn) {
-          console.log('🎯 FOUND ICON SHARE BUTTON (Fallback):', visibleIconBtn);
-          console.groupEnd();
+          if (window.ZaloQuickActionLogger) {
+            window.ZaloQuickActionLogger.success('ZaloAdapter', '🎯 Triggered Multi-Select Share icon button (Fallback)');
+          }
           this.simulateClick(visibleIconBtn);
           return true;
         }
 
         if (isMultiSelectActive && attempt < 3) {
-          console.log('⏳ Multi-select bar detected but Share button not ready yet. Waiting 120ms for DOM render...');
           await new Promise(r => setTimeout(r, 120));
         }
       }
 
-      console.warn('❌ [ZaloAdapter Diagnostic] Multi-Select Share search failed after 3 attempts.');
-      console.groupEnd();
       return false;
     },
 
@@ -118,12 +105,7 @@
     async tryInjectShareModalSearchInput(text) {
       if (!text) return false;
 
-      console.group('🔍 [ZaloAdapter Diagnostic] Share Modal Search Input Injection');
-      console.log('Text to inject into Share Modal search box:', text);
-
-      // Helper to find the search input inside Zalo's Share modal popup dialog
       const findShareModalInput = () => {
-        // 1. Look inside visible modal dialog containers (e.g. "Chia sẻ" dialog)
         const modalContainers = Array.from(document.querySelectorAll('div[role="dialog"], .modal, [class*="modal"], [class*="dialog"], [class*="popup"], [class*="share-modal"]'));
         const visibleModals = modalContainers.filter(el => el.offsetWidth > 0 && el.offsetHeight > 0);
 
@@ -134,16 +116,13 @@
           }
         }
 
-        // 2. Search for any visible input element with placeholder "Tìm kiếm..."
         const allInputs = Array.from(document.querySelectorAll('input[placeholder*="Tìm kiếm"], input[placeholder*="Search"], input[placeholder="Tìm kiếm..."]'));
         return allInputs.find(inp => inp.offsetWidth > 0 && inp.offsetHeight > 0) || null;
       };
 
-      // Poll up to 10 attempts (1 second total) to allow Share Modal opening animation to complete
       for (let attempt = 1; attempt <= 10; attempt++) {
         const inputEl = findShareModalInput();
         if (inputEl) {
-          console.log(`🎯 Found Share Modal Search Input on attempt ${attempt}:`, inputEl);
           inputEl.focus();
 
           const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
@@ -160,21 +139,23 @@
             inputEl.value = text;
           }
 
-          // Trigger full suite of React/DOM input events
           inputEl.dispatchEvent(new Event('input', { bubbles: true }));
           inputEl.dispatchEvent(new Event('change', { bubbles: true }));
           inputEl.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Enter', keyCode: 13 }));
           inputEl.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'Enter', keyCode: 13 }));
 
-          console.groupEnd();
+          if (window.ZaloQuickActionLogger) {
+            window.ZaloQuickActionLogger.success('ZaloAdapter', 'Injected text into Share Modal search input', { text });
+          }
           return true;
         }
 
         await new Promise(r => setTimeout(r, 100));
       }
 
-      console.warn('❌ Could not locate Share Modal Search Input after 10 attempts.');
-      console.groupEnd();
+      if (window.ZaloQuickActionLogger) {
+        window.ZaloQuickActionLogger.warn('ZaloAdapter', 'Could not locate Share Modal Search Input after 10 attempts');
+      }
       return false;
     },
 
@@ -182,10 +163,6 @@
     tryInjectSearchInput(text) {
       if (!text) return false;
 
-      console.group('🔍 [ZaloAdapter Diagnostic] Search Input Injection Triggered');
-      console.log('Text to inject into search box:', text);
-
-      // Search input candidates on Zalo Web & general web pages
       const searchSelectors = [
         '#contact-search-input',
         'input[data-id="contact-search-input"]',
@@ -207,7 +184,6 @@
         }
       }
 
-      // Fallback: check currently active/focused element or chat input
       if (!targetInput) {
         if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' || document.activeElement.isContentEditable)) {
           targetInput = document.activeElement;
@@ -228,7 +204,6 @@
             targetInput.dispatchEvent(new Event('input', { bubbles: true }));
             targetInput.dispatchEvent(new Event('change', { bubbles: true }));
           } else {
-            // Trigger native input value setter for React compatibility
             const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
               window.HTMLInputElement.prototype,
               'value'
@@ -246,20 +221,21 @@
             targetInput.dispatchEvent(new Event('input', { bubbles: true }));
             targetInput.dispatchEvent(new Event('change', { bubbles: true }));
 
-            // Dispatch keyboard enter events to trigger live search filters
             targetInput.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Enter', keyCode: 13 }));
             targetInput.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'Enter', keyCode: 13 }));
           }
-          console.log('✅ Successfully injected text into search/chat input:', targetInput);
-          console.groupEnd();
+
+          if (window.ZaloQuickActionLogger) {
+            window.ZaloQuickActionLogger.success('ZaloAdapter', 'Successfully injected text into search/chat input', { text });
+          }
           return true;
         } catch (err) {
-          console.error('❌ Failed to inject text into input:', err);
+          if (window.ZaloQuickActionLogger) {
+            window.ZaloQuickActionLogger.error('ZaloAdapter', 'Failed to inject text into input', err);
+          }
         }
       }
 
-      console.warn('❌ Could not find search input or chat input element on page.');
-      console.groupEnd();
       return false;
     },
 
@@ -267,16 +243,10 @@
     tryTriggerWebShare(cleanedText) {
       if (!this.isZaloWeb()) return false;
 
-      console.group('🔍 [ZaloAdapter Diagnostic] Single Text Web Share Triggered');
-      console.log('Text to inject:', cleanedText);
-
-      // 1. Try search input first if available, else active chat input
       if (this.tryInjectSearchInput(cleanedText)) {
-        console.groupEnd();
         return true;
       }
 
-      // 2. Try share button by visible text ("Chia sẻ" / "Share") or title/icon on message
       const candidateBtns = Array.from(document.querySelectorAll('button, div, span, a, [title]'))
         .filter(el => el.offsetWidth > 0 && el.offsetHeight > 0);
 
@@ -286,8 +256,9 @@
       });
 
       if (textShareBtn) {
-        console.log('✅ Triggering share button by text:', textShareBtn);
-        console.groupEnd();
+        if (window.ZaloQuickActionLogger) {
+          window.ZaloQuickActionLogger.success('ZaloAdapter', 'Triggering share button by text', { buttonText: textShareBtn.textContent.trim() });
+        }
         this.simulateClick(textShareBtn);
         return true;
       }
@@ -295,14 +266,16 @@
       const shareBtns = document.querySelectorAll('[title*="Chia sẻ"], [title*="Share"], .fa-share, .icon-share');
       if (shareBtns.length > 0) {
         const lastShareBtn = shareBtns[shareBtns.length - 1];
-        console.log('✅ Triggering share icon on message:', lastShareBtn);
-        console.groupEnd();
+        if (window.ZaloQuickActionLogger) {
+          window.ZaloQuickActionLogger.success('ZaloAdapter', 'Triggering share icon on message');
+        }
         this.simulateClick(lastShareBtn);
         return true;
       }
 
-      console.warn('❌ Could not locate active chat input or share icons on Zalo Web.');
-      console.groupEnd();
+      if (window.ZaloQuickActionLogger) {
+        window.ZaloQuickActionLogger.warn('ZaloAdapter', 'Could not locate active chat input or share icons on Zalo Web');
+      }
       return false;
     },
 
@@ -338,6 +311,60 @@
         }
       }
       return '';
+    },
+
+    // Extract full text content of a Zalo Web message when any part of it is highlighted/selected
+    getFullMessageFromSelection() {
+      if (!this.isZaloWeb()) return '';
+
+      const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0) return '';
+
+      const range = selection.getRangeAt(0);
+      const selectedNode = range.commonAncestorContainer;
+      const element = selectedNode.nodeType === 3 ? selectedNode.parentElement : selectedNode;
+
+      if (!element) return '';
+
+      // 1. Tìm container bong bóng tin nhắn tổng (msg-item)
+      const msgItem = element.closest(
+        '[class*="msg-item"], [class*="chat-item"], [data-id*="msg"], div[data-id], .msg-item'
+      );
+
+      // 2. Trong msgItem, ưu tiên lấy thẻ chứa trực tiếp phần văn bản (tránh dính tên người gửi/thời gian)
+      let textContainer = null;
+      if (msgItem) {
+        textContainer = msgItem.querySelector(
+          '[class*="text-content"], [class*="msg-text"], [class*="card-content"], [class*="msg-content"], [class*="bubble"]'
+        );
+      }
+
+      // 3. Fallback: Nếu không có textContainer riêng, lấy msgItem hoặc thẻ closest từ element bôi đen
+      const msgContainer = textContainer || msgItem || element.closest(
+        '[class*="card-content"], [class*="text-content"], [class*="msg-content"], [class*="msg-item"], [class*="msg-view"], div[data-id]'
+      );
+
+      if (!msgContainer) {
+        if (window.ZaloQuickActionLogger) {
+          window.ZaloQuickActionLogger.warn('ZaloAdapter', 'Selection node outside known Zalo message container');
+        }
+        return '';
+      }
+
+      let fullText = msgContainer.innerText || msgContainer.textContent || '';
+      fullText = fullText.replace(/\n?Xem thêm$/i, '').trim();
+
+      if (window.ZaloQuickActionLogger) {
+        window.ZaloQuickActionLogger.success('ZaloAdapter', '🎯 Successfully extracted full message container text from DOM selection', {
+          highlightedFragment: selection.toString().trim(),
+          containerClass: msgContainer.className,
+          extractedLength: fullText.length,
+          extractedTextPreview: fullText.substring(0, 120) + (fullText.length > 120 ? '...' : '')
+        });
+      }
+
+      return fullText;
     }
   };
 })();
+

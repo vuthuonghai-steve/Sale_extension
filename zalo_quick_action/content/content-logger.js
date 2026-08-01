@@ -37,7 +37,9 @@
       if (data) {
         console.groupCollapsed(`${scopeTag} %c${timestamp} - ${meta.icon} ${message}`, scopeStyle, timeStyle);
         console.log('Details / Context:', data);
-        console.trace('Stack Trace:');
+        if (level === 'ERROR') {
+          console.trace('Stack Trace:');
+        }
         console.groupEnd();
       } else {
         console.log(`${scopeTag} %c${timestamp} - ${meta.icon} ${message}`, scopeStyle, timeStyle);

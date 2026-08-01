@@ -2,8 +2,10 @@
 (function () {
   'use strict';
 
+  const App = window.ZaloQuickActionApp;
+
   window.ZaloQuickActionConfig = {
-    settings: {
+    settings: App ? { ...App.DEFAULTS } : {
       enableFloatingToolbar: true,
       autoCopyOnShare: true,
       toastEnabled: true
@@ -16,10 +18,13 @@
 
     loadSettings() {
       if (chrome.storage && chrome.storage.local) {
-        chrome.storage.local.get(['enableFloatingToolbar', 'autoCopyOnShare', 'toastEnabled'], (res) => {
-          if (res.enableFloatingToolbar !== undefined) this.settings.enableFloatingToolbar = res.enableFloatingToolbar;
-          if (res.autoCopyOnShare !== undefined) this.settings.autoCopyOnShare = res.autoCopyOnShare;
-          if (res.toastEnabled !== undefined) this.settings.toastEnabled = res.toastEnabled;
+        const keys = App ? Object.values(App.STORAGE_KEYS) : ['enableFloatingToolbar', 'autoCopyOnShare', 'toastEnabled'];
+        chrome.storage.local.get(keys, (res) => {
+          for (let key of keys) {
+            if (res[key] !== undefined) {
+              this.settings[key] = res[key];
+            }
+          }
         });
       }
     },
@@ -43,3 +48,4 @@
 
   window.ZaloQuickActionConfig.init();
 })();
+

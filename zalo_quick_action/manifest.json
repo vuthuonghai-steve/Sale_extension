@@ -49,6 +49,7 @@
         "http://*/*"
       ],
       "js": [
+        "config/app.js",
         "content/content-logger.js",
         "content/content-config.js",
         "content/content-text.js",
