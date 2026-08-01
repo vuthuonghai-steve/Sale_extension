@@ -47,6 +47,7 @@ src/
 - `@app` $\rightarrow$ `src/app`
 - `@infra` $\rightarrow$ `src/infra`
 - `@shared` $\rightarrow$ `src/shared`
+- `@ui` $\rightarrow$ `src/ui`
 - `@features` $\rightarrow$ `src/features`
 - `@composition` $\rightarrow$ `src/composition`
 

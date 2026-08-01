@@ -8,7 +8,7 @@ import { Result, ok, err } from '@shared/kernel/result';
 import type { RingBufferService } from '@domain/quick-search/services/ring-buffer.service';
 import type { MessageMatcherService } from '@domain/quick-search/services/message-matcher.service';
 import type { IDexieMessageRepository } from '@app/ports/message-repository.port';
-import type { EvlogLogger } from '@infra/logging/evlog-logger';
+import type { ILogger } from '@app/ports/logger.port';
 
 export class VerifyError extends Error {
   constructor(message: string, public readonly cause?: unknown) {
@@ -43,7 +43,7 @@ export interface VerifySelectionUseCaseDeps {
   ringBufferService: RingBufferService;
   messageMatcherService: MessageMatcherService;
   messageRepository: IDexieMessageRepository;
-  logger?: EvlogLogger;
+  logger?: ILogger;
 }
 
 export class VerifySelectionUseCase {
@@ -51,14 +51,14 @@ export class VerifySelectionUseCase {
   private readonly ringBufferService: RingBufferService;
   private readonly messageMatcherService: MessageMatcherService;
   private readonly messageRepository: IDexieMessageRepository;
-  private readonly logger?: EvlogLogger;
+  private readonly logger?: ILogger;
 
   constructor(
     isFullExtractionOrDeps: (() => boolean) | VerifySelectionUseCaseDeps,
     ringBufferService?: RingBufferService,
     messageMatcherService?: MessageMatcherService,
     messageRepository?: IDexieMessageRepository,
-    logger?: EvlogLogger
+    logger?: ILogger
   ) {
     if (typeof isFullExtractionOrDeps === 'function') {
       this.isFullExtractionEnabledFn = isFullExtractionOrDeps;
@@ -137,32 +137,6 @@ export class VerifySelectionUseCase {
           type: 'SHOW_TOAST_INFO',
           message: 'ℹ️ Tin nhắn quá cũ hoặc không nằm trong khu vực chat Zalo.',
           durationMs: 2000,
-        });
-      }
-
-      // Layer 2 verification: Step 1 Address + Price
-      const addressPriceResult = await this.messageRepository.findByAddressAndPrice(
-        null,
-        null,
-        matchedEntity.rawContent
-      );
-
-      if (addressPriceResult.isErr) {
-        return ok({
-          type: 'SHOW_TOAST_ERROR',
-          message: '⚠️ Không thể kết nối CSDL IndexedDB. Đã bật chế độ xem nhanh ngầm định.',
-          durationMs: 3000,
-        });
-      }
-
-      if (addressPriceResult.value.found) {
-        return ok({
-          type: 'SHOW_CENTER_ALERT_MODAL',
-          title: '⚠️ PHÁT HIỆN TIN NHẮN TRÙNG LẶP',
-          message: 'Khớp Địa chỉ + Giá tiền trong CSDL',
-          details: addressPriceResult.value.details,
-          matchType: addressPriceResult.value.matchType,
-          durationMs: 2500,
         });
       }
 

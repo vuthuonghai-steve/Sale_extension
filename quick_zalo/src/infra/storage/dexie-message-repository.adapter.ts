@@ -1,10 +1,11 @@
-import { IMessageRepository, QueryOptions, SaveBatchResult } from '../../app/ports/message-repository.port';
-import { NormalizedMessage, IngestionMetrics } from '../../domain/data-normalization/entities/normalized-message.entity';
-import { Result, ok, err } from '../../shared/kernel/result';
-import { AppError, StorageError } from '../../shared/contracts/errors';
+import { IMessageRepository, IDexieMessageRepository, QueryOptions, SaveBatchResult } from '@app/ports/message-repository.port';
+import { NormalizedMessage, IngestionMetrics } from '@domain/data-normalization/entities/normalized-message.entity';
+import { Result, ok, err } from '@shared/kernel/result';
+import { AppError, StorageError } from '@shared/contracts/errors';
+import type { BufferedMessageEntity } from '@domain/quick-search/entities/buffered-message.entity';
 import { QuickZaloDexieDB, dexieDb } from './dexie-database';
 
-export class DexieMessageRepository implements IMessageRepository {
+export class DexieMessageRepository implements IMessageRepository, IDexieMessageRepository {
   constructor(private readonly db: QuickZaloDexieDB = dexieDb) {}
 
   public async save(message: NormalizedMessage): Promise<Result<NormalizedMessage, AppError>> {
@@ -130,82 +131,10 @@ export class DexieMessageRepository implements IMessageRepository {
     }
   }
 
-  public async findByHash(hash: string): Promise<Result<any, StorageError>> {
+  public async findByHash(hash: string): Promise<Result<BufferedMessageEntity | null, StorageError>> {
     try {
       const record = await this.db.messages.where('hash').equals(hash).first();
       return ok(record ?? null);
-    } catch (e) {
-      return err(new StorageError(e instanceof Error ? e.message : String(e)));
-    }
-  }
-
-  public async findByAddressAndPrice(
-    address: string | null,
-    priceNumeric: number | null,
-    priceText: string | null
-  ): Promise<Result<{ found: boolean; matchType?: 'ADDRESS_PRICE'; details?: string }, StorageError>> {
-    try {
-      if (!address && !priceNumeric && !priceText) {
-        return ok({ found: false });
-      }
-
-      // Check normalized_listings
-      const listings = await this.db.normalized_listings.toArray();
-      const listingMatch = listings.find((l) => {
-        const text = l.data_raw.toLowerCase();
-        const addrOk = address ? text.includes(address.toLowerCase()) : true;
-        const priceOk =
-          priceText
-            ? text.includes(priceText.toLowerCase())
-            : priceNumeric
-              ? l.priceNumeric === priceNumeric
-              : true;
-        return (address ? addrOk : false) && (priceText || priceNumeric ? priceOk : false);
-      });
-
-      if (listingMatch) {
-        return ok({
-          found: true,
-          matchType: 'ADDRESS_PRICE',
-          details: `Listings: ${listingMatch.data_raw}`,
-        });
-      }
-
-      // Check normalized_messages
-      const normMsgs = await this.db.normalized_messages.toArray();
-      const normMsgMatch = normMsgs.find((m) => {
-        const text = m.data_raw.toLowerCase();
-        const addrOk = address ? text.includes(address.toLowerCase()) : true;
-        const priceOk = priceText ? text.includes(priceText.toLowerCase()) : true;
-        return (address ? addrOk : false) && (priceText ? priceOk : false);
-      });
-
-      if (normMsgMatch) {
-        return ok({
-          found: true,
-          matchType: 'ADDRESS_PRICE',
-          details: `Tin nhắn Đã Chuẩn Hóa: ${normMsgMatch.data_raw}`,
-        });
-      }
-
-      // Check messages (Buffer)
-      const bufferMsgs = await this.db.messages.toArray();
-      const bufferMatch = bufferMsgs.find((m) => {
-        const text = m.rawContent.toLowerCase();
-        const addrOk = address ? text.includes(address.toLowerCase()) : true;
-        const priceOk = priceText ? text.includes(priceText.toLowerCase()) : true;
-        return (address ? addrOk : false) && (priceText ? priceOk : false);
-      });
-
-      if (bufferMatch) {
-        return ok({
-          found: true,
-          matchType: 'ADDRESS_PRICE',
-          details: `Message Buffer: ${bufferMatch.rawContent}`,
-        });
-      }
-
-      return ok({ found: false });
     } catch (e) {
       return err(new StorageError(e instanceof Error ? e.message : String(e)));
     }

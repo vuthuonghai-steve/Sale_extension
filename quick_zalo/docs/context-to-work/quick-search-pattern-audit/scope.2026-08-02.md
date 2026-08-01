@@ -1,9 +1,9 @@
 # Scope Document — Quick Search: Pattern Audit & Đối Chiếu Tài Liệu Module-Capabilities
 
 **Date**: 2026-08-02
-**Status**: Initial
+**Status**: Updated (2026-08-02 — bổ sung resolution cho §10 sau review + bằng chứng git)
 **Tài liệu đối chiếu**: `Docs/Module-Capabilities/quick-search.md` (generated_at 2026-08-01, status "verified")
-**Phương pháp**: Đối chiếu từng claim trong tài liệu với code thực tế (read file + grep toàn `src/`), trace call chain, map impact.
+**Phương pháp**: Đối chiếu từng claim trong tài liệu với code thực tế (read file + grep toàn `src/`), trace call chain, map impact, kiểm tra git history.
 **Giới hạn**: Chỉ DOCUMENT — không sửa code.
 
 ---
@@ -79,7 +79,7 @@ Toàn bộ feature quick-search: `src/domain/quick-search/**`, `src/app/use-case
 
 ```mermaid
 flowchart LR
-    subgraph Doc claim (§4)
+    subgraph "Doc claim (§4)"
         E[ExtractMessageUseCase<br/>publish MESSAGE_CAPTURED] -->|"❌ không có wiring"| C[QuickSearchContainerInstance]
     end
 
@@ -265,13 +265,86 @@ Chain nội bộ (nếu được bootstrap):
 
 ---
 
-## §10: Open Questions
+## §10: Open Questions — ĐÃ GIẢI QUYẾT (Resolution sau review 2026-08-02)
 
-1. `src/config/shortcuts.config.ts:10,49` có `QUICK_SEARCH_CONTACT: 'quick-search-contact'` — cấu hình phím tắt tham chiếu một "quick-search" khác? Có liên quan feature này hay là kế hoạch riêng?
-2. Có kế hoạch/issue nào ghi nhận quick-search chưa được wiring vào content script chưa? (Doc đánh "verified" trong khi không chạy được — cần xác nhận intent.)
-3. Step 1 Address+Price: ý định ban đầu là truyền address/price đã parse từ đâu? (Hiện trạng: tham số luôn null.)
-4. Các SHOW_TOAST_* bị drop — đây là thiếu sót vô ý hay chủ đích (chỉ muốn 2 UI chính)?
-5. `findByAddressAndPrice` đọc toàn bộ bảng `toArray()` để filter trong JS (lines 153, 175, 192) — quy mô dữ liệu hiện tại có chấp nhận được không? (Không phải lệch pattern, chỉ ghi nhận.)
+### ✅ Q1. `QUICK_SEARCH_CONTACT` trong phím tắt có liên quan Quick Search module không?
+
+**RESOLVED — Không liên quan. Naming Collision.**
+
+- `src/config/shortcuts.config.ts:10,49-53` — `QUICK_SEARCH_CONTACT: 'quick-search-contact'`, mô tả "Mở ô tìm kiếm nhanh khách hàng trên Zalo", phím `Alt+Shift+F`.
+- `src/entrypoints/background/index.ts:39-48` — khi bấm, Service Worker gửi `{ type: 'SHORTCUT_FOCUS_SEARCH' }` tới tab active — **UI Automation Shortcut** (focus ô tìm kiếm Zalo Web), hoàn toàn khác động cơ Selection Verification & DB 2-Step Check của module `quick-search`.
+- **Phát hiện bổ sung (ngoài phạm vi quick-search, đáng ghi nhận)**: `SHORTCUT_FOCUS_SEARCH` chỉ xuất hiện đúng 1 lần trong toàn `src/` (background/index.ts:43 — phía gửi). Content script `src/entrypoints/content/index.ts:107-150` **không có handler** cho message này ⇒ phím tắt Alt+Shift+F hiện **không làm gì** (signal gửi đi nhưng không nơi xử lý).
+- Confidence: 95% (verify 2 file + grep toàn src).
+
+<evidence>
+  <file>src/config/shortcuts.config.ts</file>
+  <line>49</line>
+  <finding>Q1: 'quick-search-contact' — "Mở ô tìm kiếm nhanh khách hàng trên Zalo" (Alt+Shift+F) — là shortcut UI automation, không phải module quick-search.</finding>
+</evidence>
+
+<evidence>
+  <file>src/entrypoints/background/index.ts</file>
+  <line>43</line>
+  <finding>Q1: gửi SHORTCUT_FOCUS_SEARCH tới tab active; grep toàn src chỉ 1 match (phía gửi) — content script không có handler nhận message này.</finding>
+</evidence>
+
+### ✅ Q2. Trạng thái "verified" ↔ thực tế Dead Code
+
+**RESOLVED — Module là WIP bỏ quên ở bước Wiring (không phải lỗi tài liệu cô lập).**
+
+- `bootstrapQuickSearchContainer()` không được gọi từ entrypoint nào (D1); registry chỉ có 2 modules (evidence §8).
+- Git history xác nhận: 2 commits duy nhất liên quan — `8874504` `feat(quick-search): implement quick search verification and message extraction specs` (file được tạo tại `src/app/features/quick-search/use-cases/`) và `829371b` `refactor(app): standardize application layer structure and relocate use cases` (di dời sang `src/app/use-cases/quick-search/`). **Không có commit nào thực hiện wiring vào entrypoint/registry.**
+- Tài liệu "verified" đánh giá theo tồn tại vật lý của file/symbol, không kiểm thử luồng bootstrap & event wiring.
+- **Ý nghĩa**: cần Issue/Task chính thức để (a) wire container vào content script, (b) đăng ký feature registry — **tuy nhiên đây là bước fix, nằm ngoài phạm vi document này**.
+- Confidence: 95% (git log + grep).
+
+<evidence>
+  <file>git history</file>
+  <line>8874504</line>
+  <finding>Q2: commit đầu tiên tạo use case tại src/app/features/quick-search/use-cases/verify-selection.use-case.ts; commit 829371b chỉ relocate — không commit nào wire container vào entrypoint.</finding>
+</evidence>
+
+### ✅ Q3. Step 1 "Khớp Địa chỉ + Giá" luôn `null, null` — ý định ban đầu?
+
+**RESOLVED — `null, null` tồn tại NGAY TỪ commit đầu tiên; không có lịch sử parse address/price.**
+
+- `git show 8874504:./src/app/features/quick-search/use-cases/verify-selection.use-case.ts:144` — call `findByAddressAndPrice(null, null, matchedEntity.rawContent)` giống hệt hiện trạng ⇒ **không phải regression do refactor**, đây là Stub/Placeholder cố hữu từ spec đầu.
+- **Giả thuyết intent (chưa có bằng chứng code/history)**: port signature thiết kế 3 tham số (`address`, `priceNumeric`, `priceText`) gợi ý ý định đối soát theo Địa chỉ + Giá đã parse — nhưng không có parser nào trong module trích xuất address/price từ selection text. Đánh dấu **plausible, chưa xác nhận**.
+- Tác động (đã nêu D3): Step 1 luôn trả `{found:false}` → dead logic; toàn bộ việc đối chiếu phụ thuộc Step 2/2b (raw/hash).
+- Confidence: 92% (git show xác nhận hiện trạng từ đầu); phần "intent" 65% — là suy luận từ signature.
+
+<evidence>
+  <file>git show 8874504</file>
+  <line>144</line>
+  <finding>Q3: tại commit gốc, use case đã gọi findByAddressAndPrice(null, null, matchedEntity.rawContent) — stub tồn tại từ spec đầu tiên, không có bước parse address/price nào từng tồn tại trong git history.</finding>
+</evidence>
+
+### ✅ Q4. Các `SHOW_TOAST_*` bị drop — cố ý hay thiếu sót?
+
+**RESOLVED — Partial Implementation (thiếu sót, không cố ý).**
+
+- Use case thiết kế đủ 7 variants response (union type, verify-selection.use-case.ts:25-39) với message tiếng Việt đầy đủ (IF-03 warning line 111-115, IF-04 info line 136-140, 3× error DB line 151-155/175-179/197-201) — rõ ràng có ý định hiển thị.
+- Container chỉ xử lý 2 nhánh (quick-search.container.ts:83-90); `UIOverlayController` không có method `showToastWarning/Info/Error` (chỉ showCenterAlert/showSuccessToast/mountModeBadge — ui-overlay.controller.ts:37-156).
+- ⇒ Kiến trúc Use Case hoàn chỉnh nhưng tầng UI/Container mới hoàn thành 2/5 kịch bản hiển thị (Happy Path + Full Alert).
+- Confidence: 92% (đối chiếu union type + container + controller).
+
+### ✅ Q5. `findByAddressAndPrice` dùng `toArray()` đọc toàn bộ bảng?
+
+**RESOLVED — Đúng, toàn bộ 6 chỗ đọc `toArray()` + filter JS; rủi ro hiệu năng dài hạn.**
+
+- `dexie-message-repository.adapter.ts:153` (`normalized_listings.toArray()`), `:175` (`normalized_messages.toArray()`), `:192` (`messages.toArray()`); tương tự `findByRawData` tại `:222`, `:236`, `:250`. Không dùng index `where(...)`/`equals(...)` cho tra cứu nội dung (chỉ `findByHash:135` dùng index `&hash`).
+- Đánh giá rủi ro: ngắn hạn (dev, vài trăm bản ghi) — chấp nhận được, vài ms; dài hạn (hàng nghìn bản ghi, chạy trong Content Script mỗi lần bôi đen) — tốn RAM/GC, `.filter()` đồng bộ trên main thread có thể gây khựng UI Zalo. Ghi nhận là observation hiệu năng, không phải lệch pattern kiến trúc.
+- Confidence: 95% (đọc trực tiếp 6 call site).
+
+---
+
+## §11: Bổ sung sau review (2026-08-02)
+
+| # | Phát hiện mới | Bằng chứng | Confidence |
+|---|---|---|---|
+| R1 | `SHORTCUT_FOCUS_SEARCH` (Alt+Shift+F) gửi từ background nhưng **không có handler trong content script** — phím tắt tìm kiếm khách hàng hiện vô tác dụng | background/index.ts:43 (duy nhất 1 match trong src) | 92% |
+| R2 | Git history xác nhận quick-search chưa bao giờ qua bước wiring (chỉ 2 commits: tạo feature + relocate) | `git log --oneline --all -- src/domain/quick-search src/app/use-cases/quick-search src/composition/quick-search.container.ts` | 95% |
+| R3 | `null, null` trong Step 1 là stub nguyên gốc từ commit đầu, không phải regression | `git show 8874504:./src/app/features/quick-search/use-cases/verify-selection.use-case.ts` | 92% |
 
 ---
 

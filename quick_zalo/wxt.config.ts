@@ -16,6 +16,7 @@ export default defineConfig({
     '@app': resolve('src/app'),
     '@infra': resolve('src/infra'),
     '@shared': resolve('src/shared'),
+    '@ui': resolve('src/ui'),
     '@features': resolve('src/features'),
     '@composition': resolve('src/composition'),
   },

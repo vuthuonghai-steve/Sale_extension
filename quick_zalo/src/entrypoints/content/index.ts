@@ -12,6 +12,8 @@
 
 import { createContentContainer } from '@composition/content-container';
 import { ZaloDomObserver } from '@infra/extraction/zalo-dom-observer';
+import { bootstrapQuickSearchContainer } from '@composition/quick-search.container';
+import { Evlog } from '../../infra/logging';
 
 function showToastNotification(message: string): void {
   const existing = document.getElementById('quick-zalo-toast');
@@ -50,7 +52,7 @@ export default defineContentScript({
   matches: ['https://*/*', 'http://*/*'],
   runAt: 'document_idle',
   main() {
-    const { extractDom } = createContentContainer();
+    const { extractDom, eventBus, messageRepository, logger } = createContentContainer();
     const isZaloWeb = window.location.hostname.includes('zalo.me');
 
     let observer: ZaloDomObserver | null = null;
@@ -67,6 +69,7 @@ export default defineContentScript({
     if (isZaloWeb) {
       console.log('[ContentScript] Initializing Realtime Zalo DOM Observer...');
       observer = new ZaloDomObserver({
+        eventBus,
         onMessageExtracted: (zaloMsg) => {
           console.log('[ContentScript] Extracted Zalo Message:', zaloMsg);
           void browser.runtime.sendMessage({
@@ -94,6 +97,11 @@ export default defineContentScript({
       });
 
       observer.start();
+
+      bootstrapQuickSearchContainer({ messageRepository, eventBus, logger });
+      Evlog.info('@composition/quick-search', 'QuickSearch bootstrapped from content main', {
+        isZaloWeb,
+      });
 
       // Listen for Alt + A keydown directly on page
       window.addEventListener('keydown', (e: KeyboardEvent) => {

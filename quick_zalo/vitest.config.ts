@@ -20,6 +20,7 @@ export default defineConfig({
       '@app': resolve(__dirname, 'src/app'),
       '@infra': resolve(__dirname, 'src/infra'),
       '@shared': resolve(__dirname, 'src/shared'),
+      '@ui': resolve(__dirname, 'src/ui'),
       '@features': resolve(__dirname, 'src/features'),
       '@composition': resolve(__dirname, 'src/composition'),
     },

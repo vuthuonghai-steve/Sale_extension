@@ -1,5 +1,5 @@
-import type { AppConfig, ConfigError } from '../../domain/config/config.entity';
-import type { Result } from '../../shared/kernel/result';
+import type { AppConfig, ConfigError } from '@domain/config/config.entity';
+import type { Result } from '@shared/kernel/result';
 
 export interface IConfigService {
   getConfig(): Promise<AppConfig>;

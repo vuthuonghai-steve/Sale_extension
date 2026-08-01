@@ -18,6 +18,9 @@ export class UIOverlayController {
   private shadowRoot: ShadowRoot | null = null;
   private alertTimer: ReturnType<typeof setTimeout> | null = null;
   private toastTimer: ReturnType<typeof setTimeout> | null = null;
+  private toastWarningTimer: ReturnType<typeof setTimeout> | null = null;
+  private toastInfoTimer: ReturnType<typeof setTimeout> | null = null;
+  private toastErrorTimer: ReturnType<typeof setTimeout> | null = null;
 
   private ensureShadowHost(): ShadowRoot {
     if (!this.shadowHost) {
@@ -122,6 +125,114 @@ export class UIOverlayController {
     }, durationMs);
   }
 
+  public showToastWarning(message: string, durationMs = 1500): void {
+    const root = this.ensureShadowHost();
+
+    let toastContainer = root.querySelector('.quick-zalo-toast-warning-container') as HTMLElement;
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.className = 'quick-zalo-toast-warning-container';
+      Object.assign(toastContainer.style, {
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        backgroundColor: '#faad14',
+        color: '#ffffff',
+        padding: '12px 20px',
+        borderRadius: '8px',
+        boxShadow: '0 6px 16px rgba(250, 173, 20, 0.3)',
+        fontSize: '13px',
+        fontWeight: '600',
+        zIndex: '999999',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      });
+      root.appendChild(toastContainer);
+    }
+
+    toastContainer.innerHTML = `<span data-testid="warning-toast-message">${message}</span>`;
+
+    if (this.toastWarningTimer) {
+      clearTimeout(this.toastWarningTimer);
+    }
+
+    this.toastWarningTimer = setTimeout(() => {
+      toastContainer.remove();
+      this.toastWarningTimer = null;
+    }, durationMs);
+  }
+
+  public showToastInfo(message: string, durationMs = 2000): void {
+    const root = this.ensureShadowHost();
+
+    let toastContainer = root.querySelector('.quick-zalo-toast-info-container') as HTMLElement;
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.className = 'quick-zalo-toast-info-container';
+      Object.assign(toastContainer.style, {
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        backgroundColor: '#1890ff',
+        color: '#ffffff',
+        padding: '12px 20px',
+        borderRadius: '8px',
+        boxShadow: '0 6px 16px rgba(24, 144, 255, 0.3)',
+        fontSize: '13px',
+        fontWeight: '600',
+        zIndex: '999999',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      });
+      root.appendChild(toastContainer);
+    }
+
+    toastContainer.innerHTML = `<span data-testid="info-toast-message">${message}</span>`;
+
+    if (this.toastInfoTimer) {
+      clearTimeout(this.toastInfoTimer);
+    }
+
+    this.toastInfoTimer = setTimeout(() => {
+      toastContainer.remove();
+      this.toastInfoTimer = null;
+    }, durationMs);
+  }
+
+  public showToastError(message: string, durationMs = 3000): void {
+    const root = this.ensureShadowHost();
+
+    let toastContainer = root.querySelector('.quick-zalo-toast-error-container') as HTMLElement;
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.className = 'quick-zalo-toast-error-container';
+      Object.assign(toastContainer.style, {
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        backgroundColor: '#ff4d4f',
+        color: '#ffffff',
+        padding: '12px 20px',
+        borderRadius: '8px',
+        boxShadow: '0 6px 16px rgba(255, 77, 79, 0.3)',
+        fontSize: '13px',
+        fontWeight: '600',
+        zIndex: '999999',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      });
+      root.appendChild(toastContainer);
+    }
+
+    toastContainer.innerHTML = `<span data-testid="error-toast-message">${message}</span>`;
+
+    if (this.toastErrorTimer) {
+      clearTimeout(this.toastErrorTimer);
+    }
+
+    this.toastErrorTimer = setTimeout(() => {
+      toastContainer.remove();
+      this.toastErrorTimer = null;
+    }, durationMs);
+  }
+
   public mountModeBadge(label: string): void {
     const root = this.ensureShadowHost();
     let badgeContainer = root.querySelector('.quick-zalo-badge-container') as HTMLElement;
@@ -158,6 +269,9 @@ export class UIOverlayController {
   public destroy(): void {
     if (this.alertTimer) clearTimeout(this.alertTimer);
     if (this.toastTimer) clearTimeout(this.toastTimer);
+    if (this.toastWarningTimer) clearTimeout(this.toastWarningTimer);
+    if (this.toastInfoTimer) clearTimeout(this.toastInfoTimer);
+    if (this.toastErrorTimer) clearTimeout(this.toastErrorTimer);
 
     if (this.shadowHost) {
       this.shadowHost.remove();

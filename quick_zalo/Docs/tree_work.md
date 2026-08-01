@@ -86,7 +86,7 @@ src/
 │   └── http/                    # External API Clients
 ├── features/                    # Bounded Contexts (Feature-First Modules)
 │   ├── message-extraction/      # Message Extraction Feature Module
-│   ├── quick-search/            # Quick Search & DB Verification Feature Module (RAM Buffer & 2-Step DB Check)
+│   ├── (quick-search)           # Quick Search & DB Verification — functional module (domain/quick-search + app/use-cases/quick-search + composition/quick-search.container.ts), không có React UI → KHÔNG đăng ký registry.ts
 │   └── data-normalization/      # Data Normalization & Dual View Debug Feature Module
 ├── ui/                          # Shared UI System (React Components, Hooks & Styles)
 └── shared/                      # Shared Contracts & Domain Kernel
@@ -95,11 +95,17 @@ src/
     └── types/                   # Common Type Definitions
 ```
 
+### Wiring Note — Quick Search & DB Verification (functional module):
+- **Bootstrap:** khởi tạo từ `entrypoints/content/index.ts` thông qua `composition/content-container.ts` (content-container composition).
+- **Dependencies:** dùng chung `InMemoryEventBusAdapter` (event bus chung toàn extension), `DexieMessageRepository` (IndexedDB/Dexie) và `EvlogLoggerAdapter` (observability).
+- **Không có React UI** $\rightarrow$ không đăng ký `moduleMeta`/`Component` vào `src/features/registry.ts`.
+
 ### Path Aliases (`wxt.config.ts`):
 - `@domain` $\rightarrow$ `src/domain`
 - `@app` $\rightarrow$ `src/app`
 - `@infra` $\rightarrow$ `src/infra`
 - `@shared` $\rightarrow$ `src/shared`
+- `@ui` $\rightarrow$ `src/ui`
 - `@features` $\rightarrow$ `src/features`
 - `@composition` $\rightarrow$ `src/composition`
 

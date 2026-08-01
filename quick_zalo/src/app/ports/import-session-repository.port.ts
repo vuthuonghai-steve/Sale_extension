@@ -1,6 +1,6 @@
-import { ImportSession } from '../../domain/data-normalization/entities/import-session.entity';
-import { Result } from '../../shared/kernel/result';
-import { AppError } from '../../shared/contracts/errors';
+import { ImportSession } from '@domain/data-normalization/entities/import-session.entity';
+import { Result } from '@shared/kernel/result';
+import { AppError } from '@shared/contracts/errors';
 
 export interface IImportSessionRepository {
   /**

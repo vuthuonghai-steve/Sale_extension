@@ -3,10 +3,10 @@ import {
   ListingQueryOptions,
   SaveListingBatchResult,
   ListingIngestionMetrics,
-} from '../../app/ports/normalized-listing-repository.port';
-import { NormalizedListing } from '../../domain/data-normalization/entities/normalized-listing.entity';
-import { Result, ok, err } from '../../shared/kernel/result';
-import { AppError } from '../../shared/contracts/errors';
+} from '@app/ports/normalized-listing-repository.port';
+import { NormalizedListing } from '@domain/data-normalization/entities/normalized-listing.entity';
+import { Result, ok, err } from '@shared/kernel/result';
+import { AppError } from '@shared/contracts/errors';
 import { QuickZaloDexieDB, dexieDb } from './dexie-database';
 
 export class DexieNormalizedListingRepository implements INormalizedListingRepository {
