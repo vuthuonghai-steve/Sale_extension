@@ -46,7 +46,7 @@
 
     // 4. Quy tắc lọc văn bản chọn lọc (Hoa hồng, Thương hiệu)
     FILTER_RULES: {
-      COMMISSION_REGEX: /(?:HH|Hoa[ \t]*hồng)?:?[ \t]*(?:[\u{1F300}-\u{1F9FF}]|[🌷🌸🌺🌻🌹💐])?[ \t]*\d{1,3}[ \t]*%[ \t]*[-–—]?[ \t]*\d*(?:-\d+)?[ \t]*[mM]\b[ \t]*/gui,
+      COMMISSION_REGEX: /(?:HH|Hoa[ \t]*hồng)?:?[ \t]*(?:[\u{1F300}-\u{1F9FF}]|[🌷🌸🌺🌻🌹💐])?[ \t]*\d{1,3}[ \t]*%[ \t]*(?:[-–—]?[ \t]*\d*(?:-\d+)?[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG])\b|(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng)?[ \t]*[\d\/\.\-–—TtmM\s]*?)?(?=[ \t]*Mã:|[ \t]*MÃ:|[ \t]*mã:|\n|$)/gui,
       BRAND_REGEX: /(?:[•\-–—][ \t]*)?(?:Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[ \t]*)?[🏆🎖️🥇⭐]*[ \t]*TL[ \t]*\d*[ \t]*House[ \t]*[🏆🎖️🥇⭐]*/gui
     },
 

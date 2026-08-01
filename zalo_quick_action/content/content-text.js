@@ -19,10 +19,10 @@
       let result = text;
 
       const App = window.ZaloQuickActionApp;
-      const commissionRegex = App?.FILTER_RULES?.COMMISSION_REGEX || /(?:HH|Hoa[ \t]*hồng)?:?[ \t]*(?:[\u{1F300}-\u{1F9FF}]|[🌷🌸🌺🌻🌹💐])?[ \t]*\d{1,3}[ \t]*%[ \t]*[-–—]?[ \t]*\d*(?:-\d+)?[ \t]*[mM]\b[ \t]*/gui;
+      const commissionRegex = App?.FILTER_RULES?.COMMISSION_REGEX || /(?:HH|Hoa[ \t]*hồng)?:?[ \t]*(?:[\u{1F300}-\u{1F9FF}]|[🌷🌸🌺🌻🌹💐])?[ \t]*\d{1,3}[ \t]*%[ \t]*(?:(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng)?[ \t]*[\d\/\.\-–—TtmM\s]*?)?(?=[ \t]*Mã:|[ \t]*MÃ:|[ \t]*mã:|\n|$)/gui;
       const brandRegex = App?.FILTER_RULES?.BRAND_REGEX || /(?:[•\-–—][ \t]*)?(?:Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[ \t]*)?[🏆🎖️🥇⭐]*[ \t]*TL[ \t]*\d*[ \t]*House[ \t]*[🏆🎖️🥇⭐]*/gui;
 
-      // Pattern 1: Loại bỏ thông tin Hoa hồng (VD: "🌷40% - 6-12m", "🌷 30%-12m", "40% - 6-12m")
+      // Pattern 1: Loại bỏ thông tin Hoa hồng (VD: "🌷40% - 6-12m", "🌷30% hd 30/7/2027", "40% - 6-12m")
       result = result.replace(commissionRegex, '');
 
       // Pattern 2: Loại bỏ tên thương hiệu / Team tag (VD: "🏆TL21House🏆", "• Nguồn hàng cập nhật liên tục tại 🏆TL21House🏆")
@@ -31,12 +31,17 @@
       // Pattern 3: Loại bỏ ký tự rác Unicode \uFFFD hoặc BOM \uFEFF (TUYỆT ĐỐI KHÔNG xóa surrogate pairs để bảo vệ tất cả emoji 🍾🏢📍🏆🚗)
       result = result.replace(/[\uFFFD\uFEFF]/g, '');
 
-      // Pattern 4: Dọn dẹp các dòng rỗng hoặc dòng dẫn nguồn rỗng sinh ra sau khi xóa
+      // Pattern 4: Dọn dẹp các dòng rỗng, dòng hoa hồng đứng riêng (VD: "30%-6th", "40%-12th") hoặc dòng dẫn nguồn rỗng
       result = result
         .split('\n')
         .map(line => line.trimEnd())
         .filter(line => {
-          if (/^[•\-–—]?[ \t]*Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[ \t]*:?$/i.test(line.trim())) return false;
+          const trimmed = line.trim();
+          if (!trimmed) return true;
+          // Bỏ dòng chỉ chứa thông tin hoa hồng đứng riêng biệt (VD: "30%-6th", "🌷 40%-12th")
+          if (/^[🌷🌸🌺🌻🌹💐]?\s*(?:HH|Hoa\s*hồng)?:?\s*\d{1,3}\s*%\s*[-–—]?\s*\d*(?:-\d+)?\s*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG])?$/i.test(trimmed)) return false;
+          // Bỏ dòng dẫn nguồn rỗng
+          if (/^[•\-–—]?[ \t]*Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[ \t]*:?$/i.test(trimmed)) return false;
           return true;
         })
         .join('\n');
