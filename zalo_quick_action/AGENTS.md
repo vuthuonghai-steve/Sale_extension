@@ -33,9 +33,24 @@ LLM **BẮT BUỘC** tham chiếu file [tree_work_space.md](file:///home/stveve/
 
 ---
 
-## ⚙️ 4. Quy Trình Làm Việc Khi LLM Nhận Yêu Cầu (Workflow Guidelines)
+---
 
-1. **Trước khi sửa code**: Đọc file [tree_work_space.md](file:///home/stveve/Documents/workspace/Sales/extension/zalo_quick_action/tree_work_space.md) để xác định đúng file/scope cần chỉnh sửa.
-2. **Khi thêm/sửa DOM Selector trên Zalo Web**: Chỉnh sửa duy nhất trong `content-zalo-adapter.js`.
-3. **Khi thêm setting mới**: Cập nhật defaults trong `content-config.js` và `popup/popup.js`.
-4. **Sau khi thực hiện thay đổi**: Kiểm tra tính tương thích của `manifest.json` và đảm bảo các global namespace (`window.ZaloQuickAction*`) không bị trùng lặp hoặc lỡ xóa.
+## 🧹 5. Quy Trình Tự Động Xử Lý & Mở Rộng Regex Lọc Văn Bản (Text Sanitization Workflow)
+
+Khi người dùng gửi đoạn tin nhắn trích xuất lỗi (chưa lọc hết hoa hồng %, ngày/tháng hợp đồng, hoặc tag thương hiệu), AI Agent **BẮT BUỘC** tuân thủ quy trình 4 bước sau:
+
+1. **Phân tích Khác biệt (Pattern Analysis)**:
+   - Nhận diện cụ thể đoạn hoa hồng (`🌷30%`, `40% - 12th`, `hd 30/7/2027`), thời hạn (`m`, `th`, `t`, `tháng`), hoặc tag thương hiệu chưa được lọc.
+   - Kiểm tra xem cụm từ đó nằm ở đầu dòng, đứng dính trước `Mã:`, hay đứng thành 1 dòng độc lập.
+
+2. **Cập nhật Cấu hình Tập trung (`config/app.js`)**:
+   - Mở rộng `FILTER_RULES.COMMISSION_REGEX` hoặc `BRAND_REGEX` tại [config/app.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/zalo_quick_action/config/app.js).
+   - **Bắt buộc dùng cờ `gui`** (Unicode-aware để bảo vệ emoji) và **dùng `[ \t]*`** thay cho `\s*` để bảo toàn tuyệt đối dấu xuống dòng `\n`.
+
+3. **Đồng bộ Module Xử lý Text (`content/content-text.js`)**:
+   - Đồng bộ regex fallback và quy tắc lọc dòng độc lập trong `removeSelectiveMetadata()` tại [content/content-text.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/zalo_quick_action/content/content-text.js).
+
+4. **Báo cáo & Phản hồi Trực quan**:
+   - Trình bày mẫu tin nhắn sau khi lọc sạch 100% để người dùng kiểm tra đối chiếu.
+   - Nhắc người dùng bấm **Reload** extension trên `chrome://extensions`.
+
