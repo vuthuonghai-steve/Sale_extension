@@ -19,10 +19,10 @@
       let result = text;
 
       const App = window.ZaloQuickActionApp;
-      const commissionRegex = App?.FILTER_RULES?.COMMISSION_REGEX || /(?:HH|Hoa[ \t]*hồng)?:?[ \t]*(?:[\u{1F300}-\u{1F9FF}]|[🌷🌸🌺🌻🌹💐])?[ \t]*\d{1,3}[ \t]*%[ \t]*(?:(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng)?[ \t]*[\d\/\.\-–—TtmM\s]*?)?(?=[ \t]*Mã:|[ \t]*MÃ:|[ \t]*mã:|\n|$)/gui;
+      const commissionRegex = App?.FILTER_RULES?.COMMISSION_REGEX || /(?:(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?|(?:\/-[a-zA-Z0-9_]+|[🌷🌸🌺🌻🌹💐]))[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)|\d{1,3}[ \t]*%)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*(?:\([ \t]*(?:[cC]hủ[ \t]*dẫn|[cC][dD])?:?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*\)|(?:[-–—][ \t]*)?(?:[cC]hủ[ \t]*dẫn|[cC][dD]):?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?[ \t]*(?:[\.\-–—][ \t]*)?(?=[ \t]*[-([{:–— \t]*(?:Mã|MÃ|mã):?|[ \t]*\n|$)/gui;
       const brandRegex = App?.FILTER_RULES?.BRAND_REGEX || /(?:[•\-–—][ \t]*)?(?:Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[ \t]*)?[🏆🎖️🥇⭐]*[ \t]*TL[ \t]*\d*[ \t]*House[ \t]*[🏆🎖️🥇⭐]*/gui;
 
-      // Pattern 1: Loại bỏ thông tin Hoa hồng (VD: "🌷40% - 6-12m", "🌷30% hd 30/7/2027", "40% - 6-12m")
+      // Pattern 1: Loại bỏ thông tin Hoa hồng (VD: "🌷40% - 6-12m", "🌷30% hd 30/7/2027", "40% - 6-12m", "/-rose /-rose 35% Mã 801", "🌷35%-hd 31/8/2027 Mã: 🏆 119", "🌷40% - hd toi 30/8/2027 Mã: 🏆 982", "🌷1tr1 - 6-12m Mã: 🏆 626", "🌷40% - 12m ( Chủ dẫn 30% -12M) Mã: 🏆 232", "🌷 30% 6m- Mã: 🏆 230", "🌺 Hh40% 12th.          Mã: A273")
       result = result.replace(commissionRegex, '');
 
       // Pattern 2: Loại bỏ tên thương hiệu / Team tag (VD: "🏆TL21House🏆", "• Nguồn hàng cập nhật liên tục tại 🏆TL21House🏆")
@@ -31,15 +31,16 @@
       // Pattern 3: Loại bỏ ký tự rác Unicode \uFFFD hoặc BOM \uFEFF (TUYỆT ĐỐI KHÔNG xóa surrogate pairs để bảo vệ tất cả emoji 🍾🏢📍🏆🚗)
       result = result.replace(/[\uFFFD\uFEFF]/g, '');
 
-      // Pattern 4: Dọn dẹp các dòng rỗng, dòng hoa hồng đứng riêng (VD: "30%-6th", "40%-12th") hoặc dòng dẫn nguồn rỗng
+      // Pattern 4: Dọn dẹp các dòng rỗng, dòng hoa hồng đứng riêng (VD: "30%-6th", "🌷 40%-12th", "/-rose 35%", "🌷35%-hd 31/8/2027", "🌷40% - hd toi 30/8/2027", "🌷1tr1 - 6-12m", "🌷40% - 12m ( Chủ dẫn 30% -12M)") hoặc dòng dẫn nguồn rỗng
       result = result
         .split('\n')
         .map(line => line.trimEnd())
         .filter(line => {
           const trimmed = line.trim();
           if (!trimmed) return true;
-          // Bỏ dòng chỉ chứa thông tin hoa hồng đứng riêng biệt (VD: "30%-6th", "🌷 40%-12th")
-          if (/^[🌷🌸🌺🌻🌹💐]?\s*(?:HH|Hoa\s*hồng)?:?\s*\d{1,3}\s*%\s*[-–—]?\s*\d*(?:-\d+)?\s*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG])?$/i.test(trimmed)) return false;
+          // Bỏ dòng chỉ chứa thông tin hoa hồng đứng riêng biệt (VD: "30%-6th", "🌷 40%-12th", "/-rose /-rose 35%", "🌷35%-hd 31/8/2027", "🌷40% - hd toi 30/8/2027", "🌷1tr1 - 6-12m", "🌷40% - 12m ( Chủ dẫn 30% -12M)")
+          if (/^(?:(?:\/-[a-zA-Z0-9_]+|[🌷🌸🌺🌻🌹💐])[ \t]*)*(?:HH|Hoa[ \t]*hồng)?:?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*(?:\([ \t]*(?:[cC]hủ[ \t]*dẫn|[cC][dD])?:?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*\)|(?:[-–—][ \t]*)?(?:[cC]hủ[ \t]*dẫn|[cC][dD]):?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?$/iu.test(trimmed)) return false;
+          if (/^(?:(?:\/-[a-zA-Z0-9_]+|[🌷🌸🌺🌻🌹💐])[ \t]*)*\d{1,3}[ \t]*%[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*(?:\([ \t]*(?:[cC]hủ[ \t]*dẫn|[cC][dD])?:?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*\)|(?:[-–—][ \t]*)?(?:[cC]hủ[ \t]*dẫn|[cC][dD]):?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?$/iu.test(trimmed)) return false;
           // Bỏ dòng dẫn nguồn rỗng
           if (/^[•\-–—]?[ \t]*Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[ \t]*:?$/i.test(trimmed)) return false;
           return true;

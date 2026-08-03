@@ -7,11 +7,19 @@
   // Variable A Storage Helper Functions (Persisted in chrome.storage.local for cross-tab sharing)
   async function getVariableA() {
     return new Promise((resolve) => {
-      if (chrome.storage && chrome.storage.local) {
-        chrome.storage.local.get(['variableA'], (res) => {
-          resolve(res.variableA || null);
-        });
-      } else {
+      try {
+        if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage && chrome.storage.local) {
+          chrome.storage.local.get(['variableA'], (res) => {
+            if (chrome.runtime?.lastError) {
+              resolve(window.ZaloQuickActionVariableA || null);
+            } else {
+              resolve(res ? res.variableA : (window.ZaloQuickActionVariableA || null));
+            }
+          });
+        } else {
+          resolve(window.ZaloQuickActionVariableA || null);
+        }
+      } catch (e) {
         resolve(window.ZaloQuickActionVariableA || null);
       }
     });
@@ -19,15 +27,23 @@
 
   async function setVariableA(val) {
     window.ZaloQuickActionVariableA = val;
-    if (chrome.storage && chrome.storage.local) {
-      await chrome.storage.local.set({ variableA: val });
+    try {
+      if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage && chrome.storage.local) {
+        await chrome.storage.local.set({ variableA: val });
+      }
+    } catch (e) {
+      // Gracefully ignore extension context invalidation
     }
   }
 
   async function clearVariableA() {
     window.ZaloQuickActionVariableA = null;
-    if (chrome.storage && chrome.storage.local) {
-      await chrome.storage.local.remove('variableA');
+    try {
+      if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage && chrome.storage.local) {
+        await chrome.storage.local.remove('variableA');
+      }
+    } catch (e) {
+      // Gracefully ignore extension context invalidation
     }
   }
 
@@ -58,12 +74,15 @@
       return;
     }
 
-    // Copy to Clipboard
-    try {
-      await navigator.clipboard.writeText(cleaned);
-      window.ZaloQuickActionLogger.info('Orchestrator', 'Text copied to clipboard successfully', { textLength: cleaned.length });
-    } catch (err) {
-      window.ZaloQuickActionLogger.error('Orchestrator', 'Failed to copy text to clipboard', err);
+    // Copy to Clipboard (Checks autoCopyOnShare config)
+    const autoCopyEnabled = window.ZaloQuickActionConfig ? window.ZaloQuickActionConfig.get('autoCopyOnShare') !== false : true;
+    if (autoCopyEnabled) {
+      try {
+        await navigator.clipboard.writeText(cleaned);
+        window.ZaloQuickActionLogger.info('Orchestrator', 'Text copied to clipboard successfully', { textLength: cleaned.length });
+      } catch (err) {
+        window.ZaloQuickActionLogger.error('Orchestrator', 'Failed to copy text to clipboard', err);
+      }
     }
 
     if (isZalo) {
@@ -148,11 +167,13 @@
       return;
     }
 
-    // 1. Tự động lọc sạch văn bản & Sao chép vào Clipboard
+    // 1. Tự động lọc sạch văn bản & Sao chép vào Clipboard (Kiểm tra cấu hình autoCopyOnShare)
     const cleanedMessage = window.ZaloQuickActionText ? window.ZaloQuickActionText.clean(query) : query;
     let copiedSuccess = false;
 
-    if (cleanedMessage) {
+    const autoCopyEnabled = window.ZaloQuickActionConfig ? window.ZaloQuickActionConfig.get('autoCopyOnShare') !== false : true;
+
+    if (cleanedMessage && autoCopyEnabled) {
       try {
         await navigator.clipboard.writeText(cleanedMessage);
         copiedSuccess = true;
@@ -308,27 +329,31 @@
   });
 
   // 7. Chrome Runtime Message Listener
-  if (chrome.runtime && chrome.runtime.onMessage) {
-    chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-      const App = window.ZaloQuickActionApp;
-      const text = msg.selectedText || (window.getSelection() ? window.getSelection().toString().trim() : currentSelectedText);
+  try {
+    if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.runtime.onMessage) {
+      chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+        const App = window.ZaloQuickActionApp;
+        const text = msg.selectedText || (window.getSelection() ? window.getSelection().toString().trim() : currentSelectedText);
 
-      const actionDistrictA = App ? App.ACTIONS.TRIGGER_HOTKEY_DISTRICT_A : 'TRIGGER_HOTKEY_DISTRICT_A';
-      const actionShare = App ? App.ACTIONS.EXECUTE_QUICK_SHARE : 'EXECUTE_QUICK_SHARE';
-      const actionTriggerShare = App ? App.ACTIONS.TRIGGER_HOTKEY_SHARE : 'TRIGGER_HOTKEY_SHARE';
-      const actionCleanCopy = App ? App.ACTIONS.EXECUTE_CLEAN_COPY : 'EXECUTE_CLEAN_COPY';
+        const actionDistrictA = App ? App.ACTIONS.TRIGGER_HOTKEY_DISTRICT_A : 'TRIGGER_HOTKEY_DISTRICT_A';
+        const actionShare = App ? App.ACTIONS.EXECUTE_QUICK_SHARE : 'EXECUTE_QUICK_SHARE';
+        const actionTriggerShare = App ? App.ACTIONS.TRIGGER_HOTKEY_SHARE : 'TRIGGER_HOTKEY_SHARE';
+        const actionCleanCopy = App ? App.ACTIONS.EXECUTE_CLEAN_COPY : 'EXECUTE_CLEAN_COPY';
 
-      if (msg.action === actionDistrictA) {
-        executeDistrictLookupA(text);
-        if (sendResponse) sendResponse({ status: 'OK' });
-      } else if (msg.action === actionShare || msg.action === actionTriggerShare) {
-        executeSmartZaloShare(text);
-        if (sendResponse) sendResponse({ status: 'OK' });
-      } else if (msg.action === actionCleanCopy) {
-        executeCleanCopy(text);
-        if (sendResponse) sendResponse({ status: 'OK' });
-      }
-    });
+        if (msg.action === actionDistrictA) {
+          executeDistrictLookupA(text);
+          if (sendResponse) sendResponse({ status: 'OK' });
+        } else if (msg.action === actionShare || msg.action === actionTriggerShare) {
+          executeSmartZaloShare(text);
+          if (sendResponse) sendResponse({ status: 'OK' });
+        } else if (msg.action === actionCleanCopy) {
+          executeCleanCopy(text);
+          if (sendResponse) sendResponse({ status: 'OK' });
+        }
+      });
+    }
+  } catch (e) {
+    // Ignore context invalidation
   }
 
   console.log('[Zalo Quick Action] ✅ Content Main Orchestrator initialized successfully.');

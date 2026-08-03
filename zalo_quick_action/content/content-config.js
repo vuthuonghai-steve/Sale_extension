@@ -17,27 +17,36 @@
     },
 
     loadSettings() {
-      if (chrome.storage && chrome.storage.local) {
-        const keys = App ? Object.values(App.STORAGE_KEYS) : ['enableFloatingToolbar', 'autoCopyOnShare', 'toastEnabled'];
-        chrome.storage.local.get(keys, (res) => {
-          for (let key of keys) {
-            if (res[key] !== undefined) {
-              this.settings[key] = res[key];
+      try {
+        if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage && chrome.storage.local) {
+          const keys = App ? Object.values(App.STORAGE_KEYS) : ['enableFloatingToolbar', 'autoCopyOnShare', 'toastEnabled'];
+          chrome.storage.local.get(keys, (res) => {
+            if (chrome.runtime?.lastError) return;
+            for (let key of keys) {
+              if (res && res[key] !== undefined) {
+                this.settings[key] = res[key];
+              }
             }
-          }
-        });
+          });
+        }
+      } catch (e) {
+        // Use default in-memory settings if context invalidated
       }
     },
 
     listenChanges() {
-      if (chrome.storage && chrome.storage.onChanged) {
-        chrome.storage.onChanged.addListener((changes) => {
-          for (let key in changes) {
-            if (this.settings.hasOwnProperty(key)) {
-              this.settings[key] = changes[key].newValue;
+      try {
+        if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage && chrome.storage.onChanged) {
+          chrome.storage.onChanged.addListener((changes) => {
+            for (let key in changes) {
+              if (this.settings.hasOwnProperty(key)) {
+                this.settings[key] = changes[key].newValue;
+              }
             }
-          }
-        });
+          });
+        }
+      } catch (e) {
+        // Ignore context invalidation
       }
     },
 

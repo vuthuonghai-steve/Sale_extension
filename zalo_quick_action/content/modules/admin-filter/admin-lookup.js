@@ -6,7 +6,7 @@
 
   async function initData() {
     try {
-      if (chrome.runtime && chrome.runtime.getURL) {
+      if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.runtime.getURL) {
         const dataUrl = chrome.runtime.getURL('data/hanoi_admin_data.min.json');
         const res = await fetch(dataUrl);
         adminData = await res.json();
