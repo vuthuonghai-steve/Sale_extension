@@ -11,14 +11,19 @@
 
 import type { ZaloMessage } from '@domain/message-extraction/entities/zalo-message.entity';
 import { MessageDeduplicator } from '@domain/message-extraction/services/deduplicator.service';
+import type { IEventBus } from '@shared/kernel/event-bus.interface';
+import { MESSAGE_EVENT_TYPES } from '@shared/contracts/events/message-events.contract';
 import { parseActiveConversationName } from './zalo-header-parser';
 import { getLeafMessageNodes } from './zalo-element-filter';
 import { parseMessageNode, peekMessageId } from './zalo-message-parser';
+import { Evlog } from '../logging';
 
 export interface ZaloDomObserverOptions {
-  onMessageExtracted: (message: ZaloMessage) => void;
+  onMessageExtracted?: (message: ZaloMessage) => void;
   onMessagesBatchExtracted?: (messages: ZaloMessage[]) => void;
   onConversationChanged?: (name: string) => void;
+  eventBus?: IEventBus;
+  isFullExtractionEnabled?: boolean;
 }
 
 export class ZaloDomObserver {
@@ -66,6 +71,14 @@ export class ZaloDomObserver {
     return this.currentConversation;
   }
 
+  public isObserving(): boolean {
+    return this.isRunning;
+  }
+
+  public setFullExtractionEnabled(enabled: boolean): void {
+    this.options.isFullExtractionEnabled = enabled;
+  }
+
   public clearCache(): void {
     this.deduplicator.clear();
   }
@@ -82,8 +95,17 @@ export class ZaloDomObserver {
   private updateActiveConversation(): void {
     const name = parseActiveConversationName();
     if (name && name !== this.currentConversation) {
+      const oldName = this.currentConversation;
       this.currentConversation = name;
+      this.clearCache();
+      Evlog.info('@infra/extraction', 'Active Zalo conversation changed', {
+        oldConversation: oldName,
+        newConversation: name,
+      });
       this.options.onConversationChanged?.(name);
+      this.options.eventBus?.publish(MESSAGE_EVENT_TYPES.CONVERSATION_CHANGED, {
+        conversationId: name,
+      });
     }
   }
 
@@ -107,12 +129,24 @@ export class ZaloDomObserver {
 
       if (message) {
         batch.push(message);
-        this.options.onMessageExtracted(message);
+        this.options.eventBus?.publish(MESSAGE_EVENT_TYPES.MESSAGE_CAPTURED, {
+          rawContent: message.rawText,
+          senderId: message.sender,
+          timestamp: Date.now(),
+          conversationId: message.conversationName,
+        });
+        this.options.onMessageExtracted?.(message);
       }
     });
 
-    if (batch.length > 0 && this.options.onMessagesBatchExtracted) {
-      this.options.onMessagesBatchExtracted(batch);
+    if (batch.length > 0) {
+      Evlog.info('@infra/extraction', 'Extracted new DOM messages batch', {
+        newBatchCount: batch.length,
+        conversation: this.currentConversation,
+      });
+      if (this.options.onMessagesBatchExtracted) {
+        this.options.onMessagesBatchExtracted(batch);
+      }
     }
 
     return batch.length;

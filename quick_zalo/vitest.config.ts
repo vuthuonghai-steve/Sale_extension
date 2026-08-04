@@ -6,7 +6,8 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     setupFiles: ['./tests/setup/test-setup.ts'],
-    include: ['src/**/*.test.ts', 'tests/**/*.spec.ts', 'tests/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'tests/**/*.test.ts'],
+    exclude: ['tests/e2e-playwright/**', 'node_modules/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -19,6 +20,7 @@ export default defineConfig({
       '@app': resolve(__dirname, 'src/app'),
       '@infra': resolve(__dirname, 'src/infra'),
       '@shared': resolve(__dirname, 'src/shared'),
+      '@ui': resolve(__dirname, 'src/ui'),
       '@features': resolve(__dirname, 'src/features'),
       '@composition': resolve(__dirname, 'src/composition'),
     },

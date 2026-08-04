@@ -8,6 +8,7 @@ export default defineConfig({
     chromiumProfile: resolve('.user-data'),
     keepProfileChanges: true,
     startUrls: ['https://chat.zalo.me'],
+    chromiumArgs: ['--remote-debugging-port=9222'],
   },
   alias: {
     '@config': resolve('src/config'),
@@ -15,6 +16,7 @@ export default defineConfig({
     '@app': resolve('src/app'),
     '@infra': resolve('src/infra'),
     '@shared': resolve('src/shared'),
+    '@ui': resolve('src/ui'),
     '@features': resolve('src/features'),
     '@composition': resolve('src/composition'),
   },

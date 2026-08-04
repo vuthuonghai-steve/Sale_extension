@@ -19,7 +19,7 @@ export const MessageExtractionScreen: React.FC = () => {
     clearMessages,
     reExtractMessages,
     handleExport,
-  } = useExtractedMessages();
+  } = useExtractedMessages(isEnabled);
 
   const handleExportClick = useCallback(() => {
     return handleExport(status.activeConversation);
@@ -65,7 +65,9 @@ export const MessageExtractionScreen: React.FC = () => {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '14px' }}>⚠️</span>
-            <span>Module Trích xuất tin nhắn đang ở trạng thái <strong>TẠM DỪNG</strong>.</span>
+            <span>
+              Module đang <strong>TẠM DỪNG</strong> (Đang chạy chế độ <strong>Trích xuất tạm thời - tối đa 15 tin</strong>).
+            </span>
           </div>
           <button
             onClick={() => void toggleModule('message-extraction', true)}
@@ -81,7 +83,7 @@ export const MessageExtractionScreen: React.FC = () => {
               whiteSpace: 'nowrap',
             }}
           >
-            Bật lại
+            Bật lại đầy đủ
           </button>
         </div>
       )}
@@ -91,7 +93,7 @@ export const MessageExtractionScreen: React.FC = () => {
         onSearchChange={setSearchTerm}
         onClear={clearMessages}
       />
-      <MessageList messages={messages} isConnected={status.isConnected && isEnabled} />
+      <MessageList messages={messages} isConnected={status.isConnected} />
     </div>
   );
 };

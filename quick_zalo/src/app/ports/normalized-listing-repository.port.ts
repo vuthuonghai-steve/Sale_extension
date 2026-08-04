@@ -1,6 +1,6 @@
-import { NormalizedListing } from '../../domain/data-normalization/entities/normalized-listing.entity';
-import { Result } from '../../shared/kernel/result';
-import { AppError } from '../../shared/contracts/errors';
+import { NormalizedListing } from '@domain/data-normalization/entities/normalized-listing.entity';
+import { Result } from '@shared/kernel/result';
+import { AppError } from '@shared/contracts/errors';
 
 export interface ListingQueryOptions {
   searchQuery?: string;

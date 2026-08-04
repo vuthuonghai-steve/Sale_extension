@@ -12,6 +12,8 @@
 
 import { createContentContainer } from '@composition/content-container';
 import { ZaloDomObserver } from '@infra/extraction/zalo-dom-observer';
+import { bootstrapQuickSearchContainer } from '@composition/quick-search.container';
+import { Evlog } from '../../infra/logging';
 
 function showToastNotification(message: string): void {
   const existing = document.getElementById('quick-zalo-toast');
@@ -50,7 +52,7 @@ export default defineContentScript({
   matches: ['https://*/*', 'http://*/*'],
   runAt: 'document_idle',
   main() {
-    const { extractDom } = createContentContainer();
+    const { extractDom, eventBus, messageRepository, logger } = createContentContainer();
     const isZaloWeb = window.location.hostname.includes('zalo.me');
 
     let observer: ZaloDomObserver | null = null;
@@ -67,6 +69,7 @@ export default defineContentScript({
     if (isZaloWeb) {
       console.log('[ContentScript] Initializing Realtime Zalo DOM Observer...');
       observer = new ZaloDomObserver({
+        eventBus,
         onMessageExtracted: (zaloMsg) => {
           console.log('[ContentScript] Extracted Zalo Message:', zaloMsg);
           void browser.runtime.sendMessage({
@@ -83,9 +86,22 @@ export default defineContentScript({
             payload: batch,
           });
         },
+        onConversationChanged: (conversationName) => {
+          console.log('[ContentScript] Conversation changed to:', conversationName);
+          void browser.runtime.sendMessage({
+            type: 'event',
+            name: 'zalo.conversation.changed',
+            payload: { conversationName },
+          });
+        },
       });
 
       observer.start();
+
+      bootstrapQuickSearchContainer({ messageRepository, eventBus, logger });
+      Evlog.info('@composition/quick-search', 'QuickSearch bootstrapped from content main', {
+        isZaloWeb,
+      });
 
       // Listen for Alt + A keydown directly on page
       window.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -120,12 +136,12 @@ export default defineContentScript({
           },
         });
       } else if (msg.name === 'zalo.observer.toggle' && observer) {
-        if (msg.payload?.enabled) {
+        const isEnabled = Boolean(msg.payload?.enabled);
+        observer.setFullExtractionEnabled(isEnabled);
+        if (!observer.isObserving()) {
           observer.start();
-        } else {
-          observer.stop();
         }
-        sendResponse({ ok: true, data: { enabled: msg.payload?.enabled } });
+        sendResponse({ ok: true, data: { enabled: isEnabled } });
       } else if (msg.name === 'zalo.cache.clear' && observer) {
         observer.clearCache();
         sendResponse({ ok: true });

@@ -15,11 +15,18 @@ import type { ZaloTabStatus } from '../types/sidepanel-ui.types';
 export class SidepanelBridgeService {
   public subscribeExtractedMessages(
     onMessage: (msg: ZaloMessage) => void,
-    onBatch?: (batch: ZaloMessage[]) => void
+    onBatch?: (batch: ZaloMessage[]) => void,
+    onConversationChanged?: (conversationName: string) => void
   ): () => void {
     const listener = (raw: unknown) => {
       try {
         const msg = raw as { name?: string; payload?: unknown };
+        if (msg?.name === 'zalo.conversation.changed' && onConversationChanged) {
+          const payload = msg.payload as { conversationName?: string };
+          if (payload?.conversationName) {
+            onConversationChanged(payload.conversationName);
+          }
+        }
         if (msg?.name === 'zalo.messages.extracted_batch' && Array.isArray(msg.payload) && onBatch) {
           onBatch(msg.payload as ZaloMessage[]);
         }

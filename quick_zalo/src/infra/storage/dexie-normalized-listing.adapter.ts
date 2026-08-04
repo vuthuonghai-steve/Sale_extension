@@ -1,9 +1,9 @@
 import { dexieDb } from './dexie-database';
-import type { NormalizedListing, TemplateFamily } from '../../domain/data-normalization/entities/normalized-listing.entity';
-import { ImportSession } from '../../domain/data-normalization/entities/import-session.entity';
-import { Result, ok, err } from '../../shared/kernel/result';
-import { AppError } from '../../shared/contracts/errors';
-import { INormalizedListingRepository } from '../../app/ports/normalized-listing-repository.port';
+import type { NormalizedListing, TemplateFamily } from '@domain/data-normalization/entities/normalized-listing.entity';
+import { ImportSession } from '@domain/data-normalization/entities/import-session.entity';
+import { Result, ok, err } from '@shared/kernel/result';
+import { AppError } from '@shared/contracts/errors';
+import { INormalizedListingRepository } from '@app/ports/normalized-listing-repository.port';
 
 export interface ListingQueryOptions {
   searchQuery?: string;

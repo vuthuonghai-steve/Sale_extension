@@ -21,7 +21,7 @@ Agent **bắt buộc** tham chiếu bản đồ dưới đây để xác định
 | **Observability, Evlog Schema & Result<T,E>** | `@.agents/rules/logging-and-observability.md`<br>`@Docs/Specs/logging-and-testing/spec.md`<br>`@infra/logging/*`, `@shared/kernel/result.ts` | `Glob` (`src/infra/logging/**`, `src/domain/**`, `src/infra/**`) |
 | **Mô hình & Quy chuẩn Tầng Infra** | `src/infra/AGENTS.md` | `Glob` (`src/infra/**`) |
 | **Module Database & Storage (IndexedDB/Dexie)** | `@.agents/rules/database-and-indexeddb-storage.md` | `Glob` (`src/infra/storage/**`, `Data/Database/*`) |
-| **Kiểm thử Co-located (Vitest) & E2E (Playwright)** | `@.agents/rules/testing-and-verification.md`<br>`@Docs/Specs/logging-and-testing/spec.md` | `Model Decision` / `Glob` (`*.test.ts`, `*.spec.ts`, `tests/**`) |
+| **Kiểm thử Co-located (Vitest), E2E (Playwright) & Debug với MCP DevTools** | `@.agents/rules/testing-and-verification.md`<br>`@.agents/skills/e2e-zalo-testing/SKILL.md`<br>`@Docs/Specs/logging-and-testing/spec.md` | `Model Decision` / `Glob` (`*.test.ts`, `*.spec.ts`, `tests/**`) |
 
 ---
 
@@ -47,6 +47,7 @@ src/
 - `@app` $\rightarrow$ `src/app`
 - `@infra` $\rightarrow$ `src/infra`
 - `@shared` $\rightarrow$ `src/shared`
+- `@ui` $\rightarrow$ `src/ui`
 - `@features` $\rightarrow$ `src/features`
 - `@composition` $\rightarrow$ `src/composition`
 
@@ -73,6 +74,7 @@ src/
    - `must_not`: Không dùng `any` bừa bãi hoặc ép kiểu `as any` không có lý do.
    - `must_not`: Không viết side-effects ở top-level của `entrypoints/` (phải nằm trong hàm `main()` hoặc `defineBackground()`).
    - `must_not`: Không import API `browser` hay `chrome` trực tiếp trong tầng `@domain` và `@app`.
+   - `must_not`: **Không bỏ qua bước Đăng ký Menu Registry (`src/features/registry.ts`) & Cập nhật `tree_work.md`**: Mỗi khi bổ sung hoặc tái cấu trúc một Feature Module, Agent bắt buộc phải đăng ký `moduleMeta` và `Component` vào `src/features/registry.ts` để hiển thị trên Sidepanel Dashboard và đồng bộ kiến trúc tại `Docs/tree_work.md`.
 8. **Graceful Degradation:** Xử lý fallback an toàn khi thao tác Chrome API, Storage hoặc IndexedDB gặp sự cố (ví dụ: chuyển sang In-Memory Buffer khi trúng `QuotaExceededError`).
 
 ---
@@ -100,12 +102,14 @@ Mọi log entry sản sinh ra phải có cấu trúc chuẩn 7 trường để h
 
 ---
 
-## 🔄 5. Quy trình Kiểm chứng & Đồng bộ hóa Rules
+## 🔄 5. Quy trình Kiểm chứng & Đồng bộ hóa Rules (Mandatory Sync Gate)
 
-Khi thực hiện nhiệm vụ hoặc tái cấu trúc hệ thống:
-1. **Chạy cổng kiểm tra nhị phân (Binary Gate):**
+Khi thực hiện nhiệm vụ, thêm tính năng mới hoặc tái cấu trúc hệ thống:
+1. **Đăng ký Menu UI Card:** Bắt buộc đăng ký `moduleMeta` và `Component` vào `src/features/registry.ts` để module xuất hiện trên giao diện Sidepanel Dashboard.
+2. **Cập nhật Cây Kiến trúc (`tree_work.md`):** Thêm tên module và các thành phần chính vào `Docs/tree_work.md`.
+3. **Chạy cổng kiểm tra nhị phân (Binary Gate):**
    ```bash
    npm run typecheck
    npm run test
    ```
-2. **Cập nhật Rule & Routing Index:** Khi bổ sung module mới, đường dẫn alias mới hoặc thay đổi kiến trúc, Agent **phải tự động cập nhật** file rule tương ứng trong `.agents/rules/` và cập nhật bản đồ chỉ mục tại `AGENTS.md`.
+4. **Cập nhật Rule & Routing Index:** Khi bổ sung module mới, đường dẫn alias mới hoặc thay đổi kiến trúc, Agent **phải tự động cập nhật** file rule tương ứng trong `.agents/rules/` và cập nhật bản đồ chỉ mục tại `AGENTS.md`.

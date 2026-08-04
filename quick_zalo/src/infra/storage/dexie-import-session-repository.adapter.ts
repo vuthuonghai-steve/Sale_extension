@@ -1,7 +1,7 @@
-import { IImportSessionRepository } from '../../app/ports/import-session-repository.port';
-import { ImportSession } from '../../domain/data-normalization/entities/import-session.entity';
-import { Result, ok, err } from '../../shared/kernel/result';
-import { AppError } from '../../shared/contracts/errors';
+import { IImportSessionRepository } from '@app/ports/import-session-repository.port';
+import { ImportSession } from '@domain/data-normalization/entities/import-session.entity';
+import { Result, ok, err } from '@shared/kernel/result';
+import { AppError } from '@shared/contracts/errors';
 import { QuickZaloDexieDB, dexieDb } from './dexie-database';
 
 export class DexieImportSessionRepository implements IImportSessionRepository {

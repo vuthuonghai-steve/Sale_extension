@@ -85,9 +85,9 @@ src/
 │   ├── storage/                 # IndexedDB / Dexie Repositories
 │   └── http/                    # External API Clients
 ├── features/                    # Bounded Contexts (Feature-First Modules)
-│   ├── crm/                     # CRM Feature (domain, app, infra, ui)
-│   ├── automation/              # Automation Feature
-│   └── sync/                    # Data Sync Feature
+│   ├── message-extraction/      # Message Extraction Feature Module
+│   ├── (quick-search)           # Quick Search & DB Verification — functional module (domain/quick-search + app/use-cases/quick-search + composition/quick-search.container.ts), không có React UI → KHÔNG đăng ký registry.ts
+│   └── data-normalization/      # Data Normalization & Dual View Debug Feature Module
 ├── ui/                          # Shared UI System (React Components, Hooks & Styles)
 └── shared/                      # Shared Contracts & Domain Kernel
     ├── contracts/               # Messages, Commands, Queries, Events, Errors
@@ -95,13 +95,36 @@ src/
     └── types/                   # Common Type Definitions
 ```
 
+### Wiring Note — Quick Search & DB Verification (functional module):
+- **Bootstrap:** khởi tạo từ `entrypoints/content/index.ts` thông qua `composition/content-container.ts` (content-container composition).
+- **Dependencies:** dùng chung `InMemoryEventBusAdapter` (event bus chung toàn extension), `DexieMessageRepository` (IndexedDB/Dexie) và `EvlogLoggerAdapter` (observability).
+- **Không có React UI** $\rightarrow$ không đăng ký `moduleMeta`/`Component` vào `src/features/registry.ts`.
+
 ### Path Aliases (`wxt.config.ts`):
 - `@domain` $\rightarrow$ `src/domain`
 - `@app` $\rightarrow$ `src/app`
 - `@infra` $\rightarrow$ `src/infra`
 - `@shared` $\rightarrow$ `src/shared`
+- `@ui` $\rightarrow$ `src/ui`
 - `@features` $\rightarrow$ `src/features`
 - `@composition` $\rightarrow$ `src/composition`
+
+---
+
+## 6. 📝 Quy định Bắt buộc Đăng ký Menu UI Module & Cập nhật `tree_work.md`
+
+Mọi LLM Agent khi làm việc trong dự án `quick_zalo` **bắt buộc tuân thủ 3 bước quy trình** sau đây khi thêm mới hoặc tái cấu trúc bất kỳ tính năng/module nào:
+
+1. **Tạo Feature Package (`src/features/{feature-name}/`):**
+   - Đảm bảo xuất bản `index.ts` chứa `moduleMeta` (`id`, `title`, `description`) và `Component` (React Screen đại diện).
+
+2. **Đăng ký Menu UI Card (`src/features/registry.ts`):**
+   - Import `moduleMeta` và `Component` của module mới vào `MODULES` array trong `src/features/registry.ts`.
+   - **CẤM BỎ QUA BƯỚC NÀY**: Nếu không đăng ký vào `MODULES`, module sẽ không hiển thị trên danh sách *Tiện ích hệ thống* của Sidepanel Dashboard.
+
+3. **Cập nhật Cây Kiến trúc (`Docs/tree_work.md`):**
+   - Thêm thông tin module mới vào cây thư mục và danh sách Feature-First Modules tại `Docs/tree_work.md`.
+   - Cập nhật quy tắc ranh giới hoặc path alias nếu có sự thay đổi.
 
 ### Quy tắc Phụ thuộc giữa các Layer (Dependency Boundary Rules):
 
