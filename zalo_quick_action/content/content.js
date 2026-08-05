@@ -191,27 +191,28 @@
       }
     }
 
-    // 2. Tra cứu Quận/Huyện & Lưu vào Biến A
+    // 2. Tra cứu Dạng phòng hoặc Quận/Huyện & Lưu vào Biến A (Ưu tiên Dạng phòng > Quận/Huyện)
     if (!window.ZaloAdminLookup) {
-      window.ZaloQuickActionUI.showToast(copiedSuccess ? '📋 Đã sao chép tin nhắn! (⚠️ Bộ tra cứu địa chính chưa sẵn sàng)' : '⚠️ Bộ tra cứu địa chính chưa sẵn sàng. Thử lại sau 1s.');
+      window.ZaloQuickActionUI.showToast(copiedSuccess ? '📋 Đã sao chép tin nhắn! (⚠️ Bộ tra cứu chưa sẵn sàng)' : '⚠️ Bộ tra cứu chưa sẵn sàng. Thử lại sau 1s.');
       return;
     }
 
     await window.ZaloAdminLookup.ensureData();
-    const district = window.ZaloAdminLookup.lookupDistrict(query);
+    const searchTarget = window.ZaloAdminLookup.lookupSearchTarget ? window.ZaloAdminLookup.lookupSearchTarget(query) : null;
 
-    if (district) {
-      await setVariableA(district);
+    if (searchTarget && searchTarget.value) {
+      await setVariableA(searchTarget.value);
+      const label = searchTarget.type === 'room' ? 'Dạng phòng' : 'Quận/Huyện';
       window.ZaloQuickActionUI.showToast(
         copiedSuccess 
-          ? `📌 Đã lưu Biến A: "${district}" & 📋 Đã chép tin nhắn chuẩn hóa!` 
-          : `📌 Biến A: "${district}" (Đã lưu từ "${query.length > 25 ? query.substring(0, 25) + '...' : query}")`
+          ? `📌 Đã lưu Biến A (${label}): "${searchTarget.value}" & 📋 Đã chép tin nhắn chuẩn hóa!` 
+          : `📌 Biến A (${label}): "${searchTarget.value}" (Đã lưu từ tin nhắn)`
       );
     } else {
       window.ZaloQuickActionUI.showToast(
         copiedSuccess 
-          ? `📋 Đã sao chép tin nhắn! (⚠️ Không xác định được Quận/Huyện)` 
-          : `⚠️ Không xác định được Quận/Huyện từ: "${query.length > 25 ? query.substring(0, 25) + '...' : query}"`
+          ? `📋 Đã sao chép tin nhắn! (⚠️ Không xác định được Dạng phòng hay Quận/Huyện)` 
+          : `⚠️ Không xác định được Dạng phòng hay Quận/Huyện từ tin nhắn`
       );
     }
 

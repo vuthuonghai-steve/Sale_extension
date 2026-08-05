@@ -39,6 +39,39 @@
     return text.trim();
   }
 
+  // Extract room type from message (e.g. 2n1k, 3n1k, 2n, 3n, 2 phòng ngủ, studio, duplex...)
+  function extractRoomType(rawText) {
+    if (!rawText) return null;
+
+    // 1. Ưu tiên tìm nhãn "Dạng phòng", "Loại phòng", "Phòng"
+    // Ví dụ: "☘Dạng phòng : 2n1k", "Dạng phòng: 3n1k", "Loại phòng: 2 phòng ngủ"
+    const labelRegex = /(?:Dạng|Loại)[ \t]*phòng[ \t]*:?[ \t]*([^\n\r,;\t]+)/iu;
+    const labelMatch = rawText.match(labelRegex);
+    if (labelMatch && labelMatch[1]) {
+      let roomVal = labelMatch[1].trim();
+      // Strip leading/trailing non-alphanumeric unicode icons/emojis
+      roomVal = roomVal.replace(/^[^\w\s\u00C0-\u024F\u1EA0-\u1EF9]+|[^\w\s\u00C0-\u024F\u1EA0-\u1EF9]+$/g, '').trim();
+      if (roomVal) return roomVal;
+    }
+
+    // 2. Pattern dạng phòng kết hợp số phòng ngủ & khách (2n1k, 3n1k, 1n1k, 1k1n...)
+    const n1kRegex = /\b\d{1,2}[nN]\d{1,2}[kK]\b|\b\d{1,2}[kK]\d{1,2}[nN]\b/iu;
+    const n1kMatch = rawText.match(n1kRegex);
+    if (n1kMatch) return n1kMatch[0].trim();
+
+    // 3. Pattern X phòng ngủ / X p ngủ / X pn / X n (VD: 2 phòng ngủ, 3 phòng ngủ, 2p ngủ, 2pn, 2n, 3n)
+    const roomPatternRegex = /\b\d{1,2}[ \t]*(?:phòng[ \t]*ngủ|p[ \t]*ngủ|pn)\b|\b\d{1,2}[nN]\b/iu;
+    const roomPatternMatch = rawText.match(roomPatternRegex);
+    if (roomPatternMatch) return roomPatternMatch[0].trim();
+
+    // 4. Pattern Studio / Duplex
+    const studioRegex = /\b(?:studio|duplex)\b/iu;
+    const studioMatch = rawText.match(studioRegex);
+    if (studioMatch) return studioMatch[0].trim();
+
+    return null;
+  }
+
   function lookupAdminData(rawQuery) {
     if (!adminData || !rawQuery) return null;
 
@@ -77,6 +110,10 @@
       return !!adminData;
     },
 
+    extractRoomType(rawQuery) {
+      return extractRoomType(rawQuery);
+    },
+
     lookupDistrict(rawQuery) {
       const match = lookupAdminData(rawQuery);
       if (!match) return null;
@@ -91,6 +128,21 @@
       if (!fullName) return null;
       // Strip administrative prefixes ("Quận ", "Huyện ", "Thị xã ", etc.) so variable A contains ONLY pure name
       return fullName.replace(/^(Quận|Huyện|Thị xã|TP\.|Thành phố)\s+/i, '').trim();
+    },
+
+    // Prioritizes Room Type extraction (2n1k, 3n1k, 2n, 3n...) > Fallback to District
+    lookupSearchTarget(rawQuery) {
+      const roomType = extractRoomType(rawQuery);
+      if (roomType) {
+        return { type: 'room', value: roomType };
+      }
+
+      const district = this.lookupDistrict(rawQuery);
+      if (district) {
+        return { type: 'district', value: district };
+      }
+
+      return null;
     },
 
     lookupFull(rawQuery) {
