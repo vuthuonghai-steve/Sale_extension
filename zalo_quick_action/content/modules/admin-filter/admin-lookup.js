@@ -130,18 +130,32 @@
       return fullName.replace(/^(Quận|Huyện|Thị xã|TP\.|Thành phố)\s+/i, '').trim();
     },
 
-    // Helper kiểm tra dạng phòng có thuộc nhóm 2n và 3n hay không (2n1k, 3n1k, 2n, 3n, 2/3 phòng ngủ...)
-    isTargetRoomType(roomTypeStr) {
-      if (!roomTypeStr) return false;
-      const targetRegex = /^(?:2[nN]1[kK]|3[nN]1[kK]|2[nN]|3[nN]|2[ \t]*(?:phòng|p)?[ \t]*ngủ|3[ \t]*(?:phòng|p)?[ \t]*ngủ|2[pP][nN]|3[pP][nN])$/iu;
-      return targetRegex.test(roomTypeStr.trim());
+    // Chuẩn hóa dạng phòng về từ khóa tìm kiếm cố định ("2n1k" cho 2 ngủ/2n, "3n1k" cho 3 ngủ/3n)
+    normalizeRoomTypeSearchValue(roomTypeStr) {
+      if (!roomTypeStr) return null;
+      const str = roomTypeStr.trim();
+
+      // Nhóm 2 phòng ngủ (2n1k, 2n, 2 ngủ, 2pn, 2p ngủ...) -> Chuẩn hóa thành "2n1k"
+      if (/^(?:2[nN]1[kK]|2[nN]|2[ \t]*(?:phòng|p)?[ \t]*ngủ|2[pP][nN])$/iu.test(str)) {
+        return '2n1k';
+      }
+
+      // Nhóm 3 phòng ngủ (3n1k, 3n, 3 ngủ, 3pn, 3p ngủ...) -> Chuẩn hóa thành "3n1k"
+      if (/^(?:3[nN]1[kK]|3[nN]|3[ \t]*(?:phòng|p)?[ \t]*ngủ|3[pP][nN])$/iu.test(str)) {
+        return '3n1k';
+      }
+
+      return null;
     },
 
-    // Prioritizes Room Type ONLY for 2n & 3n cases > Otherwise fallbacks to District lookup
+    // Prioritizes Room Type ONLY for 2n (normalized to "2n1k") & 3n (normalized to "3n1k") > Otherwise fallbacks to District lookup
     lookupSearchTarget(rawQuery) {
       const roomType = extractRoomType(rawQuery);
-      if (roomType && this.isTargetRoomType(roomType)) {
-        return { type: 'room', value: roomType };
+      if (roomType) {
+        const normalizedRoom = this.normalizeRoomTypeSearchValue(roomType);
+        if (normalizedRoom) {
+          return { type: 'room', value: normalizedRoom };
+        }
       }
 
       const district = this.lookupDistrict(rawQuery);
