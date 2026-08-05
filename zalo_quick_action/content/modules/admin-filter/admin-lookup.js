@@ -130,10 +130,17 @@
       return fullName.replace(/^(Quận|Huyện|Thị xã|TP\.|Thành phố)\s+/i, '').trim();
     },
 
-    // Prioritizes Room Type extraction (2n1k, 3n1k, 2n, 3n...) > Fallback to District
+    // Helper kiểm tra dạng phòng có thuộc nhóm 2n và 3n hay không (2n1k, 3n1k, 2n, 3n, 2/3 phòng ngủ...)
+    isTargetRoomType(roomTypeStr) {
+      if (!roomTypeStr) return false;
+      const targetRegex = /^(?:2[nN]1[kK]|3[nN]1[kK]|2[nN]|3[nN]|2[ \t]*(?:phòng|p)?[ \t]*ngủ|3[ \t]*(?:phòng|p)?[ \t]*ngủ|2[pP][nN]|3[pP][nN])$/iu;
+      return targetRegex.test(roomTypeStr.trim());
+    },
+
+    // Prioritizes Room Type ONLY for 2n & 3n cases > Otherwise fallbacks to District lookup
     lookupSearchTarget(rawQuery) {
       const roomType = extractRoomType(rawQuery);
-      if (roomType) {
+      if (roomType && this.isTargetRoomType(roomType)) {
         return { type: 'room', value: roomType };
       }
 
