@@ -1,0 +1,48 @@
+skill_name: "module-docs-generation-skill"
+skill_version: "1.2.0"
+suite: "WASHVN"
+last_updated: "2026-08-01"
+module_taxonomy:
+  functional:
+    definition: "Module chức năng — chạy nền (backend), chỉ đảm nhiệm duy nhất 1 chức năng, contract rõ input/output/handle, có debug/log, KHÔNG có màn hình UI"
+    layers: ["domain", "app", "infra"]
+    examples: ["message-extraction", "data-normalization", "quick-search", "config"]
+    pattern_criteria: ["F1", "F2", "F3", "F4", "C1", "C2"]
+  ui:
+    definition: "Module giao diện — làm UI cho hệ thống, KHÔNG tự xây chức năng như module chức năng, được phép call functional module để hỗ trợ xây dựng UI"
+    layers: ["features", "ui"]
+    examples: ["debug/test screen cho message-extraction (Dual View Debug)"]
+    pattern_criteria: ["U1", "U2", "C1", "C2"]
+pattern_deviation_check:
+  verdict_rules: "FAIL ≥ 1 → LỆCH PATTERN KIẾN TRÚC; chỉ WARN → LỆCH NHẸ; toàn OK → TUÂN THỦ"
+  honesty_rule: "MỌI FAIL/WARN phải hiển thị ở Section 7 — không giấu (Gate 6)"
+inputs:
+  - name: "module-name"
+    required: true
+    validation: "regex ^[a-z0-9-]+$ — reject .. / * quotes whitespace, fail → dừng, báo lỗi path, KHÔNG tạo file (SEC-01); rồi glob src/domain/{module-name}/ — thiếu → dừng, báo lỗi path, KHÔNG tạo file (TC-02)"
+  - name: "repo_root"
+    required: false
+    default: "thư mục chứa .git"
+outputs:
+  - file_id: "capability-docs"
+    path_template: "Docs/Module-Capabilities/{module-name}.md"
+    format: "markdown"
+    schema: "templates/module-capability.md.template"
+    lifecycle_status: "WORM"
+    frontmatter_fields: ["generated_at", "last_verified", "status", "source_skill", "module_type", "description"]
+    sections: ["Overview", "Capabilities", "Boundaries", "Cross-Module Links", "Infrastructure Mapping", "Docs References", "Architecture Pattern Check"]
+layer_path_mapping:
+  domain: "src/domain/{module-name}/"
+  app: "src/app/use-cases/{module-name}/"
+  infra: "src/infra/storage/*.adapter.ts"
+  features: "src/features/{module-name}/"
+  ui: "src/ui/**"
+routing:
+  downstream_skills: ["feature-spec-designer"]
+  fallback_targets:
+    - trigger: "spec_keywords_detected"
+      target_skill: "feature-spec-designer"
+    - trigger: "module_name_invalid"
+      target_stage: "fail-no-module"
+    - trigger: "module_dir_missing"
+      target_stage: "fail-no-module"
