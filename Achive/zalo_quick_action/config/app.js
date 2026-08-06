@@ -44,10 +44,19 @@
       toastEnabled: true
     },
 
-    // 4. Quy tắc lọc văn bản chọn lọc (Hoa hồng, Thương hiệu)
-    FILTER_RULES: {
-      COMMISSION_REGEX: /(?:(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?|(?:\/-[a-zA-Z0-9_]+|[🌷🌸🌺🌻🌹💐]))[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)|\d{1,3}[ \t]*%)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*(?:\([ \t]*(?:[cC]hủ[ \t]*dẫn|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở)?:?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*|.*?)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*\)|(?:[-–—][ \t]*)?(?:[cC]hủ[ \t]*dẫn|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở):?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?[ \t]*(?:[\.\-–—][ \t]*)?(?=[ \t]*[-([{:–— \t]*(?:Mã|MÃ|mã):?|[ \t]*\n|$)/gui,
-      BRAND_REGEX: /(?:[•\-–—][ \t]*)?(?:Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[ \t]*)?[🏆🎖️🥇⭐]*[ \t]*TL[ \t]*\d*[ \t]*House[ \t]*[🏆🎖️🥇⭐]*/gui
+    // 4. Quy tắc lọc văn bản chọn lọc (Tham chiếu tới config/filter-rules.js)
+    get FILTER_RULES() {
+      const Rules = (typeof window !== 'undefined' ? window.ZaloQuickActionFilterRules : null) ||
+                    (typeof globalThis !== 'undefined' ? globalThis.ZaloQuickActionFilterRules : null);
+      if (Rules) return Rules;
+      
+      // Fallback nếu filter-rules.js chưa nạp
+      return {
+        COMMISSION_REGEX: /(?:(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?|(?:\/-[a-zA-Z0-9_]+|[🌷🌸🌺🌻🌹💐🍾]))[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?|\d{1,3}[ \t]*%[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)[ \t]*(?:\([ \t]*(?:[cC]hủ[ \t]*dẫn|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở)?:?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*|.*?)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?[ \t]*\)|(?:[-–—][ \t]*)?(?:[cC]hủ[ \t]*dẫn|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở):?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*)[ \t]*(?:[-–—]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—]+(?:[ \t]*[-–—][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?[ \t]*(?:[\.\-–—][ \t]*)?(?=[ \t]*[-([{:–— \t]*(?:Mã|MÃ|mã):?|[ \t]*\n|$)/gui,
+        BRAND_REGEX: /(?:[•\-–—][ \t]*)?[🏆🎖️🥇⭐]*[ \t]*(?:Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[ \t]*)?[🏆🎖️🥇⭐]*[ \t]*TL[ \t]*\d*[ \t]*House[ \t]*[🏆🎖️🥇⭐]*/gui,
+        ORPHAN_EMOJI_REGEX: /^[ \t]*(?:\/-[a-zA-Z0-9_]+|[🌷🌸🌺🌻🌹💐🍾])[ \t]*(?=(?:Mã|MÃ|mã):?)/gui,
+        REPLY_QUOTE_REGEX: /^[ \t]*[^\n:\/]{2,35}[ \t]*\n(?:[ \t]*[^\n]*?(?:[hH][hH]|[hH]oa[ \t]*hồng|Mã|MÃ|mã|[-•\u1F300-\u1F9FF🌷🌸🌺🌻🌹💐🏢⌛☘🏆⭐📍])[^\n]*\n){1,3}(?=[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng|Mã|MÃ|mã|[-•\u1F300-\u1F9FF🌷🌸🌺🌻🌹💐🏢⌛☘🏆⭐📍]|\d|[a-zA-Z])))/gui
+      };
     },
 
     // 4. Helper kiểm tra sự kiện phím khớp với cấu hình shortcut
@@ -58,8 +67,8 @@
         return event.key === 'Escape';
       }
 
-      const keyMatch = event.key?.toLowerCase() === shortcutConfig.key.toLowerCase() || 
-                       event.code === `Key${shortcutConfig.key.toUpperCase()}`;
+      const keyMatch = event.key?.toLowerCase() === shortcutConfig.key.toLowerCase() ||
+        event.code === `Key${shortcutConfig.key.toUpperCase()}`;
       const altMatch = shortcutConfig.altKey ? event.altKey : !event.altKey;
       const ctrlMatch = shortcutConfig.ctrlKey ? event.ctrlKey : !event.ctrlKey;
       const shiftMatch = shortcutConfig.shiftKey ? event.shiftKey : !event.shiftKey;
