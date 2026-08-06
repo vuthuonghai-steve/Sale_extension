@@ -1,0 +1,6 @@
+Extensions-base-setup-AI-First-main
+.agent
+bin/
+obj/
+test-c#/bin/
+test-c#/obj/
