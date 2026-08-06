@@ -49,12 +49,16 @@
         "http://*/*"
       ],
       "js": [
+        "config/filter-rules.js",
         "config/app.js",
         "content/content-logger.js",
         "content/content-config.js",
         "content/content-text.js",
         "content/content-ui.js",
         "content/modules/admin-filter/admin-lookup.js",
+        "content/content-zalo-dom.js",
+        "content/content-zalo-extractor.js",
+        "content/content-zalo-share.js",
         "content/content-zalo-adapter.js",
         "content/content.js"
       ],
