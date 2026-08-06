@@ -1,0 +1,72 @@
+---
+generated_at: "{{generated_at_iso}}"
+last_verified: "{{last_verified_iso}}"
+status: "{{verified|stale}}"
+source_skill: "module-docs-generation-skill"
+module_type: "{{functional|ui}}"
+description: "{{module_description}}"
+---
+
+# {{module_name}} — Capability Summary
+
+> Template note (không xuất hiện trong output): mọi {{value}} chèn từ nguồn audit PHẢI được sanitize — escape `|`, newline, `#` đầu dòng, code fence, `---`; secret-like value → `[REDACTED]` (xem knowledge/module-docs-rules.md §2b, §3c). {{module_description}} = moduleMeta.description (sanitize; fallback khi moduleMeta thiếu → `KHÔNG TÌM THẤY — chưa đăng ký src/features/registry.ts`). {{module_type}} = `functional` (module chức năng chạy nền) | `ui` (module giao diện UI-UX) — phân loại theo §3, kèm lý do ở Overview. Section 7 bắt buộc chấm Pattern Deviation Check (§3b): functional → F1-F4 + C1-C2; ui → U1-U2 + C1-C2. MỌI FAIL/WARN phải hiển thị, không giấu.
+
+## 1. Overview
+
+{{moduleMeta_id}}, {{moduleMeta_title}}, {{moduleMeta_description}}
+- Loại module: {{module_type_label}} — {{classification_reason}}
+- moduleMeta: {{moduleMeta_value}} (từ `src/features/{{module_name}}/index.ts`)
+- Đăng ký tree_work.md: {{tree_work_status}}
+- Fallback khi thiếu: `moduleMeta: KHÔNG TÌM THẤY — chưa đăng ký src/features/registry.ts`
+
+## 2. Capabilities
+
+| Loại | Symbol | Tệp | Mô tả |
+|---|---|---|---|
+| entity | {{entity_name}} | {{entity_file}} | {{entity_core_fields_summary}} |
+| service | {{service_name}} | {{service_file}} | {{public_methods_capabilities}} |
+| use case | {{usecase_name}} | {{usecase_file}} | {{orchestration_role}} |
+| adapter | {{adapter_name}} | {{adapter_file}} | {{port_implementation_methods}} |
+
+- Dedup 2 stage: {{dedup_2_stage_notes}}
+
+## 3. Boundaries
+
+| Loại | Tên | Chi tiết |
+|---|---|---|
+| Event in | {{event_in_name}} | {{event_in_payload_contract}} |
+| Event out | {{event_out_name}} | {{event_out_payload_contract}} |
+| Input file | {{input_file}} | {{input_file_purpose}} |
+| DB table đọc/ghi | {{db_table}} | {{db_table_columns_used}} |
+| Gate | {{gate_name}} | {{gate_condition}} |
+
+## 4. Cross-Module Links
+
+- {{usecase_bridge}} → {{target_module_service}} ({{bridge_purpose}})
+- Không có app use case → `not applicable`
+
+## 5. Infrastructure Mapping
+
+| Adapter | Port | Table | Consumer đang dùng |
+|---|---|---|---|
+| {{adapter_name}} | {{port_name}} | {{table_name}} | {{consumer_hook_usage}} |
+| {{adapter_alt_name}} (legacy) | {{port_name}} | {{table_name}} | {{consumer_hook_usage_alt}} |
+
+- Dual implementation: {{dual_lineage_explanation}}
+- Không xác định được bản đang dùng → `KHÔNG XÁC ĐỊNH` + lý do
+
+## 6. Docs References
+
+- {{spec_link_or_note}}
+- [tree_work.md](file://Docs/tree_work.md)
+- [AGENTS.md](file://AGENTS.md)
+
+## 7. Architecture Pattern Check
+
+| # | Tiêu chí | Kết quả | Bằng chứng |
+|---|---|---|---|
+| 1 | {{F1|U1}} — {{criteria_name}} | OK/WARN/FAIL | {{evidence_file_reason}} |
+| 2 | {{F2|U2}} — {{criteria_name}} | OK/WARN/FAIL | {{evidence_file_reason}} |
+| ... | (functional: F1-F4 + C1-C2; ui: U1-U2 + C1-C2) | | |
+
+- Kết luận: {{VERDICT}} — {{deviation_summary_and_recommendation}}
