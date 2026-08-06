@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# WXT outputs & generated types
+.wxt/
+.output/
+
+# Build & bundle outputs
+dist/
+build/
+*.zip
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor & OS files
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# AI agent 
+.omc
+.omo
+.codegraph
