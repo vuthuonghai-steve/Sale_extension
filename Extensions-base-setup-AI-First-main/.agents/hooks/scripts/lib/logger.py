@@ -34,7 +34,8 @@ def log_gate_decision(
     (gate_id/rule_id) + environment context (commit_hash) + timestamp UTC.
     """
     try:
-        logs_dir = repo_root() / _LOG_DIR_REL
+        rel_dir = ".agents/hooks/logs" if (repo_root() / ".agents").exists() else ".agent/hooks/logs"
+        logs_dir = repo_root() / rel_dir
         logs_dir.mkdir(parents=True, exist_ok=True)
 
         now = datetime.datetime.now(datetime.timezone.utc)
