@@ -3,3 +3,4 @@ export * from './ipc-actions';
 export * from './ipc-payloads';
 export * from './log-schema';
 export * from './storage-schema';
+export * from './zalo-extract.contract';

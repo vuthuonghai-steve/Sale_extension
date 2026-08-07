@@ -11,4 +11,6 @@ export enum IpcAction {
   SettingsSet = 'settings.set',
   /** Debug Console (OBS-3): soi chrome.storage session/local/sync. */
   StorageInspect = 'debug.storage.inspect',
+  /** Sub-module: trích xuất 1 tin nhắn đơn Zalo Web. */
+  ZaloExtractSingleMessage = 'zalo.extract.single.message',
 }
