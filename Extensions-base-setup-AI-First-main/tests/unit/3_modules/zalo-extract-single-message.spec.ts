@@ -13,7 +13,8 @@ class MockZaloDOMAdapter implements IZaloDOMAdapter {
     this.mockResult = result;
   }
 
-  public extractMessageFromElement(_targetElement: Element | null): IZaloRawExtractResult | null {
+  public extractMessageFromElement(targetElement: Element | null): IZaloRawExtractResult | null {
+    void targetElement;
     return this.mockResult;
   }
 }

@@ -52,6 +52,8 @@ coverage/
 
 
 # Playwright E2E artifacts
+.user-data/
 test-results/
 playwright-report/
+
 

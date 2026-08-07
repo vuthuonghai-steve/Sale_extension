@@ -5,6 +5,12 @@ export default defineConfig({
   srcDir: 'src', // D2 — skeleton nằm dưới src/
   entrypointsDir: resolve('src/1_engine'), // D9 — absolute path, né ambiguity relative-to-srcDir
   modules: ['@wxt-dev/module-react'], // D4/D5 stack
+  webExt: {
+    startUrls: ['https://chat.zalo.me'],
+    chromiumProfile: resolve('.user-data'),
+    keepProfileChanges: true,
+    chromiumArgs: ['--remote-debugging-port=9222'],
+  },
   alias: {
     '@contracts': resolve('src/0_contracts'),
     '@engine': resolve('src/1_engine'),
@@ -20,7 +26,8 @@ export default defineConfig({
       name: env.WXT_APP_NAME ?? '',
       description: env.WXT_APP_DESCRIPTION ?? '',
       version: '0.1.0',
-      permissions: ['storage', 'alarms', 'sidePanel'], // Phase 3 storage + Phase 5 D11: keep-alive alarm + side_panel; tối thiểu theo feature thật
+      permissions: ['storage', 'tabs', 'scripting', 'alarms', 'sidePanel'],
+      host_permissions: ['https://*.zalo.me/*', 'https://chat.zalo.me/*'],
       side_panel: {
         default_path: 'sidepanel/index.html',
       },

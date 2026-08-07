@@ -28,9 +28,7 @@ export class ZaloExtractSingleMessageModule
 {
   constructor(private domAdapter: IZaloDOMAdapter) {}
 
-  /**
-   * Trích xuất 1 tin nhắn đơn thành công và xuất Stage Result JSON
-   */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async process(input: IZaloMessageExtractInput): Promise<IZaloMessageExtractOutput> {
     const timestamp = Date.now();
     const traceId = input.traceId;

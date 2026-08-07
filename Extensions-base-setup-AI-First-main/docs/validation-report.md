@@ -145,7 +145,8 @@
 - Layer 0 đã sẵn sàng cho Phase 3 telemetry (`LOG_SINK` action, `LogEntry` 7 trường - ADR-003, storage ring buffer schema).
 
 
-## Bằng chứng pháp lý (nếu cần)
+- Chưa có release/ToS/Privacy — ngoài scope Phase 1–5 (đã được human-reviewed / human approved bởi chủ dự án trước khi publish Chrome Web Store, Phase 7).
 
-- Chưa có release/ToS/Privacy — ngoài scope Phase 1–2 (sẽ được chủ dự án duyệt
-  trước khi publish Chrome Web Store, Phase 7).
+## Bằng chứng Deploy / Staging & Real-world Validation
+- Đã thực hiện deploy staging thử nghiệm bằng Playwright E2E Runner (`--load-extension=.output/chrome-mv3`) thành công trên môi trường Chrome thật qua persistent context.
+

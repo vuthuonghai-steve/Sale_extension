@@ -1,6 +1,5 @@
-import { mkdtempSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { existsSync, unlinkSync } from 'node:fs';
+import { resolve } from 'node:path';
 import {
   chromium,
   test as base,
@@ -11,49 +10,114 @@ import {
 import type { LogEntry } from '@contracts/log-schema';
 
 /**
- * Fixture extension thật (testing-and-verification.md §2 — launchPersistentContext
- * BẮT BUỘC, không launch()+newContext()). Build extension trước khi chạy:
- * `pnpm build` → `.output/chrome-mv3`.
+ * Fixture extension thật (ARCH-E2E-001 — launchPersistentContext với .user-data
+ * kết hợp Hybrid CDP Fallback). Build extension trước khi chạy: `pnpm build`.
  */
 
 const EXTENSION_PATH = resolve('.output/chrome-mv3');
 
-/** Khởi tạo context chung cho toàn bộ test — extension MV3 không load được
- *  qua launch()+newContext(), phải launchPersistentContext với userDataDir. */
-let sharedContext: BrowserContext | null = null;
-let userDataDir: string | null = null;
+/** Dọn dẹp file lock rác của Chromium profile (SingletonLock, SingletonCookie, SingletonSocket) */
+export function cleanupStaleLocks(userDataDir: string): void {
+  const lockFiles = ['SingletonLock', 'SingletonCookie', 'SingletonSocket'];
+  for (const file of lockFiles) {
+    const filePath = resolve(userDataDir, file);
+    if (existsSync(filePath)) {
+      try {
+        unlinkSync(filePath);
+      } catch {
+        // Quá trình xóa bị bỏ qua nếu lock file đã bị dọn hoặc bị cấm truy cập
+      }
+    }
+  }
+}
 
+export interface EvlogCapturedEntry {
+  rawText: string;
+  [key: string]: unknown;
+}
+
+let sharedContext: BrowserContext | null = null;
+let isSharedCdpConnected = false;
+
+/** Khởi chạy hoặc kết nối tới persistent context theo đặc tả ARCH-E2E-001 */
 export async function launchExtensionContext(): Promise<BrowserContext> {
   if (sharedContext !== null) return sharedContext;
-  userDataDir = mkdtempSync(join(tmpdir(), 'wxt-e2e-'));
-  sharedContext = await chromium.launchPersistentContext(userDataDir, {
-    // channel: 'chromium' — headless shell mặc định KHÔNG hỗ trợ extension
-    // (SW background.js không bao giờ khởi động). Chrome mới headless = full.
-    channel: 'chromium',
-    headless: true,
-    // --load-extension yêu cầu --disable-extensions-except (Chrome yêu cầu cả hai)
-    args: [`--disable-extensions-except=${EXTENSION_PATH}`, `--load-extension=${EXTENSION_PATH}`],
-  });
+
+  const userDataDir = process.env.USER_DATA_DIR || resolve('.user-data');
+  const cdpUrl = process.env.CDP_URL || 'http://localhost:9222';
+
+  if (!existsSync(EXTENSION_PATH)) {
+    throw new Error(
+      `Extension build directory not found at: ${EXTENSION_PATH}. Run 'pnpm build' first.`,
+    );
+  }
+
+  try {
+    const res = await fetch(`${cdpUrl}/json/version`);
+    if (res.ok) {
+      // Tái sử dụng phiên Chrome dev đang mở qua CDP
+      const browser = await chromium.connectOverCDP(cdpUrl);
+      sharedContext = browser.contexts()[0] || (await browser.newContext());
+      isSharedCdpConnected = true;
+      return sharedContext;
+    }
+  } catch {
+    // Không có CDP dev server sẵn sàng
+  }
+    cleanupStaleLocks(userDataDir);
+    const channelOption = process.env.CHROME_CHANNEL || 'chromium';
+    const headlessOption = process.env.HEADLESS === 'true';
+
+    try {
+      sharedContext = await chromium.launchPersistentContext(userDataDir, {
+        channel: channelOption,
+        headless: headlessOption,
+        ignoreDefaultArgs: ['--enable-automation'],
+        args: [
+          `--disable-extensions-except=${EXTENSION_PATH}`,
+          `--load-extension=${EXTENSION_PATH}`,
+          '--profile-directory=Default',
+          '--disable-blink-features=AutomationControlled',
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
+        ],
+      });
+    } catch {
+      // Fallback không chỉ định channel
+      sharedContext = await chromium.launchPersistentContext(userDataDir, {
+        headless: headlessOption,
+        ignoreDefaultArgs: ['--enable-automation'],
+        args: [
+          `--disable-extensions-except=${EXTENSION_PATH}`,
+          `--load-extension=${EXTENSION_PATH}`,
+          '--profile-directory=Default',
+          '--disable-blink-features=AutomationControlled',
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
+        ],
+      });
+    }
+    isSharedCdpConnected = false;
+
   return sharedContext;
 }
 
-/** Dọn context + profile tạm sau mỗi test — userDataDir không để dính state. */
+/** Đóng context nếu mở qua launchPersistentContext (không đóng nếu kết nối CDP) */
 export async function closeExtensionContext(): Promise<void> {
   if (sharedContext !== null) {
-    await sharedContext.close();
+    if (!isSharedCdpConnected) {
+      await sharedContext.close();
+    }
     sharedContext = null;
-  }
-  if (userDataDir !== null) {
-    rmSync(userDataDir, { recursive: true, force: true });
-    userDataDir = null;
+    isSharedCdpConnected = false;
   }
 }
 
-/** Lấy Background Service Worker handle — đợi tới khi có (SW khởi động async). */
+/** Lấy Service Worker handle của Extension */
 export async function getServiceWorker(context: BrowserContext): Promise<Worker> {
   const [worker] = context.serviceWorkers();
   if (worker !== undefined && worker.url().endsWith('background.js')) return worker;
-  // SW có thể chưa kịp khởi động — đợi event (timeout 10s).
+
   const timeoutMs = 10_000;
   return new Promise<Worker>((resolveWorker, reject) => {
     const timer = setTimeout(() => {
@@ -71,18 +135,14 @@ export async function getServiceWorker(context: BrowserContext): Promise<Worker>
   });
 }
 
-/** Extension ID runtime — lấy từ SW handle, không hardcode (manifest không có "key"). */
+/** Độc URL trang extension bằng dynamic extension ID */
 export async function extensionUrl(context: BrowserContext, path: string): Promise<string> {
   const sw = await getServiceWorker(context);
   const id = await sw.evaluate(() => chrome.runtime.id);
   return `chrome-extension://${id}/${path}`;
 }
 
-/**
- * Emit log từ "client context" giả lập (như Popup/Content) — gửi qua IPC LogSink
- * từ extension page (SW handle evaluate bị Chrome kill giữa chừng → dùng page
- * đáng tin hơn). traceId do caller truyền (OBS-2: bắt buộc, không optional).
- */
+/** Emit log qua IPC */
 export async function emitLog(
   page: Page,
   entry: Omit<LogEntry, 'trace_id' | 'timestamp'> & { trace_id?: string; timestamp?: string },
@@ -109,7 +169,7 @@ export async function emitLog(
   );
 }
 
-/** Đọc storage session qua IPC StorageInspect (ring buffer + sw_active_timestamp). */
+/** Đọc session storage qua IPC Debug Storage Inspect */
 export async function inspectStorage(
   page: Page,
   area: 'local' | 'session' | 'sync' = 'session',
@@ -126,10 +186,7 @@ export async function inspectStorage(
   return response.data?.data ?? {};
 }
 
-/**
- * Chờ tới khi entry có traceId xuất hiện trong ring buffer session storage
- * (batch-window 100ms — log-sink flush delay). Poll StorageInspect mỗi 200ms.
- */
+/** Đợi log entry có traceId khớp xuất hiện trong session storage */
 export async function waitForEntry(
   page: Page,
   traceId: string,
@@ -150,12 +207,13 @@ export async function waitForEntry(
   );
 }
 
-/** Fixture chính export cho test — context + SW + helpers. */
+/** Fixture chính export cho các kịch bản test */
 export const extensionTest = base.extend<{
   context: BrowserContext;
   sw: Worker;
   page: Page;
   openPage: (path: string) => Promise<Page>;
+  evlogs: EvlogCapturedEntry[];
 }>({
   context: async ({}, use) => {
     const ctx = await launchExtensionContext();
@@ -166,7 +224,6 @@ export const extensionTest = base.extend<{
     const worker = await getServiceWorker(context);
     await use(worker);
   },
-  // Page extension ổn định để gửi IPC (SW handle evaluate bị kill giữa chừng)
   page: async ({ context }, use) => {
     const page = await context.newPage();
     await page.goto(await extensionUrl(context, 'popup.html'));
@@ -178,5 +235,30 @@ export const extensionTest = base.extend<{
       await page.goto(await extensionUrl(context, path));
       return page;
     });
+  },
+  evlogs: async ({ context }, use) => {
+    const capturedLogs: EvlogCapturedEntry[] = [];
+
+    const handleConsoleMessage = (msg: { text: () => string }) => {
+      const text = msg.text();
+      try {
+        if (text.includes('trace_id') || text.includes('decision_reason')) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const parsed = JSON.parse(text);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          capturedLogs.push({ ...parsed, rawText: text });
+        } else {
+          capturedLogs.push({ rawText: text });
+        }
+      } catch {
+        capturedLogs.push({ rawText: text });
+      }
+    };
+
+    context.pages().forEach((p) => p.on('console', handleConsoleMessage));
+    context.on('page', (p) => p.on('console', handleConsoleMessage));
+    context.serviceWorkers().forEach((sw) => sw.on('console', handleConsoleMessage));
+
+    await use(capturedLogs);
   },
 });
