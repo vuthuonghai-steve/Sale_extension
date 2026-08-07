@@ -29,11 +29,14 @@ PAYLOAD = {
 def run_gate(payload: dict, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> subprocess.CompletedProcess:
     """Chạy gate với payload JSON ở stdin; HOOK_REPO_ROOT = tmp_path."""
     monkeypatch.setenv("HOOK_REPO_ROOT", str(tmp_path))
+    monkeypatch.setenv("PYTHONUTF8", "1")
+    monkeypatch.setenv("PYTHONIOENCODING", "utf-8")
     return subprocess.run(
         [sys.executable, str(GATE)],
         input=json.dumps(payload),
         capture_output=True,
         text=True,
+        encoding="utf-8",
         cwd=SCRIPTS_DIR,
         timeout=30,
     )

@@ -8,6 +8,12 @@ from dataclasses import dataclass, field
 import json
 import sys
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stdin, "reconfigure"):
+    sys.stdin.reconfigure(encoding="utf-8")
+
+
 
 @dataclass
 class HookPayload:

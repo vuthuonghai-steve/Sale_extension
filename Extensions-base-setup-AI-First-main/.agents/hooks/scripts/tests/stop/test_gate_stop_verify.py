@@ -6,6 +6,7 @@ Chạy gate qua subprocess với JSON payload trên stdin (cwd = scripts dir).
 
 import datetime
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -35,12 +36,17 @@ def make_transcript(tmp_path: Path, entries: list[dict]) -> Path:
 
 def run_gate(repo_root: Path, payload: dict) -> dict:
     """Chạy gate qua subprocess; verify stdout + log đều có ĐÚNG 1 dòng."""
+    env = os.environ.copy()
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
     proc = subprocess.run(
         [sys.executable, str(SCRIPTS_DIR / GATE)],
         input=json.dumps(payload),
         text=True,
+        encoding="utf-8",
         capture_output=True,
         cwd=str(SCRIPTS_DIR),
+        env=env,
         timeout=120,
     )
     assert proc.returncode == 0, f"exit={proc.returncode} stderr={proc.stderr}"

@@ -53,11 +53,14 @@ def _run_gate(payload: dict, tmp_path: Path) -> dict:
     """Chạy script qua subprocess, stdin=JSON, parse stdout JSON."""
     env = os.environ.copy()
     env["HOOK_REPO_ROOT"] = str(tmp_path)
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
     proc = subprocess.run(
         [sys.executable, str(GATE_PATH)],
         input=json.dumps(payload),
         capture_output=True,
         text=True,
+        encoding="utf-8",
         cwd=SCRIPTS_DIR,
         env=env,
         timeout=30,

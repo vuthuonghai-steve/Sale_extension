@@ -117,7 +117,7 @@ def main() -> None:
         _log_decision(payload, decision="allow", reason="no anchor doc found (fail-open)")
         return
 
-    rel = anchor.relative_to(root)
+    rel = anchor.relative_to(root).as_posix()
     message = (
         f"📌 Domain Anchor: {rel}. Đọc lại trước khi tiếp tục "
         "để chống Semantic Drift (AGENTS.md Stage 5)."
@@ -127,7 +127,7 @@ def main() -> None:
         payload,
         decision="inject",
         reason=f"reminder sent: {rel}",
-        target_file=str(rel),
+        target_file=rel,
     )
 
 
