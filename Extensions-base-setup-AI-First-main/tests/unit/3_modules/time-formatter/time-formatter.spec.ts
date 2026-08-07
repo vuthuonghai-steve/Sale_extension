@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { formatDate, formatRelativeTime } from '@modules/sub-modules/time-formatter/index';
+import { formatDate, formatRelativeTime } from '../../../../src/3_modules/sub-modules/time-formatter/index';
+import timeFixtures from './fixtures.json';
 
 describe('time-formatter', () => {
   it('formatDate: ISO hợp lệ → locale string', () => {
@@ -13,17 +14,14 @@ describe('time-formatter', () => {
     expect(result).toEqual({ ok: false, error: 'invalid ISO date: not-a-date' });
   });
 
-  it('formatRelativeTime: vài phút trước → "5 minutes ago"', () => {
-    const now = new Date('2026-08-06T12:00:00.000Z');
-    const result = formatRelativeTime('2026-08-06T11:55:00.000Z', now);
-    expect(result).toEqual({ ok: true, data: '5 minutes ago' });
-  });
-
-  it('formatRelativeTime: dưới 1 phút → "just now"', () => {
-    const now = new Date('2026-08-06T12:00:00.000Z');
-    const result = formatRelativeTime('2026-08-06T11:59:30.000Z', now);
-    expect(result).toEqual({ ok: true, data: 'just now' });
-  });
+  it.each(timeFixtures.relativeTimeCases)(
+    'formatRelativeTime: $target vs $now → $expected',
+    ({ target, now, expected }) => {
+      const nowDate = new Date(now);
+      const result = formatRelativeTime(target, nowDate);
+      expect(result).toEqual({ ok: true, data: expected });
+    }
+  );
 
   it('formatRelativeTime: tương lai → err', () => {
     const now = new Date('2026-08-06T12:00:00.000Z');

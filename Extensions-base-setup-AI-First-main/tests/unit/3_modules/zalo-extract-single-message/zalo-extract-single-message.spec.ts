@@ -1,27 +1,28 @@
 import { describe, expect, it } from 'vitest';
-import { AppErrorCode } from '../../../src/0_contracts/ipc-payloads';
-import type { IZaloDOMAdapter, IZaloRawExtractResult } from '../../../src/0_contracts/zalo-extract.contract';
+import { AppErrorCode } from '../../../../src/0_contracts/ipc-payloads';
+import type { IZaloDOMAdapter, IZaloRawExtractResult } from '../../../../src/0_contracts/zalo-extract.contract';
 import {
   extractSingleMessage,
   ZaloExtractSingleMessageModule,
-} from '../../../src/3_modules/sub-modules/zalo-extract-single-message';
+} from '../../../../src/3_modules/sub-modules/zalo-extract-single-message';
+import extractFixtures from './fixtures.json';
 
-class MockZaloDOMAdapter implements IZaloDOMAdapter {
-  constructor(private mockResult: IZaloRawExtractResult | null = null) {}
+class StubZaloDOMAdapter implements IZaloDOMAdapter {
+  constructor(private stubResult: IZaloRawExtractResult | null = null) {}
 
-  public setMockResult(result: IZaloRawExtractResult | null) {
-    this.mockResult = result;
+  public setStubResult(result: IZaloRawExtractResult | null) {
+    this.stubResult = result;
   }
 
   public extractMessageFromElement(targetElement: Element | null): IZaloRawExtractResult | null {
     void targetElement;
-    return this.mockResult;
+    return this.stubResult;
   }
 }
 
 describe('ZaloExtractSingleMessageModule', () => {
   it('trả về lỗi INVALID_PAYLOAD khi targetElement bị thiếu', async () => {
-    const adapter = new MockZaloDOMAdapter();
+    const adapter = new StubZaloDOMAdapter();
     const module = new ZaloExtractSingleMessageModule(adapter);
 
     const result = await module.process({
@@ -36,7 +37,7 @@ describe('ZaloExtractSingleMessageModule', () => {
   });
 
   it('trả về lỗi NOT_FOUND khi adapter không trích xuất được text', async () => {
-    const adapter = new MockZaloDOMAdapter(null);
+    const adapter = new StubZaloDOMAdapter(null);
     const module = new ZaloExtractSingleMessageModule(adapter);
 
     const dummyElem = {} as Element;
@@ -50,8 +51,8 @@ describe('ZaloExtractSingleMessageModule', () => {
   });
 
   it('trích xuất thành công tin nhắn chứa \\n và emoji Unicode', async () => {
-    const mockText = 'Căn hộ 2PN 15tr/tháng\nLiên hệ: 0901234567 🍾🏢📍';
-    const adapter = new MockZaloDOMAdapter({
+    const mockText = extractFixtures.sampleText;
+    const adapter = new StubZaloDOMAdapter({
       messageId: 'msg-999',
       extractedText: mockText,
       containerClass: 'msg-item msg-text-bubble',
@@ -76,8 +77,8 @@ describe('ZaloExtractSingleMessageModule', () => {
   });
 
   it('helper extractSingleMessage hoạt động tương tự class', async () => {
-    const mockText = 'Tin nhắn thử nghiệm';
-    const adapter = new MockZaloDOMAdapter({
+    const mockText = extractFixtures.simpleText;
+    const adapter = new StubZaloDOMAdapter({
       messageId: 'msg-100',
       extractedText: mockText,
     });

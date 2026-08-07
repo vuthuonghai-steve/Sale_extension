@@ -1,0 +1,14 @@
+{
+  "relativeTimeCases": [
+    {
+      "target": "2026-08-06T11:55:00.000Z",
+      "now": "2026-08-06T12:00:00.000Z",
+      "expected": "5 minutes ago"
+    },
+    {
+      "target": "2026-08-06T11:59:30.000Z",
+      "now": "2026-08-06T12:00:00.000Z",
+      "expected": "just now"
+    }
+  ]
+}

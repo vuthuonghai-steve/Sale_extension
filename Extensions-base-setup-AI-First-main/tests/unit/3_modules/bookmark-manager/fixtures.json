@@ -1,0 +1,16 @@
+{
+  "normalizeCases": [
+    {
+      "input": "HTTPS://Example.COM/Post/#section",
+      "expected": "https://example.com/Post"
+    },
+    {
+      "input": "ftp://example.com/file",
+      "expected": null
+    },
+    {
+      "input": "  ",
+      "expected": null
+    }
+  ]
+}

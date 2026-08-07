@@ -1,19 +1,19 @@
 import { describe, expect, it } from 'vitest';
+import type {
+  Bookmark,
+  BookmarkResult,
+  BookmarkStore,
+} from '../../../../src/3_modules/composite-modules/bookmark-manager/index';
 import {
   BookmarkError,
   deleteBookmark,
   normalizeUrl,
   saveBookmark,
-} from '@modules/composite-modules/bookmark-manager/use-cases/bookmark-actions';
-import type {
-  Bookmark,
-  BookmarkResult,
-  BookmarkStore,
-} from '@modules/composite-modules/bookmark-manager/index';
+} from '../../../../src/3_modules/composite-modules/bookmark-manager/use-cases/bookmark-actions';
+import bookmarkFixtures from './fixtures.json';
 
 const NOW = '2026-08-06T12:00:00.000Z';
 
-/** In-memory store đóng vai adapter Layer 2 — lắp thật ở Phase 5. */
 function createMemoryStore(initial: Bookmark[] = []): BookmarkStore {
   let items = [...initial];
   return {
@@ -37,7 +37,7 @@ describe('bookmark-manager — saveBookmark', () => {
     const result = await saveBookmark(
       store,
       { url: 'https://Example.com/Post/', title: 'Post' },
-      NOW,
+      NOW
     );
     expect(result).toEqual({
       ok: true,
@@ -62,7 +62,7 @@ describe('bookmark-manager — saveBookmark', () => {
     const result = await saveBookmark(
       store,
       { url: 'https://EXAMPLE.com/Post', title: 'Mới' },
-      NOW,
+      NOW
     );
     expect(result).toEqual({ ok: false, error: BookmarkError.Duplicate });
   });
@@ -118,15 +118,7 @@ describe('bookmark-manager — deleteBookmark', () => {
 });
 
 describe('bookmark-manager — normalizeUrl', () => {
-  it('chuẩn hóa host/hash/trailing slash (path giữ case — URL chuẩn)', () => {
-    expect(normalizeUrl('HTTPS://Example.COM/Post/#section')).toBe('https://example.com/Post');
-  });
-
-  it('không phải http/https → null', () => {
-    expect(normalizeUrl('ftp://example.com/file')).toBeNull();
-  });
-
-  it('chuỗi rỗng → null', () => {
-    expect(normalizeUrl('  ')).toBeNull();
+  it.each(bookmarkFixtures.normalizeCases)('$input → $expected', ({ input, expected }) => {
+    expect(normalizeUrl(input)).toBe(expected);
   });
 });

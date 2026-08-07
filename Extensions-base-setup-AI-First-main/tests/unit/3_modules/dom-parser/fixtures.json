@@ -1,0 +1,4 @@
+{
+  "sampleHtml": "<html><head><title>My &amp; Page</title><link rel=\"canonical\" href=\"https://example.com/post\"></head><body><p>Hello world</p></body></html>",
+  "noCanonicalHtml": "<html><head><title>No Canonical</title></head></html>"
+}

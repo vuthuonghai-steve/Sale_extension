@@ -1,0 +1,42 @@
+[
+  {
+    "id": "sse-01",
+    "description": "data lines hợp lệ → chunks JSON, done=false",
+    "input": "data: {\"a\":1}\ndata: {\"b\":2}\n",
+    "expected": {
+      "chunks": [{ "a": 1 }, { "b": 2 }],
+      "done": false,
+      "skipped": 0
+    }
+  },
+  {
+    "id": "sse-02",
+    "description": "[DONE] → done=true",
+    "input": "data: {\"a\":1}\ndata: [DONE]\n",
+    "expected": {
+      "chunks": [{ "a": 1 }],
+      "done": true,
+      "skipped": 0
+    }
+  },
+  {
+    "id": "sse-03",
+    "description": "bỏ qua line không phải data: và comment",
+    "input": "event: ping\n: comment\ndata: {\"a\":1}\n",
+    "expected": {
+      "chunks": [{ "a": 1 }],
+      "done": false,
+      "skipped": 0
+    }
+  },
+  {
+    "id": "sse-04",
+    "description": "malformed JSON → skip + đếm",
+    "input": "data: not-json\ndata: {\"ok\":true}\n",
+    "expected": {
+      "chunks": [{ "ok": true }],
+      "done": false,
+      "skipped": 1
+    }
+  }
+]
