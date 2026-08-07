@@ -28,6 +28,11 @@
             "type": "command",
             "command": "python3 hooks/scripts/pre_tool_use/gate_test_in_src.py",
             "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python3 hooks/scripts/pre_tool_use/gate_module_pattern_pre.py",
+            "timeout": 10
           }
         ]
       },
@@ -52,6 +57,11 @@
         "type": "command",
         "command": "python3 hooks/scripts/stop/gate_stop_verify.py",
         "timeout": 60
+      },
+      {
+        "type": "command",
+        "command": "python3 hooks/scripts/stop/gate_module_pattern_stop.py",
+        "timeout": 30
       },
       {
         "type": "command",

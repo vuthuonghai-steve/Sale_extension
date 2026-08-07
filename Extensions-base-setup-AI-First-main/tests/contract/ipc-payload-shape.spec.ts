@@ -52,6 +52,7 @@ describe('IPC Payload & Contract Shape Specification (OBS-2)', () => {
       'settings.get',
       'settings.set',
       'debug.storage.inspect',
+      'zalo.extract.single.message',
     ]);
   });
 

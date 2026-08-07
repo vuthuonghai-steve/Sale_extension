@@ -1,6 +1,7 @@
 import type { IpcAction } from './ipc-actions';
 import type { LogEntry } from './log-schema';
 import type { StorageArea, StorageKey } from './storage-schema';
+import type { IZaloMessageExtractInput, IZaloMessageExtractOutput } from './zalo-extract.contract';
 
 /**
  * Standard Error Codes for AppError discriminated union.
@@ -58,16 +59,26 @@ export interface StorageInspectRequest extends BaseIpcRequest {
   area?: StorageArea;
 }
 
+export interface ZaloExtractSingleMessageRequest extends BaseIpcRequest {
+  action: IpcAction.ZaloExtractSingleMessage;
+  input: IZaloMessageExtractInput;
+}
+
 /**
  * Discriminated union of all IPC Request Payloads.
  */
 export type IpcRequestPayload =
-  LogSinkRequest | SettingsGetRequest | SettingsSetRequest | StorageInspectRequest;
+  | LogSinkRequest
+  | SettingsGetRequest
+  | SettingsSetRequest
+  | StorageInspectRequest
+  | ZaloExtractSingleMessageRequest;
 
 export type LogSinkResponseData = { acknowledged: boolean };
 export type SettingsGetResponseData = { value: unknown };
 export type SettingsSetResponseData = void;
 export type StorageInspectResponseData = { data: Record<string, unknown> };
+export type ZaloExtractSingleMessageResponseData = IZaloMessageExtractOutput;
 
 /**
  * Type-level mapping between IpcAction and its expected MessageResponse payload.
@@ -79,4 +90,6 @@ export type IpcResponseMap = {
   [IpcAction.SettingsGet]: MessageResponse<SettingsGetResponseData>;
   [IpcAction.SettingsSet]: MessageResponse<SettingsSetResponseData>;
   [IpcAction.StorageInspect]: MessageResponse<StorageInspectResponseData>;
+  [IpcAction.ZaloExtractSingleMessage]: MessageResponse<ZaloExtractSingleMessageResponseData>;
 };
+
