@@ -101,7 +101,12 @@ Sub-module `zalo-extract-single-message` đóng vai trò một node trích xuấ
               │ extractedText
               ▼
 ┌───────────────────────────┐
-│      text-sanitizer       │ (Làm sạch rác, nén space, loại "Xem thêm")
+│   zalo-message-sanitizer  │ (Lọc nhãn, hoa hồng, header quote, emoji orphan)
+└─────────────┬─────────────┘
+              │ sanitizedText
+              ▼
+┌───────────────────────────┐
+│      text-sanitizer       │ (Loại "Xem thêm", nén space, chuẩn hóa) -- Tùy chọn
 └─────────────┬─────────────┘
               │ normalizedText
               ▼
