@@ -1,0 +1,20 @@
+[
+  {
+    "id": "real-case-01",
+    "description": "Tin nhắn Zalo BĐS Mẫu 1 (chứa hoa hồng 40%-12m và nhãn TL21House)",
+    "rawInput": "🌷40% - 12m Mã: 🏆 673\n\n🏢Địa chỉ : ngõ 90 Chính Kinh - Thanh Xuân\n\n⌛️Trống : vào luôn\n\n☘Giá : \n+ P202 - 4tr6\n+ P401 - 4tr4\n+ P503 - 4tr8\n☘Dạng phòng : Studio\n☘Thang : MÁY\n\n🏆Nội thất : Y hình\n\n🏆Dịch vụ : Điện 4.000đ/ số\nNước 30.000/ khối\nPhí dịch vụ 200.000/ người/ tháng cả wifi\n\n ⭐Lưu ý: \n- Đóng 1 cọc 1\n- Ô tô nhỏ đỗ cửa\n- Giới hạn 2 xe 3 người\n- Qua xem phòng liên hệ trước 30p\n- Nhà không chung chủ - giờ giấc tự do\n- Nguồn hàng cập nhật liên tục tại         \n                🏆TL21House🏆",
+    "expectRemovedCommission": true,
+    "expectRemovedBranding": true,
+    "shouldContain": ["Mã: 🏆 673", "+ P202 - 4tr6"],
+    "shouldNotContain": ["40% - 12m", "TL21House"]
+  },
+  {
+    "id": "real-case-02",
+    "description": "Tin nhắn Zalo BĐS Mẫu 2 (chứa hoa hồng /-rose /-rose 35% dính trước Mã)",
+    "rawInput": "/-rose /-rose 35% Mã 1706\n\n🏠 Địa Chỉ : 173 Phương Canh - Nam Từ Liêm\n\n⏰ Trống : 30p tòa nhà mới tinh \n\n💰 GIÁ : 3tr8 - 4tr - 4tr1 - 4tr5\n\n⚡ Diện tích : 26 - 30m2 - studio- gác xép- thang máy\n\n💥 Nội thất : Phòng đầy đồ cao cấp: tủ lanh, bếp từ, tranh tráng gương, điều hòa, nóng lạnh, giường,đệm, tủ quần áo, bàn bếp, tủ bếp trên dưới, hút mùi nấu ăn.Máy giặt riêng \n\n🍀  Phí dịch vụ: Điện 4k/số, nước 35k/khối. Dv chung 230k/ người \n- Ôto đỗ cửa, bãi oto cạnh nhà\n- Chỗ để xe rộng rãi thoải mái\n- Nhà giờ giấc tự do\n- Ra vào khóa vân tay, camera an ninh đầy đồ, thang máy tốc độ cao\n- Được nuôi Pet - nhận xe điện phí 100k/xe \n- Không giới hạn người và xe \n\n👉 Đóng 1cọc1 -hợp đồng - 12th\nGọi trước 30p khi qua xem phòng",
+    "expectRemovedCommission": true,
+    "expectRemovedBranding": false,
+    "shouldContain": ["Mã 1706", "3tr8 - 4tr - 4tr1 - 4tr5"],
+    "shouldNotContain": ["35%"]
+  }
+]
