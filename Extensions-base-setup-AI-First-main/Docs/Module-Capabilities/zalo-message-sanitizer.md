@@ -93,7 +93,13 @@ flowchart TD
 
 ## 6. Chiến lược Kiểm thử
 
-- Chạy kiểm thử tự động nhị phân bằng Vitest:
+- **Unit Test (Vitest)**: Kiểm thử logic xử lý thuần TypeScript:
   ```powershell
-  npx vitest run tests/unit/3_modules/zalo-message-sanitizer.spec.ts
+  npx vitest run tests/unit/3_modules/Sanitizer/zalo-message-sanitizer.spec.ts
   ```
+
+- **E2E Test (Playwright)**: Kiểm thử tích hợp trực tiếp trên môi trường Browser / Extension thật:
+  ```powershell
+  npx playwright test tests/e2e/flows/zalo-sanitizer.e2e.ts
+  ```
+
