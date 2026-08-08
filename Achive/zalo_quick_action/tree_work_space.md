@@ -29,6 +29,9 @@ zalo_quick_action/
 │   ├── content-zalo-extractor.js# [ZALO EXTRACTOR] Trích xuất nội dung tin nhắn Zalo từ vùng chọn/bôi đen
 │   ├── content-zalo-share.js  # [ZALO SHARE] Kích hoạt nút chia sẻ & inject văn bản vào ô tìm kiếm
 │   └── content-zalo-adapter.js# [FACADE ADAPTER] Facade gộp các sub-module Zalo để giữ vững API Contract
+├── tests/
+│   ├── mock-cases.js          # [MOCK DATASET] Tập hợp toàn bộ mock test cases (Cũ + Mới) chống regression
+│   └── run-tests.js           # [TEST RUNNER] Bộ chạy kiểm thử tự động toàn diện cho Regex
 ├── popup/
 │   ├── popup.html             # Giao diện cài đặt popup nhanh
 │   ├── popup.js               # Logic lưu/tải cài đặt tại popup
