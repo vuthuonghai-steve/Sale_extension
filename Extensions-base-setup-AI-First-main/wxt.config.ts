@@ -27,7 +27,7 @@ export default defineConfig({
       description: env.WXT_APP_DESCRIPTION ?? '',
       version: '0.1.0',
       permissions: ['storage', 'tabs', 'scripting', 'alarms', 'sidePanel'],
-      host_permissions: ['https://*.zalo.me/*', 'https://chat.zalo.me/*'],
+      host_permissions: ['https://*.zalo.me/*', 'https://chat.zalo.me/*', 'http://127.0.0.1/*', 'http://localhost/*'],
       side_panel: {
         default_path: 'sidepanel/index.html',
       },

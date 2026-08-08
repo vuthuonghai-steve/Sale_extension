@@ -20,6 +20,7 @@ const SYNC_KEYS: ReadonlySet<StorageKey> = new Set<StorageKey>(['settings.sync_p
 const DEFAULTS: Readonly<Partial<Record<StorageKey, unknown>>> = {
   'settings.telemetry_enabled': true,
   'settings.log_level': buildConfig.logLevel,
+  'settings.feature_zalo_quick_action_enabled': true,
 };
 
 function isSyncKey(key: StorageKey): boolean {

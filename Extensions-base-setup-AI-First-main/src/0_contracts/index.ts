@@ -6,4 +6,5 @@ export * from './storage-schema';
 export * from './zalo-extract.contract';
 export * from './zalo-sanitizer.contract';
 export * from './zalo-selection.contract';
+export * from './zalo-quick-action.contract';
 

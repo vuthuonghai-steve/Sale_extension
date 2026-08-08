@@ -130,6 +130,9 @@ export class ZaloMessageSanitizerModule
       // Step 7: Strip Unicode replacement chars (\uFFFD, \uFEFF)
       result = result.replace(/[\uFFFD\uFEFF]/g, '');
 
+      // Step 8: Strip "Xem thêm" / "Thu gọn" UI labels at the end of truncated messages
+      result = result.replace(/\n?(\.\.\.)?\s*(Xem\s+thêm|Thu\s+gọn|Show\s+more)\s*$/i, '');
+
       // Final normalize space & trim multi-newlines
       const sanitizedText = this.normalize(result);
       const hasEmoji = /[\uD800-\uDBFF][\uDC00-\uDFFF]/.test(sanitizedText);

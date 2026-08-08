@@ -18,6 +18,7 @@ const AREA_KEYS: Record<StorageArea, StorageKey[]> = {
     'settings.theme',
     'settings.telemetry_enabled',
     'settings.log_level',
+    'settings.feature_zalo_quick_action_enabled',
     'settings.sync_preferences',
   ],
   session: ['telemetry.logs.buffer', 'telemetry.logs.head', 'session.sw_active_timestamp'],

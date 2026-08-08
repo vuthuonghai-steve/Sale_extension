@@ -23,6 +23,7 @@ export interface StorageLocalSchema {
   'settings.theme': 'light' | 'dark' | 'system';
   'settings.telemetry_enabled': boolean;
   'settings.log_level': LogLevel;
+  'settings.feature_zalo_quick_action_enabled': boolean;
 }
 
 /**

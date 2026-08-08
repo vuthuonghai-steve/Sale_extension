@@ -5,6 +5,7 @@ node_modules/
 # WXT Framework Output & Internal Cache
 .output/
 .wxt/
+.user-data-test/
 stats.html
 stats-*.json
 

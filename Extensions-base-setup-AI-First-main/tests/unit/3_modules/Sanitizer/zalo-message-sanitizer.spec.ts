@@ -123,15 +123,61 @@ describe('ZaloMessageSanitizerModule', () => {
       expect(result.metadata.hasEmoji).toBe(true);
     });
 
-    it('Helper sanitizeZaloMessage hoạt động tương tự class', async () => {
-      const rawInput = '🏆TL21House🏆\nMã: 🏆 100';
-      const result = await sanitizeZaloMessage({
-        traceId: 'tr-test-san-010',
-        rawText: rawInput,
+    it('Test User Message: Không bị nuốt mất phần mô tả chi tiết và tiện ích', async () => {
+      const userRawMsg = `🌻KHAI TRƯƠNG CCMN MỚI TẠI HAI BÀ TRƯNG ĐỒNG GIÁ 5TR3
+
+Mã: A1308
+
+🏠Địa chỉ: 559/86/17 Kim Ngưu - Hai Bà Trưng
+
+➡️ Vị trí: Ngã tư Sở
+🎓 Gần trường:
+Times City: khoảng 5–10 phút
+* Minh Khai: rất gần
+* Lĩnh Nam: khoảng 5–10 phút
+* Trường Đại học Kinh doanh & Công nghệ Hà Nội (HUBT): khoảng 10 phút
+* Đại học Bách Khoa Hà Nội: khoảng 10–15 phút
+* Đại học Kinh tế Quốc dân: khoảng 10–15 phút
+* Bệnh viện Thanh Nhàn: khoảng 10 phút
+* Bạch Mai: khoảng 10–15 phút
+* Vincom Mega Mall Times City: khoảng 5–10 phút
+NHẬN GIỮ CỌC 5 NGÀY
+
+⏰ Trống 8P
+
+💰 Giá: 5tr3
+
+👉Diện tích: 25m2
+👉Thang Máy
+
+✅ Nội thất :
+Nội thất: Máy giặt riêng , tủ lạnh, điều hoà , nóng lạnh, tủ quân áo ...
+
+✨ Mô tả:
+• Phòng có cửa sổ hoặc ban công thoáng sáng
+• Khu vực trung tâm Hai Bà Trưng  thuận tiện di chuyển
+• Gần chợ, siêu thị, hàng quán ăn uống
+• Nhà an ninh, giờ giấc tự do
+
+✅ Dịch vụ :  Điện 4k/số, nước 35k/m³, wifi 100k/phòng, DVC 140k/người,
+
+❌ Lưu ý
+• Nhận xe điện 150k/xe ( chỉ nhận xe Vin)
+• Xe điện chạy dịch vụ: 500k/xe
+• Không nuôi pet`;
+
+      const result = await module.process({
+        traceId: 'tr-user-msg-01',
+        rawText: userRawMsg,
       });
 
       expect(result.success).toBe(true);
-      expect(result.data?.sanitizedText).toBe('Mã: 🏆 100');
+      expect(result.data?.sanitizedText).toContain('🎓 Gần trường:');
+      expect(result.data?.sanitizedText).toContain('Times City: khoảng 5–10 phút');
+      expect(result.data?.sanitizedText).toContain('💰 Giá: 5tr3');
+      expect(result.data?.sanitizedText).toContain('✅ Nội thất :');
+      expect(result.data?.sanitizedText).toContain('❌ Lưu ý');
+      expect(result.data?.sanitizedText).toContain('• Không nuôi pet');
     });
   });
 
