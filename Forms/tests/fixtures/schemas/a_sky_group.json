@@ -1,0 +1,63 @@
+{
+  "id": "a_sky_group",
+  "name": "A Sky Group",
+  "icon": "❤️",
+  "description": "Định dạng gửi tin nhắn cho team A Sky Group",
+  "headerTemplate": "❤️ A Sky Group ❤️",
+  "footerTemplate": "",
+  "defaultValues": {
+    "salesName": "Thiên Ngọc"
+  },
+  "fields": [
+    {
+      "key": "salesName",
+      "label": "Tên CTV",
+      "prefix": "👉 Tên CTV: ",
+      "suffix": "",
+      "required": false
+    },
+    {
+      "key": "address",
+      "label": "Địa chỉ phòng",
+      "prefix": "👉 Địa chỉ phòng: ",
+      "suffix": "",
+      "required": true
+    },
+    {
+      "key": "roomCode",
+      "label": "Mã phòng",
+      "prefix": "👉  Mã phòng: ",
+      "suffix": "",
+      "required": false
+    },
+    {
+      "key": "price",
+      "label": "Giá phòng",
+      "prefix": "👉 Giá phòng: ",
+      "suffix": "",
+      "required": true
+    },
+    {
+      "key": "viewTime",
+      "label": "Ngày, giờ xem",
+      "prefix": "👉 Ngày, giờ xem: ",
+      "suffix": "",
+      "required": false
+    },
+    {
+      "key": "customerName",
+      "label": "Tên KH (FB/Zalo)",
+      "prefix": "👉 Tên KH (FB/Zalo): ",
+      "suffix": "",
+      "fallbackTo": "customerPhone",
+      "required": false
+    },
+    {
+      "key": "customerPhone",
+      "label": "SDT khách",
+      "prefix": "👉 SDT khách: ",
+      "suffix": "",
+      "required": true
+    }
+  ]
+}

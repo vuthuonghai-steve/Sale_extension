@@ -1,0 +1,53 @@
+[
+  {
+    "description": "Standard DNT Home formatted message with all fields",
+    "rawInput": "🐳Team DNT Home\n📤 Fb/Zalo khách: Lucky Man\n☎️ Sđt khách:0904117586\n🏡Địa chỉ: Ngõ 101/39 Thanh Nhàn - Hai Bà Trưng\n🕰️Ngày/giờ xem phòng: bây giờ 3/8\n💸Giá tư vấn : 4tr-4tr6\n Mã :AHS284\nTên Sales : Tuấn",
+    "expectedLead": {
+      "teamName": "🐳Team DNT Home",
+      "customerName": "Lucky Man",
+      "customerPhone": "0904117586",
+      "address": "Ngõ 101/39 Thanh Nhàn - Hai Bà Trưng",
+      "viewTime": "bây giờ 3/8",
+      "price": "4tr-4tr6",
+      "roomCode": "AHS284",
+      "salesName": "Tuấn"
+    }
+  },
+  {
+    "description": "A Sky Group formatted message with customer phone as name",
+    "rawInput": "❤️ A Sky Group ❤️\n👉 Tên CTV: Thiên Ngọc\n👉 Địa chỉ phòng: NGÕ 322/95/1 MỸ ĐÌNH 1\n👉  Mã phòng:68\n👉 Giá phòng: 6tr2\n👉 Ngày, giờ xem: 10/8\n👉 Tên KH (FB/Zalo):0383401138\n👉 SDT khách:0383401138",
+    "expectedLead": {
+      "salesName": "Thiên Ngọc",
+      "address": "NGÕ 322/95/1 MỸ ĐÌNH 1",
+      "roomCode": "68",
+      "price": "6tr2",
+      "viewTime": "10/8",
+      "customerName": "0383401138",
+      "customerPhone": "0383401138"
+    }
+  },
+  {
+    "description": "TL21House formatted message with missing sales name",
+    "rawInput": "🏆TL21House🏆\n☘️Địa chỉ : Số 12 Triều Khúc\n☘️Giá : 5tr-5tr5\n☘️Sdt khách : 0912345678\n☘️Thời gian xem : 15h chiều nay\n☘️MÃ PHÒNG : TK102",
+    "expectedLead": {
+      "address": "Số 12 Triều Khúc",
+      "price": "5tr-5tr5",
+      "customerPhone": "0912345678",
+      "viewTime": "15h chiều nay",
+      "roomCode": "TK102"
+    }
+  },
+  {
+    "description": "Plain text message without emojis or bullets",
+    "rawInput": "Khách: Nguyen Van A\nSDT: 0987654321\nDia chi: 45 Le Van Luong\nGia: 7 trieu\nMa phong: LVL501\nThoi gian: mai 9h\nSales: Hoang",
+    "expectedLead": {
+      "customerName": "Nguyen Van A",
+      "customerPhone": "0987654321",
+      "address": "45 Le Van Luong",
+      "price": "7 trieu",
+      "roomCode": "LVL501",
+      "viewTime": "mai 9h",
+      "salesName": "Hoang"
+    }
+  }
+]

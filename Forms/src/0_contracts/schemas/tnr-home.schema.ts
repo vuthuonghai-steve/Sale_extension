@@ -1,0 +1,57 @@
+import type { FormatSchema } from '../format-schema.ts';
+
+export const tnrHomeSchema: FormatSchema = {
+  id: 'tnr_home',
+  name: 'TNR HOME',
+  icon: '💛',
+  description: 'Định dạng gửi tin nhắn cho team TNR HOME',
+  headerTemplate: '💛 TNR HOME 🌻',
+  footerTemplate: '*Cảm ơn Anh/Chị đã dẫn khách giúp em*',
+  defaultValues: {
+    salesName: 'Thiên Ngọc',
+  },
+  fields: [
+    {
+      key: 'customerPhone',
+      label: 'SĐT khách',
+      prefix: 'SĐT khách: ',
+      suffix: '',
+      required: true,
+    },
+    {
+      key: 'viewTime',
+      label: 'Giờ xem / ngày xem',
+      prefix: 'Giờ xem: ',
+      suffix: '                ngày xem: ',
+      required: false,
+    },
+    {
+      key: '_call_notice',
+      label: 'Lưu ý gọi trước',
+      prefix: '( Qua gọi trước 30P - 1 tiếng )',
+      suffix: '',
+      required: false,
+    },
+    {
+      key: 'address',
+      label: 'Địa chỉ',
+      prefix: 'Địa chỉ: ',
+      suffix: '',
+      required: true,
+    },
+    {
+      key: 'price',
+      label: 'Giá tư vấn',
+      prefix: 'Giá tư vấn: ',
+      suffix: '',
+      required: true,
+    },
+    {
+      key: 'roomCode',
+      label: 'Mã tòa',
+      prefix: 'Mã tòa: ',
+      suffix: '',
+      required: false,
+    },
+  ],
+};

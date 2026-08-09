@@ -1,0 +1,55 @@
+{
+  "id": "tl21_house",
+  "name": "TL21House",
+  "icon": "🏆",
+  "description": "Định dạng gửi tin nhắn cho team TL21House",
+  "headerTemplate": "🏆TL21House🏆",
+  "footerTemplate": "",
+  "defaultValues": {
+    "salesName": "Thiên Ngọc"
+  },
+  "fields": [
+    {
+      "key": "address",
+      "label": "Địa chỉ",
+      "prefix": "☘️Địa chỉ : ",
+      "suffix": "",
+      "required": true
+    },
+    {
+      "key": "price",
+      "label": "Giá",
+      "prefix": "☘️Giá : ",
+      "suffix": "",
+      "required": true
+    },
+    {
+      "key": "customerPhone",
+      "label": "Sdt khách",
+      "prefix": "☘️Sdt khách : ",
+      "suffix": "",
+      "required": true
+    },
+    {
+      "key": "viewTime",
+      "label": "Thời gian xem",
+      "prefix": "☘️Thời gian xem : ",
+      "suffix": "",
+      "required": false
+    },
+    {
+      "key": "salesName",
+      "label": "CTV",
+      "prefix": "☘️CTV : ",
+      "suffix": "",
+      "required": false
+    },
+    {
+      "key": "roomCode",
+      "label": "MÃ PHÒNG",
+      "prefix": "☘️MÃ PHÒNG : ",
+      "suffix": "",
+      "required": false
+    }
+  ]
+}
