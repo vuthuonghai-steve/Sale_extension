@@ -35,27 +35,30 @@ LLM **BẮT BUỘC** tham chiếu file [tree_work_space.md](file:///home/stveve/
 
 ---
 
-## 🧹 5. Quy Trình Tự Động Xử Lý & Mở Rộng Regex Lọc Văn Bản (Text Sanitization Workflow)
+## 🧹 5. Quy Trình Chuẩn Mở Rộng & Kiểm Thử Regex Lọc Văn Bản (Text Sanitization Workflow)
 
 Khi người dùng gửi đoạn tin nhắn trích xuất lỗi (chưa lọc hết hoa hồng %, ngày/tháng hợp đồng, hoặc tag thương hiệu), AI Agent **BẮT BUỘC** tuân thủ quy trình 5 bước sau:
 
-1. **Phân tích Khác biệt (Pattern Analysis)**:
-   - Nhận diện cụ thể đoạn hoa hồng (`🌷30%`, `40%-12m`, `40% - 12th`, `hd 30/7/2027`), thời hạn (`m`, `th`, `t`, `tháng`), tiền tố đứng trước cúp/mã `[🏆🎖️🥇⭐📍]` hoặc tag thương hiệu chưa được lọc.
-   - Kiểm tra xem cụm từ đó nằm ở đầu dòng, đứng dính trước `Mã:`, đứng trước Cúp `🏆`, hay đứng thành 1 dòng độc lập.
+1. **Phân tích Mẫu Tin & Các Biến Thể (Pattern Analysis)**:
+   - Nhận diện cụ thể đoạn hoa hồng (`🌷30%`, `40%-12m`, `40%_12th`, `hd 30/7/2027`), ghi chú ngoặc đơn (`( ctv dẫn)`, `( Chủ dẫn)`), mốc tiền mặt, thời hạn, tiền tố đứng trước cúp/mã `[🏆🎖️🥇⭐📍]` hoặc tag thương hiệu chưa được lọc.
+   - Nhận diện chuỗi đa mốc (`COMM_CHAIN`), trường hợp đứng trên 1 dòng cách nhau bằng khoảng trắng, hoặc đứng ở 2 dòng có thụt lề.
 
-2. **Cập nhật Cấu hình Tập trung (`config/filter-rules.js` & `config/app.js`)**:
-   - Mở rộng `FILTER_RULES.COMMISSION_REGEX` hoặc `BRAND_REGEX` tại [config/filter-rules.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Achive/zalo_quick_action/config/filter-rules.js) và [config/app.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Achive/zalo_quick_action/config/app.js).
-   - **Bắt buộc dùng cờ `gui`** (Unicode-aware để bảo vệ emoji) và **dùng `[ \t]*`** thay cho `\s*` để bảo toàn tuyệt đối dấu xuống dòng `\n`.
+2. **Cập nhật Cấu hình Tập trung & Đồng bộ (`filter-rules.js`, `app.js`, `content-text.js`)**:
+   - Mở rộng Sub-patterns (`COMM_SEGMENT`, `COMM_CHAIN`, `NOTE_BRACKET`...) tại [config/filter-rules.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Achive/zalo_quick_action/config/filter-rules.js), [config/app.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Achive/zalo_quick_action/config/app.js), và [content/content-text.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Achive/zalo_quick_action/content/content-text.js).
+   - **Bắt buộc dùng cờ `gui` / `iu`** (Unicode-aware để bảo vệ emoji) và **dùng `[ \t]*`** thay cho `\s*` để bảo toàn tuyệt đối dấu xuống dòng `\n`.
 
-3. **Đồng bộ Module Xử lý Text (`content/content-text.js`)**:
-   - Đồng bộ regex fallback và quy tắc lọc dòng độc lập trong `removeSelectiveMetadata()` tại [content/content-text.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Achive/zalo_quick_action/content/content-text.js).
+3. **Test Đơn Luồng & ĐỌC LẠI KẾT QUẢ THỰC TẾ (Isolated Verification)**:
+   - Chạy hàm `removeSelectiveMetadata(rawInput)` và `clean(rawInput)` đối với chính mẫu tin nhắn mới (và các biến thể 1 dòng / 2 dòng).
+   - **Đọc lại từng dòng kết quả thực tế**: Kiểm tra mắt và log xem còn sót cụm hoa hồng nào không (VD: `🌷40%_12th ( ctv dẫn) Mã: 🏆`), tag thương hiệu còn không, có bị xóa nhầm dòng giá phòng không.
+   - **Nếu còn sót**: Tinh chỉnh Regex ngay cho đến khi đầu ra sạch 100%.
 
-4. **Lưu Mock Case & Chạy Regression Test Suite (`tests/run-tests.js`)**:
-   - Thêm test case mới vào [tests/mock-cases.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Achive/zalo_quick_action/tests/mock-cases.js).
+4. **Bổ sung Mock Case & Chạy Regression Test Suite (`tests/run-tests.js`)**:
+   - Chỉ khi test đơn luồng đã lọc sạch 100%, mới thêm test case mới vào [tests/mock-cases.js](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Achive/zalo_quick_action/tests/mock-cases.js).
    - Chạy lệnh `node tests/run-tests.js` trên terminal để kiểm thử tự động toàn bộ test suite.
-   - **BẮT BUỘC 100% test cases (Cũ + Mới) phải PASS** trước khi bàn giao.
+   - **BẮT BUỘC 100% test cases (Cũ + Mới) phải PASS**. Nếu có case FAIL, debug ngay lập tức tại Bước 2.
 
 5. **Báo cáo & Phản hồi Trực quan**:
-   - Trình bày mẫu tin nhắn sau khi lọc sạch 100% để người dùng kiểm tra đối chiếu.
-   - Nhắc người dùng bấm **Reload** extension trên `chrome://extensions`.
+   - Trình bày mẫu tin nhắn sau khi lọc sạch 100% (bảng Before vs After).
+   - Nhắc người dùng bấm **Reload (⟳)** extension trên `chrome://extensions`.
+
 
