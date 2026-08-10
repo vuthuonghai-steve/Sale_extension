@@ -328,6 +328,104 @@ Dvc :190k/người
                   expected: `Mã: 🏆
 
 Địa chỉ : 91 ngõ 44 TRẦN THÁI TÔNG`
+            },
+            {
+                  id: 'TC22_BONUS_POLICY_HEADER_WITH_COMMISSION_AND_BRAND',
+                  category: 'Trường hợp mới: Dòng chính sách giữ phòng / thưởng sale + Hoa hồng % trước Mã + Tag thương hiệu TL21House',
+                  name: 'Lọc sạch dòng chính sách thưởng sale, hoa hồng 🌷30%- 12m và tag TL21House',
+                  input: `GIỮ PHÒNG ĐẾN HẾT THÁNG 8 NẾU KHÁCH CHỐT ĐÚNG GIÁ. CÓ FIX GIÁ CHO KHÁCH CHUYỂN VÀO Ở LUÔN HOẶC THƯỞNG SALE 500K/PHÒNG NẾU KHÁCH CHỐT ĐÚNG GIÁ VÀ CHUYỂN VÀO TRƯỚC 15/8
+
+🌷30%- 12m Mã: 🏆011
+
+🏢Địa chỉ : nhà số 11D ngách 7 ngõ 101 Thanh Nhàn-Hai Bà Trưng
+
+⌛️Trống : 
+
+☘Giá : 4tr3-p101      
+☘Dạng phòng studio
+☘Thang : bộ
+
+🏆Nội thất :Điều hòa, nóng lạnh, tủ lạnh, kệ tủ bếp hút mùi, giường tủ quần áo, sofa
+
+🏆Dịch vụ : Điện: 4k/ số Nước: 120k/ người Internet: 100k/ phòng Phí dịch vụ: 120k/người/tháng (máy giặt, dọn vs, điện chung, rác...)
+
+ ⭐Lưu ý: 
+- Đóng 1 cọc 1
+- Giới hạn 3 xe/phòng
+- PET : ko 
+- k nuoc ngoài
+- KO NHẬN XE ĐIỆN  
+- Nguồn hàng cập nhật liên tục tại         
+                🏆TL21House🏆`,
+                  expected: `Mã: 🏆011
+
+🏢Địa chỉ : nhà số 11D ngách 7 ngõ 101 Thanh Nhàn-Hai Bà Trưng
+
+⌛️Trống :
+
+☘Giá : 4tr3-p101
+☘Dạng phòng studio
+☘Thang : bộ
+
+🏆Nội thất :Điều hòa, nóng lạnh, tủ lạnh, kệ tủ bếp hút mùi, giường tủ quần áo, sofa
+
+🏆Dịch vụ : Điện: 4k/ số Nước: 120k/ người Internet: 100k/ phòng Phí dịch vụ: 120k/người/tháng (máy giặt, dọn vs, điện chung, rác...)
+
+ ⭐Lưu ý:
+- Đóng 1 cọc 1
+- Giới hạn 3 xe/phòng
+- PET : ko
+- k nuoc ngoài
+- KO NHẬN XE ĐIỆN`
+            },
+            {
+                  id: 'TC23_STANDALONE_BONUS_LINE_VARIATIONS',
+                  category: 'Dòng thông báo thưởng nóng / thưởng sale độc lập',
+                  name: 'Lọc bỏ dòng "THƯỞNG SALE 500K/PHÒNG NẾU KHÁCH CHỐT ĐÚNG GIÁ..." đứng độc lập',
+                  input: `THƯỞNG SALE 500K/PHÒNG NẾU KHÁCH CHỐT ĐÚNG GIÁ VÀ CHUYỂN VÀO TRƯỚC 15/8
+
+🌷30%- 12m Mã: 🏆011
+🏢Địa chỉ : 11D Thanh Nhàn`,
+                  expected: `Mã: 🏆011
+🏢Địa chỉ : 11D Thanh Nhàn`
+            },
+            {
+                  id: 'TC24_INLINE_BONUS_NOTE_BEFORE_MA',
+                  category: 'Ghi chú thưởng sale / thưởng nóng dính liền hoa hồng trước Mã: 🏆',
+                  name: 'Lọc bỏ hoa hồng và cụm "+ thưởng sale 500k" giữ lại "Mã: 🏆011"',
+                  input: `🌷30%- 12m + thưởng sale 500k Mã: 🏆011
+🏢Địa chỉ : 11D Thanh Nhàn`,
+                  expected: `Mã: 🏆011
+🏢Địa chỉ : 11D Thanh Nhàn`
+            },
+            {
+                  id: 'TC25_COMMISSION_PERCENT_SPACE_DURATION_BEFORE_MA',
+                  category: 'Trường hợp mới: Hoa hồng 🌷20%- 12m dính trước Mã: 🏆 366 kèm danh sách nhiều phòng',
+                  name: 'Lọc bỏ "🌷20%- 12m " giữ lại "Mã: 🏆 366" và bảo toàn trọn vẹn danh sách nhiều giá phòng',
+                  input: `🌷20%- 12m Mã: 🏆 366
+
+🏢Địa chỉ : 561 Trương Định (A) - Quận Hoàng Mai
+
+⌛️Trống : 1/9
+
+☘Giá : 5tr7-p702
+              4tr2-p701
+             5tr6-p302,402,602
+             5tr4-p202
+☘Dạng phòng : Studio 25m² (Ban công)
+☘Thang : Thang máy`,
+                  expected: `Mã: 🏆 366
+
+🏢Địa chỉ : 561 Trương Định (A) - Quận Hoàng Mai
+
+⌛️Trống : 1/9
+
+☘Giá : 5tr7-p702
+ 4tr2-p701
+ 5tr6-p302,402,602
+ 5tr4-p202
+☘Dạng phòng : Studio 25m² (Ban công)
+☘Thang : Thang máy`
             }
       ];
 
