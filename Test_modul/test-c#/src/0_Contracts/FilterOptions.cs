@@ -11,7 +11,9 @@ public class FilterOptions
     public bool EnableService { get; set; } = true;
 
     public bool EnableUnicodeSanitizer { get; set; } = true;
+    public bool EnableReplyQuoteFilter { get; set; } = true;
     public bool EnableZaloStickerFilter { get; set; } = true;
+    public bool EnableBrandFilter { get; set; } = true;
     public bool EnableCommissionFilter { get; set; } = true;
     public bool EnableUrlSanitizer { get; set; } = true;
     public int MaxPayloadCharacterLimit { get; set; } = 100_000;

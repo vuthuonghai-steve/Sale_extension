@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using ClipboardFilterApp.Contracts;
 
 namespace ClipboardFilterApp.Modules.CompositeModules;
@@ -7,8 +8,11 @@ namespace ClipboardFilterApp.Modules.CompositeModules;
 /// </summary>
 public class ClipboardPipelineManager
 {
-    private readonly List<IClipboardFilter> _filters = new();
+    private readonly List<IClipboardFilter> _filters;
     private readonly FilterOptions _options;
+
+    private static readonly Regex MultiSpaceTabRegex = new(@"[ \t]+", RegexOptions.Compiled);
+    private static readonly Regex MultiNewlineRegex = new(@"\n{3,}", RegexOptions.Compiled);
 
     public ClipboardPipelineManager(FilterOptions options, IEnumerable<IClipboardFilter> filters)
     {
@@ -21,45 +25,33 @@ public class ClipboardPipelineManager
         if (string.IsNullOrEmpty(rawText)) return rawText;
         if (rawText.Length > _options.MaxPayloadCharacterLimit) return rawText;
 
-        string currentText = rawText;
+        // Chuẩn hóa trước khi đưa vào chuỗi bộ lọc
+        string currentText = Normalize(rawText);
 
         foreach (var filter in _filters)
         {
             currentText = filter.Process(currentText);
         }
 
-        // Bước dọn dẹp khoảng trắng dòng thông minh (Bảo toàn khoảng trống phân cách đoạn UI/UX)
-        return FinalWhitespaceCleanup(currentText);
+        // Chuẩn hóa sau khi qua toàn bộ bộ lọc
+        return Normalize(currentText);
     }
 
     /// <summary>
-    /// Thuật toán dọn dẹp khoảng trắng thông minh:
-    /// - Bảo toàn các dòng trống phân cách giữa các đoạn văn (UI/UX)
-    /// - Thu gọn các dòng trống liên tiếp (Tránh dư thừa khoảng trắng)
-    /// - Loại bỏ khoảng trắng thừa ở hai đầu từng dòng
+    /// Chuẩn hóa khoảng trắng và dấu xuống dòng đồng bộ với Extension:
+    /// - Thay \r\n thành \n
+    /// - Thu gọn khoảng trắng/tab liên tiếp thành 1 khoảng trắng
+    /// - Nén từ 3 dấu xuống dòng liên tiếp trở lên thành 2 dấu xuống dòng (\n\n)
+    /// - Trim đầu và cuối chuỗi
     /// </summary>
-    private static string FinalWhitespaceCleanup(string text)
+    public static string Normalize(string rawText)
     {
-        if (string.IsNullOrEmpty(text)) return text;
+        if (string.IsNullOrEmpty(rawText)) return string.Empty;
 
-        string[] lines = text.Split('\n');
-        List<string> cleanedLines = new();
+        string normalized = rawText.Replace("\r\n", "\n").Replace("\r", "\n");
+        normalized = MultiSpaceTabRegex.Replace(normalized, " ");
+        normalized = MultiNewlineRegex.Replace(normalized, "\n\n");
 
-        foreach (string line in lines)
-        {
-            string trimmed = line.Trim('\r', ' ', '\t');
-            
-            if (trimmed.Length > 0)
-            {
-                cleanedLines.Add(trimmed);
-            }
-            else if (cleanedLines.Count > 0 && cleanedLines[^1].Length > 0)
-            {
-                // Giữ lại đúng 1 dòng trống phân cách đoạn văn
-                cleanedLines.Add(string.Empty);
-            }
-        }
-
-        return string.Join("\n", cleanedLines).Trim();
+        return normalized.Trim();
     }
 }

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using ClipboardFilterApp.Contracts;
+using ClipboardFilterApp.Modules.SubModules.Helpers;
 
 namespace ClipboardFilterApp.Modules.SubModules;
 
@@ -9,27 +10,32 @@ namespace ClipboardFilterApp.Modules.SubModules;
 public class BrandRegexFilter : IClipboardFilter
 {
     public string Name => "Brand & Source Team Filter";
-    public int Priority => 2;
-
-    // 1. Xóa toàn bộ dòng chứa TL...House (Ví dụ: "🏆 TL21House 🏆", "• TL21House")
-    private static readonly Regex BrandLinePattern = new(
-        @"^[^\n]*TL\d*House[^\n]*$\n?",
-        RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled
-    );
-
-    // 2. Xóa toàn bộ dòng chứa "Nguồn hàng cập nhật liên tục tại" (cho dù có icon 🔥 hay bất kỳ ký tự nào)
-    private static readonly Regex HeaderLinePattern = new(
-        @"^[^\n]*Nguồn[ \t]+hàng[ \t]+cập[ \t]+nhật[ \t]+liên[ \t]+tục[ \t]+tại[^\n]*$\n?",
-        RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled
-    );
+    public int Priority => 4;
 
     public string Process(string text)
     {
         if (string.IsNullOrEmpty(text)) return text;
 
-        string cleaned = BrandLinePattern.Replace(text, "");
-        cleaned = HeaderLinePattern.Replace(cleaned, "");
+        // 1. Loại bỏ các cụm thương hiệu TL...House
+        string cleaned = FilterRegexPatterns.BrandRegex.Replace(text, "");
 
-        return cleaned;
+        // 2. Dọn các dòng dẫn nguồn hàng còn sót lại
+        string[] lines = cleaned.Split('\n');
+        List<string> resultLines = new();
+
+        foreach (string rawLine in lines)
+        {
+            string line = rawLine.TrimEnd('\r', ' ', '\t');
+            string trimmed = line.Trim();
+
+            if (FilterRegexPatterns.EmptySourceLineRegex.IsMatch(trimmed))
+            {
+                continue;
+            }
+
+            resultLines.Add(line);
+        }
+
+        return string.Join("\n", resultLines);
     }
 }

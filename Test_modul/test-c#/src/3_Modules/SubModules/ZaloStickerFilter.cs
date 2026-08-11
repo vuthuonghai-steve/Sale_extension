@@ -6,7 +6,7 @@ namespace ClipboardFilterApp.Modules.SubModules;
 public class ZaloStickerFilter : IClipboardFilter
 {
     public string Name => "Zalo Sticker & System Tag Filter";
-    public int Priority => 2;
+    public int Priority => 3;
 
     private static readonly Regex ZaloStickerRegex = new(
         @"/\-(?:rose|heart|strong|smile|thanks|break|beer|like|fade|flag|sigh|handclap|kiss|angry|sleep|love|sweat|giggle|cry|cool|funny|bad|pray|shit|pushup|search|pointdown|pointright|pointleft|pointup|v|ghost|demon)\b",

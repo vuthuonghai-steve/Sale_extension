@@ -29,6 +29,7 @@ internal static class Program
         List<IClipboardFilter> filters = new List<IClipboardFilter>
         {
             new UnicodeSanitizerFilter(),
+            new ReplyQuoteFilter(),
             new ZaloStickerFilter(),
             new BrandRegexFilter(),
             new CommissionRegexFilter(),

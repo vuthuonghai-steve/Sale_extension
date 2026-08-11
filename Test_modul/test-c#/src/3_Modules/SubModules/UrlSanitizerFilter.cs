@@ -6,7 +6,7 @@ namespace ClipboardFilterApp.Modules.SubModules;
 public class UrlSanitizerFilter : IClipboardFilter
 {
     public string Name => "URL Tracking Sanitizer Filter";
-    public int Priority => 4;
+    public int Priority => 6;
 
     private static readonly Regex UrlTrackingRegex = new(
         @"([?&])(utm_[^&]+|fbclid=[^&]+|gclid=[^&]+|ref=[^&]+)",
