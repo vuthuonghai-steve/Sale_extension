@@ -1,0 +1,25 @@
+========================================================================
+   ⚡ SALE LEAD FORM CONVERTER - HƯỚNG DẪN SỬ DỤNG NHANH
+========================================================================
+
+1. GIỚI THIỆU:
+   Sale Lead Form Converter là ứng dụng Sidepanel Desktop thông minh dành cho Sale/CTV Bất Động Sản.
+   Ứng dụng tự động lắng nghe Clipboard, nhận diện tin nhắn Lead từ Zalo/Facebook/Telegram, 
+   trích xuất thông tin (Tên khách, SĐT, Nhu cầu, Tài chính, Khu vực, Thời gian) và chuyển đổi 
+   thành biểu mẫu chuẩn của các sàn (LUSACO, HD Homes, NT HOME, 95 HOME...) chỉ trong 1 click.
+
+2. CÁCH CÀI ĐẶT & CHẠY ỨNG DỤNG (3 BƯỚC ĐƠN GIẢN):
+   - Bước 1: Giải nén file ZIP vào một thư mục cố định trên máy (Ví dụ: D:\SaleApps\ hoặc C:\Users\Tên_Bạn\AppData\Local\SaleLeadAssistant\).
+   - Bước 2: Nhấp đúp vào file "Cai_Dat_Va_Tao_Shortcut.bat" để tự động tạo biểu tượng ứng dụng ngoài màn hình Desktop và Start Menu.
+   - Bước 3: Mở ứng dụng từ màn hình Desktop (biểu tượng hình Tia Sét Vàng ⚡).
+
+3. CÁC TÍNH NĂNG CHÍNH:
+   - 📋 Tự động bắt Clipboard: Khi bạn Copy tin nhắn Lead, app tự động bóc tách và điền vào các ô dữ liệu.
+   - 📑 Chuyển đổi linh hoạt giữa các mẫu Form sàn (LUSACO, HD Homes, NT HOME, 95 HOME).
+   - ⚡ Nút "Copy & Bắn Lead": 1 click copy toàn bộ nội dung đã chuẩn hóa để dán ngay vào nhóm Zalo.
+   - 📌 Ghim Sidepanel (Always on Top): Giữ cửa sổ luôn ở mép phải màn hình để thao tác song song với Zalo/Trình duyệt.
+   - 👤 Tùy chỉnh tên CTV / Đầu số liên hệ trong tab "Cài Đặt".
+
+4. HỖ TRỢ & BẢO HÀNH:
+   - Phiên bản: v1.0.0 (Windows x64 Portable - Độc lập, không cần cài đặt thêm .NET Runtime).
+   - Nếu cần hỗ trợ thêm schema hoặc tính năng mới, vui lòng liên hệ đội ngũ phát triển.

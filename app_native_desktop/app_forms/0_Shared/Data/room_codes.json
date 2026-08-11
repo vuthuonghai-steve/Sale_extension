@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-08-12T02:10:00Z",
+  "description": "Kho lưu trữ mã phòng mặc định cho các Form Schema Output (Đã loại trừ DNT Home do là Input Format, chỉ lưu danh sách mã chính xác)",
+  "groups": {
+    "tl21_house": {
+      "name": "TL21House",
+      "codes": [
+        "010",
+        "042",
+        "085",
+        "108",
+        "178",
+        "199",
+        "319",
+        "383",
+        "387",
+        "410",
+        "430",
+        "449",
+        "637",
+        "721",
+        "837",
+        "840",
+        "921"
+      ]
+    },
+    "tnr_home": {
+      "name": "TNR HOME",
+      "codes": [
+        "A355",
+        "A673",
+        "A1203",
+        "Q160",
+        "D49",
+        "L48",
+        "l48"
+      ]
+    },
+    "95_home": {
+      "name": "95 HOME",
+      "codes": [
+        "H252"
+      ]
+    },
+    "lusaco": {
+      "name": "LUSACO",
+      "codes": [
+        "MN-324",
+        "MN-341",
+        "MN35",
+        "Mn35"
+      ]
+    },
+    "hd_homes": {
+      "name": "HD Homes",
+      "codes": [
+        "Ts007",
+        "ts12"
+      ]
+    },
+    "nt_home": {
+      "name": "NT HOME",
+      "codes": [
+        "NT023",
+        "nt01"
+      ]
+    },
+    "a_sky_group": {
+      "name": "A Sky Group",
+      "codes": []
+    }
+  }
+}
