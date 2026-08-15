@@ -37,3 +37,13 @@ pnpm-debug.log*
 .omc
 .omo
 .codegraph
+
+# Build & bundle outputs
+publish/
+**/publish/
+bin/
+obj/
+*.exe
+
+# Specific lock files
+Achive/filter_data/pnpm-lock.yaml
