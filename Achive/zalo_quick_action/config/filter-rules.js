@@ -9,36 +9,41 @@
     // Ký tự Emoji/Biểu tượng tiền tố hoa hồng (🌷, 🌸, 🌺, 🌻, 🌹, 💐, 🍾, /-rose...)
     EMOJI_PREFIX: `(?:\\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾)`,
 
-    // Tiền tố từ khóa Hoa hồng (HH, Hoa hồng, Hh...)
-    KEYWORD_PREFIX: `(?:[hH][hH]|[hH]oa[ \t]*hồng)`,
+    // Tiền tố từ khóa Hoa hồng (HH, Hoa hồng, Hh, Hạn hh...)
+    KEYWORD_PREFIX: `(?:[hH][hH]|[hH]oa[ \t]*hồng|[hH]ạn[ \t]*(?:[hH][hH]|[hH]oa[ \t]*hồng)?)`,
 
-    // Tổng hợp tiền tố nhận diện Hoa hồng (Emoji hoặc Từ khóa HH)
-    HEADER_PREFIX: `(?:(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?|(?:\\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾))[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?)`,
+    // Tổng hợp tiền tố nhận diện Hoa hồng (Emoji hoặc Từ khóa HH hoặc kết hợp)
+    HEADER_PREFIX: `(?:(?:(?:[hH][hH]|[hH]oa[ \t]*hồng|[hH]ạn[ \t]*(?:[hH][hH]|[hH]oa[ \t]*hồng)?):?|(?:\\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾))[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?)`,
 
-    // Thời hạn hợp đồng / hạn thuê (VD: 12th, _12th, 6-12m, hd 30/7/2027, hạn đến 31/8/2027)
-    DURATION: `(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)`,
+    // Thời hạn hợp đồng / hạn thuê (VD: 12th, _12th, 6-12m, 12mm, 12thg, 12 thang, hd 30/7/2027, hạn đến 31/8/2027, đến 30/8, hđ tới 31/8)
+    DURATION: `(?:[-–—_]?[ \t]*(?:hd|HĐ|hđ|Hđ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den|trước|truoc|áp[ \t]*dụng[ \t]*(?:đến|tới)?)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]+|[tT][hH][gG]?|[tT][hH]á[nN][gG]|[tT][hH]ang|[tT]+|[nN]ă[mM]|[nN]am)?)`,
 
-    // Ghi chú đính kèm trong ngoặc đơn hoặc dấu gạch ngang (VD: "( ctv dẫn)", "( Chủ dẫn)", "( Chốt ở trước 15/7)", "(Chốt đúng giá, fix giá hh 30%)", "- CD 30%", "thưởng sale 500k")
-    NOTE_BRACKET: `(?:\\([ \t]*[^\n)]*\\)|(?:[+&,; \t–—_/-]*)(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở|[fF]ix|[fF]ix[ \t]*giá|[kK]hách[ \t]*dẫn|[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv)?|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)?):?[ \t]*(?:\\d{1,3}[ \t]*%|\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*)[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?`,
+    // Hạn hoa hồng / Thời hạn áp dụng hoa hồng độc lập (VD: "đến 30/8", "tới 30/8/2027", "áp dụng đến 30/8", "hạn 30/8", "30/8")
+    DEADLINE_ONLY: `(?:(?:áp[ \t]*dụng[ \t]*)?(?:tới|toi|đến|den|trước|truoc|hạn|hết)?[ \t]*(?:ngày[ \t]*)?[\\d\\/\\.\\-–—_]+(?:[ \t]*(?:tháng[ \t]*\\d+|[mM]+|[tT][hH][gG]?|[tT][hH]á[nN][gG]|[tT][hH]ang|[tT]+|[nN]ă[mM]|[nN]am))?)`,
 
-    // Mốc hoa hồng phần trăm đơn lẻ (VD: 40%-12m, 40%_12th, 30%-6th, 35%-hd 31/8/2027)
-    PERCENT_SINGLE: `(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)`,
+    // Mốc hoa hồng tháng (VD: "1 tháng", "0.5 tháng", "1th", "1m", "1mm", "1thg")
+    MONTHS_SINGLE: `(?:\\d+(?:[\\.,]\\d+)?[ \t]*(?:[tT][hH]á[nN][gG]|[tT][hH]ang|[tT][hH][gG]?|[mM]+|[nN]ă[mM]|[nN]am|[tT]+))`,
+
+    // Ghi chú đính kèm trong ngoặc hoặc không ngoặc (VD: "( ctv dẫn)", "( Chủ dẫn)", "CTV dẫn)", "(CTV dẫn", "Chủ dẫn", "ctv dẫn", "( Chốt ở trước 15/7)", "- CD 30%", "thưởng sale 500k")
+    NOTE_BRACKET: `(?:[ \t]*(?:\\([ \t]*[^\\n)]*\\)?|(?:\\[[ \t]*[^\\n\\]]*\\]?)|(?:[+&,; \t–—_/-]*)(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở|[fF]ix|[fF]ix[ \t]*giá|[kK]hách[ \t]*dẫn|[sS]ale|[sS]ale[ \t]*dẫn|[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv)?|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)?):?[ \t]*(?:\\d{1,3}[ \t]*%|\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*)?[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hđ|Hđ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]+|[tT][hH][gG]?|[tT][hH]á[nN][gG]|[tT][hH]ang|[tT]+|[nN]ă[mM]|[nN]am)?)?[ \t]*\\)?)*)`,
+
+    // Mốc hoa hồng phần trăm đơn lẻ (VD: 40%-12m, 30%-12mm, 40%_12th, 30%-6th, 35%-hd 31/8/2027, 50%)
+    PERCENT_SINGLE: `(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hđ|Hđ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den|trước|truoc|áp[ \t]*dụng[ \t]*(?:đến|tới)?)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]+|[tT][hH][gG]?|[tT][hH]á[nN][gG]|[tT][hH]ang|[tT]+|[nN]ă[mM]|[nN]am)?)?)`,
 
     // Chuỗi đa mốc hoa hồng phần trăm liên tiếp nhau nối bằng | hoặc , hoặc - hoặc _ (VD: "40%- 12th | 30%- 6th")
-    PERCENT_MULTI: `(?:(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)(?:[ \t]*(?:[|/,\\-–—_])[ \t]*(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?))*)`,
+    PERCENT_MULTI: `(?:(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hđ|Hđ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den|trước|truoc|áp[ \t]*dụng[ \t]*(?:đến|tới)?)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]+|[tT][hH][gG]?|[tT][hH]á[nN][gG]|[tT][hH]ang|[tT]+|[nN]ă[mM]|[nN]am)?)?)(?:[ \t]*(?:[|/,\\-–—_])[ \t]*(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hđ|Hđ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den|trước|truoc|áp[ \t]*dụng[ \t]*(?:đến|tới)?)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]+|[tT][hH][gG]?|[tT][hH]á[nN][gG]|[tT][hH]ang|[tT]+|[nN]ă[mM]|[nN]am)?)?))*)`,
 
     // Mốc hoa hồng tiền mặt đơn lẻ (bắt buộc có DURATION hoặc số tiền rõ ràng, VD: "1tr1 - 6-12m")
-    MONEY_SINGLE: `(?:\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*[ \t]*[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM]))`,
+    MONEY_SINGLE: `(?:\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*[ \t]*[-–—_]?[ \t]*(?:hd|HĐ|hđ|Hđ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den|trước|truoc)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]+|[tT][hH][gG]?|[tT][hH]á[nN][gG]|[tT][hH]ang|[tT]+|[nN]ă[mM]|[nN]am))`,
 
     // Ghi chú hoa hồng đứng độc lập 1 dòng (trong ngoặc hoặc có tiền tố gạch ngang)
-    NOTE_STANDALONE: `(?:\\([ \t]*.*?(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[hH][hH]|[hH]oa[ \t]*hồng|[fF]ix[ \t]*giá|[fF]ix|[kK]hách[ \t]*dẫn|[tT]hưởng|[bB]onus|[hH]ỗ[ \t]*trợ|[tT]ặng).*?\\)|(?:[-–—_][ \t]*)?(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở|[kK]hách[ \t]*dẫn|[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv)?|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)?):?[ \t]*(?:\\d{1,3}[ \t]*%|\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*|.*?))`,
-
-    // Phân đoạn hoa hồng hoàn chỉnh (VD: "🌷40%_12th ( ctv dẫn)" hoặc "30%_12th ( Chủ dẫn)" hoặc "1tr1 - 6-12m")
-    COMM_SEGMENT: `(?:(?:(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?|(?:\\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾))[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?)?(?:(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)|(?:\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*[ \t]*[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])))[ \t]*(?:\\([ \t]*[^\n)]*\\)|(?:[+&,; \t–—_/-]*)(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở|[fF]ix|[fF]ix[ \t]*giá|[kK]hách[ \t]*dẫn|[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv)?|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)?):?[ \t]*(?:\\d{1,3}[ \t]*%|\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*)[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?)`,
-
-    // Chuỗi nhiều phân đoạn hoa hồng liên tiếp nối nhau bằng |, /, phẩy, gạch, hoặc khoảng trắng
-    COMM_CHAIN: `(?:(?:(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?|(?:\\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾))[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?)?(?:(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)|(?:\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*[ \t]*[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])))[ \t]*(?:\\([ \t]*[^\n)]*\\)|(?:[+&,; \t–—_/-]*)(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở|[fF]ix|[fF]ix[ \t]*giá|[kK]hách[ \t]*dẫn|[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv)?|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)?):?[ \t]*(?:\\d{1,3}[ \t]*%|\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*)[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?)(?:(?:[ \t]*(?:[|/,\\-–—_])[ \t]*|[ \t]+)(?:(?:(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?|(?:\\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾))[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?)?(?:(?:\\d{1,3}[ \t]*%[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)|(?:\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*[ \t]*[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])))[ \t]*(?:\\([ \t]*[^\n)]*\\)|(?:[+&,; \t–—_/-]*)(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở|[fF]ix|[fF]ix[ \t]*giá|[kK]hách[ \t]*dẫn|[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv)?|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)?):?[ \t]*(?:\\d{1,3}[ \t]*%|\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*)[ \t]*(?:[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\\d\\/\\.\\-–—_]+(?:[ \t]*[-–—_][ \t]*[\\d\\/\\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM])?)?)?))*`
+    NOTE_STANDALONE: `(?:\\([ \t]*.*?(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[hH][hH]|[hH]oa[ \t]*hồng|[fF]ix[ \t]*giá|[fF]ix|[kK]hách[ \t]*dẫn|[tT]hưởng|[bB]onus|[hH]ỗ[ \t]*trợ|[tT]ặng).*?\\)|(?:[-–—_][ \t]*)?(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở|[kK]hách[ \t]*dẫn|[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv)?|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)?):?[ \t]*(?:\\d{1,3}[ \t]*%|\\d+(?:[\\.,]\\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\\d*|.*?))`
   };
+
+  const COMM_CORE = `(?:(?:${P.HEADER_PREFIX}[ \t]*(?:${P.DEADLINE_ONLY}|${P.MONTHS_SINGLE}))|(?:(?:${P.HEADER_PREFIX}[ \t]*)?(?:${P.PERCENT_SINGLE}|${P.MONEY_SINGLE}))|(?:${P.HEADER_PREFIX}))`;
+  P.COMM_SEGMENT = `(?:${COMM_CORE}[ \t]*${P.NOTE_BRACKET})`;
+  const COMM_SEPARATOR = `(?:[ \t]*(?:[|/,\\-–—_])[ \t]*|[ \t]*\\r?\\n[ \t]*|[ \t]+)`;
+  P.COMM_CHAIN = `(?:${P.COMM_SEGMENT}(?:${COMM_SEPARATOR}${P.COMM_SEGMENT})*)`;
 
   // =========================================================================
   // 🚀 HOÀN THIỆN CÁC REGEX CHÍNH BẰNG CÁCH GHÉP TỪ CÁC SUB-PATTERNS
@@ -57,6 +62,7 @@
      * - "🌷1tr1 - 6-12m Mã: 🏆 626", "🌷40% - 12m ( Chủ dẫn 30% -12M) Mã: 🏆 232"
      * - "🌷40%_12th ( ctv dẫn) \n 30%_12th ( Chủ dẫn) Mã: 🏆" -> "Mã: 🏆"
      * - "🌷40%_12th ( ctv dẫn) 30%_12th ( Chủ dẫn) Mã: 🏆" -> "Mã: 🏆"
+     * - "Hh đến 30/8 \n 🌷50%-12m Mã: 🏆 105" -> "Mã: 🏆 105"
      */
     COMMISSION_REGEX: new RegExp(
       `(?:(?<=\\n|^)[ \\t]*)?${P.COMM_CHAIN}[ \\t]*(?:[\\.\\-–—_][ \\t]*)?(?=[ \\t]*[-([{:–—_ \\t]*(?:(?:Mã|MÃ|mã):?|[🏆🎖️🥇⭐📍🏢☘⌛]|TL\\d*)|[ \\t]*(?:\\n|$))`,
@@ -82,16 +88,17 @@
      * 3. Regular Expression Loại Bỏ Header Reply Quote Cũ (Reply Quote Regex)
      * Loại bỏ phần banner trích dẫn tin nhắn cũ của Zalo khi văn bản bôi đen bị dính header
      */
-    REPLY_QUOTE_REGEX: /^[ \t]*[a-zA-ZÀ-ỹ0-9_ ][a-zA-ZÀ-ỹ0-9_ ]{1,34}[ \t]*\n(?:[ \t]*[^\n]*?(?:[hH][hH]|[hH]oa[ \t]*hồng|Mã|MÃ|mã|[-•\u1F300-\u1F9FF🌷🌸🌺🌻🌹💐🏢⌛☘🏆⭐📍])[^\n]*\n){1,3}(?=[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng|Mã|MÃ|mã|[-•\u1F300-\u1F9FF🌷🌸🌺🌻🌹💐🏢⌛☘🏆⭐📍]|\d|[a-zA-Z])))/gui,
+    REPLY_QUOTE_REGEX: /^[ \t]*\[?[ \t]*(?:[tT]rả[ \t]*lời|[rR]eply|[tT]rích[ \t]*dẫn|[qQ]uote)[ \t]*:?[ \t]*[^\n]*\n(?:[ \t]*[^\n]*\n){1,3}(?=[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng|Mã|MÃ|mã|[-•\u1F300-\u1F9FF🌷🌸🌺🌻🌹💐🏢⌛☘🏆⭐📍]|\d|[a-zA-Z])))/gui,
 
     /**
      * 4. Regular Expression Lọc Dòng Hoa Hồng Đứng Độc Lập (%)
      * Nhận diện các dòng chỉ chứa % hoa hồng và thời hạn đứng thành 1 dòng riêng (hỗ trợ thụt lùi tab/space, đa mốc | và ngoặc đơn):
      * - "      35%-12th | 25%-6th ( Chủ dẫn)"
      * - "30%-6th", "🌷 40%-12th", "🌷40%_12th ( ctv dẫn)", "/-rose 35%", "🌷35%-hd 31/8/2027", " (Chốt đúng giá, fix giá hh 30%)"
+     * - "Hh đến 30/8", "Hoa hồng đến 31/8", "Hạn hh 30/8"
      */
     COMMISSION_LINE_PERCENT_REGEX: new RegExp(
-      `^[ \\t]*(?:(?:${P.HEADER_PREFIX}[ \\t]*)?${P.COMM_CHAIN}|(?:${P.HEADER_PREFIX}[ \\t]*)?${P.NOTE_STANDALONE})[ \\t]*$`,
+      `^[ \\t]*(?:(?:${P.HEADER_PREFIX}[ \t]*)?${P.COMM_CHAIN}|(?:${P.HEADER_PREFIX}[ \t]*)?${P.NOTE_STANDALONE}|${P.HEADER_PREFIX}[ \t]*(?:${P.DEADLINE_ONLY}|${P.MONTHS_SINGLE})?)[ \\t]*$`,
       'iu'
     ),
 

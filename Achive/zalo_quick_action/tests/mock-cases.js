@@ -426,6 +426,142 @@ Dvc :190k/người
  5tr4-p202
 ☘Dạng phòng : Studio 25m² (Ban công)
 ☘Thang : Thang máy`
+            },
+            {
+                  id: 'TC26_COMMISSION_DEADLINE_HEADER_BEFORE_MA',
+                  category: 'Trường hợp mới: Hoa hồng kèm dòng hạn Hh đến 30/8 đứng trước 🌷50%-12m Mã: 🏆 105',
+                  name: 'Lọc bỏ "Hh đến 30/8", "🌷50%-12m " và tag thương hiệu TL21House, bảo tồn toàn bộ thông tin phòng',
+                  input: `Hh đến 30/8
+🌷50%-12m Mã: 🏆 105
+
+🏢Địa chỉ : 95 ngõ 87 Nguyễn Khang - Quận: Cầu Giấy 
+
+⌛️Trống : 
+
+☘Giá: 6tr8-p302
+             
+☘Dạng phòng : 1n1k
+☘Thang : Máy
+
+🏆Nội thất : Full đồ cao cấp như hình
+May giat Chung , nếu lắp máy giặt riêng cao thêm 250k
+
+🏆Dịch vụ : Điện 4kđ/số; nước 110k/người/tháng; dịch vụ chung 220000 đồng/người/ tháng
+
+ ⭐Lưu ý: 
+- Đóng  1-  2 cọc 1 
+- Lưu ý ctv : ai bắn form trước là của người đó
+- Ngõ ô tô 
+- đường 2 ô tô tránh nhau có thế để ô to trước nhà thông qua vũ phạm hàm 100m, ra khu đô thị trung hòa 50m
+- Nguồn hàng cập nhật liên tục tại         
+                🏆TL21House`,
+                  expected: `Mã: 🏆 105
+
+🏢Địa chỉ : 95 ngõ 87 Nguyễn Khang - Quận: Cầu Giấy
+
+⌛️Trống :
+
+☘Giá: 6tr8-p302
+
+☘Dạng phòng : 1n1k
+☘Thang : Máy
+
+🏆Nội thất : Full đồ cao cấp như hình
+May giat Chung , nếu lắp máy giặt riêng cao thêm 250k
+
+🏆Dịch vụ : Điện 4kđ/số; nước 110k/người/tháng; dịch vụ chung 220000 đồng/người/ tháng
+
+ ⭐Lưu ý:
+- Đóng 1- 2 cọc 1
+- Lưu ý ctv : ai bắn form trước là của người đó
+- Ngõ ô tô
+- đường 2 ô tô tránh nhau có thế để ô to trước nhà thông qua vũ phạm hàm 100m, ra khu đô thị trung hòa 50m`
+            },
+            {
+                  id: 'TC27_COMMISSION_DEADLINE_VARIATIONS',
+                  category: 'Biến thể: Hạn hoa hồng cùng dòng hoặc độc lập',
+                  name: 'Lọc bỏ "Hh đến 30/8 🌷50%-12m " trên cùng một dòng trước Mã: 🏆 105',
+                  input: `Hh đến 30/8 🌷50%-12m Mã: 🏆 105
+🏢Địa chỉ : 95 ngõ 87 Nguyễn Khang - Quận: Cầu Giấy
+☘Giá: 6tr8-p302`,
+                  expected: `Mã: 🏆 105
+🏢Địa chỉ : 95 ngõ 87 Nguyễn Khang - Quận: Cầu Giấy
+☘Giá: 6tr8-p302`
+            },
+            {
+                  id: 'TC28_COMMISSION_DOUBLE_M_DURATION_BEFORE_MA',
+                  category: 'Trường hợp mới: Ký hiệu thời hạn gõ lặp 12mm đứng trước Mã',
+                  name: 'Lọc bỏ "🌷30%-12mm " và giữ lại "Mã: 🏆 078" cùng toàn bộ thông tin',
+                  input: `🌷30%-12mm Mã: 🏆 078
+
+🏢Địa chỉ : Số 11 ngõ 281/69 Trần Khát Chân, quận Hai Bà Trưng, Tp. Hà Nội`,
+                  expected: `Mã: 🏆 078
+
+🏢Địa chỉ : Số 11 ngõ 281/69 Trần Khát Chân, quận Hai Bà Trưng, Tp. Hà Nội`
+            },
+            {
+                  id: 'TC29_COMMISSION_HD_TOI_AND_CTV_DAN_NO_OPEN_BRACKET',
+                  category: 'Trường hợp mới: Dòng hoa hồng có chữ hđ tới và ghi chú CTV dẫn) thiếu dấu mở ngoặc',
+                  name: 'Lọc bỏ dòng "     50%-hd tới 31/8 CTV dẫn)" đứng độc lập',
+                  input: `     50%-hd tới 31/8 CTV dẫn)
+🏢Địa chỉ : ngõ 562 Thuỵ Khuê - Tây Hồ`,
+                  expected: `🏢Địa chỉ : ngõ 562 Thuỵ Khuê - Tây Hồ`
+            },
+            {
+                  id: 'TC30_FULL_MESSAGE_THUONG_CTV_AND_MULTI_DAN_TLHOUSE',
+                  category: 'Toàn bộ tin nhắn thực tế: Thưởng CTV 500k + Hoa hồng hđ tới 31/8 Chủ dẫn/CTV dẫn + Tag TL21House',
+                  name: 'Lọc sạch thưởng CTV, 2 mốc hoa hồng Chủ dẫn/CTV dẫn, bảo toàn trọn vẹn thông tin phòng',
+                  input: `THƯỞNG CTV 500k
+🌷40% - hđ tới 31/8( Chủ dẫn) Mã: 🏆 388
+     50%-hd tới 31/8 CTV dẫn)
+🏢Địa chỉ : ngõ 562 Thuỵ Khuê - Tây Hồ 
+
+⌛️Trống : P602 vào luôn
+
+☘Giá :
+502: 5.6tr hạ còn 4.8tr - vào ở ngày 
+              
+☘Dạng phòng : STUDIO
+☘Thang : MÁY
+
+🏆Nội thất : Full Nột thất : bàn làm việc, giường, tủ quần áo, tủ bếp trên dưới, hút mùi, bếp từ, tủ lạnh, rèm cửa, bàn ăn, ghế ăn. Máy giặt riêng từng phòng.
+
+Lưu ý: Phòng còn rèm đang lắp. Đệm và ga gối khách tự mua. Nhà bên cạnh nhỏ hơn, chung chủ, máy giặt chung, bằng giá tiền nhà mình, ae tự tin tư vấn khách nha. 
+
+🏆Dịch vụ : Điện 4k/số, nước 30k/m3, wifi 100k/ph/th, Dịch vụ chung : 200k/ng/th. Xe máy: free để xe đầu, để xe thứ 2 100k/xe.
+
+ ⭐Lưu ý: 
+- Đóng 1 cọc 1
+- Cách mặt phố chỉ 40M, ngõ rộng 4M
+- Ở tối đa 2 người, không nuôi pet (cân nhắc), không nhận khách nước ngoài, nhận tối đa 2 xe/phòng. (Nếu ở 3 người vẫn có thể cân nhắc, ưu tiên 3 nữ ở sạch sẽ). Fix mạnh cho khách ở 1-2 người nha. 
+- Qua xem phòng liên hệ trước 30p
+- Nhà không chung chủ - giờ giấc tự do
+- Nguồn hàng cập nhật liên tục tại         
+                🏆TL21House🏆`,
+                  expected: `Mã: 🏆 388
+
+🏢Địa chỉ : ngõ 562 Thuỵ Khuê - Tây Hồ
+
+⌛️Trống : P602 vào luôn
+
+☘Giá :
+502: 5.6tr hạ còn 4.8tr - vào ở ngày
+
+☘Dạng phòng : STUDIO
+☘Thang : MÁY
+
+🏆Nội thất : Full Nột thất : bàn làm việc, giường, tủ quần áo, tủ bếp trên dưới, hút mùi, bếp từ, tủ lạnh, rèm cửa, bàn ăn, ghế ăn. Máy giặt riêng từng phòng.
+
+Lưu ý: Phòng còn rèm đang lắp. Đệm và ga gối khách tự mua. Nhà bên cạnh nhỏ hơn, chung chủ, máy giặt chung, bằng giá tiền nhà mình, ae tự tin tư vấn khách nha.
+
+🏆Dịch vụ : Điện 4k/số, nước 30k/m3, wifi 100k/ph/th, Dịch vụ chung : 200k/ng/th. Xe máy: free để xe đầu, để xe thứ 2 100k/xe.
+
+ ⭐Lưu ý:
+- Đóng 1 cọc 1
+- Cách mặt phố chỉ 40M, ngõ rộng 4M
+- Ở tối đa 2 người, không nuôi pet (cân nhắc), không nhận khách nước ngoài, nhận tối đa 2 xe/phòng. (Nếu ở 3 người vẫn có thể cân nhắc, ưu tiên 3 nữ ở sạch sẽ). Fix mạnh cho khách ở 1-2 người nha.
+- Qua xem phòng liên hệ trước 30p
+- Nhà không chung chủ - giờ giấc tự do`
             }
       ];
 
