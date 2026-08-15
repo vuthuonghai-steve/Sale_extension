@@ -8,19 +8,21 @@ public class ZaloStickerFilter : IClipboardFilter
     public string Name => "Zalo Sticker & System Tag Filter";
     public int Priority => 3;
 
+    public bool IsEnabled(FilterOptions options) => options.EnableZaloStickerFilter;
+
     private static readonly Regex ZaloStickerRegex = new(
         @"/\-(?:rose|heart|strong|smile|thanks|break|beer|like|fade|flag|sigh|handclap|kiss|angry|sleep|love|sweat|giggle|cry|cool|funny|bad|pray|shit|pushup|search|pointdown|pointright|pointleft|pointup|v|ghost|demon)\b",
-        RegexOptions.IgnoreCase | RegexOptions.Compiled
+        RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant
     );
 
     private static readonly Regex ZaloSystemTagsRegex = new(
         @"^[ \t]*\[(?:Hình[ \t]+ảnh|Sticker|File|Video|Thẻ[ \t]+danh[ \t]+thiếp|Vị[ \t]+trí)\][ \t]*$",
-        RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled
+        RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant
     );
 
     private static readonly Regex LineSeparatorRegex = new(
         @"^[ \t]*(?:[-=*_~•.]{3,}|(?:🌸|🌺|💐|🌻|🌹|🏆|⭐){3,})[ \t]*$",
-        RegexOptions.Multiline | RegexOptions.Compiled
+        RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant
     );
 
     public string Process(string text)

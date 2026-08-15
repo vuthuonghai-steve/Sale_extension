@@ -1,0 +1,7 @@
+{
+  "Monitoring": {
+    "LogLevel": "Information",
+    "Sink": "logger",
+    "EventLog": "Enabled"
+  }
+}

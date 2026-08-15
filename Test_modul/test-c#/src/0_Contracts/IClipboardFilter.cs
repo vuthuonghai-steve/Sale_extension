@@ -21,4 +21,11 @@ public interface IClipboardFilter
     /// <param name="text">Văn bản thô cần lọc</param>
     /// <returns>Văn bản đã qua xử lý</returns>
     string Process(string text);
+
+    /// <summary>
+    /// Kiểm tra xem bộ lọc có được kích hoạt theo cấu hình hiện tại hay không
+    /// </summary>
+    /// <param name="options">Cấu hình bộ lọc hệ thống</param>
+    /// <returns>True nếu bộ lọc được bật, ngược lại False</returns>
+    bool IsEnabled(FilterOptions options);
 }

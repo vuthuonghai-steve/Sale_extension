@@ -41,12 +41,15 @@ internal static class Program
 
         // 4. Native Engine Listener (Truyền options vào Orchestrator để quản lý trạng thái Bật/Tắt)
         using NativeClipboardListener listener = new NativeClipboardListener();
-        _ = new PipelineOrchestrator(options, pipelineManager, listener);
+        using var orchestrator = new PipelineOrchestrator(options, pipelineManager, listener);
 
         // 5. Presentation Layer (System Tray)
         using SystemTrayApplicationContext context = new SystemTrayApplicationContext(options);
 
         // Run Windows Application Event Loop
         Application.Run(context);
+
+        // Dọn dẹp và flush log trước khi thoát
+        WindowsLoggerAdapter.Shutdown();
     }
 }

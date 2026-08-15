@@ -1,64 +1,124 @@
 using System.Diagnostics;
+using System.Threading.Channels;
 
 namespace ClipboardFilterApp.PlatformAdapters.Logging;
 
 /// <summary>
-/// Platform Adapter ghi Log chuyên nghiệp cho Windows OS (Xuất Console, Debugger & File Log)
+/// Platform Adapter ghi Log chuyên nghiệp cho Windows OS (Non-blocking STA Thread qua Channel, xuất Console, Debugger & File Log tại %LocalAppData%\ClipboardFilterApp\logs)
 /// </summary>
 public static class WindowsLoggerAdapter
 {
-    private static readonly string LogDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
-    private static readonly object LockObj = new();
+    private static readonly string LogDirectory = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "ClipboardFilterApp",
+        "logs"
+    );
+
+    private static readonly Channel<string> _logChannel = Channel.CreateUnbounded<string>(new UnboundedChannelOptions
+    {
+        SingleReader = true,
+        SingleWriter = false
+    });
+
+    private static readonly Task _processingTask;
 
     static WindowsLoggerAdapter()
     {
-        if (!Directory.Exists(LogDirectory))
+        try
         {
-            Directory.CreateDirectory(LogDirectory);
+            if (!Directory.Exists(LogDirectory))
+            {
+                Directory.CreateDirectory(LogDirectory);
+            }
         }
+        catch
+        {
+            // Bỏ qua lỗi nếu không thể tạo thư mục khởi tạo
+        }
+
+        _processingTask = Task.Run(ProcessLogsAsync);
     }
 
     public static void LogInfo(string message)
     {
-        WriteLog("INFO", message);
+        EnqueueLog("INFO", message);
     }
 
     public static void LogWarning(string message)
     {
-        WriteLog("WARN", message);
+        EnqueueLog("WARN", message);
     }
 
     public static void LogError(string message, Exception? ex = null)
     {
         string fullMsg = ex != null ? $"{message} | Exception: {ex.Message}\n{ex.StackTrace}" : message;
-        WriteLog("ERROR", fullMsg);
+        EnqueueLog("ERROR", fullMsg);
     }
 
-    private static void WriteLog(string level, string message)
+    private static void EnqueueLog(string level, string message)
     {
         string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
         string logLine = $"[{timestamp}] [{level}] {message}";
 
-        // 1. In ra Debugger Stream (Soi được trên VS Code Output Window / Visual Studio)
+        // 1. In ngay lập tức ra Debugger & Console cho lập trình viên theo dõi realtime
         Debug.WriteLine(logLine);
-
-        // 2. In ra Console Terminal (Nếu chạy bằng dotnet run hoặc bật Console)
         Console.WriteLine(logLine);
 
-        // 3. Ghi vết persistent ra file logs/app-yyyy-MM-dd.log
-        string fileName = $"app-{DateTime.Now:yyyy-MM-dd}.log";
-        string filePath = Path.Combine(LogDirectory, fileName);
+        // 2. Đưa vào Channel phi đồng bộ (Non-blocking STA Thread) để Background Consumer ghi file
+        _logChannel.Writer.TryWrite(logLine);
+    }
 
-        lock (LockObj)
+    private static async Task ProcessLogsAsync()
+    {
+        try
         {
-            try
+            while (await _logChannel.Reader.WaitToReadAsync())
             {
-                File.AppendAllText(filePath, logLine + Environment.NewLine);
+                while (_logChannel.Reader.TryRead(out var logLine))
+                {
+                    WriteToFile(logLine);
+                }
             }
-            catch
+        }
+        catch
+        {
+            // Bỏ qua lỗi vòng lặp để tránh crash background task
+        }
+    }
+
+    private static void WriteToFile(string logLine)
+    {
+        try
+        {
+            if (!Directory.Exists(LogDirectory))
             {
-                // Bỏ qua lỗi lock file log để không làm sập ứng dụng chính
+                Directory.CreateDirectory(LogDirectory);
             }
+
+            string fileName = $"app-{DateTime.Now:yyyy-MM-dd}.log";
+            string filePath = Path.Combine(LogDirectory, fileName);
+
+            File.AppendAllText(filePath, logLine + Environment.NewLine);
+        }
+        catch
+        {
+            // Bỏ qua lỗi lock file log để không làm sập ứng dụng chính
+        }
+    }
+
+    /// <summary>
+    /// Đóng Channel và chờ Background Worker hoàn tất việc flush toàn bộ log còn tồn đọng xuống đĩa
+    /// </summary>
+    public static void Shutdown()
+    {
+        try
+        {
+            _logChannel.Writer.Complete();
+            _processingTask.Wait(TimeSpan.FromSeconds(2));
+        }
+        catch
+        {
+            // Bỏ qua ngoại lệ khi shutdown
         }
     }
 }

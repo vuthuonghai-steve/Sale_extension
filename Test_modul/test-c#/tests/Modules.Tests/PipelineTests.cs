@@ -274,4 +274,64 @@ public class PipelineTests
         string actual = _pipelineManager.Process(input);
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void TC26_COMMISSION_RANGE_NO_PERCENT_HD_DURATION_QUAN_NHAN()
+    {
+        string input = "🌹 30-40 HĐ 6-12T\n\nH105\n\n📍Địa chỉ: Nhà số 6 ngách 8 ngõ 141 Quan Nhân - Thanh Xuân\n\n102-305 5tr8\n201-603 6tr5\n\nThông tin:\nP 1k1n. Full đồ.  Nhận xe điện. Nhận khách Tây. Được nuôi Pet. . Ngõ 3 gác, cách đường oto 50m. Thang máy\n\nChi phí:\nĐiện 4k/số\nNước 35k/khối\nWifi 100K/P\nDvc 150k/người.\n\nNhận khách ở luôn. Đầu tháng 9 giá thay đổi.";
+        string expected = "H105\n\n📍Địa chỉ: Nhà số 6 ngách 8 ngõ 141 Quan Nhân - Thanh Xuân\n\n102-305 5tr8\n201-603 6tr5\n\nThông tin:\nP 1k1n. Full đồ. Nhận xe điện. Nhận khách Tây. Được nuôi Pet. . Ngõ 3 gác, cách đường oto 50m. Thang máy\n\nChi phí:\nĐiện 4k/số\nNước 35k/khối\nWifi 100K/P\nDvc 150k/người.\n\nNhận khách ở luôn. Đầu tháng 9 giá thay đổi.";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void TC27_STANDALONE_PERCENT_WITH_H_CODE_DAI_HOC_HA_NOI()
+    {
+        string input = "🌹30%\nH332\n\nCòn 1P Cuối Sale Nhanh - CÒN 1P 602 6tr7 \nĐẠI HỌC HÀ NỘI\n\n🏡 KHAI TRƯƠNG CCMN MỚI – NGÕ 2 ĐẠI HỌC HÀ NỘI\n\n📍 Vị trí đẹp, gần Đại học Hà Nội, thuận tiện di chuyển đến ĐH Kiến Trúc, Học viện An Ninh, Bưu chính Viễn thông…\n\n✨ Tòa mới 100% – 13 phòng Studio\n📅 Hoàn thiện ngày 05/08 – nhận phòng ngay\n\n\n🛋️ Full nội thất:\n\n* Điều hòa, nóng lạnh\n* Tủ lạnh\n* Máy giặt riêng\n* Tủ bếp\n* Rèm cửa\n* Chỉ cần xách vali vào ở\n\n💸 Chi phí:\n\n* Điện: 4.000đ/số\n* Nước: 35.000đ/khối\n* Internet: 100.000đ/phòng\n* Dịch vụ chung: 150.000đ/người\n\n📌 Điều kiện:\n\n* HĐ 12 tháng\n* Đóng 1 cọc 1\n* ❌ Không nhận xe điện\n* ❌ Không nuôi pet";
+        string expected = "H332\n\nCòn 1P Cuối Sale Nhanh - CÒN 1P 602 6tr7\nĐẠI HỌC HÀ NỘI\n\n🏡 KHAI TRƯƠNG CCMN MỚI – NGÕ 2 ĐẠI HỌC HÀ NỘI\n\n📍 Vị trí đẹp, gần Đại học Hà Nội, thuận tiện di chuyển đến ĐH Kiến Trúc, Học viện An Ninh, Bưu chính Viễn thông…\n\n✨ Tòa mới 100% – 13 phòng Studio\n📅 Hoàn thiện ngày 05/08 – nhận phòng ngay\n\n🛋️ Full nội thất:\n\n* Điều hòa, nóng lạnh\n* Tủ lạnh\n* Máy giặt riêng\n* Tủ bếp\n* Rèm cửa\n* Chỉ cần xách vali vào ở\n\n💸 Chi phí:\n\n* Điện: 4.000đ/số\n* Nước: 35.000đ/khối\n* Internet: 100.000đ/phòng\n* Dịch vụ chung: 150.000đ/người\n\n📌 Điều kiện:\n\n* HĐ 12 tháng\n* Đóng 1 cọc 1\n* ❌ Không nhận xe điện\n* ❌ Không nuôi pet";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void TC28_COMMISSION_HOANG_MAI_CASE()
+    {
+        string input = "🌹 30-40 HĐ 6-12T\n\nH105\n\n📍Địa chỉ: Nhà số 8 ngõ 197 Hoàng Mai \n✨ Phòng 501 4tr8 ở luôn\n\nThông tin:\nP gác xép. 25m2, Full đồ  . .  Oto đỗ cửa..Ko nhận xe điện,. nuôi Pet nhỏ,  nhận khách Tây. Thang máy. \n\nChi phí:\nĐiện 4k/số\nNước 120k/ng\nWifi 100K/P\nDvc 150/ người. \nXe free.";
+        string expected = "H105\n\n📍Địa chỉ: Nhà số 8 ngõ 197 Hoàng Mai\n✨ Phòng 501 4tr8 ở luôn\n\nThông tin:\nP gác xép. 25m2, Full đồ . . Oto đỗ cửa..Ko nhận xe điện,. nuôi Pet nhỏ, nhận khách Tây. Thang máy.\n\nChi phí:\nĐiện 4k/số\nNước 120k/ng\nWifi 100K/P\nDvc 150/ người.\nXe free.";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void TC29_COMMISSION_TAN_MAI_CASE()
+    {
+        string input = "🌹 30-40 HĐ 6-12T\n\nH105\n\n📍Địa chỉ: Nhà số 40 ngõ 120 Tân Mai\n✨ Phòng 101 giá 4tr4 ở luôn\nThông tin:\nP gác xép. 25m2, Full đồ  .  cửa sổ thoáng.  Oto đỗ cửa..Ko nhận xe điện,. nuôi Pet nhỏ,  nhận khách Tây. Thang máy. \n\nChi phí:\nĐiện 4k/số\nNước 35k/ khối\nWifi 100K/P\nDvc 150/ người. \nXe free.";
+        string expected = "H105\n\n📍Địa chỉ: Nhà số 40 ngõ 120 Tân Mai\n✨ Phòng 101 giá 4tr4 ở luôn\nThông tin:\nP gác xép. 25m2, Full đồ . cửa sổ thoáng. Oto đỗ cửa..Ko nhận xe điện,. nuôi Pet nhỏ, nhận khách Tây. Thang máy.\n\nChi phí:\nĐiện 4k/số\nNước 35k/ khối\nWifi 100K/P\nDvc 150/ người.\nXe free.";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void TC30_COMMISSION_ROSE_BONUS_AD_LAC_LONG_QUAN()
+    {
+        string input = "🌹40 + thưởng 500k AD 20/8\n\nH209\n\n📍 Số 75B ngách 46 ngõ 445 Lạc Long Quân- tây hồ\n\n🛏️ Thiết kế: 1 khách 1 ngủ (1K1N)\n💰 Giá thuê: 8tr6/tháng p401,601\n📅 Trống từ: 31/08\n📸 Có ảnh + video xem phòng\n✨ Nội thất đầy đủ:\n🛌 Giường, tủ\n❄️ Điều hoà, nóng lạnh\n🛋️ Sofa, bàn ghế\n🍳 Kệ bếp trên dưới\n🧺 Máy giặt riêng\n🪟 Rèm cửa đầy đủ\n🚗 Tiện ích:\n✅ Ô tô đỗ cách 10m\n✅ Bãi gửi xe cách 100m\n✅ Không giới hạn số người ở\n✅ Nhận khách nước ngoài\n✅ Đóng 1 cọc 1\n❌ Không nhận xe điện\n💡 Chi phí dịch vụ:\n⚡ Điện: 4k/số\n📦 Dịch vụ: 300k/người gồm:\n💧 Nước\n🌐 Internet\n🧹 Vệ sinh tòa nhà\n🗑️ Thu rác\n🛗 Thang máy\n🧺 Máy giặt sấy\n🏍️ Gửi xe …";
+        string expected = "H209\n\n📍 Số 75B ngách 46 ngõ 445 Lạc Long Quân- tây hồ\n\n🛏️ Thiết kế: 1 khách 1 ngủ (1K1N)\n💰 Giá thuê: 8tr6/tháng p401,601\n📅 Trống từ: 31/08\n📸 Có ảnh + video xem phòng\n✨ Nội thất đầy đủ:\n🛌 Giường, tủ\n❄️ Điều hoà, nóng lạnh\n🛋️ Sofa, bàn ghế\n🍳 Kệ bếp trên dưới\n🧺 Máy giặt riêng\n🪟 Rèm cửa đầy đủ\n🚗 Tiện ích:\n✅ Ô tô đỗ cách 10m\n✅ Bãi gửi xe cách 100m\n✅ Không giới hạn số người ở\n✅ Nhận khách nước ngoài\n✅ Đóng 1 cọc 1\n❌ Không nhận xe điện\n💡 Chi phí dịch vụ:\n⚡ Điện: 4k/số\n📦 Dịch vụ: 300k/người gồm:\n💧 Nước\n🌐 Internet\n🧹 Vệ sinh tòa nhà\n🗑️ Thu rác\n🛗 Thang máy\n🧺 Máy giặt sấy\n🏍️ Gửi xe …";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void TC31_COMMISSION_ROSE_30_HD_12T_DAI_LA()
+    {
+        string input = "🌹30 HĐ 12T\n\nH113\n\n🏠Nhà số 6 ngách 19 ngõ Thống Nhất (Đại La), hai bà trưng";
+        string expected = "H113\n\n🏠Nhà số 6 ngách 19 ngõ Thống Nhất (Đại La), hai bà trưng";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
 }

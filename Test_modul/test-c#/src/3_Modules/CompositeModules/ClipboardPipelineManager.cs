@@ -11,8 +11,8 @@ public class ClipboardPipelineManager
     private readonly List<IClipboardFilter> _filters;
     private readonly FilterOptions _options;
 
-    private static readonly Regex MultiSpaceTabRegex = new(@"[ \t]+", RegexOptions.Compiled);
-    private static readonly Regex MultiNewlineRegex = new(@"\n{3,}", RegexOptions.Compiled);
+    private static readonly Regex MultiSpaceTabRegex = new(@"[ \t]+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    private static readonly Regex MultiNewlineRegex = new(@"\n{3,}", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
     public ClipboardPipelineManager(FilterOptions options, IEnumerable<IClipboardFilter> filters)
     {
@@ -30,6 +30,7 @@ public class ClipboardPipelineManager
 
         foreach (var filter in _filters)
         {
+            if (!filter.IsEnabled(_options)) continue;
             currentText = filter.Process(currentText);
         }
 

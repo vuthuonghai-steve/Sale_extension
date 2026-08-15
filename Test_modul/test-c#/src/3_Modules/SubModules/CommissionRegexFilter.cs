@@ -12,6 +12,8 @@ public class CommissionRegexFilter : IClipboardFilter
     public string Name => "Commission & Bonus Policy Filter";
     public int Priority => 5;
 
+    public bool IsEnabled(FilterOptions options) => options.EnableCommissionFilter;
+
     public string Process(string text)
     {
         if (string.IsNullOrEmpty(text)) return text;

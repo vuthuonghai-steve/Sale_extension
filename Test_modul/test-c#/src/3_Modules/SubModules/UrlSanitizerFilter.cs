@@ -8,14 +8,16 @@ public class UrlSanitizerFilter : IClipboardFilter
     public string Name => "URL Tracking Sanitizer Filter";
     public int Priority => 6;
 
+    public bool IsEnabled(FilterOptions options) => options.EnableUrlSanitizer;
+
     private static readonly Regex UrlTrackingRegex = new(
         @"([?&])(utm_[^&]+|fbclid=[^&]+|gclid=[^&]+|ref=[^&]+)",
-        RegexOptions.IgnoreCase | RegexOptions.Compiled
+        RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant
     );
 
     private static readonly Regex TrailingQuestionRegex = new(
         @"\?$",
-        RegexOptions.Compiled
+        RegexOptions.Compiled | RegexOptions.CultureInvariant
     );
 
     public string Process(string text)

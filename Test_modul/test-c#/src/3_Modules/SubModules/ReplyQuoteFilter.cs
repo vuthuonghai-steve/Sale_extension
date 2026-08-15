@@ -10,6 +10,7 @@ public class ReplyQuoteFilter : IClipboardFilter
 {
     public string Name => "Zalo Reply Quote Stripper";
     public int Priority => 2;
+    public bool IsEnabled(FilterOptions options) => options.EnableReplyQuoteFilter;
 
     public string Process(string text)
     {

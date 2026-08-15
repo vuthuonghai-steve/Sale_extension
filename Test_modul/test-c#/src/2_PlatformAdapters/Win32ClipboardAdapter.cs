@@ -44,6 +44,9 @@ public static class Win32ClipboardAdapter
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern bool GlobalUnlock(IntPtr hMem);
 
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern IntPtr GlobalFree(IntPtr hMem);
+
     public const uint GMEM_MOVEABLE = 0x0002;
     public const uint GMEM_ZEROINIT = 0x0040;
 
@@ -96,15 +99,35 @@ public static class Win32ClipboardAdapter
                     IntPtr hMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_ZEROINIT, bytesSize);
                     if (hMem != IntPtr.Zero)
                     {
-                        IntPtr pMem = GlobalLock(hMem);
-                        if (pMem != IntPtr.Zero)
+                        bool transferredOwnership = false;
+                        try
                         {
-                            Marshal.Copy(bytes, 0, pMem, bytes.Length);
-                            GlobalUnlock(hMem);
-
-                            if (SetClipboardData(CF_UNICODETEXT, hMem) != IntPtr.Zero)
+                            IntPtr pMem = GlobalLock(hMem);
+                            if (pMem != IntPtr.Zero)
                             {
-                                return true;
+                                try
+                                {
+                                    Marshal.Copy(bytes, 0, pMem, bytes.Length);
+                                }
+                                finally
+                                {
+                                    GlobalUnlock(hMem);
+                                }
+
+                                if (SetClipboardData(CF_UNICODETEXT, hMem) != IntPtr.Zero)
+                                {
+                                    transferredOwnership = true;
+                                    return true;
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            // Nếu SetClipboardData thất bại hoặc ném exception trước đó,
+                            // Windows chưa sở hữu hMem -> Phải gọi GlobalFree để chống rò rỉ bộ nhớ unmanaged
+                            if (!transferredOwnership)
+                            {
+                                GlobalFree(hMem);
                             }
                         }
                     }

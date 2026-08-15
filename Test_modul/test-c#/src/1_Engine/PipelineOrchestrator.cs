@@ -8,12 +8,13 @@ namespace ClipboardFilterApp.Engine;
 /// <summary>
 /// Engine điều phối luồng lắng nghe - xử lý - ghi đè Clipboard toàn hệ thống
 /// </summary>
-public class PipelineOrchestrator
+public class PipelineOrchestrator : IDisposable
 {
     private readonly FilterOptions _options;
     private readonly ClipboardPipelineManager _pipelineManager;
     private readonly NativeClipboardListener _listener;
     private string _lastProcessedText = string.Empty;
+    private bool _disposed;
 
     public PipelineOrchestrator(FilterOptions options, ClipboardPipelineManager pipelineManager, NativeClipboardListener listener)
     {
@@ -26,6 +27,11 @@ public class PipelineOrchestrator
 
     private void OnClipboardUpdated(object? sender, EventArgs e)
     {
+        if (_disposed)
+        {
+            return;
+        }
+
         // Nếu người dùng TẮT dịch vụ từ System Tray Menu -> Bỏ qua không lọc dữ liệu!
         if (!_options.EnableService)
         {
@@ -58,6 +64,24 @@ public class PipelineOrchestrator
         else
         {
             _lastProcessedText = rawText;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                _listener.ClipboardUpdated -= OnClipboardUpdated;
+            }
+            _disposed = true;
         }
     }
 }

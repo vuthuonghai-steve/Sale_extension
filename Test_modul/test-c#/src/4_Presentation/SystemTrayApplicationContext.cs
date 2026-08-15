@@ -10,7 +10,9 @@ namespace ClipboardFilterApp.Presentation;
 public class SystemTrayApplicationContext : ApplicationContext
 {
     private readonly NotifyIcon _notifyIcon;
+    private readonly ContextMenuStrip _contextMenu;
     private readonly FilterOptions _options;
+    private bool _disposed;
 
     public SystemTrayApplicationContext(FilterOptions options)
     {
@@ -23,15 +25,15 @@ public class SystemTrayApplicationContext : ApplicationContext
 
         ToolStripMenuItem exitMenuItem = new ToolStripMenuItem("Thoát Ứng Dụng", null, OnExit);
 
-        ContextMenuStrip contextMenu = new ContextMenuStrip();
-        contextMenu.Items.Add(enableMenuItem);
-        contextMenu.Items.Add(new ToolStripSeparator());
-        contextMenu.Items.Add(exitMenuItem);
+        _contextMenu = new ContextMenuStrip();
+        _contextMenu.Items.Add(enableMenuItem);
+        _contextMenu.Items.Add(new ToolStripSeparator());
+        _contextMenu.Items.Add(exitMenuItem);
 
         _notifyIcon = new NotifyIcon
         {
             Icon = SystemIcons.Shield, // Dùng Shield icon mặc định của Windows OS
-            ContextMenuStrip = contextMenu,
+            ContextMenuStrip = _contextMenu,
             Text = "OS Clipboard Filter - Đang Hoạt Động",
             Visible = true
         };
@@ -62,8 +64,25 @@ public class SystemTrayApplicationContext : ApplicationContext
 
     private void OnExit(object? sender, EventArgs e)
     {
-        _notifyIcon.Visible = false;
-        _notifyIcon.Dispose();
-        Application.Exit();
+        ExitThread();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                if (_notifyIcon != null)
+                {
+                    _notifyIcon.Visible = false;
+                    _notifyIcon.Dispose();
+                }
+                _contextMenu?.Dispose();
+            }
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 }

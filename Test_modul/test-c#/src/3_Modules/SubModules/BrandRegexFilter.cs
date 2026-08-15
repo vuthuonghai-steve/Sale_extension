@@ -12,6 +12,8 @@ public class BrandRegexFilter : IClipboardFilter
     public string Name => "Brand & Source Team Filter";
     public int Priority => 4;
 
+    public bool IsEnabled(FilterOptions options) => options.EnableBrandFilter;
+
     public string Process(string text)
     {
         if (string.IsNullOrEmpty(text)) return text;
