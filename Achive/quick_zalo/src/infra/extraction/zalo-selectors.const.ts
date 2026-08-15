@@ -3,7 +3,11 @@ export const SELECTOR_MESSAGE_NODES = [
   '[id^="message-frame"]',
   '.message-frame',
   '[data-component="message-content-view"]',
+  '[data-component="bubble-message"]',
+  '[id^="bb_msg_id_"]',
   '.text-message__container',
+  '[id^="text-mCntr_"]',
+  '[data-component="text-container"]',
   'div[data-id^="div_ReceivedMsg_"]',
   'div[data-id^="div_SentMsg_"]',
   '[id^="msg_"]',
@@ -18,3 +22,4 @@ export const HEADER_TITLE_SELECTORS = [
   '.chat-header .name-title',
   '[data-id="header-title"]',
 ].join(', ');
+

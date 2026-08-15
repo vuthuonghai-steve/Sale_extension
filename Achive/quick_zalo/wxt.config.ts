@@ -3,6 +3,16 @@ import { resolve } from 'node:path';
 
 export default defineConfig({
   srcDir: 'src',
+  vite: () => ({
+    build: {
+      modulePreload: false,
+    },
+    esbuild: {
+      charset: 'ascii',
+    },
+  }),
+
+
   modules: ['@wxt-dev/module-react'],
   runner: {
     chromiumProfile: resolve('.user-data'),
