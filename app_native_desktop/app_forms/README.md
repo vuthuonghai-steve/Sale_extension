@@ -88,9 +88,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\package_release.ps1
 ```
 
 Hệ thống sẽ tự động:
-1. Biên dịch tối ưu thành 1 file thực thi độc lập duy nhất `AppForms.exe` (Self-Contained Single File, không yêu cầu cài thêm .NET Runtime).
+1. Biên dịch tối ưu thành 1 file thực thi duy nhất `AppForms.exe` siêu nhẹ (~1MB, Framework-Dependent Single File).
 2. Tự động thu thập Icon (`Assets/`) và các file hỗ trợ từ `scripts/distribution/` (`Cai_Dat_Va_Tao_Shortcut.bat`, `Go_Bo_Shortcut.bat`, `HUONG_DAN_SU_DUNG.txt`).
-3. Nén toàn bộ thành file **`dist/SaleLeadAssistant_v1.0.0_win-x64.zip`** sẵn sàng để gửi trực tiếp cho người dùng hoặc đăng tải lên GitHub Release / Google Drive.
+3. Nén toàn bộ thành file **`dist/SaleLeadAssistant_v1.0.0_win-x64.zip`** (< 1MB) sẵn sàng để gửi trực tiếp cho người dùng hoặc đăng tải lên GitHub Release / Google Drive.
 
 ---
 

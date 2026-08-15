@@ -41,10 +41,10 @@ if (-not (Test-Path $distDir)) {
     New-Item -ItemType Directory -Path $distDir | Out-Null
 }
 
-# 2. Bien dich Publish Single File Self-Contained
-Write-Host "`n[1/4] Dang bien dich (.NET Publish Single File Self-Contained)..." -ForegroundColor Green
+# 2. Bien dich Publish Single File Framework-Dependent
+Write-Host "`n[1/4] Dang bien dich (.NET Publish Single File Framework-Dependent)..." -ForegroundColor Green
 Set-Location $projectRoot
-$publishCmd = "dotnet publish -c $Configuration -r $Runtime --self-contained -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true"
+$publishCmd = "dotnet publish -c $Configuration -r $Runtime --no-self-contained -p:PublishSingleFile=true"
 Invoke-Expression $publishCmd
 
 $publishOutDir = Join-Path $projectRoot ("bin\" + $Configuration + "\net6.0-windows\" + $Runtime + "\publish")

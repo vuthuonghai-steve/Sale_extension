@@ -8,19 +8,34 @@ namespace AppForms.Backend.Services;
 
 public class SchemaDetectorService : ISchemaDetector
 {
+    private readonly IRoomCodeReadOnlyRepository _roomCodeRepo;
+
+    public SchemaDetectorService(IRoomCodeReadOnlyRepository roomCodeRepo)
+    {
+        _roomCodeRepo = roomCodeRepo;
+    }
+
     public string? DetectSchemaId(LeadEntity lead, string? rawText = null)
     {
         // 1. Kiểm tra ưu tiên theo RoomCode nếu có
         if (!string.IsNullOrWhiteSpace(lead.RoomCode))
         {
-            var detectedFromCode = DetectFromCode(lead.RoomCode);
-            if (detectedFromCode != null)
+            // === LAYER 1: Prefix Pattern Matching (O(1) Regex/Prefix) ===
+            var detectedFromPrefix = DetectFromPrefixSignature(lead.RoomCode);
+            if (detectedFromPrefix != null)
             {
-                return detectedFromCode;
+                return detectedFromPrefix;
+            }
+
+            // === LAYER 2: In-Memory Code Registry Lookup (O(1) RAM) ===
+            var detectedFromRepo = _roomCodeRepo.GetSchemaIdByCode(lead.RoomCode);
+            if (detectedFromRepo != null)
+            {
+                return detectedFromRepo;
             }
         }
 
-        // 2. Kiểm tra theo TeamName
+        // === LAYER 3: Kiểm tra theo TeamName ===
         if (!string.IsNullOrWhiteSpace(lead.TeamName))
         {
             var detectedFromTeam = DetectFromKeyword(lead.TeamName);
@@ -30,7 +45,7 @@ public class SchemaDetectorService : ISchemaDetector
             }
         }
 
-        // 3. Quét rawText nếu được cung cấp
+        // === LAYER 3 (tiếp): Quét rawText nếu được cung cấp ===
         if (!string.IsNullOrWhiteSpace(rawText))
         {
             // Kiểm tra các mẫu regex mã phòng trong rawText
@@ -55,7 +70,7 @@ public class SchemaDetectorService : ISchemaDetector
         return null;
     }
 
-    private static string? DetectFromCode(string roomCode)
+    private static string? DetectFromPrefixSignature(string roomCode)
     {
         var cleaned = CleanCode(roomCode);
         if (string.IsNullOrEmpty(cleaned)) return null;

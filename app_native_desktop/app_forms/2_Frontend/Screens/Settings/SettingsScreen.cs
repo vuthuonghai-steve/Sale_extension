@@ -1,4 +1,6 @@
 using AppForms.Backend.Contracts.Interfaces;
+using AppForms.Frontend.Screens.Settings.Components;
+using AppForms.Frontend.Screens.Settings.Hooks;
 using AppForms.Frontend.Shared.Components;
 using AppForms.Frontend.Shared.Theme;
 
@@ -6,137 +8,121 @@ namespace AppForms.Frontend.Screens.Settings;
 
 public class SettingsScreen : UserControl
 {
-    private readonly ISettingsService _settingsService;
-    private TextBox _txtCtvName = null!;
-    private CheckBox _chkAutoClipboard = null!;
-    private CheckBox _chkMinimizeTray = null!;
-    private ModernButton _btnSave = null!;
+    private readonly SettingsStateHook _stateHook;
+    private readonly SettingsGeneralPanel _generalPanel;
+    private readonly RoomCodeManagementPanel _roomCodePanel;
+
+    private Panel _containerPanel = null!;
+    private ModernButton _btnTabGeneral = null!;
+    private ModernButton _btnTabCodes = null!;
 
     public event Action? SettingsSaved;
 
-    public SettingsScreen(ISettingsService settingsService)
+    public SettingsScreen(ISettingsService settingsService, IRoomCodeRepository roomCodeRepo)
     {
-        _settingsService = settingsService;
+        _stateHook = new SettingsStateHook(settingsService, roomCodeRepo);
+        _generalPanel = new SettingsGeneralPanel();
+        _roomCodePanel = new RoomCodeManagementPanel();
+
         InitializeLayout();
-        LoadCurrentSettings();
+        RegisterHookEvents();
+
+        _stateHook.LoadGeneralSettings();
+        _stateHook.LoadRoomCodes();
     }
 
     private void InitializeLayout()
     {
         Dock = DockStyle.Fill;
         BackColor = AppColors.BackgroundDark;
-        Padding = new Padding(16);
+        Padding = new Padding(10);
 
-        var lblHeader = new Label
-        {
-            Text = "⚙️ CÀI ĐẶT ỨNG DỤNG",
-            Font = AppFonts.Header,
-            ForeColor = AppColors.TextPrimary,
-            Dock = DockStyle.Top,
-            Height = 36
-        };
-
-        var panelForm = new Panel
+        var topTabBar = new Panel
         {
             Dock = DockStyle.Top,
-            AutoSize = true,
-            BackColor = AppColors.SurfaceDark,
-            Padding = new Padding(12)
-        };
-
-        var lblCtv = new Label
-        {
-            Text = "Tên CTV Cố Định:",
-            Font = AppFonts.SubHeader,
-            ForeColor = AppColors.TextSecondary,
-            Dock = DockStyle.Top,
-            Height = 26
-        };
-
-        _txtCtvName = new TextBox
-        {
-            Dock = DockStyle.Top,
-            Font = AppFonts.BodyBold,
+            Height = 36,
             BackColor = AppColors.SurfaceInput,
-            ForeColor = AppColors.TextPrimary,
-            BorderStyle = BorderStyle.FixedSingle
+            Padding = new Padding(4)
         };
 
-        var spacer1 = new Panel { Dock = DockStyle.Top, Height = 14 };
-
-        _chkAutoClipboard = new CheckBox
+        _btnTabGeneral = new ModernButton
         {
-            Text = "Tự động bắt nội dung khi Copy (Clipboard Monitor)",
-            Font = AppFonts.Body,
-            ForeColor = AppColors.TextPrimary,
-            Dock = DockStyle.Top,
-            Height = 28
-        };
-
-        _chkMinimizeTray = new CheckBox
-        {
-            Text = "Thu nhỏ xuống khay hệ thống (Tray) khi đóng cửa sổ",
-            Font = AppFonts.Body,
-            ForeColor = AppColors.TextPrimary,
-            Dock = DockStyle.Top,
-            Height = 28
-        };
-
-        var spacer2 = new Panel { Dock = DockStyle.Top, Height = 16 };
-
-        _btnSave = new ModernButton
-        {
-            Text = "💾 LƯU CÀI ĐẶT",
+            Text = "⚙️ Cài Đặt Chung",
+            Size = new Size(130, 28),
+            Font = AppFonts.CaptionBold,
             CustomBackColor = AppColors.Primary,
-            CustomHoverColor = AppColors.PrimaryHover,
-            Font = AppFonts.BodyBold,
-            Dock = DockStyle.Top,
-            Height = 36
+            Location = new Point(4, 4)
         };
-        _btnSave.Click += BtnSave_Click;
+        _btnTabGeneral.Click += (_, _) => SwitchTab(isGeneral: true);
 
-        panelForm.Controls.Add(_btnSave);
-        panelForm.Controls.Add(spacer2);
-        panelForm.Controls.Add(_chkMinimizeTray);
-        panelForm.Controls.Add(_chkAutoClipboard);
-        panelForm.Controls.Add(spacer1);
-        panelForm.Controls.Add(_txtCtvName);
-        panelForm.Controls.Add(lblCtv);
+        _btnTabCodes = new ModernButton
+        {
+            Text = "🏢 Quản Lý Mã Sàn",
+            Size = new Size(140, 28),
+            Font = AppFonts.Caption,
+            CustomBackColor = AppColors.SurfaceHighlight,
+            Location = new Point(_btnTabGeneral.Right + 8, 4)
+        };
+        _btnTabCodes.Click += (_, _) => SwitchTab(isGeneral: false);
 
-        Controls.Add(panelForm);
-        Controls.Add(lblHeader);
+        topTabBar.Controls.Add(_btnTabGeneral);
+        topTabBar.Controls.Add(_btnTabCodes);
+
+        _containerPanel = new Panel
+        {
+            Dock = DockStyle.Fill,
+            BackColor = AppColors.BackgroundDark,
+            Padding = new Padding(0, 8, 0, 0)
+        };
+
+        // Mặc định hiển thị tab Cài đặt chung
+        _generalPanel.Dock = DockStyle.Fill;
+        _roomCodePanel.Dock = DockStyle.Fill;
+        _containerPanel.Controls.Add(_generalPanel);
+
+        Controls.Add(_containerPanel);
+        Controls.Add(topTabBar);
     }
 
-    private void LoadCurrentSettings()
+    private void SwitchTab(bool isGeneral)
     {
-        var cur = _settingsService.Current;
-        _txtCtvName.Text = cur.FixedCtvName;
-        _chkAutoClipboard.Checked = cur.AutoStartClipboardListening;
-        _chkMinimizeTray.Checked = cur.MinimizeToTrayOnClose;
+        _containerPanel.Controls.Clear();
+        if (isGeneral)
+        {
+            _containerPanel.Controls.Add(_generalPanel);
+            _btnTabGeneral.CustomBackColor = AppColors.Primary;
+            _btnTabGeneral.Font = AppFonts.CaptionBold;
+            _btnTabCodes.CustomBackColor = AppColors.SurfaceHighlight;
+            _btnTabCodes.Font = AppFonts.Caption;
+        }
+        else
+        {
+            _containerPanel.Controls.Add(_roomCodePanel);
+            _btnTabCodes.CustomBackColor = AppColors.Primary;
+            _btnTabCodes.Font = AppFonts.CaptionBold;
+            _btnTabGeneral.CustomBackColor = AppColors.SurfaceHighlight;
+            _btnTabGeneral.Font = AppFonts.Caption;
+        }
     }
 
-    private void BtnSave_Click(object? sender, EventArgs e)
+    private void RegisterHookEvents()
     {
-        _settingsService.Update(s =>
+        // 1. General Settings
+        _stateHook.GeneralSettingsLoaded += model => _generalPanel.BindData(model);
+        _generalPanel.SaveRequested += model => _stateHook.SaveGeneralSettings(model);
+        _stateHook.GeneralSettingsSaved += () =>
         {
-            s.FixedCtvName = _txtCtvName.Text.Trim();
-            s.AutoStartClipboardListening = _chkAutoClipboard.Checked;
-            s.MinimizeToTrayOnClose = _chkMinimizeTray.Checked;
-        });
-
-        _btnSave.Text = "✅ ĐÃ LƯU THÀNH CÔNG!";
-        _btnSave.CustomBackColor = AppColors.Success;
-
-        var timer = new System.Windows.Forms.Timer { Interval = 1500 };
-        timer.Tick += (_, _) =>
-        {
-            _btnSave.Text = "💾 LƯU CÀI ĐẶT";
-            _btnSave.CustomBackColor = AppColors.Primary;
-            timer.Stop();
-            timer.Dispose();
+            _generalPanel.ShowSaveSuccessFeedback();
+            SettingsSaved?.Invoke();
         };
-        timer.Start();
 
-        SettingsSaved?.Invoke();
+        // 2. Room Code Management
+        _roomCodePanel.SchemaSelected += schemaId => _stateHook.SelectSchema(schemaId);
+        _roomCodePanel.AddCodesRequested += (schemaId, raw) => _stateHook.AddCodes(schemaId, raw);
+        _roomCodePanel.RemoveCodeRequested += (schemaId, code) => _stateHook.RemoveCode(schemaId, code);
+
+        _stateHook.RoomGroupsReloaded += (groups, selectedId) => _roomCodePanel.BindGroups(groups, selectedId);
+        _stateHook.RoomCodesUpdated += group => _roomCodePanel.UpdateCurrentGroup(group);
+        _stateHook.OperationFeedback += (msg, isSuccess) => _roomCodePanel.ShowFeedback(msg, isSuccess);
     }
 }

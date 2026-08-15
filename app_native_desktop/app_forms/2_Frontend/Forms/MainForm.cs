@@ -37,6 +37,7 @@ public class MainForm : Form
         ISettingsService settingsService,
         ITemplateEngine templateEngine,
         ISchemaDetector schemaDetector,
+        IRoomCodeRepository roomCodeRepo,
         TrayIconManager trayManager)
     {
         _logger = logger;
@@ -46,7 +47,7 @@ public class MainForm : Form
 
         // Initialize Screens
         _leadConverterScreen = new LeadConverterScreen(converterService, schemaManager, settingsService, templateEngine, schemaDetector);
-        _settingsScreen = new SettingsScreen(settingsService);
+        _settingsScreen = new SettingsScreen(settingsService, roomCodeRepo);
 
         InitializeSidepanelWindow();
         InitializeUI();
