@@ -1,218 +1,119 @@
-Listed directory test-c%23
-Listed directory src
-Listed directory tests
-Listed directory Docs
-Listed directory rules
-Listed directory 0_Contracts
-Listed directory 1_Engine
-Listed directory 2_PlatformAdapters
-Listed directory Logging
-Listed directory 3_Modules
-Listed directory CompositeModules
-Listed directory SubModules
-Listed directory Helpers
-Listed directory 4_Presentation
-Listed directory Modules.Tests
-Viewed architecture-and-flow.md:1-99
-Viewed code-quality-and-gates.md:1-52
-Viewed tech-stack-and-conventions.md:1-39
-Viewed logging-and-observability.md:1-53
-Viewed ClipboardFilterApp.csproj:1-20
-Viewed Program.cs:1-53
-Viewed ClipboardDataPayload.cs:1-12
-Viewed FilterOptions.cs:1-21
-Viewed IClipboardFilter.cs:1-25
-Viewed NativeClipboardListener.cs:1-41
-Viewed PipelineOrchestrator.cs:1-64
-Viewed Win32ClipboardAdapter.cs:1-125
-Viewed WindowsLoggerAdapter.cs:1-65
-Viewed ClipboardPipelineManager.cs:1-58
-Viewed BrandRegexFilter.cs:1-42
-Viewed CommissionRegexFilter.cs:1-71
-Viewed ReplyQuoteFilter.cs:1-20
-Viewed UnicodeSanitizerFilter.cs:1-26
-Viewed UrlSanitizerFilter.cs:1-35
-Viewed ZaloStickerFilter.cs:1-37
-Viewed FilterRegexPatterns.cs:1-131
-Viewed SystemTrayApplicationContext.cs:1-70
-Viewed Modules.Tests.csproj:1-25
-Viewed PipelineTests.cs:1-100
-Ran command: `dotnet test tests/Modules.Tests/Modules.Tests.csproj`
+Đây là một hướng tư duy kiến trúc tài liệu **cực kỳ chuẩn xác và hiện đại** (theo mô hình **Hub & Spoke / Modular Context Router**). 
 
-Dưới đây là báo cáo phân tích toàn diện cấu trúc hiện tại của dự án, các Software Design Pattern đang được áp dụng và danh sách chi tiết các vị trí đang vi phạm hoặc chưa tuân thủ triệt để quy chuẩn kiến trúc.
+Khi chia nhỏ tài liệu thành một **Index Hub trung tâm (`AGENTS.md`)** và các **vệ tinh chuyên biệt (Satellite Files: Frameworks, Templates, Decision Trees)**, chúng ta đạt được 3 mục tiêu sống còn:
+1. **Zero Context Dilution**: Context window không bị rác bởi những thông tin chưa cần dùng đến. AI chỉ nạp đúng 1 file `AGENTS.md` (~1-2KB) làm "bản đồ điều hướng".
+2. **On-Demand Context Loading (Nạp ngữ cảnh theo nhu cầu)**: Khi gặp bài toán cụ thể (ví dụ: *so sánh Option A vs B*, hoặc *viết tài liệu ADR*, hoặc *phân tích lỗi sập bộ nhớ*), AI mới tra bảng Routing và `view_file` đúng file template/framework tương ứng.
+3. **Triệt tiêu "AI Poof / Flop"**: Mỗi tài liệu con được thiết kế chuyên biệt, có khuôn mẫu (template) và ràng buộc cơ học rõ ràng, AI không thể trả lời chung chung hay suy diễn bay bổng.
 
 ---
 
-# 📊 BÁO CÁO PHÂN TÍCH KIẾN TRÚC & PATTERN DỰ ÁN
+# 🏛️ I. THIẾT KẾ CẤU TRÚC MODULAR CHO THƯ MỤC `Docs/Trade-off/`
 
-## 1. Cấu Trúc Tổng Quan Của Dự Án
-
-Dự án **OS Clipboard Filter** là ứng dụng Windows Native chạy ngầm dưới System Tray (không có cửa sổ chính), có nhiệm vụ lắng nghe thông điệp OS (`WM_CLIPBOARDUPDATE`), bắt nội dung sao chép (Ctrl+C), lọc bỏ tự động các thông tin rác (hoa hồng, thưởng sale, quote Zalo, tracking URL, chuẩn hóa Unicode...) và ghi đè nội dung sạch trở lại Clipboard.
-
-Hệ thống được thiết kế theo mô hình **Clean Architecture 5 tầng**:
-
-```mermaid
-graph TD
-    subgraph Presentation ["4_Presentation (UI / Tray)"]
-        Tray["SystemTrayApplicationContext.cs"]
-    end
-
-    subgraph Engine ["1_Engine (Orchestration & Windows Loop)"]
-        Listener["NativeClipboardListener.cs (HWND)"]
-        Orchestrator["PipelineOrchestrator.cs"]
-    end
-
-    subgraph Adapters ["2_PlatformAdapters (Win32 OS Interop)"]
-        Win32Adapter["Win32ClipboardAdapter.cs (P/Invoke)"]
-        Logger["WindowsLoggerAdapter.cs (Logging)"]
-    end
-
-    subgraph Modules ["3_Modules (Pure Domain & Filters)"]
-        Manager["ClipboardPipelineManager.cs"]
-        SubFilters["SubModules: Unicode, Quote, Zalo, Brand, Commission, Url"]
-        RegexHelpers["Helpers: FilterRegexPatterns.cs"]
-    end
-
-    subgraph Contracts ["0_Contracts (Core Abstractions)"]
-        IPayload["ClipboardDataPayload.cs"]
-        IOptions["FilterOptions.cs"]
-        IFilter["IClipboardFilter.cs"]
-    end
-
-    Tray --> Orchestrator
-    Orchestrator --> Listener
-    Orchestrator --> Win32Adapter
-    Orchestrator --> Manager
-    Manager --> SubFilters
-    SubFilters --> RegexHelpers
-
-    Tray -.-> Contracts
-    Orchestrator -.-> Contracts
-    Manager -.-> Contracts
-    SubFilters -.-> Contracts
+```
+Docs/Trade-off/
+├── 📄 AGENTS.md                   <-- [INDEX HUB] Role Charter, 4 Depth Signals & Context Routing Matrix
+│
+├── 📁 frameworks/                 <-- [LÝ THUYẾT & PHƯƠNG PHÁP LUẬN ĐÁNH ĐỔI]
+│   ├── decision-reversibility.md  <-- Phân loại Quyết định (Type 1: One-Way vs Type 2: Two-Way Door)
+│   ├── trade-off-dimensions.md    <-- 6 Trục Đánh Đổi (Performance, Safety, Simplicity, Modularity,...)
+│   └── reverse-probing-guide.md   <-- Failure Mode Analysis & Bóc tách Negative Space
+│
+├── 📁 templates/                  <-- [KHUÔN MẪU TỰ ĐỘNG HÓA KHI TRẢ LỜI / VIẾT SPEC]
+│   ├── adr-trade-off.template.md  <-- Template viết Architecture Decision Record chuẩn đánh đổi
+│   ├── problem-framing.template.md<-- Template bóc tách Vấn đề, Ràng buộc Cứng vs Mềm
+│   └── option-matrix.template.md  <-- Template bảng so sánh Option A vs Option B
+│
+└── 📁 playbook-native/            <-- [CẨM NANG ĐÁNH ĐỔI ĐẶC THÙ WINDOWS NATIVE & C#]
+    ├── unmanaged-vs-managed.md    <-- Trade-off: Tốc độ P/Invoke vs An toàn GC (.NET)
+    ├── sta-vs-async-thread.md     <-- Trade-off: UI Message Loop vs Background Queue
+    └── monolithic-vs-modular.md   <-- Trade-off: Gộp chung .csproj vs Tách multi-project
 ```
 
-### Bóc tách các thành phần trong thư mục:
+---
 
-| Tầng | Đường dẫn | Trách nhiệm chính |
+# 🗺️ II. NỘI DUNG VÀ VAI TRÒ CỦA `AGENTS.md` (INDEX HUB)
+
+File [`Docs/Trade-off/AGENTS.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/AGENTS.md) sẽ đóng vai trò **"Tổng đài điều hướng"** siêu nhẹ (~80-120 dòng), cấu trúc gồm 3 phần cốt lõi:
+
+### 1. Kích hoạt Tư duy (Cognitive Activation Block)
+- Neo Role: `AI Senior Systems Architect & Technical Trade-off Specialist`.
+- 3 Tiên đề bất biến:
+  - *Tiên đề 1*: Không có giải pháp hoàn hảo, mọi thứ đều là đánh đổi (Gain vs Pain).
+  - *Tiên đề 2*: Phân loại quyết định trước khi làm (Type 1 - Khó đảo ngược vs Type 2 - Dễ đảo ngược).
+  - *Tiên đề 3*: Không suy diễn lý thuyết, mọi đánh đổi phải neo vào mã nguồn thực tế.
+
+### 2. Bản đồ Điều phối Ngữ cảnh (Context Routing Matrix)
+Bảng tra cứu giúp AI biết **chính xác khi nào cần nạp file nào**:
+
+| Khi gặp Tình huống / Nhiệm vụ này | AI nạp tài liệu vệ tinh này | Mục đích & Sản phẩm đầu ra |
 | :--- | :--- | :--- |
-| **0_Contracts** | [`src/0_Contracts/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/0_Contracts) | Chứa các giao diện (`IClipboardFilter`), schema tùy chọn (`FilterOptions`), dữ liệu chuyển giao (`ClipboardDataPayload`). Hoàn toàn không phụ thuộc tầng khác. |
-| **1_Engine** | [`src/1_Engine/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/1_Engine) | Tạo cửa sổ vô hình `HWND` để nhận message `0x031D`, điều phối luồng đọc $\rightarrow$ xử lý $\rightarrow$ chống lặp $\rightarrow$ ghi lại Clipboard. |
-| **2_PlatformAdapters** | [`src/2_PlatformAdapters/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/2_PlatformAdapters) | Nơi giao tiếp với Win32 Native API (`user32.dll`, `kernel32.dll`) và hệ thống ghi Log xoay vòng. |
-| **3_Modules** | [`src/3_Modules/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/3_Modules) | Chứa 100% logic xử lý chuỗi Regex nghiệp vụ (Unicode, Zalo, Brand, Hoa hồng, URL tracking). Hoàn toàn độc lập với OS và UI. |
-| **4_Presentation** | [`src/4_Presentation/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/4_Presentation) | Quản lý icon dưới góc phải màn hình (`NotifyIcon`), ContextMenu Bật/Tắt dịch vụ và Thoát. |
-| **Tests** | [`tests/Modules.Tests/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/tests/Modules.Tests) | Bộ kiểm thử xUnit bao phủ 31 test cases thực tế. |
+| **Cần bóc tách một bài toán/bug phức tạp** | [`templates/problem-framing.template.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/templates/problem-framing.template.md) | Phân tách Ràng buộc cứng vs mềm, Negative Space |
+| **Phải lựa chọn giữa 2 hay nhiều giải pháp** | [`templates/option-matrix.template.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/templates/option-matrix.template.md) + [`frameworks/trade-off-dimensions.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/frameworks/trade-off-dimensions.md) | Lập bảng ma trận so sánh 6 chiều |
+| **Chuẩn bị chốt quyết định kiến trúc lớn (Type 1)** | [`templates/adr-trade-off.template.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/templates/adr-trade-off.template.md) + [`frameworks/decision-reversibility.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/frameworks/decision-reversibility.md) | Viết hồ sơ ADR hoàn chỉnh |
+| **Đánh giá rủi ro crash/sập hệ thống** | [`frameworks/reverse-probing-guide.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/frameworks/reverse-probing-guide.md) | Failure Mode & Threat Modeling |
+| **Đánh đổi về Bộ nhớ Win32 / P-Invoke** | [`playbook-native/unmanaged-vs-managed.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/playbook-native/unmanaged-vs-managed.md) | Chọn kiểu cấp phát `GlobalAlloc` vs GC Buffer |
+| **Đánh đổi về Luồng STA / UI Message Pump** | [`playbook-native/sta-vs-async-thread.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/Docs/Trade-off/playbook-native/sta-vs-async-thread.md) | Chọn Sync STA vs `Channel<T>` Background Worker |
+
+### 3. Giao thức Thực thi Tinh gọn (Execution Protocol)
+- **Bước 1**: Đọc `AGENTS.md` (Hub).
+- **Bước 2**: Xác định Task $\rightarrow$ Chỉ mở duy nhất 1-2 file tương ứng trong `frameworks/` hoặc `templates/`.
+- **Bước 3**: Điền thông tin theo template, neo thẳng vào codebase thực tế và đưa ra câu trả lời cho User.
 
 ---
 
-## 2. Các Design Pattern Đang Được Sử Dụng
+# 📦 III. CHI TIẾT CÁC TÀI LIỆU VỆ TINH (SATELLITE SPECS)
 
-| # | Design Pattern | Vị trí hiện thực trong Codebase | Mục đích & Lợi ích |
-| :--- | :--- | :--- | :--- |
-| **1** | **Clean Architecture / N-Layer Inversion** | [`src/0_Contracts/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/0_Contracts), [`src/3_Modules/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/3_Modules) | Tách rời nghiệp vụ lọc chuỗi ra khỏi OS/UI, giúp 100% logic nghiệp vụ có thể Unit Test độc lập không cần Windows GUI. |
-| **2** | **Pipes and Filters / Chain of Responsibility** | [`ClipboardPipelineManager.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/3_Modules/CompositeModules/ClipboardPipelineManager.cs#L9-L38) | Dữ liệu văn bản thô đi qua một chuỗi các filter tuần tự theo `Priority` (`Unicode` $\rightarrow$ `Quote` $\rightarrow$ `Zalo` $\rightarrow$ `Brand` $\rightarrow$ `Commission` $\rightarrow$ `Url`). |
-| **3** | **Strategy Pattern** | [`IClipboardFilter.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/0_Contracts/IClipboardFilter.cs#L6-L24) & các lớp trong `src/3_Modules/SubModules/` | Mỗi bộ lọc là một chiến lược độc lập; có thể thêm, bớt hoặc thay đổi thứ tự filter mà không phải sửa đổi code của các filter khác. |
-| **4** | **Observer / Event-Driven Pattern** | [`NativeClipboardListener.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/1_Engine/NativeClipboardListener.cs#L8-L40) & [`PipelineOrchestrator.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/1_Engine/PipelineOrchestrator.cs#L23-L28) | Lắng nghe thông điệp Windows ngầm `WM_CLIPBOARDUPDATE` (0x031D) qua hàm `WndProc` và phát sự kiện `ClipboardUpdated` cho Orchestrator. |
-| **5** | **Adapter Pattern (Platform Adapter)** | [`Win32ClipboardAdapter.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/2_PlatformAdapters/Win32ClipboardAdapter.cs#L9-L124) | Chuyển đổi các lời gọi C-style P/Invoke phức tạp và con trỏ unmanaged thành các phương thức C# cấp cao an toàn: `SafeReadClipboardText()` và `SafeWriteClipboardText()`. |
-| **6** | **Mediator / Orchestrator Pattern** | [`PipelineOrchestrator.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/1_Engine/PipelineOrchestrator.cs#L11-L63) | Đóng vai trò nhạc trưởng kết nối Listener, Adapter, PipelineManager và Logging, quản lý cơ chế chống ghi lặp vô hạn (**Anti-loop**). |
-| **7** | **Exponential Backoff Retry** | [`Win32ClipboardAdapter.cs:83-123`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/2_PlatformAdapters/Win32ClipboardAdapter.cs#L83-L123) | Tự động thử lại ghi Clipboard tối đa 5 lần với thời gian chờ tăng theo cấp số nhân ($5 \times 2^i$ ms) khi gặp xung đột Clipboard Lock với ứng dụng khác (`WinError 5`). |
-| **8** | **Flyweight / Precompiled Regex Helper** | [`FilterRegexPatterns.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/3_Modules/SubModules/Helpers/FilterRegexPatterns.cs#L8-L130) | Gom toàn bộ biểu thức chính quy phức tạp thành các `static readonly Regex` có `RegexOptions.Compiled` dùng chung, tránh biên dịch lại Regex nhiều lần. |
+### 1. Nhóm `frameworks/` (Nguyên lý & Tiêu chí Đánh đổi)
+- **`decision-reversibility.md`**: Định nghĩa toán học về Reversibility:
+  - *Chi phí đảo ngược (Cost of Reversal)*: Nếu phương án A sai, mất bao nhiêu giờ/ngày để rollback?
+  - *Quy tắc cấp quyền*: Type 2 $\rightarrow$ AI tự đề xuất và triển khai; Type 1 $\rightarrow$ Bắt buộc hỏi User phê duyệt.
+- **`trade-off-dimensions.md`**: Định nghĩa chuẩn 6 thước đo:
+  1. *Hiệu năng & Tài nguyên* (CPU, RAM LOH, Độ trễ).
+  2. *Độ tin cậy & An toàn* (Crash, Leak, Race Condition).
+  3. *Độ phức tạp nhận thức* (Dễ hiểu, Dễ đọc).
+  4. *Tính mở rộng & Độc lập* (SRP, Clean Layering).
+  5. *Khả năng kiểm thử cô lập* (Testability).
+  6. *Bán kính ảnh hưởng khi lỗi* (Blast Radius).
+- **`reverse-probing-guide.md`**: Hướng dẫn kỹ thuật đặt câu hỏi ngược:
+  - Giả định hệ thống đã sập 1 tháng sau khi deploy $\rightarrow$ Tìm 3 nguyên nhân sâu xa nhất.
 
----
+### 2. Nhóm `templates/` (Khuôn mẫu tương tác)
+- **`adr-trade-off.template.md`**: Mẫu ADR tinh gọn (Context, Constraints, Options Considered, Decision, Trade-offs Accepted).
+- **`option-matrix.template.md`**: Mẫu bảng Markdown có sẵn các cột so sánh định lượng và định tính.
+- **`problem-framing.template.md`**: Mẫu bóc tách vấn đề (Problem Statement, Root Cause, Hard Constraints, Non-Goals).
 
-## 3. Những Vị Trí Đang KHÔNG Tuân Thủ Theo Pattern / Quy Chuẩn
-
-Dưới đây là các điểm vi phạm quy chuẩn thiết kế, rò rỉ tài nguyên, hoặc sai lệch so với tài liệu kiến trúc quy định trong [`.agent/rules/`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/.agent/rules):
-
-### 🔴 1. Vi phạm Unmanaged Memory Safety & Memory Leak (Quy tắc ARC-3 / BQD-7)
-- **Vị trí**: [`src/2_PlatformAdapters/Win32ClipboardAdapter.cs:96-110`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/2_PlatformAdapters/Win32ClipboardAdapter.cs#L96-L110)
-- **Hiện trạng code**:
-  ```csharp
-  IntPtr hMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_ZEROINIT, bytesSize);
-  if (hMem != IntPtr.Zero)
-  {
-      IntPtr pMem = GlobalLock(hMem);
-      if (pMem != IntPtr.Zero)
-      {
-          Marshal.Copy(bytes, 0, pMem, bytes.Length);
-          GlobalUnlock(hMem);
-
-          if (SetClipboardData(CF_UNICODETEXT, hMem) != IntPtr.Zero)
-          {
-              return true;
-          }
-      }
-  }
-  ```
-- **Vấn đề**:
-  - Theo chuẩn Win32 API, hệ thống Windows chỉ sở hữu `hMem` **khi `SetClipboardData` thành công**. Nếu `GlobalLock` thất bại hoặc `SetClipboardData` trả về `IntPtr.Zero`, vùng nhớ unmanaged `hMem` đã cấp phát **phải được giải phóng bằng `GlobalFree(hMem)`**.
-  - Hiện tại, class hoàn toàn **chưa khai báo `[DllImport("kernel32.dll")] GlobalFree`** và không có khối `try...finally` để thu hồi bộ nhớ khi ghi thất bại $\rightarrow$ **Gây Memory Leak unmanaged**.
+### 3. Nhóm `playbook-native/` (Đặc thù dự án C# Native)
+- Chứa các case-study đúc kết từ thực tế dự án này (như bài học về rò rỉ `GlobalFree`, chặn lặp Clipboard Feedback Loop, Logger không block STA).
 
 ---
 
-### 🟡 2. Vi phạm Options Pattern & Đứt Gãy Granular Toggles
-- **Vị trí**:
-  - Khai báo: [`src/0_Contracts/FilterOptions.cs:13-18`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/0_Contracts/FilterOptions.cs#L13-L18)
-  - Thực thi: [`src/3_Modules/CompositeModules/ClipboardPipelineManager.cs:31-34`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/3_Modules/CompositeModules/ClipboardPipelineManager.cs#L31-L34)
-- **Vấn đề**:
-  - `FilterOptions` định nghĩa 6 cờ cấu hình chi tiết (`EnableUnicodeSanitizer`, `EnableReplyQuoteFilter`, `EnableZaloStickerFilter`, `EnableBrandFilter`, `EnableCommissionFilter`, `EnableUrlSanitizer`).
-  - Tuy nhiên, trong `ClipboardPipelineManager.Process()`, vòng lặp duyệt qua `_filters` lại **không kiểm tra bất kỳ cờ nào**, luôn kích hoạt toàn bộ các sub-module dù người dùng hoặc cấu hình đặt là `false`.
-  - Giao diện `IClipboardFilter` cũng thiếu thuộc tính định danh để mapping tương ứng với cờ cấu hình.
+# 🎯 IV. SO SÁNH TRƯỚC VÀ SAU KHI ÁP DỤNG PATTERN
+
+```mermaid
+flowchart TD
+    subgraph BEFORE["Trước: Monolithic File (475 dòng)"]
+        A1["User hỏi: 'Nên chọn dùng Regex Compiled hay String.IndexOf?'"] --> B1["AI nạp toàn bộ 475 dòng AGENTS.md (ToS, Stripe, 8-Stage, Onboarding)"]
+        B1 --> C1["Context bị loãng (Context Dilution) -> AI Poof / Trả lời chung chung lý thuyết"]
+    end
+
+    subgraph AFTER["Sau: Hub & Spoke Index Pattern"]
+        A2["User hỏi: 'Nên chọn dùng Regex Compiled hay String.IndexOf?'"] --> B2["AI đọc AGENTS.md Hub (100 dòng) -> Tra bảng: Cần so sánh Options"]
+        B2 --> C2["AI chỉ load: templates/option-matrix.template.md + trade-off-dimensions.md"]
+        C2 --> D2["AI trả lời bằng Ma trận so sánh sắc bén, neo vào hiệu năng C# .NET và GC RAM"]
+    end
+```
 
 ---
 
-### 🟡 3. Vi phạm Ranh Giới Gói Dự Án (Single Project Monolith vs Clean Layers)
-- **Vị trí**: [`src/ClipboardFilterApp.csproj`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/ClipboardFilterApp.csproj#L1-L20)
-- **Vấn đề**:
-  - Toàn bộ 5 tầng (`0_Contracts`, `1_Engine`, `2_PlatformAdapters`, `3_Modules`, `4_Presentation`) được đặt chung trong **1 project duy nhất** bật sẵn `<UseWindowsForms>true</UseWindowsForms>` và `<AllowUnsafeBlocks>true</AllowUnsafeBlocks>`.
-  - Mặc dù chia thư mục rõ ràng, nhưng compiler không thể ngăn chặn cơ học nếu một developer khác vô tình gọi thư viện Windows Forms hoặc P/Invoke bên trong `3_Modules` hay `0_Contracts` (vi phạm tính chất Pure Logic độc lập nền tảng).
+# 🚀 V. KẾ HOẠCH TRIỂN KHAI
 
----
+Nếu bạn duyệt phương án cấu trúc này, mình sẽ thực hiện theo các bước:
 
-### 🟡 4. Vi phạm Quản Lý Vòng Đời Đối Tượng & Rò Rỉ Event Handler (Lifecycle / IDisposable)
-- **Vị trí**:
-  - [`src/Program.cs:44`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/Program.cs#L44): `_ = new PipelineOrchestrator(...)`
-  - [`src/4_Presentation/SystemTrayApplicationContext.cs:31-68`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/4_Presentation/SystemTrayApplicationContext.cs#L31-L68)
-- **Vấn đề**:
-  - `PipelineOrchestrator` đăng ký lắng nghe event `_listener.ClipboardUpdated += OnClipboardUpdated;` nhưng class này **không implement `IDisposable`** và không có hàm hủy đăng ký (`-=`).
-  - `SystemTrayApplicationContext` kế thừa `ApplicationContext` (vốn cài đặt `IDisposable`) nhưng **không override hàm `Dispose(bool disposing)`**. Khi ứng dụng kết thúc qua các luồng khác, các thành phần GUI unmanaged (`NotifyIcon`, `ContextMenuStrip`) có nguy cơ không được giải phóng triệt để.
+1. **Khởi tạo thư mục & các file vệ tinh**:
+   - Tạo `Docs/Trade-off/frameworks/` (`decision-reversibility.md`, `trade-off-dimensions.md`, `reverse-probing-guide.md`).
+   - Tạo `Docs/Trade-off/templates/` (`adr-trade-off.template.md`, `option-matrix.template.md`, `problem-framing.template.md`).
+   - Tạo `Docs/Trade-off/playbook-native/` (`unmanaged-vs-managed.md`, `sta-vs-async-thread.md`).
+2. **Cập nhật lại `Docs/Trade-off/AGENTS.md`**:
+   - Trở thành file Index Hub điều hướng tinh gọn, chuẩn xác.
 
----
-
-### 🟡 5. Vi phạm Non-blocking STA Thread trong Logging Adapter (Quy tắc ARC-4)
-- **Vị trí**: [`src/2_PlatformAdapters/Logging/WindowsLoggerAdapter.cs:48-62`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/2_PlatformAdapters/Logging/WindowsLoggerAdapter.cs#L48-L62)
-- **Vấn đề**:
-  - `WindowsLoggerAdapter.WriteLog` thực hiện ghi file I/O đồng bộ (`File.AppendAllText` trong khối `lock`) ngay trên luồng chính STA Message Loop khi nhận sự kiện `WM_CLIPBOARDUPDATE`.
-  - Khi hệ thống có disk I/O nghẽn hoặc copy liên tục với dữ liệu lớn, việc ghi file đồng bộ sẽ làm treo nhẹ Windows Message Pump (vi phạm quy tắc ARC-4).
-  - Vị trí thư mục log đang dùng `AppDomain.CurrentDomain.BaseDirectory/logs` thay vì chuẩn `%LocalAppData%/ClipboardFilterApp/logs/` (nếu ứng dụng được cài đặt vào thư mục `Program Files`, ghi log vào `BaseDirectory` sẽ bị hệ thống từ chối cấp quyền `UnauthorizedAccessException`).
-
----
-
-### 🟢 6. Thiếu Unit Test Tách Biệt Cho Từng Sub-Module
-- **Vị trí**: [`tests/Modules.Tests/PipelineTests.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/tests/Modules.Tests/PipelineTests.cs)
-- **Vấn đề**:
-  - Toàn bộ 31 test cases hiện tại là **Integration Test** kiểm tra chuỗi pipeline tổng hợp (`ClipboardPipelineManager.Process()`).
-  - Chưa có các bộ Unit Test độc lập (Isolated Tests) cho từng SubModule riêng biệt (`BrandRegexFilterTests`, `CommissionRegexFilterTests`, `UrlSanitizerFilterTests`...) để kiểm tra riêng các trường hợp biên của từng filter.
-
----
-
-## 4. Bảng Ma Trận Đánh Giá Mức Độ Tuân Thủ
-
-| Tiêu chuẩn / Quy tắc | Trạng thái | Đánh giá & Ghi chú |
-| :--- | :---: | :--- |
-| **Clean Architecture (Phân tầng & Hướng phụ thuộc)** | ⚠️ **Cảnh báo** | Đạt về mặt cấu trúc thư mục, nhưng bị gộp chung 1 project `.csproj`. |
-| **Pipeline & Strategy Pattern** | ⚠️ **Cảnh báo** | Pipeline chạy tốt nhưng chưa kết nối các cờ toggle `FilterOptions`. |
-| **Observer & Event-Driven Engine** | ✅ **Đạt** | Bắt `WM_CLIPBOARDUPDATE` chính xác qua `WndProc`. |
-| **Unmanaged Memory Management (ARC-3/BQD-7)** | ❌ **Vi phạm** | Thiếu `GlobalFree` khi `SetClipboardData` thất bại. |
-| **Anti-looping Mechanism** | ✅ **Đạt** | So sánh chuỗi với `_lastProcessedText` chặn lặp vô hạn chuẩn xác. |
-| **Non-blocking STA Message Loop (ARC-4)** | ⚠️ **Cảnh báo** | File I/O trong Logger chạy đồng bộ trên luồng STA. |
-| **Unit Test Coverage** | ✅ **Đạt (31/31 Pass)** | Pass 100% test case thực tế, cần bổ sung unit test độc lập cho từng module. |
-
----
-
-## 5. Đề Xuất Hướng Xử Lý Khắc Phục (Actionable Roadmap)
-
-1. **Khắc phục ngay rò rỉ bộ nhớ unmanaged**: Bổ sung `GlobalFree` vào [`Win32ClipboardAdapter.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/2_PlatformAdapters/Win32ClipboardAdapter.cs) và bọc logic cấp phát trong `try...finally`.
-2. **Kích hoạt tính năng Toggle Filter**: Cập nhật [`ClipboardPipelineManager.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/Test_modul/test-c%23/src/3_Modules/CompositeModules/ClipboardPipelineManager.cs) để kiểm tra trạng thái bật/tắt của từng filter theo `FilterOptions`.
-3. **Chuẩn hóa Logging**: Chuyển đường dẫn log sang `%LocalAppData%` và áp dụng cơ chế ghi file bất đồng bộ (hoặc hàng đợi non-blocking background queue) để không làm ảnh hưởng luồng STA.
-4. **Hoàn thiện IDisposable**: Implement `IDisposable` cho `PipelineOrchestrator` và override `Dispose` trong `SystemTrayApplicationContext`.
+Bạn thấy cấu trúc phân bổ này đã hoàn toàn khớp với tầm nhìn của bạn chưa, và có muốn bổ sung thêm nhánh/template nào riêng biệt cho dự án không?
