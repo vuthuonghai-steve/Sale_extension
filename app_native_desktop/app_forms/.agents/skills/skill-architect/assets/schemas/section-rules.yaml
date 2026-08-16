@@ -1,0 +1,67 @@
+version: "1.0.0"
+section_quantities:
+  "1. Problem Statement":
+    min_length_chars: 100
+    mandatory_questions:
+      - "Pain Point"
+      - "User & Context"
+      - "Expected Output"
+
+  "2. Capability Map":
+    min_length_chars: 150
+    mandatory_subsections:
+      - "Pillar 1: Knowledge"
+      - "Pillar 2: Process"
+      - "Pillar 3: Guardrails"
+
+  "3. Zone Mapping":
+    table_required: true
+    mandatory_columns:
+      - "Zone"
+      - "Files cần tạo"
+      - "Nội dung"
+      - "Bắt buộc?"
+    mandatory_zones:
+      - "Core"
+      - "Knowledge"
+      - "Scripts"
+      - "Templates"
+      - "Data"
+      - "Loop"
+      - "Assets"
+
+  "4. Folder Structure":
+    mermaid_required: true
+    diagram_type: "mindmap"
+
+  "5. Execution Flow":
+    mermaid_required: true
+    diagram_type: "sequenceDiagram"
+
+  "6. Interaction Points":
+    table_required: true
+    mandatory_columns:
+      - "Phase"
+      - "Trigger"
+      - "Prompt hỏi User"
+      - "Xử lý khi Reject"
+
+  "7. Progressive Disclosure Plan":
+    yaml_block_required: true
+    mandatory_tiers:
+      - "tier1"
+      - "tier2"
+
+  "8. Risks":
+    table_required: true
+    min_rows: 3
+    mandatory_columns:
+      - "Rủi ro"
+      - "Mức độ"
+      - "Biện pháp phòng ngừa (Mitigation)"
+
+  "9. Open Questions":
+    table_required: true
+
+  "10. Metadata":
+    yaml_block_required: true

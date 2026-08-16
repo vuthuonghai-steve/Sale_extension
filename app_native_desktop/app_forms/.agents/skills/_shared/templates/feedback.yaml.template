@@ -1,0 +1,30 @@
+---
+# feedback.yaml.template — Feedback Lifecycle Template
+# Canonical source: .skill-context/{skill-name}/feedback.yaml
+# Build-log chỉ là read-only snapshot của file này.
+skill_schema_version: "3.0.0"
+artifact_type: "feedback"
+skill_name: "{skill_name}"
+generated_by: "meta-skill"
+generated_at: "{generated_at}"
+
+feedback_items:
+  - id: "F1"
+    feedback_to: "planner"
+    type: "TASK_BLOCKER"
+    description: "Task T2.3 cannot proceed because prerequisite domain doc is missing"
+    raised_by: "builder"
+    raised_at: "{generated_at}"
+    status: "raised"  # raised | acknowledged | resolved | wont_fix
+    trace: "[TỪ AUDIT TÀI NGUYÊN]"
+    blocks_tasks: ["T2.3"]
+
+  - id: "F2"
+    feedback_to: "architect"
+    type: "DESIGN_GAP"
+    description: "Section §3 zone_mapping does not include assets zone"
+    raised_by: "planner"
+    raised_at: "{generated_at}"
+    status: "acknowledged"
+    trace: "[TỪ DESIGN §3]"
+---

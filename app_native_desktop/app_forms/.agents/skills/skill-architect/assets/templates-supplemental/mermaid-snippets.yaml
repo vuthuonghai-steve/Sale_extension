@@ -1,0 +1,52 @@
+version: "1.0.0"
+snippets:
+  mindmap_folder_structure:
+    title: "D1: Folder Structure Template"
+    code: |
+      ```mermaid
+      mindmap
+        root((skill-name))
+          assets
+            keywords
+              domain-lexicon.yaml
+              anti-patterns-ban.yaml
+            schemas
+              section-rules.yaml
+            assertions
+              architecture-rules.json
+          scripts
+            validate_tool.py
+          knowledge
+            domain-rules.md
+          templates
+            output.template
+          loop
+            checklist.yaml
+          policy
+            workflow.md
+            guardrails.md
+          SKILL.md
+      ```
+
+  sequence_execution_flow:
+    title: "D2: Execution Flow Template"
+    code: |
+      ```mermaid
+      sequenceDiagram
+        autonumber
+        actor User
+        participant Architect as LLM Architect
+        participant Script as scripts/validate_architect_design.py
+        participant File as design.md
+
+        User->>Architect: Yêu cầu thiết kế Skill
+        Architect->>File: Ghi nháp §1 và §10
+        Architect->>Script: python scripts/validate_architect_design.py
+        alt Fail (Exit Code != 0)
+          Script-->>Architect: JSON Diagnostic Errors
+          Architect->>File: Tự sửa lỗi (Closed-loop Repair)
+        else Pass (Exit Code == 0)
+          Script-->>Architect: Score 100/100 PASS
+          Architect->>User: Trình bày & Dừng tại Gate 1
+        end
+      ```

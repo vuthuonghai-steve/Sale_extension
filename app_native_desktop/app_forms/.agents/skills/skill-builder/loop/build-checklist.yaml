@@ -1,0 +1,235 @@
+# Build Checklist: Skill Builder Self-Verification (YAML Machine-Readable Format)
+# Đọc bởi AI agent để validate built skill một cách tự động
+
+version: "1.0.0"
+artifact_type: "build-quality-checklist"
+
+quality_gates:
+  structure:
+    description: "Vùng Kiến trúc - Zone presence and naming"
+    checks:
+      - id: "S1"
+        description: "Sự hiện diện của 4 Zone bắt buộc (Core, Knowledge, Scripts, Loop)"
+        zone: "core,knowledge,scripts,loop"
+        rule: "all_zones_present"
+      - id: "S2"
+        description: "Tuân thủ quy tắc đặt tên file: kebab-case"
+        rule: "kebab_case_naming"
+      - id: "S3"
+        description: "File SKILL.md nằm đúng vị trí tại root của skill"
+        rule: "skill_md_at_root"
+
+  source_design_check:
+    description: "Đối chiếu Nguồn - Design Fidelity"
+    checks:
+      - id: "D1"
+        description: "Nội dung bám sát 100% bản thiết kế design.md"
+        rule: "100_percent_fidelity"
+      - id: "D2"
+        description: "Zone Contract Fidelity: Tất cả files được tạo ĐỀU CÓ tên cụ thể trong design.md §3"
+        rule: "zone_contract_strict"
+      - id: "D3"
+        description: "Core Alignment: SKILL.md đã tích hợp design.md §7, §5, §6"
+        sections: [7, 5, 6]
+        rule: "sections_integrated"
+      - id: "D4"
+        description: "Mọi mục [CẦN LÀM RÕ] đã được giải quyết hoặc trả lời"
+        rule: "clarifications_resolved"
+      - id: "D5"
+        description: "Mọi Task trong todo.md đồng bộ với thực tế file đã tạo"
+        rule: "task_file_sync"
+      - id: "D6"
+        description: "Đã tạo Resource Inventory trong build-log.md"
+        rule: "has_resource_inventory"
+      - id: "D7"
+        description: "Đã tạo Resource Usage Matrix trong build-log.md"
+        rule: "has_resource_usage_matrix"
+      - id: "D8"
+        description: "100% file Critical có evidence được dùng"
+        critical_files: ["design.md", "todo.md", "resources/*", "data/*"]
+        rule: "critical_files_have_evidence"
+
+  progressive_disclosure:
+    description: "Phân tầng thông tin - Tier alignment"
+    checks:
+      - id: "PD1"
+        description: "Mọi file Tier 2 đều được dẫn link từ SKILL.md"
+        rule: "tier2_linked"
+      - id: "PD2"
+        description: "File Tier 1 đã được đưa vào Boot Sequence của SKILL.md"
+        rule: "tier1_in_boot"
+      - id: "PD3"
+        description: "Không có file mồ côi (Orphan files)"
+        rule: "no_orphan_files"
+      - id: "PD4"
+        description: "SKILL.md < 500 dòng"
+        rule: "under_500_lines"
+
+  build_log_schema:
+    description: "Build-Log Template & Schema Check"
+    checks:
+      - id: "BL1"
+        description: "build-log.md.template has YAML frontmatter"
+        rule: "has_frontmatter"
+      - id: "BL2"
+        description: "execution_trace array has required fields"
+        fields: ["timestamp", "task_id", "action", "status"]
+        rule: "trace_fields_present"
+      - id: "BL3"
+        description: "action is valid enum: CREATE_FILE, MODIFY_FILE, VALIDATE, RUN_SCRIPT"
+        rule: "valid_action_enum"
+      - id: "BL4"
+        description: "status is valid enum: success, failed, skipped"
+        rule: "valid_status_enum"
+      - id: "BL5"
+        description: "feedback_to_planner: [] and feedback_to_architect: [] present"
+        rule: "feedback_arrays_present"
+      - id: "BL6"
+        description: "quality_metrics has required fields"
+        fields: ["placeholder_ratio", "critical_tasks_done", "validator_pass"]
+        rule: "metrics_fields_present"
+      - id: "BL7"
+        description: "stage: builder và KHÔNG có handoff field"
+        rule: "builder_stage_correct"
+
+  format_compliance:
+    description: "Format Standards Compliance (BẮT BUỘC)"
+    checks:
+      - id: "F1"
+        description: "XML tags present: <instructions>, <context>, <examples>, <output_contract>"
+        rule: "xml_tags_present"
+        severity: MUST
+      - id: "F2"
+        description: "YAML blocks use must:, must_not:, priority_order:"
+        rule: "yaml_keys_present"
+        severity: MUST
+      - id: "F3"
+        description: "Trace tags: [TỪ DESIGN §N], [GỢI Ý BỔ SUNG], [TỪ AUDIT TÀI NGUYÊN], [CẦN LÀM RÕ]"
+        rule: "trace_tags_present"
+        severity: MUST
+      - id: "F4"
+        description: "No legacy trace tags: [GỢI Ý], [TỪ AUDIT], [TỪ AUDIT CUSTOM], [CẦU LÀM RÕ]"
+        rule: "no_legacy_tags"
+        severity: MUST
+      - id: "F5"
+        description: "SKILL.md ≤ soft_max tokens (config-driven từ suite_config.yaml); chỉ BLOCK khi > hard_fail"
+        rule: "token_budget_compliance"
+        severity: MUST
+        config_ref: ".skill-context/suite_config.yaml → token_budget.L0_anchor_rules"
+      - id: "F6"
+        description: "YAML frontmatter at line 1 of SKILL.md"
+        rule: "yaml_frontmatter_line1"
+        severity: MUST
+
+  completeness_performance:
+    description: "Hoàn thiện & Chất lượng"
+    checks:
+      - id: "C1"
+        description: "Mật độ Placeholder [MISSING_DOMAIN_DATA] < 5"
+        threshold: 5
+        rule: "placeholder_under_threshold"
+      - id: "C2"
+        description: "Zero-Summarization: Đối soát 1:1 với resources"
+        rule: "one_to_one_fidelity"
+      - id: "C3"
+        description: "Script validate_skill.py trả về Exit Code 0"
+        rule: "validator_passes"
+      - id: "C4"
+        description: "Nhật ký build-log.md phản ánh trung thực trạng thái validation"
+        rule: "log_reflects_validation"
+
+  engineer_stance:
+    description: "Thẩm định Kỹ sư"
+    checks:
+      - id: "E1"
+        description: "Đã thực hiện phản biện bản thiết kế (nếu có phi logic)"
+        rule: "design_reviewed"
+      - id: "E2"
+        description: "Quy trình xử lý lỗi tuân thủ Log-Notify-Stop"
+        rule: "error_policy_followed"
+      - id: "E3"
+        description: "Không có kết luận nào không truy vết được"
+        rule: "all_conclusions_traced"
+
+  anthropic_standards:
+    description: "Anthropic Skill Standards Compliance (BẮT BUỘC cho mọi SKILL.md)"
+    checks:
+      - id: "A1"
+        description: "SKILL.md bắt đầu bằng YAML frontmatter tại dòng 1"
+        rule: "yaml_frontmatter_line1"
+      - id: "A2"
+        description: "name: lowercase-kebab-case, ≤ 64 ký tự"
+        rule: "name_format_valid"
+      - id: "A3"
+        description: "description: ngôi thứ 3, WHAT + WHEN trigger, ≤ 1024 ký tự"
+        rule: "description_format_valid"
+      - id: "A4"
+        description: "description KHÔNG dùng I can..., You can use this to..."
+        rule: "description_no_first_person"
+      - id: "A5"
+        description: "SKILL.md body ≤ 500 lines"
+        rule: "body_under_500_lines"
+      - id: "A6"
+        description: "Knowledge/template/loop files được link từ đúng phase cần"
+        rule: "files_linked_from_correct_phase"
+      - id: "A7"
+        description: "Không có file được front-loaded mà không cần ngay từ đầu"
+        rule: "no_unnecessary_frontload"
+      - id: "A8"
+        description: "References one level deep (không nested A→B→content)"
+        rule: "one_level_depth"
+      - id: "A9"
+        description: "Nếu skill có 3+ phases hoặc Interaction Points → có Tracker Checklist"
+        rule: "has_tracker_checklist"
+      - id: "A10"
+        description: "Tracker Checklist yêu cầu Claude copy vào response"
+        rule: "checklist_copiable"
+      - id: "A11"
+        description: "Nếu abstract mapping → có examples file"
+        rule: "has_examples_if_abstract"
+      - id: "A12"
+        description: "Examples là concrete (real field names, real values)"
+        rule: "examples_are_concrete"
+      - id: "A13"
+        description: "Không có time-sensitive information"
+        rule: "no_time_sensitive_info"
+      - id: "A14"
+        description: "Terminology nhất quán xuyên suốt"
+        rule: "terminology_consistent"
+      - id: "A15"
+        description: "Scripts handle errors explicitly"
+        rule: "scripts_handle_errors"
+      - id: "A16"
+        description: "Mỗi knowledge file có header mô tả khi nào load"
+        rule: "has_usage_header"
+
+output_format:
+  show_passed: true
+  show_failed: true
+  show_warnings: true
+  severity_levels:
+    - "MUST"   # Fail = cannot deliver
+    - "SHOULD" # Fail = warning but can deliver
+    - "INFO"   # Always shown
+
+severity_assignment:
+  structure: "MUST"
+  source_design_check: "MUST"
+  progressive_disclosure: "MUST"
+  build_log_schema: "MUST"
+  completeness_performance: "MUST"
+  engineer_stance: "MUST"
+  anthropic_standards: "MUST"
+
+# Placeholder Density Thresholds
+placeholder_thresholds:
+  pass: "< 5"
+  warning: "5-9"
+  fail: ">= 10"
+
+# Error Policy
+error_policy:
+  on_system_error:
+    - "Append error to loop/build-log.md"
+    - "Notify user via AskUserQuestion"
+    - "STOP all tasks immediately"

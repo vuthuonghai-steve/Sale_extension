@@ -1,0 +1,31 @@
+version: "1.0"
+project: "AppForms"
+
+limits:
+  screen_max_lines: 150
+  component_max_lines: 300
+  hook_max_lines: 350
+  service_max_lines: 500
+
+forbidden_patterns:
+  - pattern: "(?i)//\\s*TODO:?\\s*implement"
+    message: "Phát hiện TODO placeholder chưa hoàn thiện logic."
+  - pattern: "throw\\s+new\\s+NotImplementedException\\s*\\("
+    message: "Phát hiện NotImplementedException chưa được triển khai."
+  - pattern: "Console\\.WriteLine\\s*\\("
+    message: "Cấm sử dụng Console.WriteLine trực tiếp. Hãy sử dụng ILogger/Serilog."
+  - pattern: "Debug\\.WriteLine\\s*\\("
+    message: "Cấm sử dụng Debug.WriteLine trực tiếp. Hãy sử dụng ILogger/Serilog."
+
+architecture_boundaries:
+  backend_forbidden_namespaces:
+    - "System.Windows.Forms"
+    - "AppForms.Frontend"
+  shared_forbidden_namespaces:
+    - "AppForms.Backend"
+    - "AppForms.Frontend"
+    - "System.Windows.Forms"
+
+contract_lock:
+  protected_paths:
+    - "1_Backend/Contracts/Interfaces/"

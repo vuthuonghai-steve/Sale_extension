@@ -1,0 +1,77 @@
+# _shared/schemas/exploration.schema.yaml
+$schema: "https://json-schema.org/draft-07/schema#"
+title: "exploration.md frontmatter"
+type: object
+required:
+  - skill_schema_version
+  - artifact_type
+  - skill_name
+  - generated_by
+  - generated_at
+  - stage
+  - status
+  - required_sections
+  - handoff
+properties:
+  skill_schema_version:
+    type: string
+    const: "3.0.0"
+  artifact_type:
+    type: string
+    const: "exploration"
+  skill_name:
+    type: string
+    pattern: "^[a-z0-9-]+$"
+  generated_by:
+    type: string
+    const: "skill-explorer"
+  generated_at:
+    type: string
+    format: "date-time"
+  stage:
+    type: string
+    const: "exploration"
+  status:
+    type: string
+    enum: ["in_progress", "ready_for_architect", "blocked"]
+  required_sections:
+    type: array
+    items: { type: string }
+    minItems: 8
+  optional_sections:
+    type: array
+    items: { type: string }
+  handoff:
+    type: object
+    required: ["next_stage", "ready_condition"]
+    properties:
+      next_stage:
+        type: string
+        enum: ["architect"]
+      ready_condition:
+        type: object
+        required: ["required"]
+        properties:
+          required:
+            type: object
+            properties:
+              frontmatter_valid: { type: boolean, const: true }
+              resources_audited: { type: boolean, const: true }
+              seven_standards_assessed: { type: boolean, const: true }
+              no_blockers: { type: boolean, const: true }
+  decomposed:
+    type: boolean
+  micro_skills:
+    type: array
+    items:
+      type: object
+      required: ["name", "description"]
+      properties:
+        name:
+          type: string
+          pattern: "^[a-z0-9-]+$"
+        description:
+          type: string
+        zone_recommendations:
+          type: string
+additionalProperties: false

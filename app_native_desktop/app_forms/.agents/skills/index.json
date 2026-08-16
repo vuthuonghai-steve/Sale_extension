@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "id": "screen-scaffold-generator",
+      "name": "Screen Scaffold Generator",
+      "description": "Tự động sinh khung thư mục và mã nguồn chuẩn Component-Driven & Hook Pattern cho Screen WinForms mới, kiểm soát Screen <= 150 dòng và InvokeOnUI.",
+      "path": "skills/screen-scaffold-generator/SKILL.md",
+      "triggers": ["create screen", "scaffold screen", "tạo màn hình mới", "new screen", "sinh mã screen"],
+      "tags": ["winforms", "component-driven", "scaffolding", "frontend", "hook-pattern"]
+    },
+    {
+      "id": "context-before-fix",
+      "name": "Context Before Fix",
+      "description": "Thu thập và tài liệu hóa đầy đủ ngữ cảnh kiến trúc, hợp đồng và DI trước khi sửa lỗi hoặc refactor mã nguồn (CHỈ DOCUMENT, KHÔNG SỬA CODE).",
+      "path": "skills/context-before-fix/SKILL.md",
+      "triggers": ["fix bug", "refactor", "sửa lỗi", "investigate", "context check", "scoping"],
+      "tags": ["context", "architecture", "debugging", "safety", "scoping"]
+    },
+    {
+      "id": "git-commit-helper",
+      "name": "Git Commit Helper",
+      "description": "Phân tích git diff và tạo thông điệp commit chuẩn Conventional Commits với ngữ cảnh chi tiết theo từng tầng kiến trúc .NET WinForms.",
+      "path": "skills/git-commit-helper/SKILL.md",
+      "triggers": ["git commit", "commit message", "tạo commit", "tóm tắt thay đổi", "git diff review"],
+      "tags": ["git", "vcs", "conventions", "changelog"]
+    },
+    {
+      "id": "logging-best-practices",
+      "name": "Logging Best Practices",
+      "description": "Hướng dẫn và quy chuẩn ghi log Serilog đa tầng (Console, Daily Rolling, Session Latest) và Wide Events (Canonical Log Lines) cho ứng dụng Windows Native Desktop.",
+      "path": "skills/logging-best-practices/SKILL.md",
+      "triggers": ["logging", "serilog", "wide events", "ghi log", "observability", "log level"],
+      "tags": ["logging", "serilog", "wide-events", "observability", "structured-logging"]
+    },
+    {
+      "id": "mermaid-diagrams",
+      "name": "Mermaid Diagrams Generator",
+      "description": "Vẽ sơ đồ kiến trúc Clean 3-layer, luồng xử lý Clipboard, state transition, C4 container/component và sequence diagram chuẩn cú pháp Mermaid.",
+      "path": "skills/mermaid-diagrams/SKILL.md",
+      "triggers": ["draw diagram", "sơ đồ", "mermaid", "architecture diagram", "flowchart", "sequence diagram", "c4 diagram"],
+      "tags": ["documentation", "mermaid", "architecture", "visualization"]
+    },
+    {
+      "id": "skill-buids",
+      "name": "Agent Skill Builder",
+      "description": "Quy chuẩn kiến trúc và hướng dẫn xây dựng Agent Skills tiêu chuẩn cao theo mô hình phân tầng nhận thức và chốt kiểm soát chất lượng nhị phân.",
+      "path": "skills/skill-buids/SKILL.md",
+      "triggers": ["build skill", "create skill", "tạo skill", "skill guidelines", "agent skill template"],
+      "tags": ["agent-skills", "meta", "standard", "skill-builder", "guidelines"]
+    },
+    {
+      "id": "technical-tradeoff-analyzer",
+      "name": "Technical Trade-off Analyzer",
+      "description": "Chuyên gia phân tích kiến trúc, bóc tách bài toán từ nguyên lý đầu tiên, ma trận đánh đổi 6 chiều, phản biện ngược 5 kịch bản thất bại và định hình quyết định kỹ thuật chuẩn xác (Type 1 vs Type 2).",
+      "path": "skills/technical-tradeoff-analyzer/SKILL.md",
+      "triggers": [
+        "trade-off",
+        "đánh đổi",
+        "so sánh phương án",
+        "lựa chọn kiến trúc",
+        "adr",
+        "problem framing",
+        "reverse probing",
+        "one-way door",
+        "two-way door",
+        "blast radius",
+        "failure mode"
+      ],
+      "tags": [
+        "architecture",
+        "trade-off",
+        "decision-making",
+        "adr",
+        "reverse-probing",
+        "windows-native",
+        "csharp-winforms",
+        "clean-architecture"
+      ]
+    }
+  ]
+}

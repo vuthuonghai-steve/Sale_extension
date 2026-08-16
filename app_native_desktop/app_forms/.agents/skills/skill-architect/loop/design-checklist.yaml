@@ -1,0 +1,103 @@
+# Design Quality Checklist (YAML Machine-Readable Format)
+# Đồng bộ hoá trực tiếp với bộ kiểm định scripts/validate_architect_design.py
+
+version: "2.0.0"
+artifact_type: "design-quality-checklist"
+validator_script: "scripts/validate_architect_design.py"
+
+quality_gates:
+  deterministic_script_gate:
+    script: "python scripts/validate_architect_design.py --stage final --json-output"
+    passing_criteria:
+      exit_code: 0
+      min_score: 100
+      max_critical_violations: 0
+      max_error_violations: 0
+
+  structure:
+    required_sections:
+      - "§1_problem_statement"
+      - "§2_capability_map"
+      - "§3_zone_mapping"
+      - "§4_folder_structure"
+      - "§5_execution_flow"
+      - "§6_interaction_points"
+      - "§7_progressive_disclosure"
+      - "§8_risks"
+      - "§9_open_questions"
+      - "§10_metadata"
+    min_diagrams: 3
+    interaction_points_min: 1
+    checks:
+      - id: "S1"
+        description: "§1 có đủ Pain Point + User + Lý do"
+        field: "problem_statement"
+        rule: "has_all_fields"
+      - id: "S2"
+        description: "§2 có đủ 3 Pillars (Knowledge/Process/Guardrails)"
+        field: "capability_map"
+        rule: "has_all_pillars"
+      - id: "S3"
+        description: "§3 Zone Mapping bao gồm cả Zone Assets khi cần"
+        field: "zone_mapping"
+        rule: "zone_mapping_contract"
+      - id: "S4"
+        description: "§4 Folder Structure có Mermaid mindmap khớp 1-1 với §3"
+        field: "folder_structure"
+        rule: "parity_with_zone_mapping"
+      - id: "S5"
+        description: "§5 Execution Flow có Mermaid sequenceDiagram"
+        field: "execution_flow"
+        rule: "has_mermaid_diagram"
+      - id: "S6"
+        description: "§6 có ít nhất 1 interaction point"
+        field: "interaction_points"
+        rule: "min_count_1"
+      - id: "S7"
+        description: "§7 phân biệt rõ Tier 1, Tier 2, Tier 3"
+        field: "progressive_disclosure"
+        rule: "has_tier_distinction"
+      - id: "S8"
+        description: "§8 có ít nhất 3 risks kèm mitigation cụ thể"
+        field: "risks"
+        rule: "min_count_with_mitigation"
+      - id: "S9"
+        description: "§9 không để trống hoàn toàn"
+        field: "open_questions"
+        rule: "not_all_empty"
+      - id: "S10"
+        description: "§10 có đủ metadata"
+        field: "metadata"
+        rule: "has_required_fields"
+
+  zone_mapping_contract:
+    checks:
+      - id: "Z1"
+        description: "Tất cả Zone có giá trị trong cột Files cần tạo"
+        rule: "no_blank_cells"
+      - id: "Z2"
+        description: "Zone không dùng → ghi 'Không cần'"
+        rule: "explicit_skip"
+      - id: "Z3"
+        description: "Tên file cụ thể (không placeholder như 'xxx.md')"
+        rule: "no_placeholder_names"
+      - id: "Z4"
+        description: "Cột Bắt buộc? có đánh dấu ✅ hoặc ❌"
+        rule: "has_required_mark"
+
+  anti_slop_invariants:
+    checks:
+      - id: "A1"
+        description: "Không chứa placeholder (TODO, TBD, xxx, tùy chọn)"
+        rule: "ban_regex_match_zero"
+        asset: "assets/keywords/anti-patterns-ban.yaml"
+      - id: "A2"
+        description: "Không chứa cụm từ mơ hồ, thoái thác (AI Slop)"
+        rule: "slop_regex_match_zero"
+        asset: "assets/keywords/anti-patterns-ban.yaml"
+
+  handoff_contract:
+    checks:
+      - id: "H1"
+        description: "Trạng thái 'ready_for_planner' chỉ gán khi Script Score == 100"
+        rule: "gate_locked_until_pass"

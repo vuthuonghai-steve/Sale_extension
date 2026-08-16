@@ -1,0 +1,22 @@
+version: "1.0.0"
+risk_taxonomies:
+  categories:
+    - id: "THREAD_SAFETY"
+      name: "UI Thread Blocking & Race Conditions"
+      description: "Thao tác trên WinForms UI từ luồng phụ gây crash hoặc đơ ứng dụng."
+      mitigation_template: "Bọc mọi cập nhật UI qua FormStateObserver.InvokeOnUI và tách biệt I/O bất đồng bộ."
+
+    - id: "MEMORY_RESOURCE_LEAK"
+      name: "Resource & Memory Leakage"
+      description: "Không giải phóng GDI Objects, Win32 Handlers hoặc Subscriptions."
+      mitigation_template: "Áp dụng IDisposable, try...finally và unsubscribe event khi Form đóng."
+
+    - id: "SEMANTIC_AI_SLOP"
+      name: "Semantic Dilution & AI Placeholders"
+      description: "LLM sinh code mẫu dạng generic, chứa TODO, TBD hoặc bỏ sót negative space."
+      mitigation_template: "Cưỡng chế Script validator quét regex ban list và chặn chuyển giao nếu score < 100."
+
+    - id: "DATA_MUTATION_CORRUPTION"
+      name: "Unsafe File Mutation"
+      description: "Ghi đè file trực tiếp làm hỏng dữ liệu khi crash giữa chừng."
+      mitigation_template: "Áp dụng Atomic File Move (.tmp -> .json/.md) và backup an toàn."

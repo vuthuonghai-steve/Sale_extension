@@ -1,0 +1,74 @@
+# _shared/schemas/build-log.schema.yaml
+$schema: "https://json-schema.org/draft-07/schema#"
+title: "build-log.md frontmatter"
+type: object
+required:
+  - skill_schema_version
+  - artifact_type
+  - skill_name
+  - generated_by
+  - generated_at
+  - stage
+  - status
+  - execution_trace
+  - feedback_to_planner
+  - feedback_to_architect
+  - quality_metrics
+properties:
+  skill_schema_version:
+    type: string
+    const: "3.0.0"
+  artifact_type:
+    type: string
+    const: "build-log"
+  skill_name:
+    type: string
+    pattern: "^[a-z0-9-]+$"
+  generated_by:
+    type: string
+    const: "skill-builder"
+  generated_at:
+    type: string
+    format: "date-time"
+  stage:
+    type: string
+    const: "builder"
+  status:
+    type: string
+    enum: ["in_progress", "complete", "blocked"]
+  execution_trace:
+    type: array
+    items:
+      type: object
+      required: ["timestamp", "task_id", "action", "status"]
+      properties:
+        timestamp: { type: string, format: "date-time" }
+        phase: { type: string }
+        task_id: { type: string }
+        action:
+          type: string
+          enum: ["CREATE_FILE", "MODIFY_FILE", "VALIDATE", "RUN_SCRIPT"]
+        file: { type: string }
+        status:
+          type: string
+          enum: ["success", "failed", "skipped"]
+        notes: { type: string }
+        validator: { type: string }
+        error: { type: string }
+        decision:
+          type: string
+          enum: ["CONTINUE", "STOP_AND_REPORT", "RETRY"]
+  feedback_to_planner:
+    type: array
+  feedback_to_architect:
+    type: array
+  quality_metrics:
+    type: object
+    required: ["placeholder_ratio", "critical_tasks_done", "validator_pass"]
+    properties:
+      placeholder_ratio: { type: number, minimum: 0, maximum: 1 }
+      zone_coverage: { type: number, minimum: 0, maximum: 1 }
+      blocker_count: { type: number, minimum: 0 }
+      critical_tasks_done: { type: boolean }
+      validator_pass: { type: boolean }
+additionalProperties: false

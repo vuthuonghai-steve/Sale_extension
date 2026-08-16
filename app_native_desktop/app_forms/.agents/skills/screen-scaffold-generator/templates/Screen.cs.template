@@ -1,0 +1,99 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+using AppForms.Shared.Constants;
+using AppForms.Frontend.Screens.{{ScreenName}}.Components;
+using AppForms.Frontend.Screens.{{ScreenName}}.Hooks;
+using AppForms.Frontend.Screens.{{ScreenName}}.Models;
+
+namespace AppForms.Frontend.Screens.{{ScreenName}}
+{
+    /// <summary>
+    /// Root container for {{ScreenName}} screen.
+    /// Strictly handles layout assembly and binds Hook to Sub-Components (<= 150 lines).
+    /// </summary>
+    public class {{ScreenName}}Screen : UserControl
+    {
+        private readonly {{ScreenName}}StateHook _hook;
+        private TableLayoutPanel _mainLayout = null!;
+        private {{ScreenName}}EditorPanel _editorPanel = null!;
+        private {{ScreenName}}PreviewBox _previewBox = null!;
+
+        public {{ScreenName}}Screen({{ScreenName}}StateHook hook)
+        {
+            _hook = hook ?? throw new ArgumentNullException(nameof(hook));
+            InitializeComponent();
+            SubscribeEvents();
+        }
+
+        private void InitializeComponent()
+        {
+            Dock = DockStyle.Fill;
+            BackColor = AppColors.Background;
+
+            _mainLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1,
+                Padding = new Padding(12),
+                BackColor = AppColors.Background
+            };
+            _mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            _mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+
+            _editorPanel = new {{ScreenName}}EditorPanel { Dock = DockStyle.Fill };
+            _previewBox = new {{ScreenName}}PreviewBox { Dock = DockStyle.Fill };
+
+            _mainLayout.Controls.Add(_editorPanel, 0, 0);
+            _mainLayout.Controls.Add(_previewBox, 1, 0);
+
+            Controls.Add(_mainLayout);
+        }
+
+        private void SubscribeEvents()
+        {
+            _editorPanel.ActionTriggered += OnEditorActionTriggered;
+            _hook.StateUpdated += OnHookStateUpdated;
+            _hook.ErrorOccurred += OnHookErrorOccurred;
+        }
+
+        private void OnEditorActionTriggered({{ScreenName}}FormModel model)
+        {
+            _hook.ProcessAction(model);
+        }
+
+        private void OnHookStateUpdated({{ScreenName}}FormModel updatedModel)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => OnHookStateUpdated(updatedModel)));
+                return;
+            }
+
+            _previewBox.BindData(updatedModel);
+        }
+
+        private void OnHookErrorOccurred(string errorMessage)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => OnHookErrorOccurred(errorMessage)));
+                return;
+            }
+
+            MessageBox.Show(errorMessage, "Thông báo lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _editorPanel.ActionTriggered -= OnEditorActionTriggered;
+                _hook.StateUpdated -= OnHookStateUpdated;
+                _hook.ErrorOccurred -= OnHookErrorOccurred;
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

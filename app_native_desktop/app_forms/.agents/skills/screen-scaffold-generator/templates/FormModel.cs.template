@@ -1,0 +1,17 @@
+using System;
+
+namespace AppForms.Frontend.Screens.{{ScreenName}}.Models
+{
+    /// <summary>
+    /// Pure state data model for {{ScreenName}} screen.
+    /// Immutable record representation of form state.
+    /// </summary>
+    public record {{ScreenName}}FormModel
+    {
+        public string Id { get; init; } = Guid.NewGuid().ToString("N");
+        public string Title { get; init; } = string.Empty;
+        public string Content { get; init; } = string.Empty;
+        public bool IsValid => !string.IsNullOrWhiteSpace(Title);
+        public DateTimeOffset LastModifiedUtc { get; init; } = DateTimeOffset.UtcNow;
+    }
+}

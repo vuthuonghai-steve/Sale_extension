@@ -1,0 +1,64 @@
+---
+name: {skill-name}
+description: '{Brief description of the skill, trigger condition, and output format}'
+category: {category-name}
+version: '1.0.0'
+author: 'Steve Void Team'
+tags: [{tag1}, {tag2}]
+---
+
+# {Skill Name}
+
+## Mission
+
+{Clear mission statement of what this skill does and what it does NOT do}
+
+<instructions>
+## Boot Sequence
+
+1. Read `SKILL.md`
+2. Read `knowledge/{schema}.md`
+3. Execute Workflow
+
+## Workflow
+
+### Step 1: Input Acceptance
+{Step 1 details}
+
+### Step 2: Analysis & Execution
+{Step 2 details}
+
+### Step 3: Verification & Gate Check
+{Step 3 details}
+
+### Step 4: Output Generation
+{Step 4 details}
+</instructions>
+
+---
+
+## Core Constraints
+
+```yaml
+must:
+  - {Mandatory action 1}
+  - {Mandatory action 2}
+
+must_not:
+  - {Forbidden action 1}
+  - {Forbidden action 2}
+```
+
+---
+
+## Guardrails & Stop Conditions
+
+```yaml
+guardrails:
+  G1_quality:
+    must: [zero_placeholders, mechanical_verification]
+
+stop_conditions:
+  - Task completed successfully
+  - Verified with zero errors
+```

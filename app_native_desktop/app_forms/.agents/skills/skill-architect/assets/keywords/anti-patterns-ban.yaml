@@ -1,0 +1,17 @@
+version: "1.0.0"
+ban_rules:
+  placeholders:
+    - regex: "(?i)\\b(todo|tbd|fixme|xxx|placeholder|chưa xác định|tùy chọn|sau này bổ sung|chưa rõ|chưa hoàn thiện)\\b"
+      severity: "CRITICAL"
+      message: "Phát hiện placeholder chưa hoàn thiện. Bắt buộc cung cấp thông tin kỹ thuật cụ thể hoặc phương án dứt khoát."
+
+  slop_phrases:
+    - regex: "(?i)(xử lý một cách phù hợp|các tính năng khác|vân vân|v\\.v\\.|và các thứ liên quan|tùy theo tình huống|thực hiện theo chuẩn chung|logic tương tự)"
+      severity: "HIGH"
+      message: "Phát hiện cụm từ mơ hồ mang tính thoái thác (AI Slop). Phải định nghĩa rõ danh sách hành vi/cấu phần cụ thể."
+
+  empty_fields:
+    - regex: "(?i)(N/A|None|chưa có|không có)\\s*$"
+      severity: "MEDIUM"
+      target_sections: ["8_risks", "3_zone_mapping"]
+      message: "Không được để trống hoặc dùng N/A ở các bảng quan trọng (§3 Zone Mapping, §8 Risks)."

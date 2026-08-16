@@ -1,0 +1,32 @@
+version: "1.0.0"
+domain_lexicons:
+  windows_native_csharp:
+    mandatory_terms_any:
+      - "STA Thread"
+      - "Windows Message Loop"
+      - "InvokeOnUI"
+      - "FormStateObserver"
+      - "try...finally"
+      - "IDisposable"
+      - "Thread-Safety"
+    anti_patterns:
+      - "Thread.Sleep trên UI thread"
+      - "Direct WinForms control manipulation from background"
+      - "Blocking UI async calls without Dispatcher/Invoke"
+
+  clean_layered_architecture:
+    mandatory_layers:
+      - "0_Shared"
+      - "1_Backend"
+      - "2_Frontend"
+    boundary_constraints:
+      backend_rule: "1_Backend tuyệt đối không import System.Windows.Forms hoặc thao tác trực tiếp UI Controls"
+      frontend_rule: "Screen file không vượt quá 150 dòng code (tối đa tuyệt đối không quá 250 dòng)"
+      shared_rule: "0_Shared chỉ chứa Types, Enums, Constants, Models nền tảng"
+
+  component_driven_ui:
+    mandatory_concepts:
+      - "Screen (Layout & Sub-component Orchestration)"
+      - "StateHook (*StateHook.cs quản lý state & event)"
+      - "Sub-Components (Sub-panels độc lập, tự render UI, bind data qua BindData)"
+      - "Models (Form/DTO models phục vụ riêng cho Screen)"

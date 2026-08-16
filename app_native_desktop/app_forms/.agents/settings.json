@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "permissions": {
+    "commands": {
+      "allow": [
+        "dotnet build*",
+        "dotnet clean*",
+        "dotnet restore*",
+        "dotnet test*",
+        "dotnet run*",
+        "dotnet publish*",
+        "git status*",
+        "git diff*",
+        "git log*",
+        "git branch*",
+        "git add*",
+        "git commit*",
+        "python .agents/hooks/*",
+        "powershell -Command Get-*",
+        "powershell -Command Select-*"
+      ],
+      "deny": [
+        "rmdir /s /q *",
+        "del /f /s /q *",
+        "Remove-Item -Recurse -Force C:\\*",
+        "format *",
+        "shutdown *",
+        "reg delete *",
+        "git push --force*",
+        "git reset --hard HEAD~*"
+      ],
+      "ask": [
+        "git push*",
+        "git reset*",
+        "Remove-Item*",
+        "del *"
+      ]
+    },
+    "filesystem": {
+      "allow_read": [
+        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\**"
+      ],
+      "allow_write": [
+        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\0_Shared\\**",
+        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\1_Backend\\**",
+        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\2_Frontend\\**",
+        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\.agents\\**",
+        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\Docs\\**"
+      ],
+      "deny_write": [
+        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\.git\\**",
+        "C:\\Windows\\**",
+        "C:\\Program Files\\**"
+      ]
+    }
+  }
+}

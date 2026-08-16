@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "invariants": [
+    {
+      "id": "INV_01_PARITY_ZONE_MERMAID",
+      "name": "Tính nhất quán giữa Zone Mapping và Sơ đồ Mindmap Thư mục",
+      "rule": "Tất cả các file được liệt kê trong bảng §3 Zone Mapping (và frontmatter.zone_mapping) bắt buộc phải xuất hiện dưới dạng leaf node trong Mermaid mindmap tại §4 Folder Structure.",
+      "severity": "ERROR",
+      "error_code": "E201"
+    },
+    {
+      "id": "INV_02_RISK_MITIGATION_CONTRACT",
+      "name": "Hợp đồng Rủi ro & Biện pháp phòng ngừa",
+      "rule": "Bảng §8 Risks phải có tối thiểu 3 rủi ro cụ thể, và mỗi hàng bắt buộc phải có cột 'Biện pháp phòng ngừa (Mitigation)' có nội dung rõ ràng, không chứa placeholder.",
+      "min_count": 3,
+      "severity": "ERROR",
+      "error_code": "E202"
+    },
+    {
+      "id": "INV_03_HEADINGS_COMPLETENESS",
+      "name": "Đầy đủ 10 Heading cấp 2 chuẩn",
+      "rule": "Tài liệu design.md bắt buộc phải có đúng các Heading từ ## 1 đến ## 10 theo đúng quy chuẩn Output Contract.",
+      "required_headings": [
+        "## 1. Problem Statement",
+        "## 2. Capability Map",
+        "## 3. Zone Mapping",
+        "## 4. Folder Structure",
+        "## 5. Execution Flow",
+        "## 6. Interaction Points",
+        "## 7. Progressive Disclosure",
+        "## 8. Risks",
+        "## 9. Open Questions",
+        "## 10. Metadata"
+      ],
+      "severity": "CRITICAL",
+      "error_code": "E102"
+    },
+    {
+      "id": "INV_04_MERMAID_SYNTAX_SAFETY",
+      "name": "An toàn cú pháp Mermaid không vỡ renderer",
+      "rule": "Các block sơ đồ Mermaid phải có cú pháp hợp lệ, các node có nhãn đặc biệt hoặc dấu ngoặc phải được bọc trong nháy kép `\"...\"`.",
+      "severity": "ERROR",
+      "error_code": "E103"
+    },
+    {
+      "id": "INV_05_HANDOFF_GATE_CONTRACT",
+      "name": "Khóa chuyển giao Handoff Gate",
+      "rule": "Trạng thái status 'ready_for_planner' trong frontmatter chỉ được chấp thuận khi toàn bộ 4 tầng trước không có vi phạm nào (Score: 100/100).",
+      "severity": "CRITICAL",
+      "error_code": "E501"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "technical-tradeoff-analyzer",
+  "name": "Technical Trade-off Analyzer",
+  "version": "1.0.0",
+  "category": "architecture-analysis",
+  "author": "Steve Void Team",
+  "description": "Chuyên gia phân tích kiến trúc, bóc tách bài toán từ nguyên lý đầu tiên, ma trận đánh đổi 6 chiều, phản biện ngược 5 kịch bản thất bại và định hình quyết định kỹ thuật chuẩn xác (Type 1 vs Type 2).",
+  "triggers": [
+    "trade-off",
+    "đánh đổi",
+    "so sánh phương án",
+    "lựa chọn kiến trúc",
+    "adr",
+    "problem framing",
+    "reverse probing",
+    "one-way door",
+    "two-way door",
+    "blast radius",
+    "failure mode",
+    "phân tích kỹ thuật"
+  ],
+  "tags": [
+    "architecture",
+    "trade-off",
+    "decision-making",
+    "adr",
+    "reverse-probing",
+    "windows-native",
+    "csharp-winforms",
+    "clean-architecture"
+  ],
+  "routing": {
+    "tier_1_boot": ["SKILL.md"],
+    "tier_2_knowledge": [
+      "knowledge/trade-off-dimensions.md",
+      "knowledge/decision-reversibility.md",
+      "knowledge/reverse-probing-guide.md"
+    ],
+    "tier_2_playbooks": [
+      "playbook-native/sidepanel-vs-dialog.md",
+      "playbook-native/sta-vs-async-thread.md",
+      "playbook-native/unmanaged-vs-managed.md",
+      "playbook-native/monolithic-vs-modular.md"
+    ],
+    "tier_3_templates": [
+      "templates/problem-framing.template.md",
+      "templates/option-matrix.template.md",
+      "templates/adr-trade-off.template.md"
+    ],
+    "tier_3_loop": ["loop/trade-off-checklist.md"]
+  }
+}

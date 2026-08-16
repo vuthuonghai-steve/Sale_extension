@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Verification Schema",
+  "description": "Schema xác thực cho tệp báo cáo sandbox verification.json thuộc Stage 4 (Tester)",
+  "type": "object",
+  "required": ["$schema", "metadata", "test_results", "metrics", "confidence_score", "passed"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["skill_name", "version", "tester_timestamp"],
+      "additionalProperties": false,
+      "properties": {
+        "skill_name": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "tester_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "test_results": {
+      "type": "array",
+      "minItems": 4,
+      "description": "Bắt buộc có ít nhất 4 test cases (tối thiểu 2 mẫu + 2 edge cases độc lập)",
+      "items": {
+        "type": "object",
+        "required": ["test_case_id", "name", "type", "status", "execution_time_ms"],
+        "additionalProperties": false,
+        "properties": {
+          "test_case_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["sample_test", "edge_case_test", "stress_test", "security_defense_test"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "fail"]
+          },
+          "error_message": {
+            "type": ["STRING", "null"]
+          },
+          "execution_time_ms": {
+            "type": "NUMBER",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["sandbox_test_pass_rate", "semantic_placeholder_density", "static_analysis_passed"],
+      "additionalProperties": false,
+      "properties": {
+        "sandbox_test_pass_rate": {
+          "type": "NUMBER",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "semantic_placeholder_density": {
+          "type": "NUMBER",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "static_analysis_passed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "confidence_score": {
+      "type": "NUMBER",
+      "minimum": 0.0,
+      "maximum": 100.0,
+      "description": "Điểm số tính toán toán học thực chứng: 40% pass rate + 30% placeholder density + 30% static analysis"
+    },
+    "passed": {
+      "type": "boolean",
+      "description": "Đạt true khi confidence_score >= 85.0 và semantic_placeholder_density == 0.0"
+    }
+  }
+}

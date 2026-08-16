@@ -1,0 +1,58 @@
+using System;
+using Microsoft.Extensions.Logging;
+using AppForms.Shared.Common;
+using AppForms.Frontend.Screens.{{ScreenName}}.Models;
+
+namespace AppForms.Frontend.Screens.{{ScreenName}}.Hooks
+{
+    /// <summary>
+    /// State controller & logic coordinator for {{ScreenName}} screen.
+    /// Strictly Pure C# - ZERO references to System.Windows.Forms.Control.
+    /// </summary>
+    public class {{ScreenName}}StateHook
+    {
+        private readonly ILogger<{{ScreenName}}StateHook> _logger;
+        private {{ScreenName}}FormModel _currentModel;
+
+        public event Action<{{ScreenName}}FormModel>? StateUpdated;
+        public event Action<string>? ErrorOccurred;
+        public event Action<bool>? IsLoadingChanged;
+
+        public {{ScreenName}}FormModel CurrentModel => _currentModel;
+
+        public {{ScreenName}}StateHook(ILogger<{{ScreenName}}StateHook> logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _currentModel = new {{ScreenName}}FormModel();
+        }
+
+        public void ProcessAction({{ScreenName}}FormModel inputModel)
+        {
+            try
+            {
+                IsLoadingChanged?.Invoke(true);
+                _logger.LogInformation("Processing action for {{ScreenName}} with model: {@Model}", inputModel);
+
+                // Update internal state
+                _currentModel = inputModel with { LastModifiedUtc = DateTimeOffset.UtcNow };
+                
+                StateUpdated?.Invoke(_currentModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to execute action in {{ScreenName}}StateHook");
+                ErrorOccurred?.Invoke(ex.Message);
+            }
+            finally
+            {
+                IsLoadingChanged?.Invoke(false);
+            }
+        }
+
+        public void ResetState()
+        {
+            _currentModel = new {{ScreenName}}FormModel();
+            StateUpdated?.Invoke(_currentModel);
+        }
+    }
+}

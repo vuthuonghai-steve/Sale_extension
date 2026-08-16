@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Criteria Schema",
+  "description": "Schema xác thực cho tệp tiêu chí chất lượng criteria.json thuộc Stage 0 (Explorer)",
+  "type": "object",
+  "required": ["$schema", "metadata", "acceptance_criteria", "test_cases"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["skill_name", "version", "updated_at"],
+      "additionalProperties": false,
+      "properties": {
+        "skill_name": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["criterion_id", "description", "metric", "validation_method"],
+        "additionalProperties": false,
+        "properties": {
+          "criterion_id": {
+            "type": "string",
+            "pattern": "^AC-[0-9]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10
+          },
+          "metric": {
+            "type": "string",
+            "minLength": 5
+          },
+          "validation_method": {
+            "type": "string",
+            "enum": ["sandbox_test", "unit_test", "static_analysis", "prompt_injection_defense_test", "manual_verification"]
+          }
+        }
+      }
+    },
+    "test_cases": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["test_case_id", "name", "description", "mock_input", "expected_output"],
+        "additionalProperties": false,
+        "properties": {
+          "test_case_id": {
+            "type": "string",
+            "pattern": "^TC-[0-9]+$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 5
+          },
+          "description": {
+            "type": "string",
+            "minLength": 15
+          },
+          "mock_input": {
+            "type": "object",
+            "description": "Mock input structure for the test case"
+          },
+          "expected_output": {
+            "type": "object",
+            "description": "Expected output structure for validation"
+          }
+        }
+      }
+    }
+  }
+}

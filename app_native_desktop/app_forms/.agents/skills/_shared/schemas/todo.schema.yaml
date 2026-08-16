@@ -1,0 +1,134 @@
+# _shared/schemas/todo.schema.yaml
+$schema: "https://json-schema.org/draft-07/schema#"
+title: "todo.md frontmatter"
+type: object
+required:
+  - skill_schema_version
+  - artifact_type
+  - skill_name
+  - generated_by
+  - generated_at
+  - stage
+  - status
+  - trace_to_design
+  - phases
+  - blockers
+  - prerequisites
+  - handoff
+properties:
+  skill_schema_version:
+    type: string
+    const: "3.0.0"
+  artifact_type:
+    type: string
+    const: "todo"
+  skill_name:
+    type: string
+    pattern: "^[a-z0-9-]+$"
+  generated_by:
+    type: string
+    const: "skill-planner"
+  generated_at:
+    type: string
+    format: "date-time"
+  stage:
+    type: string
+    const: "planner"
+  status:
+    type: string
+    enum: ["in_progress", "ready_for_builder", "blocked"]
+  trace_to_design:
+    type: string
+  phases:
+    type: array
+    items:
+      type: object
+      required: ["id", "name", "tasks"]
+      properties:
+        id:
+          type: string
+          pattern: "^PH[0-9]+$"
+        name:
+          type: string
+        tasks:
+          type: array
+          items:
+            type: object
+            required: ["id", "title", "zone", "priority", "trace", "status"]
+            properties:
+              id:
+                type: string
+                pattern: "^T[0-9]+\\.[0-9]+$"
+              title: { type: string }
+              zone:
+                type: string
+                enum: ["core", "knowledge", "scripts", "templates", "data", "loop", "assets"]
+              priority:
+                type: string
+                enum: ["critical", "high", "medium", "low"]
+              trace:
+                type: string
+              depends_on:
+                type: array
+                items: { type: string }
+              status:
+                type: string
+                enum: ["pending", "in_progress", "done", "skipped"]
+              file_target:
+                type: string
+              acceptance_criteria:
+                type: array
+                items: { type: string }
+  blockers:
+    type: array
+    items:
+      type: object
+      required: ["id", "type", "description", "resolved"]
+      properties:
+        id: { type: string }
+        type:
+          type: string
+          enum: ["CLARIFICATION_NEEDED", "DESIGN_CONFLICT", "RESOURCE_MISSING"]
+        description: { type: string }
+        raised_by: { type: string }
+        trace: { type: string }
+        blocks_tasks:
+          type: array
+          items: { type: string }
+        resolved: { type: boolean }
+        resolution: { type: ["string", "null"] }
+  prerequisites:
+    type: array
+    items:
+      type: object
+      required: ["item", "tier", "status"]
+      properties:
+        item: { type: string }
+        tier:
+          type: string
+          enum: ["domain", "technical", "packaging"]
+        status:
+          type: string
+          enum: ["ready", "missing", "thin"]
+        resource_file: { type: string }
+        action_if_missing: { type: string }
+  handoff:
+    type: object
+    required: ["next_stage", "ready_condition"]
+    properties:
+      next_stage:
+        type: string
+        const: "builder"
+      ready_condition:
+        type: object
+        required: ["required"]
+        properties:
+          required:
+            type: object
+            properties:
+              blockers_empty: { type: boolean, const: true }
+              phase0_done: { type: boolean, const: true }
+              prerequisites_ready: { type: boolean, const: true }
+              schema_valid: { type: boolean, const: true }
+              design_zones_covered: { type: boolean, const: true }
+additionalProperties: false

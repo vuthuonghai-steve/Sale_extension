@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Exploration Schema",
+  "description": "Schema xác thực cho tệp khảo sát nghiệp vụ exploration.json thuộc Stage 0 (Explorer)",
+  "type": "object",
+  "required": ["$schema", "metadata", "problem_statement", "technical_risks", "security_risks", "dependencies"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["skill_name", "version", "created_at", "lifecycle_status"],
+      "additionalProperties": false,
+      "properties": {
+        "skill_name": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lifecycle_status": {
+          "type": "string",
+          "enum": ["raw", "designed", "planned", "built", "verified", "installed", "pending_rollback"]
+        }
+      }
+    },
+    "problem_statement": {
+      "type": "object",
+      "required": ["summary", "context", "target_audience"],
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "context": {
+          "type": "string",
+          "minLength": 20
+        },
+        "target_audience": {
+          "type": "string",
+          "enum": ["AI agent only", "Human only", "Hybrid (Human & AI)"]
+        }
+      }
+    },
+    "technical_risks": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["risk_name", "severity", "description", "mitigation_strategy"],
+        "additionalProperties": false,
+        "properties": {
+          "risk_name": {
+            "type": "string",
+            "minLength": 5
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 15
+          },
+          "mitigation_strategy": {
+            "type": "string",
+            "minLength": 15
+          }
+        }
+      }
+    },
+    "security_risks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["threat_type", "attack_vector", "potential_impact", "defense_mechanism"],
+        "additionalProperties": false,
+        "properties": {
+          "threat_type": {
+            "type": "string",
+            "enum": ["Prompt Injection", "Data Leakage", "Insecure Tool Call", "Arbitrary Code Execution", "Other"]
+          },
+          "attack_vector": {
+            "type": "string",
+            "minLength": 15
+          },
+          "potential_impact": {
+            "type": "string",
+            "minLength": 15
+          },
+          "defense_mechanism": {
+            "type": "string",
+            "minLength": 15
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "version_constraint"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["skill", "python_library", "system_tool", "other"]
+          },
+          "version_constraint": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "decomposed": {
+      "type": "boolean"
+    },
+    "micro_skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "description": {
+            "type": "string"
+          },
+          "zone_recommendations": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

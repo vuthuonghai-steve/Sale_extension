@@ -1,0 +1,126 @@
+# _shared/schemas/design.schema.yaml
+$schema: "https://json-schema.org/draft-07/schema#"
+title: "design.md frontmatter"
+type: object
+required:
+  - skill_schema_version
+  - artifact_type
+  - skill_name
+  - generated_by
+  - generated_at
+  - stage
+  - status
+  - canonical_source
+  - zone_mapping
+  - progressive_disclosure
+  - required_sections
+  - handoff
+properties:
+  skill_schema_version:
+    type: string
+    const: "3.0.0"
+  artifact_type:
+    type: string
+    const: "design"
+  skill_name:
+    type: string
+    pattern: "^[a-z0-9-]+$"
+  generated_by:
+    type: string
+    const: "skill-architect"
+  generated_at:
+    type: string
+    format: "date-time"
+  stage:
+    type: string
+    const: "architect"
+  status:
+    type: string
+    enum: ["in_progress", "ready_for_planner", "blocked"]
+  canonical_source:
+    type: object
+    required: ["zone_mapping", "progressive_disclosure"]
+    properties:
+      zone_mapping: { type: string, const: "frontmatter.zone_mapping" }
+      progressive_disclosure: { type: string, const: "frontmatter.progressive_disclosure" }
+  zone_mapping:
+    type: object
+    required: ["core", "knowledge", "scripts", "templates", "data", "loop", "assets"]
+    patternProperties:
+      "^[a-z_]+$":
+        type: object
+        required: ["files", "zone_required"]
+        properties:
+          files:
+            type: array
+            items:
+              type: object
+              required: ["path", "file_required"]
+              properties:
+                path:
+                  type: string
+                  not:
+                    pattern: "(^|/)\\.\\.(/|$)"
+                  pattern: "^[^/].*[^/]$"
+                file_required:
+                  type: boolean
+                content_type:
+                  type: string
+          zone_required:
+            type: boolean
+  progressive_disclosure:
+    type: object
+    required: ["tier1"]
+    properties:
+      tier1:
+        type: array
+        items:
+          type: object
+          required: ["path", "base"]
+          properties:
+            path: { type: string }
+            base: { type: string, enum: ["skills_root", "skill_dir"] }
+      tier2:
+        type: array
+        items:
+          type: object
+          required: ["path", "base", "load_when"]
+          properties:
+            path: { type: string }
+            base: { type: string, enum: ["skills_root", "skill_dir"] }
+            load_when: { type: string }
+      tier3:
+        type: array
+        items:
+          type: object
+          required: ["path", "base", "load_when"]
+          properties:
+            path: { type: string }
+            base: { type: string, enum: ["skills_root", "skill_dir"] }
+            load_when: { type: string }
+  required_sections:
+    type: array
+    items: { type: string }
+    minItems: 10
+  optional_sections:
+    type: array
+    items: { type: string }
+  handoff:
+    type: object
+    required: ["next_stage", "ready_condition"]
+    properties:
+      next_stage:
+        type: string
+        enum: ["planner"]
+      ready_condition:
+        type: object
+        required: ["required"]
+        properties:
+          required:
+            type: object
+            properties:
+              frontmatter_valid: { type: boolean, const: true }
+              zone_mapping_complete: { type: boolean, const: true }
+              required_sections_present: { type: boolean, const: true }
+              no_blockers: { type: boolean, const: true }
+additionalProperties: false

@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "organization": "Steve Void Team",
+  "date": "2026-08-15",
+  "abstract": "Logging best practices focused on wide events (canonical log lines), Serilog structured logging, high cardinality telemetry, and multi-sink observability for .NET Windows Native applications.",
+  "references": [
+    "https://serilog.net",
+    "https://loggingsucks.com",
+    "https://boristane.com/blog/observability-wide-events-101/",
+    "https://stripe.com/blog/canonical-log-lines"
+  ]
+}
