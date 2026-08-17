@@ -32,6 +32,7 @@ public interface ISchemaManager
 public interface ISchemaDetector
 {
     string? DetectSchemaId(LeadEntity lead, string? rawText = null);
+    SchemaDetectionResult DetectSchemaWithDetails(LeadEntity lead, string? rawText = null);
 }
 
 public interface IFormConverterService
@@ -49,4 +50,3 @@ public interface IFormConverterService
     Result CopyToClipboard(string text);
     Result ClearHistory();
 }
-

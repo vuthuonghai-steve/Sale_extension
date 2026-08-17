@@ -28,6 +28,6 @@ public record ConversionItem
     public string RawInput { get; init; } = string.Empty;
     public LeadEntity Lead { get; init; } = new();
     public Dictionary<string, string> FormattedOutputs { get; init; } = new();
-    public string SelectedSchemaId { get; init; } = string.Empty;
+    public string? SelectedSchemaId { get; init; }
     public DateTime ConvertedAt { get; init; } = DateTime.Now;
 }

@@ -46,7 +46,7 @@ public class MainForm : Form
         _trayManager = trayManager;
 
         // Initialize Screens
-        _leadConverterScreen = new LeadConverterScreen(converterService, schemaManager, settingsService, templateEngine, schemaDetector);
+        _leadConverterScreen = new LeadConverterScreen(converterService, schemaManager, settingsService, templateEngine, schemaDetector, roomCodeRepo);
         _settingsScreen = new SettingsScreen(settingsService, roomCodeRepo);
 
         InitializeSidepanelWindow();
@@ -202,6 +202,7 @@ public class MainForm : Form
         };
         _btnNavSettings.Click += (_, _) =>
         {
+            _settingsScreen.ReloadData();
             ShowScreen(_settingsScreen);
             _btnNavSettings.CustomBackColor = AppColors.Primary;
             _btnNavConverter.CustomBackColor = AppColors.SurfaceHighlight;

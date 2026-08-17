@@ -15,19 +15,31 @@ public class JsonRoomCodeRepository : IRoomCodeRepository
     private readonly string _runtimeFilePath;
     private readonly object _lock = new();
 
-    private readonly ConcurrentDictionary<string, string> _cleanedCodeToSchema = new(StringComparer.OrdinalIgnoreCase);
+    private readonly ConcurrentDictionary<string, List<string>> _cleanedCodeToSchema = new(StringComparer.OrdinalIgnoreCase);
     private Dictionary<string, RoomGroupEntity> _groups = new(StringComparer.OrdinalIgnoreCase);
     private int _version = 1;
     private string _description = "Kho lưu trữ mã phòng cho các Form Schema Output";
 
-    public JsonRoomCodeRepository(ILogger<JsonRoomCodeRepository> logger)
+    public JsonRoomCodeRepository(ILogger<JsonRoomCodeRepository> logger, string? customFilePath = null)
     {
         _logger = logger;
 
-        var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var dir = Path.Combine(appData, "SaleLeadFormConverter");
-        Directory.CreateDirectory(dir);
-        _runtimeFilePath = Path.Combine(dir, "room_codes.json");
+        if (!string.IsNullOrWhiteSpace(customFilePath))
+        {
+            _runtimeFilePath = customFilePath;
+            var dir = Path.GetDirectoryName(_runtimeFilePath);
+            if (!string.IsNullOrEmpty(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+        }
+        else
+        {
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var dir = Path.Combine(appData, "SaleLeadFormConverter");
+            Directory.CreateDirectory(dir);
+            _runtimeFilePath = Path.Combine(dir, "room_codes.json");
+        }
 
         LoadInitialData();
     }
@@ -138,36 +150,71 @@ public class JsonRoomCodeRepository : IRoomCodeRepository
                 var clean = CleanCode(code);
                 if (!string.IsNullOrEmpty(clean))
                 {
-                    _cleanedCodeToSchema[clean] = schemaId;
-                    
+                    AddCodeMapping(clean, schemaId);
+
                     // Thêm biến thể loại bỏ dấu gạch ngang (ví dụ: MN-324 -> MN324)
                     var noHyphen = clean.Replace("-", "");
                     if (noHyphen != clean && !string.IsNullOrEmpty(noHyphen))
                     {
-                        _cleanedCodeToSchema[noHyphen] = schemaId;
+                        AddCodeMapping(noHyphen, schemaId);
                     }
                 }
             }
         }
     }
 
+    private void AddCodeMapping(string cleanCode, string schemaId)
+    {
+        _cleanedCodeToSchema.AddOrUpdate(
+            cleanCode,
+            _ => new List<string> { schemaId },
+            (_, list) =>
+            {
+                lock (list)
+                {
+                    if (!list.Contains(schemaId, StringComparer.OrdinalIgnoreCase))
+                    {
+                        list.Add(schemaId);
+                    }
+                }
+                return list;
+            });
+    }
+
     public string? GetSchemaIdByCode(string roomCode)
     {
-        if (string.IsNullOrWhiteSpace(roomCode)) return null;
+        var schemas = GetSchemaIdsByCode(roomCode);
+        return schemas.Count == 1 ? schemas[0] : null;
+    }
+
+    public IReadOnlyList<string> GetSchemaIdsByCode(string roomCode)
+    {
+        if (string.IsNullOrWhiteSpace(roomCode)) return Array.Empty<string>();
 
         var clean = CleanCode(roomCode);
-        if (_cleanedCodeToSchema.TryGetValue(clean, out var schemaId))
+        if (_cleanedCodeToSchema.TryGetValue(clean, out var list))
         {
-            return schemaId;
+            lock (list)
+            {
+                return list.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+            }
         }
 
         var noHyphen = clean.Replace("-", "");
-        if (noHyphen != clean && _cleanedCodeToSchema.TryGetValue(noHyphen, out var schemaIdNoHyphen))
+        if (noHyphen != clean && _cleanedCodeToSchema.TryGetValue(noHyphen, out var noHyphenList))
         {
-            return schemaIdNoHyphen;
+            lock (noHyphenList)
+            {
+                return noHyphenList.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+            }
         }
 
-        return null;
+        return Array.Empty<string>();
+    }
+
+    public bool HasDuplicateCode(string roomCode)
+    {
+        return GetSchemaIdsByCode(roomCode).Count > 1;
     }
 
     public IReadOnlyList<string> GetCodesBySchema(string schemaId)
@@ -248,11 +295,11 @@ public class JsonRoomCodeRepository : IRoomCodeRepository
                 }
 
                 var clean = CleanCode(code);
-                _cleanedCodeToSchema[clean] = schemaId;
+                AddCodeMapping(clean, schemaId);
                 var noHyphen = clean.Replace("-", "");
-                if (noHyphen != clean)
+                if (noHyphen != clean && !string.IsNullOrEmpty(noHyphen))
                 {
-                    _cleanedCodeToSchema[noHyphen] = schemaId;
+                    AddCodeMapping(noHyphen, schemaId);
                 }
             }
 
@@ -319,10 +366,19 @@ public class JsonRoomCodeRepository : IRoomCodeRepository
                 };
 
                 var json = JsonSerializer.Serialize(registry, options);
-                var tempPath = _runtimeFilePath + ".tmp";
+                var tempPath = _runtimeFilePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
 
                 File.WriteAllText(tempPath, json);
-                File.Move(tempPath, _runtimeFilePath, overwrite: true);
+
+                if (File.Exists(_runtimeFilePath))
+                {
+                    File.Copy(tempPath, _runtimeFilePath, overwrite: true);
+                    try { File.Delete(tempPath); } catch { }
+                }
+                else
+                {
+                    File.Move(tempPath, _runtimeFilePath, overwrite: true);
+                }
 
                 _logger.LogInformation("Kho mã phòng đã được lưu an toàn tại {Path}", _runtimeFilePath);
                 return Result.Success();

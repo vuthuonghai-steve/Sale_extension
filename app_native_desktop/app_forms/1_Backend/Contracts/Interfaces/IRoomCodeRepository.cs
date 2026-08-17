@@ -8,9 +8,20 @@ namespace AppForms.Backend.Contracts.Interfaces;
 public interface IRoomCodeReadOnlyRepository
 {
     /// <summary>
-    /// Tra cứu SchemaId từ mã phòng (O(1) trong bộ nhớ RAM)
+    /// Tra cứu SchemaId từ mã phòng (O(1) trong bộ nhớ RAM).
+    /// Trả về SchemaId nếu chỉ khớp đúng 1 nhóm, hoặc null nếu không tìm thấy / bị trùng lặp nhiều nhóm.
     /// </summary>
     string? GetSchemaIdByCode(string roomCode);
+
+    /// <summary>
+    /// Lấy danh sách tất cả SchemaId chứa mã phòng được cung cấp (phục vụ phát hiện xung đột trùng mã).
+    /// </summary>
+    IReadOnlyList<string> GetSchemaIdsByCode(string roomCode);
+
+    /// <summary>
+    /// Kiểm tra xem mã phòng có tồn tại ở từ 2 nhóm sàn trở lên hay không.
+    /// </summary>
+    bool HasDuplicateCode(string roomCode);
 
     /// <summary>
     /// Lấy danh sách mã phòng của một Schema cụ thể

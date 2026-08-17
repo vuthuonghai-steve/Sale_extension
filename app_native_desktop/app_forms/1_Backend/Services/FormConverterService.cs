@@ -76,9 +76,9 @@ public class FormConverterService : IFormConverterService, IDisposable
     private ConversionItem ProcessLeadInternal(LeadEntity lead, string rawInput, string? targetSchemaId)
     {
         var fixedCtv = _settingsService.Current.FixedCtvName;
-        // Ưu tiên: targetSchemaId truyền vào -> Auto-detect từ lead/rawInput -> Default từ Settings
+        // Ưu tiên: targetSchemaId truyền vào -> Auto-detect từ lead/rawInput (loại bỏ fallback ngầm DefaultSelectedSchemaId)
         var detectedSchemaId = _schemaDetector.DetectSchemaId(lead, rawInput);
-        var selectedSchemaId = targetSchemaId ?? detectedSchemaId ?? _settingsService.Current.DefaultSelectedSchemaId;
+        var selectedSchemaId = targetSchemaId ?? detectedSchemaId;
         var allSchemas = _schemaManager.Schemas;
 
         var outputs = _templateEngine.RenderAll(lead, allSchemas, fixedCtv);

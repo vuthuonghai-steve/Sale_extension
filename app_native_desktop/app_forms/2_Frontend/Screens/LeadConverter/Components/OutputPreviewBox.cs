@@ -50,7 +50,6 @@ public class OutputPreviewBox : Panel
         _btnCopy.Click += (_, _) =>
         {
             CopyRequested?.Invoke();
-            ShowCopySuccess();
         };
         bottomAction.Controls.Add(_btnCopy);
 
@@ -62,7 +61,8 @@ public class OutputPreviewBox : Panel
             BackColor = AppColors.SurfaceInput,
             ForeColor = AppColors.TextPrimary,
             BorderStyle = BorderStyle.FixedSingle,
-            Font = AppFonts.Monospace
+            Font = AppFonts.Monospace,
+            PlaceholderText = "Kết quả định dạng sẽ hiển thị tại đây..."
         };
 
         Controls.Add(_txtOutput);
@@ -73,6 +73,16 @@ public class OutputPreviewBox : Panel
     public void SetOutputText(string text)
     {
         _txtOutput.Text = text;
+        if (string.IsNullOrWhiteSpace(text) || text.StartsWith("⚠️"))
+        {
+            _txtOutput.ForeColor = text.StartsWith("⚠️") ? AppColors.Warning : AppColors.TextSecondary;
+            _btnCopy.Enabled = false;
+        }
+        else
+        {
+            _txtOutput.ForeColor = AppColors.TextPrimary;
+            _btnCopy.Enabled = true;
+        }
     }
 
     public string GetOutputText() => _txtOutput.Text;

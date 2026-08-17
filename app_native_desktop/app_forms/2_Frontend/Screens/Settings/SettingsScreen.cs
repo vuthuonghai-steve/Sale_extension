@@ -75,13 +75,18 @@ public class SettingsScreen : UserControl
             Padding = new Padding(0, 8, 0, 0)
         };
 
-        // Mặc định hiển thị tab Cài đặt chung
         _generalPanel.Dock = DockStyle.Fill;
         _roomCodePanel.Dock = DockStyle.Fill;
         _containerPanel.Controls.Add(_generalPanel);
 
         Controls.Add(_containerPanel);
         Controls.Add(topTabBar);
+    }
+
+    public void ReloadData()
+    {
+        _stateHook.LoadRoomCodes();
+        _stateHook.LoadGeneralSettings();
     }
 
     private void SwitchTab(bool isGeneral)
@@ -97,6 +102,7 @@ public class SettingsScreen : UserControl
         }
         else
         {
+            _stateHook.LoadRoomCodes();
             _containerPanel.Controls.Add(_roomCodePanel);
             _btnTabCodes.CustomBackColor = AppColors.Primary;
             _btnTabCodes.Font = AppFonts.CaptionBold;

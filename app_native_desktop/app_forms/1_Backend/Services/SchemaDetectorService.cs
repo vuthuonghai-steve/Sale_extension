@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AppForms.Backend.Contracts.Entities;
 using AppForms.Backend.Contracts.Interfaces;
+using AppForms.Shared.Enums;
 
 namespace AppForms.Backend.Services;
 
@@ -17,57 +18,71 @@ public class SchemaDetectorService : ISchemaDetector
 
     public string? DetectSchemaId(LeadEntity lead, string? rawText = null)
     {
-        // 1. Kiểm tra ưu tiên theo RoomCode nếu có
+        var result = DetectSchemaWithDetails(lead, rawText);
+        return result.Status == SchemaDetectionStatus.ExactMatch ? result.MatchedSchemaId : null;
+    }
+
+    public SchemaDetectionResult DetectSchemaWithDetails(LeadEntity lead, string? rawText = null)
+    {
+        // === LAYER 1: RoomCode Tra cứu & Phân giải ===
         if (!string.IsNullOrWhiteSpace(lead.RoomCode))
         {
-            // === LAYER 1: Prefix Pattern Matching (O(1) Regex/Prefix) ===
+            // 1.1. Prefix Signature Pattern Matching (O(1) Regex/Prefix)
             var detectedFromPrefix = DetectFromPrefixSignature(lead.RoomCode);
             if (detectedFromPrefix != null)
             {
-                return detectedFromPrefix;
+                return SchemaDetectionResult.Exact(detectedFromPrefix);
             }
 
-            // === LAYER 2: In-Memory Code Registry Lookup (O(1) RAM) ===
-            var detectedFromRepo = _roomCodeRepo.GetSchemaIdByCode(lead.RoomCode);
-            if (detectedFromRepo != null)
+            // 1.2. Tra cứu In-Memory Code Registry (O(1) RAM)
+            var candidates = _roomCodeRepo.GetSchemaIdsByCode(lead.RoomCode);
+            if (candidates.Count == 1)
             {
-                return detectedFromRepo;
+                return SchemaDetectionResult.Exact(candidates[0]);
+            }
+            if (candidates.Count > 1)
+            {
+                var groupNames = candidates
+                    .Select(id => _roomCodeRepo.GetGroupName(id) ?? id)
+                    .ToList();
+                var conflictMsg = $"Mã '{lead.RoomCode}' thuộc nhiều sàn ({string.Join(", ", groupNames)}). Vui lòng chọn sàn thủ công.";
+                return SchemaDetectionResult.Conflict(candidates, conflictMsg);
             }
         }
 
-        // === LAYER 3: Kiểm tra theo TeamName ===
+        // === LAYER 2: Kiểm tra theo TeamName ===
         if (!string.IsNullOrWhiteSpace(lead.TeamName))
         {
             var detectedFromTeam = DetectFromKeyword(lead.TeamName);
             if (detectedFromTeam != null)
             {
-                return detectedFromTeam;
+                return SchemaDetectionResult.Exact(detectedFromTeam);
             }
         }
 
-        // === LAYER 3 (tiếp): Quét rawText nếu được cung cấp ===
+        // === LAYER 3: Quét rawText nếu được cung cấp ===
         if (!string.IsNullOrWhiteSpace(rawText))
         {
             // Kiểm tra các mẫu regex mã phòng trong rawText
             // Ví dụ: Mn35, Mn 35, Ts007, NT023
             var matchMn = Regex.Match(rawText, @"\bmn\s*\d+", RegexOptions.IgnoreCase);
-            if (matchMn.Success) return "lusaco";
+            if (matchMn.Success) return SchemaDetectionResult.Exact("lusaco");
 
             var matchTs = Regex.Match(rawText, @"\bts\s*\d+", RegexOptions.IgnoreCase);
-            if (matchTs.Success) return "hd_homes";
+            if (matchTs.Success) return SchemaDetectionResult.Exact("hd_homes");
 
             var matchNt = Regex.Match(rawText, @"\bnt\s*\d+", RegexOptions.IgnoreCase);
-            if (matchNt.Success) return "nt_home";
+            if (matchNt.Success) return SchemaDetectionResult.Exact("nt_home");
 
             // Kiểm tra từ khóa sàn trong rawText
             var detectedFromRaw = DetectFromKeyword(rawText);
             if (detectedFromRaw != null)
             {
-                return detectedFromRaw;
+                return SchemaDetectionResult.Exact(detectedFromRaw);
             }
         }
 
-        return null;
+        return SchemaDetectionResult.NotFoundResult("Chưa nhận diện được sàn phù hợp từ mã phòng.");
     }
 
     private static string? DetectFromPrefixSignature(string roomCode)
