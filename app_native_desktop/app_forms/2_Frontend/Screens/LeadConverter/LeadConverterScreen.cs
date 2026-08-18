@@ -2,6 +2,7 @@ using AppForms.Backend.Contracts.Entities;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Frontend.Screens.LeadConverter.Components;
 using AppForms.Frontend.Screens.LeadConverter.Hooks;
+using AppForms.Frontend.Shared.Components;
 using AppForms.Frontend.Shared.Hooks;
 using AppForms.Frontend.Shared.Theme;
 
@@ -44,10 +45,9 @@ public class LeadConverterScreen : UserControl
     {
         Dock = DockStyle.Fill;
         BackColor = AppColors.BackgroundDark;
-        AutoScroll = true;
-        Padding = new Padding(10);
+        Padding = new Padding(8, 8, 2, 8);
 
-        var contentStack = new Panel { Dock = DockStyle.Top, AutoSize = true, BackColor = AppColors.BackgroundDark };
+        var scrollPanel = new SlimScrollPanel { Dock = DockStyle.Fill };
 
         _tabs = new SchemaSelectorTabs();
         _tabs.LoadSchemas(_schemaManager.Schemas, _stateHook.ActiveSchemaId);
@@ -56,12 +56,14 @@ public class LeadConverterScreen : UserControl
         _previewBox = new OutputPreviewBox();
         _historyBox = new RecentHistoryBox();
 
-        contentStack.Controls.Add(_historyBox);
-        contentStack.Controls.Add(_previewBox);
-        contentStack.Controls.Add(_fieldEditor);
-        contentStack.Controls.Add(_rawInputBox);
-        contentStack.Controls.Add(_tabs);
-        Controls.Add(contentStack);
+        // Thêm vào scrollPanel.Content theo thứ tự Z-order Dock Top từ dưới lên trên
+        scrollPanel.Content.Controls.Add(_historyBox);
+        scrollPanel.Content.Controls.Add(_previewBox);
+        scrollPanel.Content.Controls.Add(_fieldEditor);
+        scrollPanel.Content.Controls.Add(_rawInputBox);
+        scrollPanel.Content.Controls.Add(_tabs);
+
+        Controls.Add(scrollPanel);
     }
 
     private void RegisterEvents()

@@ -3,7 +3,7 @@ namespace AppForms.Shared.Constants;
 public static class AppConstants
 {
     public const string AppName = "Sale Lead Form Converter";
-    public const string AppVersion = "1.0.0";
+    public const string AppVersion = "1.1.0";
     public const string DefaultCtvName = "Thiên Ngọc";
     public const string SettingsFileName = "form_settings.json";
 

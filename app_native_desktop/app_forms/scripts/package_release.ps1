@@ -1,5 +1,5 @@
 param (
-    [string]$Version = "1.0.0",
+    [string]$Version = "1.1.0",
     [string]$Configuration = "Release",
     [string]$Runtime = "win-x64"
 )
@@ -66,6 +66,17 @@ Copy-Item $exePath -Destination $packageFolderPath -Force
 $assetsDir = Join-Path $projectRoot "Assets"
 if (Test-Path $assetsDir) {
     Copy-Item $assetsDir -Destination (Join-Path $packageFolderPath "Assets") -Recurse -Force
+}
+
+# Copy thu muc 0_Shared/Data (chua room_codes.json va data mac dinh)
+$sharedDataDir = Join-Path $projectRoot "0_Shared\Data"
+if (Test-Path $sharedDataDir) {
+    $targetSharedDataDir = Join-Path $packageFolderPath "0_Shared\Data"
+    if (-not (Test-Path $targetSharedDataDir)) {
+        New-Item -ItemType Directory -Path $targetSharedDataDir -Force | Out-Null
+    }
+    Copy-Item "$sharedDataDir\*" -Destination $targetSharedDataDir -Recurse -Force
+    Write-Host "  -> Da copy 0_Shared/Data vao goi phat hanh" -ForegroundColor DarkGray
 }
 
 # Copy cac file Batch va Huong dan tu scripts/distribution

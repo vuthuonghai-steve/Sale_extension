@@ -71,7 +71,7 @@ public class RawInputBox : Panel
         {
             Dock = DockStyle.Fill,
             Multiline = true,
-            ScrollBars = ScrollBars.Vertical,
+            ScrollBars = ScrollBars.None,
             BackColor = AppColors.SurfaceInput,
             ForeColor = AppColors.TextPrimary,
             BorderStyle = BorderStyle.FixedSingle,

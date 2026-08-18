@@ -1,3 +1,4 @@
+using AppForms.Frontend.Shared.Components;
 using AppForms.Frontend.Shared.Theme;
 using Serilog;
 
@@ -69,17 +70,25 @@ public class RoomCodeListCard : Panel
         listHeader.Controls.Add(_txtSearch);
         listHeader.Controls.Add(_lblGroupStats);
 
-        _flowCodes = new FlowLayoutPanel
+        var scrollPanel = new SlimScrollPanel
         {
             Dock = DockStyle.Fill,
-            AutoScroll = true,
+            BackColor = AppColors.SurfaceInput
+        };
+
+        _flowCodes = new FlowLayoutPanel
+        {
+            Dock = DockStyle.Top,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
             WrapContents = true,
             BackColor = AppColors.SurfaceInput,
             Padding = new Padding(6),
             BorderStyle = BorderStyle.None
         };
+        scrollPanel.Content.Controls.Add(_flowCodes);
 
-        Controls.Add(_flowCodes);
+        Controls.Add(scrollPanel);
         Controls.Add(listHeader);
     }
 

@@ -20,15 +20,16 @@ public class SettingsGeneralPanel : Panel
 
     private void InitializeUI()
     {
-        Dock = DockStyle.Fill;
-        BackColor = AppColors.BackgroundDark;
-        AutoScroll = true;
-        Padding = new Padding(12);
+        Padding = new Padding(8, 8, 2, 8);
+
+        var scrollPanel = new SlimScrollPanel { Dock = DockStyle.Fill };
 
         var cardPanel = new Panel
         {
             Dock = DockStyle.Top,
+            Height = 220,
             AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
             BackColor = AppColors.SurfaceDark,
             Padding = new Padding(14)
         };
@@ -95,7 +96,8 @@ public class SettingsGeneralPanel : Panel
         cardPanel.Controls.Add(_txtCtvName);
         cardPanel.Controls.Add(lblCtv);
 
-        Controls.Add(cardPanel);
+        scrollPanel.Content.Controls.Add(cardPanel);
+        Controls.Add(scrollPanel);
     }
 
     public void BindData(SettingsFormModel model)
