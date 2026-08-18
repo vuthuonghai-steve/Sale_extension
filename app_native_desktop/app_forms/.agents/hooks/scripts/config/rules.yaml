@@ -1,0 +1,45 @@
+version: "1.0"
+project: "AppForms"
+
+limits:
+  screen_max_lines: 150
+  component_max_lines: 300
+  hook_max_lines: 350
+  service_max_lines: 500
+
+placeholder:
+  patterns:
+    - "//\\s*TODO"
+    - "//\\s*FIXME"
+    - "throw\\s+new\\s+NotImplementedException"
+    - "Console\\.WriteLine\\s*\\("
+    - "Debug\\.WriteLine\\s*\\("
+  exclude_paths:
+    - "**/bin/**"
+    - "**/obj/**"
+    - "**/Logs/**"
+    - "**/dist/**"
+    - "**/.agents/**"
+    - "**/.gemini/**"
+    - "**/*.jsonl"
+  scan_paths:
+    - "0_Shared/"
+    - "1_Backend/"
+    - "2_Frontend/"
+
+architecture_boundaries:
+  backend_forbidden_namespaces:
+    - "System.Windows.Forms"
+    - "AppForms.Frontend"
+  shared_forbidden_namespaces:
+    - "AppForms.Backend"
+    - "AppForms.Frontend"
+    - "System.Windows.Forms"
+
+contract_lock:
+  protected_paths:
+    - "1_Backend/Contracts/Interfaces/"
+    - "1_Backend/Contracts/Schemas/"
+
+verify:
+  build_command: "dotnet build AppForms.csproj -c Debug"

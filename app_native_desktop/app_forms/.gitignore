@@ -1,6 +1,10 @@
-.claude 
+.claude
 
 bin/
 publish/
 obj/
 Logs/*
+.agents/hooks/logs/
+__pycache__/
+*.pyc
+

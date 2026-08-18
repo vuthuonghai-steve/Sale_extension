@@ -1,49 +1,51 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.0.0",
-  "hooks": {
-    "on_session_start": [
+  "remind-domain-anchor": {
+    "enabled": true,
+    "PreInvocation": [
       {
-        "name": "Remind Domain Anchor",
-        "description": "Nhắc nhở agent về miền nghiệp vụ, quy chuẩn kiến trúc và dữ liệu cốt lõi của AppForms.",
-        "script": "python .agents/hooks/remind_domain_anchor.py",
-        "blocking": false
+        "type": "command",
+        "command": "python ./hooks/scripts/pre_invocation/remind_domain_anchor.py",
+        "timeout": 15
       }
-    ],
-    "pre_file_edit": [
+    ]
+  },
+  "gate-pre-tool-checks": {
+    "enabled": true,
+    "PreToolUse": [
       {
-        "name": "Gate Contract Lock Check",
-        "description": "Cảnh báo khi agent thao tác trên các interface/contract quan trọng.",
-        "script": "python .agents/hooks/gate_contract_lock.py \"$FILE_PATH\"",
-        "blocking": false
+        "matcher": "write_to_file|replace_file_content|multi_replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python ./hooks/scripts/pre_tool_use/gate_placeholder_pre.py",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "python ./hooks/scripts/pre_tool_use/gate_contract_lock.py",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "python ./hooks/scripts/pre_tool_use/gate_screen_limit.py",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "python ./hooks/scripts/pre_tool_use/gate_arch_boundary.py",
+            "timeout": 30
+          }
+        ]
       }
-    ],
-    "post_file_edit": [
+    ]
+  },
+  "gate-stop-verify": {
+    "enabled": true,
+    "Stop": [
       {
-        "name": "Gate Placeholder & Stub Checker",
-        "description": "Kiểm tra không để lại code stub, TODO, hoặc NotImplementedException.",
-        "script": "python .agents/hooks/gate_placeholder_pre.py \"$FILE_PATH\"",
-        "blocking": true
-      },
-      {
-        "name": "Gate Screen Line Count Limit",
-        "description": "Kiểm tra kích thước file Screen không vượt quá 150 dòng và Component không quá 300 dòng.",
-        "script": "python .agents/hooks/gate_screen_limit.py \"$FILE_PATH\"",
-        "blocking": true
-      },
-      {
-        "name": "Gate Architecture Boundary",
-        "description": "Kiểm tra không vi phạm phụ thuộc giữa các tầng kiến trúc.",
-        "script": "python .agents/hooks/gate_arch_boundary.py \"$FILE_PATH\"",
-        "blocking": true
-      }
-    ],
-    "on_task_finish": [
-      {
-        "name": "Gate Stop & Build Verification",
-        "description": "Xác minh biên dịch dự án không có lỗi trước khi hoàn tất task.",
-        "script": "python .agents/hooks/gate_stop_verify.py",
-        "blocking": true
+        "type": "command",
+        "command": "python ./hooks/scripts/stop/gate_stop_verify.py",
+        "timeout": 60
       }
     ]
   }
