@@ -1,168 +1,183 @@
-Viewed SKILL.md:1-150
-Listed directory rules
-Listed directory hooks
-Viewed rules.yaml:1-32
-Viewed gate_arch_boundary.py:1-68
-Viewed 06_code-quality-and-gates.md:1-49
-Viewed remind_domain_anchor.py:1-30
-Viewed trade-off-dimensions.md:1-71
-Viewed decision-reversibility.md:1-62
+Viewed SKILL.md:1-174
+Ran command: `git status`
+Ran command: `git diff`
+Ran command: `git status -s`
+Ran command: `Get-ChildItem -Recurse -File "0_Shared/Models", "1_Backend/Services/MessageFilter", "2_Frontend/Screens/MessageFilter", "Tests/MessageFilter" | Select-Object FullName`
+Ran command: `Get-ChildItem -Recurse -File "0_Shared", "1_Backend", "2_Frontend", "Tests" | Resolve-Path -Relative`
+Ran command: `dotnet test`
+Ran command: `dotnet test --logger "console;verbosity=normal"`
+Ran command: `dotnet test Tests/AppForms.Tests.csproj`
+Ran command: `Get-ChildItem -Recurse "0_Shared\Models" | Select-Object FullName`
+Ran command: `Get-ChildItem -Recurse "0_Shared\Models", "1_Backend", "2_Frontend\Screens\MessageFilter", "2_Frontend\Screens\Settings" | Select-Object FullName | Format-Table -Wrap`
+Ran command: `Get-ChildItem "0_Shared\Models\MessageFilter" | Select-Object Name`
+Viewed ClipboardDataPayload.cs:1-12
+Viewed FilterExecutionReport.cs:1-14
+Viewed FilterPipelineOptions.cs:1-48
+Viewed AppSettings.cs:1-17
+Viewed IClipboardFilter.cs:1-34
+Viewed IFilterPipelineOrchestrator.cs:1-50
+Viewed Win32ClipboardAdapter.cs:1-141
+Viewed ClipboardPipelineManager.cs:1-106
+Viewed PipelineOrchestratorService.cs:1-158
+Viewed FilterRegexPatterns.cs:1-142
+Viewed UnicodeSanitizerFilter.cs:1-30
+Viewed ReplyQuoteFilter.cs:1-22
+Viewed ZaloStickerFilter.cs:1-48
+Viewed BrandRegexFilter.cs:1-44
+Viewed CommissionRegexFilter.cs:1-73
+Viewed UrlSanitizerFilter.cs:1-45
+Viewed MessageCleanerScreen.cs:1-86
+Viewed FilterToggleSwitchPanelComponent.cs:1-152
+Viewed LiveClipboardPreviewComponent.cs:1-169
+Viewed PipelineExecutionLogComponent.cs:1-100
+Viewed MessageCleanerStateHook.cs:1-109
+Viewed MessageCleanerFormModel.cs:1-13
+Viewed SettingsMessageFilterPanel.cs:1-200
+Viewed SettingsStateHook.cs:1-187
+Viewed SettingsScreen.cs:1-106
+Viewed MainForm.cs:1-325
+Viewed Program.cs:1-257
+Viewed 01_Message_Regex_Extractor_Packaging_Spec.md:1-81
+Ran command: `Get-ChildItem "Tests\MessageFilter" | Select-Object Name`
 
-# 🏛️ Báo Cáo Phân Tích Đánh Đổi Kiến Trúc: Thiết Kế Rule Mềm (Prompt) vs Rule Cứng (Hooks/Gates) Cho AI Agents
+# 📊 BÁO CÁO PHÂN TÍCH THAY ĐỔI DỰ ÁN & REVIEW CHUYÊN SÂU MODULE BỘ LỌC TIN NHẮN (MESSAGE FILTER PIPELINE)
 
-> **Được thực hiện bởi:** Senior Systems Architect & Technical Trade-off Specialist (theo tiêu chuẩn [`technical-tradeoff-analyzer`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/SKILL.md)).
-> **Ngữ cảnh kiểm chứng:** Hệ thống workspace [`.agents/rules`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/rules) và [`.agents/hooks`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/hooks).
+## 1. 🚀 TỔNG QUAN PHÂN TÍCH THAY ĐỔI DỰ ÁN (PROJECT CHANGES ANALYSIS)
 
-## 1. Bản Chất Từ Nguyên Lý Đầu Tiên (First Principles)
+Dự án đã được mở rộng và tích hợp hoàn chỉnh **Module Lọc & Làm Sạch Tin Nhắn Clipboard Tự Động (Clipboard Message Filter & Regex Sanitizer Pipeline)**, phục vụ việc xử lý, tách bỏ các thông tin rác, thương hiệu nội bộ, hoa hồng môi giới, bonus, quote Zalo khi sao chép dữ liệu từ các ứng dụng nhắn tin/sàn BĐS.
 
-Trong quá trình điều khiển và định hướng AI Agent (LLM), bản chất của hai phương thức kiểm soát này khác nhau hoàn toàn về mặt vật lý:
-
-```mermaid
-flowchart TD
- subgraph SoftRules["📝 Rule Mềm (Text / Markdown Prompts)"]
- S1["Bản chất: Xác suất (Stochastic)"] --> S2["Cơ chế: Huấn luyện sự chú ý (Attention Weight)"]
- S2 --> S3["Điểm yếu: Context Dilution & ảo giác khi Prompt quá dài"]
- end
-
- subgraph HardRules["🛡️ Rule Cứng (Hooks / Deterministic Scripts)"]
- H1["Bản chất: Nhị phân (Deterministic 0/1)"] --> H2["Cơ chế: Chặn tại cổng I/O (Exit Code 0 vs 1)"]
- H2 --> H3["Điểm yếu: Cứng nhắc, không hiểu được ngữ cảnh mở rộng"]
- end
-
- SoftRules -.->|Định hướng tư duy| Agent["🤖 AI Agent (Tạo mã nguồn)"]
- Agent --> Output["Output Code / Action"]
- Output --> HardRules
- HardRules -->|Fail: Chặn ngay lập tức| Rollback["❌ Reject & Bắt sửa lại"]
- HardRules -->|Pass| Success["✅ Approve & Commit"]
-```
-
-1. **Rule mềm (Text Rules trong [`.agents/rules`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/rules))**:
- - **Bản chất**: Mang tính **xác suất (probabilistic)**. LLM tiếp nhận như một chỉ dẫn ngữ nghĩa để "điều hướng vector chú ý".
- - **Ưu thế**: Linh hoạt, hiểu được sắc thái ngữ nghĩa (nuance), giải thích được lý do tại sao, hướng dẫn cách tư duy giải quyết vấn đề phức tạp.
- - **Giới hạn**: Không bao giờ đảm bảo tính tuân thủ 100%. Khi context dài hoặc gặp edge-cases phức tạp, hiện tượng *Context Drift* và *Prompt Fatigue* sẽ xảy ra.
-2. **Rule cứng / Gate chặn (Script Hooks trong [`.agents/hooks`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/hooks))**:
- - **Bản chất**: Mang tính **tất định nhị phân (deterministic boolean)**. Đúng là qua (`exit 0`), sai là chặn đứng (`exit 1`).
- - **Ưu thế**: Độ tin cậy 100%, bảo vệ tuyệt đối các ranh giới sống còn (Security, Build Integrity, Clean Boundaries) mà không cần bận tâm LLM "quên" hay "ảo giác".
- - **Giới hạn**: Cần chi phí lập trình script, chỉ kiểm tra được những thứ có thể quy đổi ra giải thuật/mẫu hình cụ thể (computable patterns).
-
-## 2. Khung Nhận Diện: Khi Nào Dùng Rule Mềm vs Khi Nào Dùng Rule Cứng?
-
-Để quyết định một quy tắc nên viết dưới dạng **Text Rule** hay lập trình thành **Hook Script**, ta dựa vào **4 tiêu chí định lượng**:
-
-```mermaid
-flowchart TD
- Q1{"1. Có thể đo lường / kiểm tra bằng giải thuật cụ thể (Regex, AST, Line count, Exit code) không?"}
- Q1 -- "Không (Cần suy luận ngữ nghĩa)" --> Soft["📝 Dùng Rule Mềm (Text / Markdown)"]
- Q1 -- "Có" --> Q2{"2. Rủi ro / Bán kính ảnh hưởng (Blast Radius) khi vi phạm có từ Level 3-4 (Sập app, hỏng build, leak bộ nhớ) không?"}
-
- Q2 -- "Có (Bắt buộc 100% tuân thủ)" --> Hard["🛡️ Dùng Rule Cứng (Script Hook / Gate)"]
- Q2 -- "Không (Mức độ gợi ý phong cách)" --> Q3{"3. Tần suất vi phạm của LLM có cao và lặp đi lặp lại không?"}
-
- Q3 -- "Cao (Gây lãng phí vòng lặp sửa code)" --> Hard
- Q3 -- "Thấp (Gợi ý style, format code)" --> Soft
-```
-
-### Bảng Tiêu Chí Phân Định Chi Tiết:
-
-| Đặc Tính | 📝 Khi Nào Nên Dùng Rule Mềm (Text) | 🛡️ Khi Nào Phải Dùng Rule Cứng (Hook Script) |
-| :--- | :--- | :--- |
-| **Tính khả toán (Computability)** | Quy tắc mang tính **đánh giá chủ quan** hoặc ngữ cảnh mở rộng (ví dụ: *Tên biến phải có ý nghĩa*, *Thiết kế API theo phong cách RESTful*). | Quy tắc có thể **định lượng chính xác** (ví dụ: *Không chứa `NotImplementedException`*, *Screen $\le 150$ dòng*). |
-| **Phân loại quyết định** | **Type 2 Decision (Khả nghịch)**: Vi phạm chỉ ảnh hưởng nhỏ đến style, dễ sửa sau đó. | **Type 1 Decision (Bất khả nghịch)**: Vi phạm làm hỏng kiến trúc tầng, vỡ Data Model hoặc lỗi compile. |
-| **Bán kính ảnh hưởng (Blast Radius)** | Level 1: Lỗi cục bộ, không gây crash ứng dụng. | Level 3 - Level 4: Crash runtime, compile error, vi phạm ranh giới phân tầng clean 3-layer. |
-| **Mục đích tương tác** | **Hướng dẫn (Guiding & Teaching)**: Giúp LLM biết *phải làm như thế nào* và *tại sao làm vậy*. | **Thực thi kỷ luật (Enforcing & Gating)**: Đóng vai trò là bức tường thành ngăn chặn code lỗi đi vào codebase. |
-
-## 3. Ma Trận Đánh Đổi 6 Chiều (Multi-Dimensional Trade-off Matrix)
-
-| Trục Đánh Đổi | Phương Án 1: Chỉ Dùng Rule Mềm (Pure Text Prompts) | Phương Án 2: Chỉ Dùng Rule Cứng (Pure Script Hooks) | Phương Án 3: Kiến Trúc Phòng Thủ Kép (Dual-Layer: Soft + Hard) |
-| :--- | :--- | :--- | :--- |
-| **1. Độ tin cậy (Enforcement Safety)** | 🔴 Thấp (70% - 90%, phụ thuộc mô hình & độ dài context) | 🟢 Tuyệt đối (100% không cho code lỗi đi qua) | 🟢 **Tuyệt đối**: Rule mềm giảm tỷ lệ lỗi lúc sinh code, Hook cứng bắt dính 100% lỗi sót lại. |
-| **2. Độ phức tạp duy trì (Cognitive & Dev Cost)** | 🟢 Cực thấp (Chỉ cần viết file `.md`) | 🔴 Cao (Phải code Python/Bash/Regex để parse file) | 🟡 **Cân bằng**: Chỉ viết Hook cho 5-7 quy tắc cốt lõi mang tính sống còn. |
-| **3. Token Consumption & Latency** | 🔴 Tốn context window nếu viết quá nhiều rules text | 🟢 Tiết kiệm token (chỉ chạy script ngoại vi khi trigger) | 🟢 **Tối ưu**: Rule text giữ ngắn gọn định hướng, Hook script chạy sau nền tảng. |
-| **4. Ranh giới kiến trúc (Modularity)** | 🟡 Dễ bị vi phạm âm thầm nếu prompt bị trôi | 🟢 Ngăn chặn ngay lập tức tại ranh giới tầng | 🟢 **Bảo vệ toàn vẹn** Clean 3-layer boundaries. |
-| **5. Khả năng kiểm thử (Testability)** | 🔴 Khó kiểm thử tự động xem AI có "hiểu" prompt không | 🟢 Test được 100% bằng script unit tests | 🟢 **Dễ dàng kiểm chứng** tính hiệu lực của Gate. |
-| **6. Trải nghiệm tương tác (DX & Feedback Loop)** | 🟡 AI không biết mình sai ở đâu trừ khi user nhắc | 🔴 Nếu không có giải thích, AI sẽ bế tắc không biết cách sửa | 🟢 **Lý tưởng**: Hook in ra lỗi cụ thể + trỏ về Rule text để AI tự sửa. |
-
-## 4. Kiểm Chứng Thực Tế Trong Workspace AppForms
-
-Tại workspace hiện tại của bạn, mô hình **Phòng thủ kép (Dual-Layer Defense)** đã được định hình xuất sắc qua sự kết hợp giữa các rule text trong [`.agents/rules`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/rules) và các gate script trong [`.agents/hooks`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/hooks):
-
-```mermaid
-graph LR
- subgraph SoftRulesFolder[".agents/rules/ (Tài liệu Hướng dẫn)"]
- R1["02_architecture-and-flow.md"]
- R2["03_component-driven-ui-conventions.md"]
- R3["06_code-quality-and-gates.md"]
- R4["01_llm-core-principles.md"]
- end
-
- subgraph HardHooksFolder[".agents/hooks/ (Chốt chặn Cơ học)"]
- H1["gate_arch_boundary.py"]
- H2["gate_screen_limit.py"]
- H3["gate_placeholder_pre.py"]
- H4["remind_domain_anchor.py"]
- end
-
- R1 <-->|Song hành| H1
- R2 <-->|Song hành| H2
- R3 <-->|Song hành| H3
- R4 <-->|Bổ trợ| H4
-```
-
-### Bóc tách các cặp song hành cụ thể:
-
-### 1. Ranh giới kiến trúc phân tầng (Clean 3-Layer Boundaries)
-- **Rule Mềm**: [`02_architecture-and-flow.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/rules/02_architecture-and-flow.md) giải thích triết lý tại sao `1_Backend` không được phụ thuộc WinForms UI.
-- **Rule Cứng**: [`gate_arch_boundary.py`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/hooks/gate_arch_boundary.py) phân tích AST/Regex dòng `using System.Windows.Forms;` trong các file `1_Backend/`. Nếu phát hiện, script trả về `exit 1` và từ chối lưu file.
-
-### 2. Chất lượng mã nguồn không Placeholder (Zero-Stub Policy)
-- **Rule Mềm**: [`06_code-quality-and-gates.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/rules/06_code-quality-and-gates.md) nêu rõ tiêu chuẩn cấm để lại `TODO` hoặc hàm rỗng.
-- **Rule Cứng**: [`gate_placeholder_pre.py`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/hooks/gate_placeholder_pre.py) quét các pattern cấm được cấu hình trong [`rules.yaml`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/hooks/rules.yaml) (`throw new NotImplementedException`, `Console.WriteLine`).
-
-### 3. Kích thước Screen & UI Component (Maintainability Limit)
-- **Rule Mềm**: [`03_component-driven-ui-conventions.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/rules/03_component-driven-ui-conventions.md) hướng dẫn cách tách UI thành `Components/` và `Hooks/` khi giao diện phình to.
-- **Rule Cứng**: [`gate_screen_limit.py`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/hooks/gate_screen_limit.py) đếm dòng vật lý thực tế: Root Screen vượt $150$ dòng hoặc Component vượt $300$ dòng sẽ bị chặn ngay lập tức.
-
-### 4. Bơm ngữ cảnh nghiệp vụ cốt lõi (Context Ingestion Hook)
-- **Hook Hỗ trợ**: [`remind_domain_anchor.py`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/hooks/remind_domain_anchor.py) không đóng vai trò chặn lỗi (gate) mà đóng vai trò **Active Reminder** — tự động in ra dữ liệu cốt lõi (Lead Form, Room Codes, Schemas) vào luồng thực thi để AI không bị quên Domain.
-
-## 5. Phản Biện Ngược (Reverse Probing): 4 Cạm Bẫy Khi Thiết Kế Hooks
-
-Khi xây dựng Hook/Gate cho AI Agent, nếu thiết kế không chuẩn sẽ dẫn đến các **Failure Modes** sau:
-
-1. **Failure Mode 1: The "Silent Loop Deadlock" (Vòng lặp sửa sai vô tận)**:
- - *Hiện tượng*: Hook trả về lỗi `exit 1` nhưng thông báo lỗi quá ngắn ngủi (ví dụ: `Error: Validation failed`). AI không hiểu sai ở dòng nào và vi phạm quy tắc gì, dẫn đến AI thử sửa ngẫu nhiên và bị chặn lặp đi lặp lại.
- - *Phòng ngừa*: Hook bắt buộc phải in ra: **(1) File & Dòng vi phạm**, **(2) Nội dung vi phạm**, **(3) Hướng dẫn cách khắc phục cụ thể** (trỏ tới file rule tương ứng).
-2. **Failure Mode 2: The "Over-Constrained Gate" (Chốt chặn quá chặt làm tê liệt sáng tạo)**:
- - *Hiện tượng*: Biến toàn bộ quy tắc style/formatting thành Hard Gate khiến AI không thể viết nổi một đoạn code thử nghiệm đơn giản.
- - *Phòng ngừa*: Chỉ đặt Hard Gate cho **Negative Constraints sống còn** (Build pass, Layer Boundary, Security, No Placeholder). Các vấn đề về logic nghiệp vụ hãy để cho Unit Test và Rule mềm xử lý.
-3. **Failure Mode 3: The "Slow Hook Bottleneck" (Hook chạy quá chậm làm đơ luồng làm việc)**:
- - *Hiện tượng*: Mỗi khi sửa 1 file, hook lại chạy toàn bộ test suite tốn 30 giây.
- - *Phòng ngừa*: Phân cấp Hook: Pre-save hook chỉ kiểm tra tĩnh (Regex/AST $< 50\text{ms}$), Stop/Post-task hook mới chạy build & test tổng thể (`dotnet build`).
-4. **Failure Mode 4: The "False Positive Rejection" (Chặn nhầm mã nguồn hợp lệ)**:
- - *Hiện tượng*: Quét chuỗi `TODO` quá đà khiến chuỗi `// TODO: Document why this regex handles edge case` trong comment giải thích cũng bị chặn.
- - *Phòng ngừa*: Dùng regex có ngữ cảnh rõ ràng (ví dụ: `// TODO: Implement` hoặc `throw new NotImplementedException`).
-
-## 6. Quy Trình 4 Bước Chuẩn Hóa Để Ra Quyết Định Biến Rule Thành Hook
-
-Khi bạn muốn thêm một quy tắc mới vào hệ thống Agent, hãy đi qua Checklist này:
+### Bảng tổng hợp các file thay đổi & bổ sung theo phân tầng kiến trúc
 
 ```
-[ ] Bước 1: Viết quy tắc đó thành Rule Mềm trong .agents/rules/*.md trước.
- Quan sát xem AI có thường xuyên tuân thủ tự nhiên không.
-
-[ ] Bước 2: Đánh giá tần suất vi phạm và rủi ro.
- - Nếu AI tuân thủ tốt (>95%) hoặc rủi ro thấp -> Giữ nguyên ở Rule Mềm.
- - Nếu AI hay quên (>20% vi phạm) HOẶC nếu vi phạm sẽ làm gãy kiến trúc/sập app -> Chuyển sang Bước 3.
-
-[ ] Bước 3: Kiểm tra tính khả toán (Computability).
- - Quy tắc có thể kiểm tra bằng: Regex, Line count, File AST, Import using, hay dotnet build không?
- - Nếu CÓ -> Viết script kiểm tra trong .agents/hooks/gate_*.py.
-
-[ ] Bước 4: Thiết lập thông điệp phản hồi (Actionable Error Message).
- - Đảm bảo script in ra thông báo rõ ràng kèm gợi ý cách sửa để AI tự sửa được trong lần thử tiếp theo.
+app_forms/
+├── 0_Shared/Models/MessageFilter/ [NEW] DTOs & Models thuần túy
+│ ├── ClipboardDataPayload.cs (Record payload trung chuyển giữa các tầng)
+│ ├── FilterExecutionReport.cs (Record kết quả chi tiết & telemetry)
+│ └── FilterPipelineOptions.cs (Cấu hình bật/tắt các quy tắc lọc)
+├── 1_Backend/
+│ ├── Contracts/
+│ │ ├── Entities/AppSettings.cs [MODIFY] Thêm MessageFilterOptions vào settings
+│ │ └── Interfaces/
+│ │ ├── IClipboardFilter.cs [NEW] Hợp đồng thuần túy cho từng Sub-Filter
+│ │ └── IFilterPipelineOrchestrator.cs [NEW] Hợp đồng điều phối động cơ Pipeline
+│ ├── Adapters/Win32/
+│ │ └── Win32ClipboardAdapter.cs [NEW] Native API giao tiếp Win32 Clipboard (Retry backoff)
+│ └── Services/MessageFilter/ [NEW] Động cơ lọc Pipeline & 6 Sub-Modules
+│ ├── ClipboardPipelineManager.cs (Composite Manager điều phối chuỗi bộ lọc)
+│ ├── PipelineOrchestratorService.cs (Service nền bắt sự kiện WM_CLIPBOARDUPDATE & ghi đè)
+│ ├── Helpers/FilterRegexPatterns.cs (Hệ thống Compiled Regex building blocks có Timeout)
+│ └── SubFilters/
+│ ├── UnicodeSanitizerFilter.cs (Priority 1: Chuẩn hóa FormC, xóa ký tự ẩn/BOM)
+│ ├── ReplyQuoteFilter.cs (Priority 2: Cắt bỏ header trích dẫn Zalo)
+│ ├── ZaloStickerFilter.cs (Priority 3: Xóa sticker Zalo & thẻ phân cách [Hình ảnh]...)
+│ ├── BrandRegexFilter.cs (Priority 4: Xóa thương hiệu& dẫn nguồn)
+│ └── UrlSanitizerFilter.cs (Priority 6: Dọn UTM tracking parameters)
+├── 2_Frontend/
+│ ├── Screens/MessageFilter/ [NEW] Màn hình điều khiển Lọc Tin Nhắn độc lập
+│ │ ├── MessageCleanerScreen.cs (Screen root = 86 dòng <= 150 dòng)
+│ │ ├── Hooks/MessageCleanerStateHook.cs (State Controller không dính UI controls)
+│ │ ├── Models/MessageCleanerFormModel.cs (ViewModel phục vụ UI)
+│ │ └── Components/
+│ │ ├── FilterToggleSwitchPanelComponent.cs (Bảng công tắc bật/tắt nhanh 6 bộ lọc)
+│ │ ├── LiveClipboardPreviewComponent.cs (Khu vực Test/Live Preview 2 khung)
+│ │ └── PipelineExecutionLogComponent.cs (Lịch sử thực thi thời gian thực)
+│ ├── Screens/Settings/
+│ │ ├── SettingsScreen.cs [MODIFY] Tích hợp thêm Tab 3 "🧹 Lọc Copy" (106 dòng)
+│ │ ├── Hooks/SettingsStateHook.cs [MODIFY] Thêm Load/Save MessageFilterOptions
+│ │ └── Components/SettingsMessageFilterPanel.cs [NEW] Card cài đặt chi tiết bộ lọc trong Settings
+│ └── Forms/MainForm.cs [MODIFY] Thêm Tab điều hướng "🧹 Lọc Tin Nhắn" & đồng bộ State
+├── Program.cs [MODIFY] Đăng ký DI IoC Container cho Pipeline & Filters
+├── Docs/Analyst/01_Message_Regex_Extractor_Packaging_Spec.md [NEW] Tài liệu đặc tả kỹ thuật đóng gói
+└── Tests/MessageFilter/ [NEW] 9 Test Suites (201 test cases PASS 100%)
 ```
 
-### Tóm Lược Quyết Định
+## 2. 🔍 REVIEW CHẤT LƯỢNG CODE, KHAI BÁO & ĐỊNH NGHĨA DỮ LIỆU
 
-> **Quy tắc vàng:**
-> **"Rule mềm để dạy AI Agent CÁCH NGHĨ và ĐỊNH HƯỚNG GIẢI PHÁP — Rule cứng (Hooks/Gates) để ĐẢM BẢO KỶ LUẬT KIẾN TRÚC và KHÔNG THỂ BỊ XUYÊN THỦNG."**
+### 2.1. Khai báo & Định nghĩa Dữ liệu (Data Declarations & Domain Modeling)
+
+- **Sử dụng Record Bất Biến (Immutability)**:
+- [`ClipboardDataPayload`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/0_Shared/Models/MessageFilter/ClipboardDataPayload.cs) và [`FilterExecutionReport`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/0_Shared/Models/MessageFilter/FilterExecutionReport.cs) được khai báo dạng `public record` với `IReadOnlyList<string> AppliedFilters`. Điều này đảm bảo an toàn luồng tuyệt đối khi dữ liệu được truyền từ background listener lên UI qua các event.
+- **Nullability & Giá trị Khởi tạo Mặc định**:
+- Toàn bộ các thuộc tính boolean trong [`FilterPipelineOptions`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/0_Shared/Models/MessageFilter/FilterPipelineOptions.cs) đều được gán giá trị mặc định rõ ràng (`= true`).
+- Trường `MaxPayloadCharacterLimit = 100_000` đóng vai trò là chốt chặn bảo vệ kích thước chuỗi (Payload Guard).
+- Khởi tạo trong [`AppSettings`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Entities/AppSettings.cs#L14) với `public FilterPipelineOptions MessageFilterOptions { get; set; } = new();` ngăn chặn hoàn toàn lỗi `NullReferenceException` khi load JSON cũ chưa có trường này.
+
+### 2.2. Khởi tạo Dữ liệu & Vòng đời DI (Data Initialization & IoC)
+
+- **Dependency Injection**:
+- Các Sub-Filters đều implement [`IClipboardFilter`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/IClipboardFilter.cs) và được đăng ký dạng `AddSingleton<IClipboardFilter, ...>` trong [`Program.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Program.cs#L156-L161).
+- [`ClipboardPipelineManager`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/ClipboardPipelineManager.cs#L21) tự động thu nạp toàn bộ danh sách `IEnumerable<IClipboardFilter>` qua ServiceProvider và sắp xếp theo `Priority` một lần duy nhất lúc khởi tạo.
+- **Biên dịch Regex Tĩnh (Compiled Regex)**:
+- Tất cả Regex trong [`FilterRegexPatterns.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/Helpers/FilterRegexPatterns.cs) và các Sub-Filters đều được khởi tạo ở cấp độ `static readonly` kèm cờ `RegexOptions.Compiled | RegexOptions.CultureInvariant` và có cấu hình `RegexTimeout = 250ms` chống ReDoS.
+
+### 2.3. Tuân thủ AI System Charter của AppForms
+
+- ✅ **Phân tầng nghiêm ngặt**: `0_Shared` chỉ chứa DTO/Models thuần; `1_Backend` không import bất kỳ WinForms UI Controls nào (`TextBox`, `Button`, `Panel`).
+- ✅ **Giới hạn dòng code của Screen**:
+- [`MessageCleanerScreen.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/MessageFilter/MessageCleanerScreen.cs): 86 dòng (Đạt chuẩn $\le 150$ dòng).
+- [`SettingsScreen.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/SettingsScreen.cs): 106 dòng (Đạt chuẩn $\le 150$ dòng).
+- ✅ **Thread-Safety UI**: Toàn bộ các sự kiện từ luồng ngầm đều được bọc qua [`FormStateObserver.InvokeOnUI`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/MessageFilter/MessageCleanerScreen.cs#L54).
+- ✅ **Zero-Placeholder**: Không có `TODO`, `FIXME`, hay `NotImplementedException`.
+- ✅ **Test Verification**: 201/201 Tests chạy thành công
+
+## 3. ⚡ KIỂM TRA CÁC VẤN ĐỀ GÂY CẢN TRỞ HIỆU NĂNG (PERFORMANCE AUDIT)
+
+Qua quá trình rà soát chi tiết mã nguồn, dưới đây là danh sách **6 vấn đề tiềm ẩn có thể gây cản trở hiệu năng** hoặc ảnh hưởng đến trải nghiệm người dùng:
+
+### 🔴 Vấn đề 1: `Thread.Sleep` đồng bộ trong `Win32ClipboardAdapter` có thể gây Micro-Freeze luồng UI
+
+- **Vị trí**: [`Win32ClipboardAdapter.cs:L135`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32ClipboardAdapter.cs#L135)
+- **Hiện tượng**: Khi ghi lại văn bản vào Clipboard qua `SafeWriteClipboardText`, nếu Clipboard đang bị một ứng dụng khác (Excel, trình duyệt, Word...) khóa tạm thời, adapter sử dụng vòng lặp retry 5 lần với `Thread.Sleep(5 * (1 << i))`. Tổng thời gian sleep tối đa có thể lên tới `5 + 10 + 20 + 40 + 80 = 155ms`.
+- **Tác động**: Do sự kiện `WM_CLIPBOARDUPDATE` được xử lý ngay trên Message Loop của UI Thread, việc block 155ms sẽ gây hiện tượng khựng nhẹ (micro-lag/stutter) trên giao diện ứng dụng.
+
+### 🟡 Vấn đề 2: Thiếu Debounce trên sự kiện `TextChanged` tại `LiveClipboardPreviewComponent`
+
+- **Vị trí**: [`LiveClipboardPreviewComponent.cs:L60-L65`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/MessageFilter/Components/LiveClipboardPreviewComponent.cs#L60-L65)
+- **Hiện tượng**: Khi người dùng gõ phím trực tiếp vào ô *Văn bản thô*, sự kiện `TextChanged` kích hoạt `CleanRequested?.Invoke(_txtRawInput.Text)` trên **từng ký tự gõ vào**.
+- **Tác động**: Pipeline gồm 6 sub-filter và hàng chục Regex phức tạp sẽ phải chạy lại liên tục sau mỗi keystroke. Với đoạn văn bản dài hàng nghìn ký tự, điều này gây lãng phí CPU và làm giảm độ mượt khi nhập liệu.
+- **Khắc phục đề xuất**: Bổ sung một Timer Debounce (khoảng 250ms - 350ms) trước khi kích hoạt `CleanRequested`.
+
+### 🟡 Vấn đề 3: Áp lực cấp phát bộ nhớ (GC Allocation Pressure) do phân tách dòng `text.Split('\n')`
+
+- **Vị trí**:
+- [`BrandRegexFilter.cs:L25`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/SubFilters/BrandRegexFilter.cs#L25)
+- [`CommissionRegexFilter.cs:L28`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/SubFilters/CommissionRegexFilter.cs#L28)
+- [`ClipboardPipelineManager.cs:L99`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/ClipboardPipelineManager.cs#L99)
+- **Hiện tượng**: Mỗi lần chạy qua bộ lọc, mã nguồn thực hiện `string[] lines = text.Split('\n')` tạo ra hàng chục/hàng trăm object `string` con trong mảng, sau đó add vào `List<string>` và `string.Join("\n", ...)`. Ngoài ra hàm `Normalize` thực hiện liên tiếp nhiều thao tác `Replace` và `Regex.Replace`.
+- **Tác động**: Mỗi lần copy text, hàng loạt chuỗi tạm được sinh ra ở heap Gen 0, làm tăng tần suất thu gom rác (Garbage Collection). Với ứng dụng desktop chạy nền lâu dài, có thể tối ưu bằng cách dùng `MemoryExtensions.EnumerateLines()` hoặc `Span<char>`.
+
+### 🟡 Vấn đề 4: Sử dụng `Clipboard.SetText` của WinForms trong Hook thay vì Adapter an toàn
+
+- **Vị trí**: [`MessageCleanerStateHook.cs:L74`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/MessageFilter/Hooks/MessageCleanerStateHook.cs#L74)
+- **Hiện tượng**: Trong hàm `CopyToClipboard(string text)`, hook gọi trực tiếp `Clipboard.SetText(text)`.
+- **Tác động**: WinForms `Clipboard.SetText` không có cơ chế retry và bắt buộc phải gọi từ luồng STA. Nếu tại thời điểm click nút "Sao Chép" mà Clipboard đang bị process khác chiếm dụng, hàm này sẽ ném `ExternalException: CLIPBRD_E_CANT_OPEN (0x800401D0)`.
+- **Khắc phục đề xuất**: Chuyển sang sử dụng `Win32ClipboardAdapter.SafeWriteClipboardText(text)`.
+
+### 🟢 Vấn đề 5: Thao tác `Insert(0)` trên `List<T>` và `ListView.Items`
+
+- **Vị trí**: [`PipelineExecutionLogComponent.cs:L78, L93`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/MessageFilter/Components/PipelineExecutionLogComponent.cs#L78)
+- **Hiện tượng**: Mỗi khi có log mới, thành phần gọi `_reports.Insert(0, report)` và `_lvLogs.Items.Insert(0, item)`. Thao tác chèn vào đầu mảng có độ phức tạp $O(N)$ do phải dịch chuyển toàn bộ các phần tử phía sau.
+- **Đánh giá mức độ**: Danh sách log hiện tại được giới hạn tối đa 100 phần tử, nên chi phí dịch chuyển này rất nhỏ ($< 0.1\text{ms}$). Tuy nhiên nếu sau này nâng giới hạn lịch sử lên 1.000+ items thì sẽ bắt đầu thấy độ trễ render.
+
+### 🟢 Vấn đề 6: Đánh giá cơ chế chống vòng lặp vô tận (Infinite Loop Prevention)
+
+- **Vị trí**: [`PipelineOrchestratorService.cs:L100-L109`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs#L100-L109)
+- **Phân tích cơ chế**: Khi Service ghi đè nội dung sạch lên Clipboard, Windows OS sẽ phát tiếp một sự kiện `WM_CLIPBOARDUPDATE`. Service đã xử lý chống lặp bằng biến `_lastProcessedText`:
+
+ ```csharp
+ if (string.Equals(rawText, _lastProcessedText, StringComparison.Ordinal)) return;
+ _lastProcessedText = report.CleanedText;
+ Win32ClipboardAdapter.SafeWriteClipboardText(report.CleanedText);
+ ```
+
+- **Đánh giá**: Cơ chế chặn hoạt động chính xác và ổn định. Ngăn chặn thành công 100% hiện tượng vòng lặp sự kiện Clipboard vô tận.
+
+## 4. 📋 BẢNG TỔNG HỢP DANH SÁCH VẤN ĐỀ & KHUYẾN NGHỊ
+
+| ID | Vấn đề | Phân tầng / Tệp | Mức độ | Khuyến nghị giải pháp |
+| :--- | :--- | :--- | :---: | :--- |
+| **PERF-01** | `Thread.Sleep` đồng bộ trong Win32 Retry | `1_Backend/Adapters/Win32/` | **Trung bình** | Chuyển việc ghi đè sang `Task.Run` nền hoặc dùng async non-blocking retry nếu cần độ mượt UI tuyệt đối. |
+| **PERF-02** | Thiếu Debounce trên sự kiện gõ `TextChanged` | `2_Frontend/Components/` | **Trung bình** | Thêm Timer Debounce 250ms cho ô nhập văn bản thô tại Preview Panel. |
+| **PERF-03** | `Clipboard.SetText` có thể ném `ExternalException` | `2_Frontend/Hooks/` | **Trung bình** | Dùng `Win32ClipboardAdapter.SafeWriteClipboardText` để có Exponential Backoff Retry an toàn. |
+| **PERF-04** | GC Allocation khi `Split('\n')` và `Replace` chuỗi | `1_Backend/Services/` | **Thấp** | Dùng `StringReader` hoặc `MemoryExtensions.EnumerateLines()` thay vì tạo mảng chuỗi tạm. |
+| **PERF-05** | `Insert(0)` trên `ListView` và `List<T>` | `2_Frontend/Components/` | **Thấp** | Giữ nguyên vì $N \le 100$, hoặc chuyển sang `Queue<T>`/Virtual Mode nếu nâng số lượng log. |

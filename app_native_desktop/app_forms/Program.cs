@@ -152,6 +152,24 @@ internal static class Program
         services.AddSingleton<ISchemaDetector, SchemaDetectorService>();
         services.AddSingleton<IFormConverterService, FormConverterService>();
 
+        // Message Regex Filter Pipeline Sub-modules
+        services.AddSingleton<IClipboardFilter, AppForms.Backend.Services.MessageFilter.SubFilters.UnicodeSanitizerFilter>();
+        services.AddSingleton<IClipboardFilter, AppForms.Backend.Services.MessageFilter.SubFilters.ReplyQuoteFilter>();
+        services.AddSingleton<IClipboardFilter, AppForms.Backend.Services.MessageFilter.SubFilters.ZaloStickerFilter>();
+        services.AddSingleton<IClipboardFilter, AppForms.Backend.Services.MessageFilter.SubFilters.BrandRegexFilter>();
+        services.AddSingleton<IClipboardFilter, AppForms.Backend.Services.MessageFilter.SubFilters.CommissionRegexFilter>();
+        services.AddSingleton<IClipboardFilter, AppForms.Backend.Services.MessageFilter.SubFilters.UrlSanitizerFilter>();
+
+        // Message Regex Filter Pipeline Manager & Orchestrator
+        services.AddSingleton<AppForms.Backend.Services.MessageFilter.ClipboardPipelineManager>(sp =>
+        {
+            var settingsService = sp.GetRequiredService<ISettingsService>();
+            var filters = sp.GetServices<IClipboardFilter>();
+            var options = settingsService.Current.MessageFilterOptions ?? new AppForms.Shared.Models.MessageFilter.FilterPipelineOptions();
+            return new AppForms.Backend.Services.MessageFilter.ClipboardPipelineManager(options, filters);
+        });
+        services.AddSingleton<IFilterPipelineOrchestrator, AppForms.Backend.Services.MessageFilter.PipelineOrchestratorService>();
+
         // Frontend Presentation & UI
         services.AddSingleton<TrayIconManager>();
         services.AddSingleton<MainForm>();

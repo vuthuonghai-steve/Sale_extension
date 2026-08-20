@@ -1,6 +1,7 @@
 using System.Drawing;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Frontend.Screens.LeadConverter;
+using AppForms.Frontend.Screens.MessageFilter;
 using AppForms.Frontend.Screens.Settings;
 using AppForms.Frontend.Shared.Components;
 using AppForms.Frontend.Shared.Theme;
@@ -15,15 +16,18 @@ public class MainForm : Form
     private readonly ILogger<MainForm> _logger;
     private readonly IFormConverterService _converterService;
     private readonly ISettingsService _settingsService;
+    private readonly IFilterPipelineOrchestrator _filterOrchestrator;
     private readonly TrayIconManager _trayManager;
 
     // Screens
     private readonly LeadConverterScreen _leadConverterScreen;
+    private readonly MessageCleanerScreen _messageCleanerScreen;
     private readonly SettingsScreen _settingsScreen;
 
     // Header & Navigation Controls
     private Panel _screenContainer = null!;
     private ModernButton _btnNavConverter = null!;
+    private ModernButton _btnNavCleaner = null!;
     private ModernButton _btnNavSettings = null!;
     private ModernButton _btnPinTop = null!;
     private StatusBadge _statusBadge = null!;
@@ -38,15 +42,18 @@ public class MainForm : Form
         ITemplateEngine templateEngine,
         ISchemaDetector schemaDetector,
         IRoomCodeRepository roomCodeRepo,
+        IFilterPipelineOrchestrator filterOrchestrator,
         TrayIconManager trayManager)
     {
         _logger = logger;
         _converterService = converterService;
         _settingsService = settingsService;
+        _filterOrchestrator = filterOrchestrator;
         _trayManager = trayManager;
 
         // Initialize Screens
         _leadConverterScreen = new LeadConverterScreen(converterService, schemaManager, settingsService, templateEngine, schemaDetector, roomCodeRepo);
+        _messageCleanerScreen = new MessageCleanerScreen(filterOrchestrator);
         _settingsScreen = new SettingsScreen(settingsService, roomCodeRepo);
 
         InitializeSidepanelWindow();
@@ -179,26 +186,43 @@ public class MainForm : Form
 
         _btnNavConverter = new ModernButton
         {
-            Text = "📋 Chuyển Đổi Lead",
-            Size = new Size(130, 28),
+            Text = "📋 Chuyển Lead",
+            Size = new Size(110, 28),
             Font = AppFonts.CaptionBold,
             CustomBackColor = AppColors.Primary,
-            Location = new Point(8, 5)
+            Location = new Point(6, 5)
         };
         _btnNavConverter.Click += (_, _) =>
         {
             ShowScreen(_leadConverterScreen);
             _btnNavConverter.CustomBackColor = AppColors.Primary;
+            _btnNavCleaner.CustomBackColor = AppColors.SurfaceHighlight;
+            _btnNavSettings.CustomBackColor = AppColors.SurfaceHighlight;
+        };
+
+        _btnNavCleaner = new ModernButton
+        {
+            Text = "🧹 Lọc Tin Nhắn",
+            Size = new Size(115, 28),
+            Font = AppFonts.Caption,
+            CustomBackColor = AppColors.SurfaceHighlight,
+            Location = new Point(_btnNavConverter.Right + 6, 5)
+        };
+        _btnNavCleaner.Click += (_, _) =>
+        {
+            ShowScreen(_messageCleanerScreen);
+            _btnNavCleaner.CustomBackColor = AppColors.Primary;
+            _btnNavConverter.CustomBackColor = AppColors.SurfaceHighlight;
             _btnNavSettings.CustomBackColor = AppColors.SurfaceHighlight;
         };
 
         _btnNavSettings = new ModernButton
         {
             Text = "⚙️ Cài Đặt",
-            Size = new Size(90, 28),
+            Size = new Size(85, 28),
             Font = AppFonts.Caption,
             CustomBackColor = AppColors.SurfaceHighlight,
-            Location = new Point(_btnNavConverter.Right + 8, 5)
+            Location = new Point(_btnNavCleaner.Right + 6, 5)
         };
         _btnNavSettings.Click += (_, _) =>
         {
@@ -206,9 +230,11 @@ public class MainForm : Form
             ShowScreen(_settingsScreen);
             _btnNavSettings.CustomBackColor = AppColors.Primary;
             _btnNavConverter.CustomBackColor = AppColors.SurfaceHighlight;
+            _btnNavCleaner.CustomBackColor = AppColors.SurfaceHighlight;
         };
 
         panel.Controls.Add(_btnNavConverter);
+        panel.Controls.Add(_btnNavCleaner);
         panel.Controls.Add(_btnNavSettings);
 
         return panel;
@@ -251,10 +277,16 @@ public class MainForm : Form
             _lblFooterStatus.Text = $"{msg} | {DateTime.Now:HH:mm:ss}";
         };
 
+        _messageCleanerScreen.StatusMessageUpdated += msg =>
+        {
+            _lblFooterStatus.Text = $"{msg} | {DateTime.Now:HH:mm:ss}";
+        };
+
         _settingsScreen.SettingsSaved += () =>
         {
             _lblCtvHeader.Text = $"👤 CTV: {_settingsService.Current.FixedCtvName}";
             _leadConverterScreen.NotifyCtvUpdated();
+            _filterOrchestrator.UpdateOptions(_settingsService.Current.MessageFilterOptions);
             _lblFooterStatus.Text = "Đã cập nhật cài đặt ứng dụng.";
         };
 

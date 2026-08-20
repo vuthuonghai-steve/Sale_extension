@@ -1,6 +1,7 @@
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Backend.Contracts.Schemas;
 using AppForms.Frontend.Screens.Settings.Models;
+using AppForms.Shared.Models.MessageFilter;
 
 namespace AppForms.Frontend.Screens.Settings.Hooks;
 
@@ -17,6 +18,8 @@ public class SettingsStateHook
 
     public event Action<SettingsFormModel>? GeneralSettingsLoaded;
     public event Action? GeneralSettingsSaved;
+    public event Action<FilterPipelineOptions>? MessageFilterOptionsLoaded;
+    public event Action? MessageFilterOptionsSaved;
     public event Action<List<RoomCodeGroupViewModel>, string>? RoomGroupsReloaded;
     public event Action<RoomCodeGroupViewModel>? RoomCodesUpdated;
     public event Action<string, bool>? OperationFeedback;
@@ -56,6 +59,30 @@ public class SettingsStateHook
         else
         {
             OperationFeedback?.Invoke($"Lỗi lưu cài đặt: {result.Error}", false);
+        }
+    }
+
+    public void LoadMessageFilterSettings()
+    {
+        var options = _settingsService.Current.MessageFilterOptions ?? new FilterPipelineOptions();
+        MessageFilterOptionsLoaded?.Invoke(options);
+    }
+
+    public void SaveMessageFilterSettings(FilterPipelineOptions options)
+    {
+        var result = _settingsService.Update(s =>
+        {
+            s.MessageFilterOptions = options;
+        });
+
+        if (result.IsSuccess)
+        {
+            MessageFilterOptionsSaved?.Invoke();
+            OperationFeedback?.Invoke("Đã lưu cài đặt bộ lọc thành công!", true);
+        }
+        else
+        {
+            OperationFeedback?.Invoke($"Lỗi lưu cài đặt bộ lọc: {result.Error}", false);
         }
     }
 
