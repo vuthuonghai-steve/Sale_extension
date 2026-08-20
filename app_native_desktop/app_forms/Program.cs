@@ -2,7 +2,8 @@ using AppForms.Backend.Adapters.Diagnostics;
 using AppForms.Backend.Adapters.Win32;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Backend.Services;
-using AppForms.Frontend.Forms;
+using AppForms.Frontend.Shell;
+using AppForms.Frontend.Shell.Hooks;
 using AppForms.Frontend.Tray;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -170,9 +171,35 @@ internal static class Program
         });
         services.AddSingleton<IFilterPipelineOrchestrator, AppForms.Backend.Services.MessageFilter.PipelineOrchestratorService>();
 
+        // Routing & Background Services
+        services.AddSingleton<INavigationService, AppForms.Backend.Services.Routing.NavigationService>();
+        services.AddSingleton<IBackgroundFeatureRegistry, AppForms.Backend.Services.Routing.BackgroundFeatureRegistry>();
+
+        // Frontend Screens (Singletons để duy trì state trong RAM)
+        services.AddSingleton<AppForms.Frontend.Screens.Dashboard.DashboardScreen>();
+        services.AddSingleton<AppForms.Frontend.Screens.LeadConverter.LeadConverterScreen>();
+        services.AddSingleton<AppForms.Frontend.Screens.MessageFilter.MessageCleanerScreen>();
+        services.AddSingleton<AppForms.Frontend.Screens.Settings.SettingsScreen>();
+
         // Frontend Presentation & UI
         services.AddSingleton<TrayIconManager>();
-        services.AddSingleton<MainForm>();
+        services.AddSingleton<ShellStateHook>();
+        services.AddSingleton<MainForm>(sp =>
+        {
+            var navService = sp.GetRequiredService<INavigationService>();
+
+            // Đăng ký Screen Factories cho Navigation Router
+            navService.RegisterScreenFactory(AppForms.Shared.Enums.AppRouteId.Dashboard, () => sp.GetRequiredService<AppForms.Frontend.Screens.Dashboard.DashboardScreen>());
+            navService.RegisterScreenFactory(AppForms.Shared.Enums.AppRouteId.LeadConverter, () => sp.GetRequiredService<AppForms.Frontend.Screens.LeadConverter.LeadConverterScreen>());
+            navService.RegisterScreenFactory(AppForms.Shared.Enums.AppRouteId.MessageCleaner, () => sp.GetRequiredService<AppForms.Frontend.Screens.MessageFilter.MessageCleanerScreen>());
+            navService.RegisterScreenFactory(AppForms.Shared.Enums.AppRouteId.Settings, () => sp.GetRequiredService<AppForms.Frontend.Screens.Settings.SettingsScreen>());
+
+            return new MainForm(
+                sp.GetRequiredService<ILogger<MainForm>>(),
+                sp.GetRequiredService<ShellStateHook>(),
+                sp.GetRequiredService<TrayIconManager>()
+            );
+        });
     }
 
     /// <summary>

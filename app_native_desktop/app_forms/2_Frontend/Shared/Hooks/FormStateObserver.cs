@@ -4,15 +4,32 @@ public static class FormStateObserver
 {
     public static void InvokeOnUI(Control control, Action action)
     {
-        if (control.IsDisposed || !control.IsHandleCreated) return;
+        if (control.IsDisposed) return;
 
-        if (control.InvokeRequired)
+        if (control.IsHandleCreated)
         {
-            control.BeginInvoke(action);
+            if (control.InvokeRequired)
+            {
+                control.BeginInvoke(action);
+            }
+            else
+            {
+                action();
+            }
         }
         else
         {
-            action();
+            try
+            {
+                if (!control.InvokeRequired)
+                {
+                    action();
+                }
+            }
+            catch
+            {
+                // Bỏ qua an toàn nếu luồng nền cố cập nhật khi Form chưa tạo Handle
+            }
         }
     }
 }

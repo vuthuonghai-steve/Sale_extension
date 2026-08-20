@@ -14,6 +14,7 @@ public class SettingsService : ISettingsService
     private AppSettings _currentSettings;
 
     public AppSettings Current => _currentSettings;
+    public event EventHandler? SettingsSaved;
 
     public SettingsService(ILogger<SettingsService> logger)
     {
@@ -59,6 +60,7 @@ public class SettingsService : ISettingsService
             var json = JsonUtils.Serialize(_currentSettings, indented: true);
             File.WriteAllText(_settingsFilePath, json);
             _logger.LogInformation("Cấu hình đã được lưu tại {Path}", _settingsFilePath);
+            SettingsSaved?.Invoke(this, EventArgs.Empty);
             return Result.Success();
         }
         catch (Exception ex)
