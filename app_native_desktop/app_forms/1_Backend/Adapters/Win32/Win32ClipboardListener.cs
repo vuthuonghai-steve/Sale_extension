@@ -5,14 +5,38 @@ using Microsoft.Extensions.Logging;
 namespace AppForms.Backend.Adapters.Win32;
 
 /// <summary>
-/// NativeWindow ẩn chuyên lắng nghe message WM_CLIPBOARDUPDATE từ Windows Message Pump
+/// NativeWindow ẩn chuyên lắng nghe message WM_CLIPBOARDUPDATE từ Windows Message Pump với cơ chế Multi-Consumer Ref Counting
 /// </summary>
 public class Win32ClipboardListener : NativeWindow, IDisposable
 {
     private readonly ILogger<Win32ClipboardListener> _logger;
+    private readonly HashSet<string> _activeConsumers = new(StringComparer.OrdinalIgnoreCase);
+    private readonly object _lock = new();
     private bool _isListening;
 
     public event EventHandler? ClipboardUpdated;
+
+    public bool IsListening
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _isListening;
+            }
+        }
+    }
+
+    public IReadOnlyCollection<string> ActiveConsumers
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _activeConsumers.ToList();
+            }
+        }
+    }
 
     public Win32ClipboardListener(ILogger<Win32ClipboardListener> logger)
     {
@@ -24,34 +48,49 @@ public class Win32ClipboardListener : NativeWindow, IDisposable
         });
     }
 
-    public bool Start()
+    public bool Start(string consumerId = "default")
     {
-        if (_isListening) return true;
-
-        if (Handle != IntPtr.Zero)
+        lock (_lock)
         {
-            _isListening = NativeMethods.AddClipboardFormatListener(Handle);
-            if (_isListening)
+            _activeConsumers.Add(consumerId);
+            _logger.LogInformation("Win32 Clipboard Listener: Consumer '{ConsumerId}' registered. Active count: {Count}", consumerId, _activeConsumers.Count);
+
+            if (_isListening) return true;
+
+            if (Handle != IntPtr.Zero)
             {
-                _logger.LogInformation("Win32 Clipboard Listener started on HWND: {Handle}", Handle);
+                _isListening = NativeMethods.AddClipboardFormatListener(Handle);
+                if (_isListening)
+                {
+                    _logger.LogInformation("Win32 Clipboard Listener started on HWND: {Handle}", Handle);
+                }
+                else
+                {
+                    _logger.LogError("Failed to attach AddClipboardFormatListener on HWND: {Handle}", Handle);
+                }
             }
-            else
-            {
-                _logger.LogError("Failed to attach AddClipboardFormatListener on HWND: {Handle}", Handle);
-            }
+            return _isListening;
         }
-        return _isListening;
     }
 
-    public void Stop()
+    public void Stop(string consumerId = "default")
     {
-        if (!_isListening) return;
-
-        if (Handle != IntPtr.Zero)
+        lock (_lock)
         {
-            NativeMethods.RemoveClipboardFormatListener(Handle);
-            _isListening = false;
-            _logger.LogInformation("Win32 Clipboard Listener stopped on HWND: {Handle}", Handle);
+            if (_activeConsumers.Remove(consumerId))
+            {
+                _logger.LogInformation("Win32 Clipboard Listener: Consumer '{ConsumerId}' unregistered. Active count: {Count}", consumerId, _activeConsumers.Count);
+            }
+
+            if (_activeConsumers.Count == 0 && _isListening)
+            {
+                if (Handle != IntPtr.Zero)
+                {
+                    NativeMethods.RemoveClipboardFormatListener(Handle);
+                    _isListening = false;
+                    _logger.LogInformation("Win32 Clipboard Listener stopped on HWND: {Handle} (No active consumers)", Handle);
+                }
+            }
         }
     }
 
@@ -66,7 +105,15 @@ public class Win32ClipboardListener : NativeWindow, IDisposable
 
     public void Dispose()
     {
-        Stop();
+        lock (_lock)
+        {
+            _activeConsumers.Clear();
+            if (_isListening && Handle != IntPtr.Zero)
+            {
+                NativeMethods.RemoveClipboardFormatListener(Handle);
+                _isListening = false;
+            }
+        }
         DestroyHandle();
         GC.SuppressFinalize(this);
     }

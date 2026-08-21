@@ -40,6 +40,7 @@ public class PipelineOrchestratorService : IFilterPipelineOrchestrator, IDisposa
         _pipelineManager.UpdateOptions(_options);
 
         _listener.ClipboardUpdated += OnClipboardUpdated;
+        _settingsService.SettingsSaved += OnSettingsSaved;
 
         if (_options.EnableService)
         {
@@ -47,21 +48,52 @@ public class PipelineOrchestratorService : IFilterPipelineOrchestrator, IDisposa
         }
     }
 
+    private void OnSettingsSaved(object? sender, EventArgs e)
+    {
+        var newOptions = _settingsService.Current.MessageFilterOptions ?? new FilterPipelineOptions();
+        _options = newOptions;
+        _pipelineManager.UpdateOptions(_options);
+
+        _logger.LogInformation("🔄 [MESSAGE FILTER] Đã nạp cấu hình mới từ Settings. EnableService={Enable}", _options.EnableService);
+
+        if (_options.EnableService && !IsRunning)
+        {
+            Start();
+        }
+        else if (!_options.EnableService && IsRunning)
+        {
+            Stop();
+        }
+    }
+
     public void Start()
     {
         if (IsRunning) return;
         IsRunning = true;
-        _listener.Start();
+        _options.EnableService = true;
+        _listener.Start("MessageFilter");
         StateChanged?.Invoke(this, true);
         _logger.LogInformation("🚀 [MESSAGE FILTER] Dịch vụ lọc OS Clipboard đã khởi động thành công.");
+
+        if (_settingsService.Current.MessageFilterOptions?.EnableService != true)
+        {
+            _settingsService.Update(s => s.MessageFilterOptions.EnableService = true);
+        }
     }
 
     public void Stop()
     {
         if (!IsRunning) return;
         IsRunning = false;
+        _options.EnableService = false;
+        _listener.Stop("MessageFilter");
         StateChanged?.Invoke(this, false);
         _logger.LogInformation("⏸️ [MESSAGE FILTER] Dịch vụ lọc OS Clipboard đã tạm dừng.");
+
+        if (_settingsService.Current.MessageFilterOptions?.EnableService != false)
+        {
+            _settingsService.Update(s => s.MessageFilterOptions.EnableService = false);
+        }
     }
 
     public void UpdateOptions(FilterPipelineOptions options)
@@ -150,6 +182,8 @@ public class PipelineOrchestratorService : IFilterPipelineOrchestrator, IDisposa
             if (disposing)
             {
                 _listener.ClipboardUpdated -= OnClipboardUpdated;
+                _settingsService.SettingsSaved -= OnSettingsSaved;
+                _listener.Stop("MessageFilter");
             }
             _disposed = true;
         }

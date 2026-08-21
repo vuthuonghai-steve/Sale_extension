@@ -110,7 +110,7 @@ public class FormConverterService : IFormConverterService, IDisposable
     {
         if (IsClipboardListening) return Result.Success();
 
-        var success = _win32Listener.Start();
+        var success = _win32Listener.Start("LeadConverter");
         if (success)
         {
             IsClipboardListening = true;
@@ -126,7 +126,7 @@ public class FormConverterService : IFormConverterService, IDisposable
     {
         if (!IsClipboardListening) return Result.Success();
 
-        _win32Listener.Stop();
+        _win32Listener.Stop("LeadConverter");
         IsClipboardListening = false;
         ClipboardListeningStateChanged?.Invoke(this, false);
         _logger.LogInformation("Đã tạm dừng theo dõi Clipboard.");
@@ -190,7 +190,7 @@ public class FormConverterService : IFormConverterService, IDisposable
     public void Dispose()
     {
         _win32Listener.ClipboardUpdated -= OnClipboardUpdated;
-        _win32Listener.Dispose();
+        _win32Listener.Stop("LeadConverter");
         GC.SuppressFinalize(this);
     }
 }
