@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AppForms.Backend.Contracts.Entities;
 using AppForms.Backend.Contracts.Interfaces;
+using AppForms.Backend.Services.Rules;
 using AppForms.Shared.Enums;
 
 namespace AppForms.Backend.Services;
@@ -10,10 +11,14 @@ namespace AppForms.Backend.Services;
 public class SchemaDetectorService : ISchemaDetector
 {
     private readonly IRoomCodeReadOnlyRepository _roomCodeRepo;
+    private readonly SpecialRoomCodeRuleEngine _ruleEngine;
 
-    public SchemaDetectorService(IRoomCodeReadOnlyRepository roomCodeRepo)
+    public SchemaDetectorService(
+        IRoomCodeReadOnlyRepository roomCodeRepo,
+        SpecialRoomCodeRuleEngine? ruleEngine = null)
     {
         _roomCodeRepo = roomCodeRepo;
+        _ruleEngine = ruleEngine ?? new SpecialRoomCodeRuleEngine();
     }
 
     public string? DetectSchemaId(LeadEntity lead, string? rawText = null)
@@ -27,11 +32,10 @@ public class SchemaDetectorService : ISchemaDetector
         // === LAYER 1: RoomCode Tra cứu & Phân giải ===
         if (!string.IsNullOrWhiteSpace(lead.RoomCode))
         {
-            // 1.1. Prefix Signature Pattern Matching (O(1) Regex/Prefix)
-            var detectedFromPrefix = DetectFromPrefixSignature(lead.RoomCode);
-            if (detectedFromPrefix != null)
+            // 1.1. Special & Prefix Rules Engine (O(1) Rule Matching & Diagnostic Trace)
+            if (_ruleEngine.TryMatch(lead.RoomCode, out var matchedSchemaId, out var reason, out var ruleName))
             {
-                return SchemaDetectionResult.Exact(detectedFromPrefix);
+                return SchemaDetectionResult.Exact(matchedSchemaId!);
             }
 
             // 1.2. Tra cứu In-Memory Code Registry (O(1) RAM)
@@ -83,44 +87,6 @@ public class SchemaDetectorService : ISchemaDetector
         }
 
         return SchemaDetectionResult.NotFoundResult("Chưa nhận diện được sàn phù hợp từ mã phòng.");
-    }
-
-    private static string? DetectFromPrefixSignature(string roomCode)
-    {
-        var cleaned = CleanCode(roomCode);
-        if (string.IsNullOrEmpty(cleaned)) return null;
-
-        // Mã "Mn xxx" -> Lusaco (ví dụ: Mn35, Mn 35, mn12)
-        if (cleaned.StartsWith("mn", StringComparison.OrdinalIgnoreCase))
-        {
-            return "lusaco";
-        }
-
-        // Mã "Tsxxx" -> HD Homes (ví dụ: Ts007, Ts 007, ts12)
-        if (cleaned.StartsWith("ts", StringComparison.OrdinalIgnoreCase))
-        {
-            return "hd_homes";
-        }
-
-        // Mã "NTxxx" -> NT HOME (ví dụ: NT023, NT 023, nt01)
-        if (cleaned.StartsWith("nt", StringComparison.OrdinalIgnoreCase))
-        {
-            return "nt_home";
-        }
-
-        // Tiền tố 95 -> 95 HOME
-        if (cleaned.StartsWith("95", StringComparison.OrdinalIgnoreCase))
-        {
-            return "95_home";
-        }
-
-        // Tiền tố TL -> TL21House
-        if (cleaned.StartsWith("tl", StringComparison.OrdinalIgnoreCase))
-        {
-            return "tl21_house";
-        }
-
-        return null;
     }
 
     private static string? DetectFromKeyword(string text)

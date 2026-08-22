@@ -65,6 +65,14 @@ public class TemplateEngineService : ITemplateEngine
                 }
             }
 
+            // Xử lý đặc biệt riêng của TL21: Output mã phòng khi có tiền tố "C" / "c" -> chỉ giữ lại mã số không giữ lại chữ
+            if (string.Equals(schema.Id, "tl21_house", StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(field.Key, "roomCode", StringComparison.OrdinalIgnoreCase) &&
+                !string.IsNullOrWhiteSpace(rawValue))
+            {
+                rawValue = FormatTL21RoomCode(rawValue);
+            }
+
             var prefix = field.Prefix ?? string.Empty;
             var suffix = field.Suffix ?? string.Empty;
             var finalVal = rawValue ?? string.Empty;
@@ -79,6 +87,20 @@ public class TemplateEngineService : ITemplateEngine
         }
 
         return string.Join(Environment.NewLine, lines);
+    }
+
+    /// <summary>
+    /// Chuẩn hóa mã phòng cho schema TL21House: Nếu bắt đầu bằng 'C' hoặc 'c' thì loại bỏ chữ C/c và giữ lại mã số
+    /// </summary>
+    private static string FormatTL21RoomCode(string roomCode)
+    {
+        var trimmed = roomCode.Trim();
+        // Khớp C101, c205, C-01, C_302, c 12, C383, c-402b...
+        if (System.Text.RegularExpressions.Regex.IsMatch(trimmed, @"^[cC]\s*[-_]?\s*\d+", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+        {
+            return System.Text.RegularExpressions.Regex.Replace(trimmed, @"^[cC]\s*[-_]?\s*", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        }
+        return trimmed;
     }
 
     public Dictionary<string, string> RenderAll(LeadEntity lead, IEnumerable<FormatSchema> schemas, string? fixedCtvName = null)

@@ -136,8 +136,8 @@ public class MessageParserService : IMessageParser
                 }
             }
 
-            // Check standalone brand codes (Mn35, Mn 35, Ts007, Ts 007, NT023, NT 023, 95_01, TL21...) đứng đầu dòng hoặc nguyên dòng
-            var brandCodeMatch = Regex.Match(rawLine, @"^\s*(?:👉|👉🏻|✨|☘️|🔥|⭐|📔|🫶🏻|[-•*])?\s*(mn\s*\d+[a-zA-Z0-9]*|ts\s*\d+[a-zA-Z0-9]*|nt\s*\d+[a-zA-Z0-9]*|95[_\-\s]\d+[a-zA-Z0-9]*|tl\s*\d+[a-zA-Z0-9\-_]*)\b", RegexOptions.IgnoreCase);
+            // Check standalone brand codes (Mn35, Mn 35, Ts007, Ts 007, NT023, NT 023, 95_01, TL21, C101, C-01...) đứng đầu dòng hoặc nguyên dòng
+            var brandCodeMatch = Regex.Match(rawLine, @"^\s*(?:👉|👉🏻|✨|☘️|🔥|⭐|📔|🫶🏻|[-•*])?\s*(mn\s*\d+[a-zA-Z0-9]*|ts\s*\d+[a-zA-Z0-9]*|nt\s*\d+[a-zA-Z0-9]*|95[_\-\s]\d+[a-zA-Z0-9]*|tl\s*\d+[a-zA-Z0-9\-_]*|c\s*\d+[a-zA-Z0-9\-_]*|c[-_]\d+[a-zA-Z0-9\-_]*)\b", RegexOptions.IgnoreCase);
             if (roomCode == null && brandCodeMatch.Success)
             {
                 roomCode = brandCodeMatch.Groups[1].Value.Trim();

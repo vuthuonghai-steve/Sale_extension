@@ -51,6 +51,11 @@ public class SchemaDetectorServiceTests
     [InlineData("NT023", "nt_home")]
     [InlineData("95-01", "95_home")]
     [InlineData("TL-99", "tl21_house")]
+    [InlineData("C383", "tl21_house")]
+    [InlineData("c12", "tl21_house")]
+    [InlineData("C-01", "tl21_house")]
+    [InlineData("c 205", "tl21_house")]
+    [InlineData("C_402", "tl21_house")]
     public void TC02_ExactMatch_PrefixSignature_DetectsCorrectSchema(string roomCode, string expectedSchema)
     {
         // Arrange
