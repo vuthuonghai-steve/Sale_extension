@@ -1,4 +1,5 @@
 using AppForms.Backend.Contracts.Interfaces;
+using AppForms.Backend.Shortcut;
 using AppForms.Frontend.Screens.Settings.Components;
 using AppForms.Frontend.Screens.Settings.Hooks;
 using AppForms.Frontend.Shared.Components;
@@ -20,9 +21,12 @@ public class SettingsScreen : UserControl
 
     public event Action? SettingsSaved;
 
-    public SettingsScreen(ISettingsService settingsService, IRoomCodeRepository roomCodeRepo)
+    public SettingsScreen(
+        ISettingsService settingsService, 
+        IRoomCodeRepository roomCodeRepo,
+        IDesktopShortcutService shortcutService)
     {
-        _stateHook = new SettingsStateHook(settingsService, roomCodeRepo);
+        _stateHook = new SettingsStateHook(settingsService, roomCodeRepo, shortcutService);
         _generalPanel = new SettingsGeneralPanel();
         _roomCodePanel = new RoomCodeManagementPanel();
         _filterPanel = new SettingsMessageFilterPanel();
@@ -89,6 +93,10 @@ public class SettingsScreen : UserControl
     {
         _stateHook.GeneralSettingsLoaded += model => _generalPanel.BindData(model);
         _generalPanel.SaveRequested += model => _stateHook.SaveGeneralSettings(model);
+        _generalPanel.CreateShortcutRequested += () => _stateHook.CreateOrUpdateDesktopShortcut();
+        _generalPanel.RemoveShortcutRequested += () => _stateHook.RemoveDesktopShortcut();
+        _stateHook.ShortcutCreatedFeedback += msg => _generalPanel.ShowShortcutSuccessFeedback(msg);
+        _stateHook.ShortcutRemovedFeedback += msg => _generalPanel.ShowShortcutRemovedFeedback(msg);
         _stateHook.GeneralSettingsSaved += () => { _generalPanel.ShowSaveSuccessFeedback(); SettingsSaved?.Invoke(); };
 
         _stateHook.MessageFilterOptionsLoaded += options => _filterPanel.BindData(options);

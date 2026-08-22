@@ -10,8 +10,12 @@ public class SettingsGeneralPanel : Panel
     private CheckBox _chkAutoClipboard = null!;
     private CheckBox _chkMinimizeTray = null!;
     private ModernButton _btnSave = null!;
+    private ModernButton _btnCreateShortcut = null!;
+    private ModernButton _btnRemoveShortcut = null!;
 
     public event Action<SettingsFormModel>? SaveRequested;
+    public event Action? CreateShortcutRequested;
+    public event Action? RemoveShortcutRequested;
 
     public SettingsGeneralPanel()
     {
@@ -96,6 +100,75 @@ public class SettingsGeneralPanel : Panel
         cardPanel.Controls.Add(_txtCtvName);
         cardPanel.Controls.Add(lblCtv);
 
+        var spacerCard = new Panel { Dock = DockStyle.Top, Height = 14 };
+
+        var shortcutCard = new Panel
+        {
+            Dock = DockStyle.Top,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            BackColor = AppColors.SurfaceDark,
+            Padding = new Padding(14)
+        };
+
+        var lblShortcutTitle = new Label
+        {
+            Text = "⚡ Lối Tắt Màn Hình (Desktop Shortcut):",
+            Font = AppFonts.SubHeader,
+            ForeColor = AppColors.TextPrimary,
+            Dock = DockStyle.Top,
+            Height = 26
+        };
+
+        var lblShortcutDesc = new Label
+        {
+            Text = "Tự động nhận diện và cập nhật lối tắt ngoài Desktop & Start Menu khi mở app.",
+            Font = AppFonts.Caption,
+            ForeColor = AppColors.TextSecondary,
+            Dock = DockStyle.Top,
+            Height = 24
+        };
+
+        var shortcutActionPanel = new Panel
+        {
+            Dock = DockStyle.Top,
+            Height = 36
+        };
+
+        _btnCreateShortcut = new ModernButton
+        {
+            Text = "⚡ TẠO / LÀM MỚI LỐI TẮT",
+            CustomBackColor = AppColors.SurfaceHighlight,
+            CustomHoverColor = AppColors.Primary,
+            Font = AppFonts.CaptionBold,
+            Dock = DockStyle.Left,
+            Width = 190
+        };
+        _btnCreateShortcut.Click += (_, _) => CreateShortcutRequested?.Invoke();
+
+        var btnSpacer = new Panel { Dock = DockStyle.Left, Width = 10 };
+
+        _btnRemoveShortcut = new ModernButton
+        {
+            Text = "🗑️ GỠ BỎ LỐI TẮT",
+            CustomBackColor = AppColors.SurfaceHighlight,
+            CustomHoverColor = AppColors.Danger,
+            Font = AppFonts.CaptionBold,
+            Dock = DockStyle.Left,
+            Width = 140
+        };
+        _btnRemoveShortcut.Click += (_, _) => RemoveShortcutRequested?.Invoke();
+
+        shortcutActionPanel.Controls.Add(_btnRemoveShortcut);
+        shortcutActionPanel.Controls.Add(btnSpacer);
+        shortcutActionPanel.Controls.Add(_btnCreateShortcut);
+
+        shortcutCard.Controls.Add(shortcutActionPanel);
+        shortcutCard.Controls.Add(lblShortcutDesc);
+        shortcutCard.Controls.Add(lblShortcutTitle);
+
+        scrollPanel.Content.Controls.Add(shortcutCard);
+        scrollPanel.Content.Controls.Add(spacerCard);
         scrollPanel.Content.Controls.Add(cardPanel);
         Controls.Add(scrollPanel);
     }
@@ -131,5 +204,49 @@ public class SettingsGeneralPanel : Panel
             timer.Dispose();
         };
         timer.Start();
+    }
+
+    public void ShowShortcutSuccessFeedback(string message)
+    {
+        _btnCreateShortcut.Text = "✅ ĐÃ TẠO LỐI TẮT!";
+        _btnCreateShortcut.CustomBackColor = AppColors.Success;
+
+        var timer = new System.Windows.Forms.Timer { Interval = 2000 };
+        timer.Tick += (_, _) =>
+        {
+            _btnCreateShortcut.Text = "⚡ TẠO / LÀM MỚI LỐI TẮT";
+            _btnCreateShortcut.CustomBackColor = AppColors.SurfaceHighlight;
+            timer.Stop();
+            timer.Dispose();
+        };
+        timer.Start();
+
+        MessageBox.Show(
+            $"⚡ {message}\n\nLối tắt 'Sale Lead Assistant' đã sẵn sàng ngoài màn hình Desktop và Start Menu.",
+            "Thông Báo Lối Tắt",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
+    }
+
+    public void ShowShortcutRemovedFeedback(string message)
+    {
+        _btnRemoveShortcut.Text = "✅ ĐÃ GỠ BỎ!";
+        _btnRemoveShortcut.CustomBackColor = AppColors.Warning;
+
+        var timer = new System.Windows.Forms.Timer { Interval = 2000 };
+        timer.Tick += (_, _) =>
+        {
+            _btnRemoveShortcut.Text = "🗑️ GỠ BỎ LỐI TẮT";
+            _btnRemoveShortcut.CustomBackColor = AppColors.SurfaceHighlight;
+            timer.Stop();
+            timer.Dispose();
+        };
+        timer.Start();
+
+        MessageBox.Show(
+            message,
+            "Gỡ Bỏ Lối Tắt",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
     }
 }

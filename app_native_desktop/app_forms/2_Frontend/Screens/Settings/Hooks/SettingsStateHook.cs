@@ -1,5 +1,6 @@
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Backend.Contracts.Schemas;
+using AppForms.Backend.Shortcut;
 using AppForms.Frontend.Screens.Settings.Models;
 using AppForms.Shared.Models.MessageFilter;
 
@@ -12,6 +13,7 @@ public class SettingsStateHook
 {
     private readonly ISettingsService _settingsService;
     private readonly IRoomCodeRepository _roomCodeRepo;
+    private readonly IDesktopShortcutService _shortcutService;
 
     public string SelectedSchemaId { get; private set; } = "tl21_house";
     public List<RoomCodeGroupViewModel> AvailableGroups { get; private set; } = new();
@@ -22,12 +24,18 @@ public class SettingsStateHook
     public event Action? MessageFilterOptionsSaved;
     public event Action<List<RoomCodeGroupViewModel>, string>? RoomGroupsReloaded;
     public event Action<RoomCodeGroupViewModel>? RoomCodesUpdated;
+    public event Action<string>? ShortcutCreatedFeedback;
+    public event Action<string>? ShortcutRemovedFeedback;
     public event Action<string, bool>? OperationFeedback;
 
-    public SettingsStateHook(ISettingsService settingsService, IRoomCodeRepository roomCodeRepo)
+    public SettingsStateHook(
+        ISettingsService settingsService, 
+        IRoomCodeRepository roomCodeRepo,
+        IDesktopShortcutService shortcutService)
     {
         _settingsService = settingsService;
         _roomCodeRepo = roomCodeRepo;
+        _shortcutService = shortcutService;
     }
 
     public void LoadGeneralSettings()
@@ -181,6 +189,34 @@ public class SettingsStateHook
         else
         {
             OperationFeedback?.Invoke($"Lỗi xóa mã: {result.Error}", false);
+        }
+    }
+
+    public void CreateOrUpdateDesktopShortcut()
+    {
+        var result = _shortcutService.CreateOrUpdateShortcut(desktop: true, startMenu: true);
+        if (result.IsSuccess)
+        {
+            ShortcutCreatedFeedback?.Invoke(result.Message);
+            OperationFeedback?.Invoke("Đã tạo/cập nhật Lối tắt Desktop & Start Menu thành công!", true);
+        }
+        else
+        {
+            OperationFeedback?.Invoke($"Lỗi tạo lối tắt: {result.Message}", false);
+        }
+    }
+
+    public void RemoveDesktopShortcut()
+    {
+        var result = _shortcutService.RemoveShortcut(desktop: true, startMenu: true);
+        if (result.IsSuccess)
+        {
+            ShortcutRemovedFeedback?.Invoke(result.Message);
+            OperationFeedback?.Invoke("Đã gỡ bỏ Lối tắt khỏi Desktop & Start Menu.", true);
+        }
+        else
+        {
+            OperationFeedback?.Invoke($"Lỗi gỡ bỏ lối tắt: {result.Message}", false);
         }
     }
 }
