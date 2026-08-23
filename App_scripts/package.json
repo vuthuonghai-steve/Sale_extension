@@ -1,0 +1,21 @@
+{
+  "name": "bds-sale-apps-script",
+  "version": "1.0.0",
+  "description": "Google Apps Script Dashboard trích xuất dữ liệu Google Sheets và ảnh Google Drive",
+  "main": "src/Code.js",
+  "scripts": {
+    "test": "node tests/test-suite.js",
+    "preview": "npx serve . -p 3000",
+    "push": "clasp push",
+    "pull": "clasp pull",
+    "deploy": "clasp deploy"
+  },
+  "keywords": [
+    "google-apps-script",
+    "clasp",
+    "google-sheets",
+    "google-drive"
+  ],
+  "author": "",
+  "license": "MIT"
+}

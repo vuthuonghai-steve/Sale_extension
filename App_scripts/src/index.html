@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BĐS Sale Dashboard - 2 Cột Text & Ảnh</title>
+  <!-- Tailwind CSS CDN & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .glass-panel {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col overflow-hidden">
+
+  <!-- TOP HEADER -->
+  <header class="glass-panel sticky top-0 z-30 px-6 py-3.5 border-b border-slate-700/60 flex items-center justify-between flex-shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 text-white font-bold text-lg">
+        🏢
+      </div>
+      <div>
+        <h1 class="text-lg font-bold text-white flex items-center gap-2">
+          BĐS Sale Dashboard
+          <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">Google Apps Script</span>
+        </h1>
+        <p class="text-xs text-slate-400" id="headerSubtitle">Bóc tách Sheet & Thư viện Ảnh Drive 2 Cột</p>
+      </div>
+    </div>
+
+    <!-- Actions & Sheet Link Input -->
+    <div class="flex items-center gap-3">
+      <div class="relative w-80 hidden md:block">
+        <input 
+          type="text" 
+          id="sheetUrlInput" 
+          placeholder="Dán link Google Sheet tại đây..." 
+          class="w-full bg-slate-800/80 border border-slate-700 text-xs text-slate-200 rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:border-amber-500 transition-colors"
+          value="https://docs.google.com/spreadsheets/d/1-A9ex-6QwdYDAMUYzUTxsNoJ81q18KYV/edit#gid=1864797977"
+        >
+        <button id="btnReloadSheet" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-400" title="Tải lại bảng tính">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <button id="btnRefresh" class="flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-semibold text-xs rounded-lg transition-all shadow-md shadow-amber-500/20 active:scale-95">
+        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+        <span>Lấy Dữ Liệu</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- SEARCH & FILTER TOOLBAR -->
+  <div class="bg-slate-900/90 border-b border-slate-800 px-6 py-3 flex flex-wrap items-center justify-between gap-4 flex-shrink-0">
+    <div class="flex items-center flex-wrap gap-3 flex-1 min-w-[300px]">
+      <!-- Keyword Search -->
+      <div class="relative flex-1 min-w-[220px]">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Tìm theo tên nhà, địa chỉ, đường, SĐT..." 
+          class="w-full bg-slate-800 border border-slate-700/80 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-amber-500"
+        >
+      </div>
+
+      <!-- Price Filter -->
+      <select id="priceFilter" class="bg-slate-800 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+        <option value="all">Tất cả mức giá</option>
+        <option value="under3">Dưới 3.5 triệu</option>
+        <option value="3to5">3.5 - 5 triệu</option>
+        <option value="5to8">5 - 8 triệu</option>
+        <option value="over8">Trên 8 triệu</option>
+      </select>
+
+      <!-- Elevator Filter -->
+      <select id="elevatorFilter" class="bg-slate-800 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+        <option value="all">Tất cả loại thang</option>
+        <option value="may">Thang máy</option>
+        <option value="bo">Thang bộ</option>
+      </select>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="flex items-center gap-4 text-xs text-slate-400">
+      <div>Hiển thị: <span id="displayCount" class="font-bold text-amber-400">0</span> phòng</div>
+    </div>
+  </div>
+
+  <!-- MAIN VIEWPORT (CARD LIST 2-COLUMNS) -->
+  <main class="flex-1 overflow-y-auto custom-scrollbar p-6 bg-slate-950/60">
+    <!-- Loading State -->
+    <div id="loadingState" class="flex flex-col items-center justify-center py-20 gap-4">
+      <div class="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
+      <p class="text-sm font-medium text-slate-300">Đang đọc dữ liệu bảng tính Google Sheet...</p>
+      <p class="text-xs text-slate-500">Bóc tách liên kết Drive và cấu trúc phòng</p>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden flex-col items-center justify-center py-20 gap-3 text-center">
+      <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-500 mb-2">
+        <i data-lucide="inbox" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-base font-semibold text-slate-300">Không tìm thấy phòng phù hợp</h3>
+      <p class="text-xs text-slate-500 max-w-sm">Hãy thử đổi từ khóa tìm kiếm hoặc bấm nút "Lấy Dữ Liệu" ở góc phải trên.</p>
+    </div>
+
+    <!-- Container Danh Sách Phòng -->
+    <div id="roomContainer" class="hidden space-y-6 max-w-7xl mx-auto">
+      <!-- Dynamic Room Cards inserted here -->
+    </div>
+  </main>
+
+  <!-- LIGHTBOX IMAGE MODAL -->
+  <div id="imageModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <button id="btnCloseModal" class="absolute top-4 right-4 text-white/70 hover:text-white bg-slate-800/80 rounded-full p-2">
+      <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+    <div class="max-w-4xl max-h-[85vh] flex flex-col items-center">
+      <img id="modalImage" src="" alt="Preview" class="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl mb-4">
+      <div class="flex items-center gap-3">
+        <button id="btnModalCopy" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-lg flex items-center gap-2">
+          <i data-lucide="clipboard-copy" class="w-4 h-4"></i> Copy Ảnh Này
+        </button>
+        <a id="btnModalOpenDrive" href="#" target="_blank" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg flex items-center gap-2">
+          <i data-lucide="external-link" class="w-4 h-4"></i> Mở trên Google Drive
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold">
+    <span id="toastIcon"></span>
+    <span id="toastMessage"></span>
+  </div>
+
+  <!-- CLIENT SCRIPT (VIẾT CHUẨN ĐỂ KHÔNG BỊ LỖI PARSER TRÊN GOOGLE APPS SCRIPT) -->
+  <script>
+    var state = {
+      rooms: [],
+      filteredRooms: []
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.lucide) lucide.createIcons();
+      initEvents();
+      loadData();
+    });
+
+    function initEvents() {
+      document.getElementById("btnRefresh").addEventListener("click", function() { loadData(); });
+      document.getElementById("btnReloadSheet").addEventListener("click", function() { loadData(); });
+      document.getElementById("searchInput").addEventListener("input", filterData);
+      document.getElementById("priceFilter").addEventListener("change", filterData);
+      document.getElementById("elevatorFilter").addEventListener("change", filterData);
+      
+      document.getElementById("btnCloseModal").addEventListener("click", closeModal);
+      document.getElementById("imageModal").addEventListener("click", function(e) {
+        if (e.target.id === "imageModal") closeModal();
+      });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function loadData() {
+      showLoading(true);
+      var sheetUrl = document.getElementById("sheetUrlInput").value.trim();
+
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(onDataLoaded)
+          .withFailureHandler(onError)
+          .fetchSheetData(sheetUrl);
+      } else {
+        console.warn("Chạy ở chế độ Preview Local (Không có google.script.run). Đang giả lập dữ liệu...");
+        setTimeout(function() {
+          onDataLoaded(getMockData());
+        }, 600);
+      }
+    }
+
+    function onDataLoaded(response) {
+      showLoading(false);
+      if (!response || !response.success) {
+        showToast("Lỗi tải dữ liệu: " + (response ? response.error : "Không rõ nguyên nhân"), "error");
+        return;
+      }
+
+      state.rooms = response.items || [];
+      var subtitle = (response.spreadsheetTitle || "Bảng tính") + " • Sheet: " + (response.sheetName || "Chính");
+      document.getElementById("headerSubtitle").innerText = subtitle;
+      filterData();
+      showToast("✅ Đã tải thành công " + state.rooms.length + " phòng!", "success");
+    }
+
+    function onError(err) {
+      showLoading(false);
+      console.error(err);
+      showToast("Lỗi hệ thống: " + (err.message || err), "error");
+    }
+
+    function filterData() {
+      var query = document.getElementById("searchInput").value.toLowerCase().trim();
+      var priceFilter = document.getElementById("priceFilter").value;
+      var elevatorFilter = document.getElementById("elevatorFilter").value;
+
+      state.filteredRooms = state.rooms.filter(function(room) {
+        var matchText = (
+          (room.houseName || "") + " " +
+          (room.address || "") + " " +
+          (room.emptyRooms || "") + " " +
+          (room.contactPhone || "") + " " +
+          (room.furniture || "") + " " +
+          (room.details || "")
+        ).toLowerCase();
+
+        if (query && matchText.indexOf(query) === -1) return false;
+
+        var eleStr = (room.elevator || "").toLowerCase();
+        if (elevatorFilter === "may" && eleStr.indexOf("máy") === -1 && eleStr.indexOf("may") === -1) return false;
+        if (elevatorFilter === "bo" && eleStr.indexOf("bộ") === -1 && eleStr.indexOf("bo") === -1) return false;
+
+        var priceNum = extractPriceNumber(room.price);
+        if (priceNum > 0) {
+          if (priceFilter === "under3" && priceNum >= 3.5) return false;
+          if (priceFilter === "3to5" && (priceNum < 3.5 || priceNum > 5.0)) return false;
+          if (priceFilter === "5to8" && (priceNum < 5.0 || priceNum > 8.0)) return false;
+          if (priceFilter === "over8" && priceNum < 8.0) return false;
+        }
+
+        return true;
+      });
+
+      renderRooms();
+    }
+
+    function extractPriceNumber(str) {
+      if (!str) return 0;
+      var cleaned = str.replace(/[.,\s]/g, "");
+      var match = cleaned.match(/(\d+)/);
+      if (!match) return 0;
+      var num = parseInt(match[1], 10);
+      if (num >= 1000000) return num / 1000000;
+      if (num >= 1000) return num / 1000;
+      return num;
+    }
+
+    function renderRooms() {
+      var container = document.getElementById("roomContainer");
+      var emptyState = document.getElementById("emptyState");
+      var countEl = document.getElementById("displayCount");
+
+      countEl.innerText = state.filteredRooms.length;
+
+      if (state.filteredRooms.length === 0) {
+        container.classList.add("hidden");
+        emptyState.classList.remove("hidden");
+        emptyState.classList.add("flex");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      emptyState.classList.remove("flex");
+      container.classList.remove("hidden");
+
+      var html = "";
+      for (var idx = 0; idx < state.filteredRooms.length; idx++) {
+        var room = state.filteredRooms[idx];
+        html += renderSingleCard(room, idx);
+      }
+
+      container.innerHTML = html;
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderSingleCard(room, idx) {
+      var sttBadge = escapeHtml(room.stt || String(idx + 1));
+      var roomTag = room.emptyRooms ? ('<span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30">Mã phòng: ' + escapeHtml(room.emptyRooms) + '</span>') : '<span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-semibold border border-slate-700">Phòng cho thuê</span>';
+      var address = escapeHtml(room.address || "Chưa có địa chỉ");
+      var priceBadge = room.price ? ('<span class="px-3 py-1 rounded-lg bg-gradient-to-r from-orange-500/20 to-amber-500/20 text-amber-300 font-bold text-sm border border-amber-500/40">' + escapeHtml(room.price) + ' đ</span>') : '';
+      var elevatorBadge = room.elevator ? ('<span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-xs border border-slate-700 flex items-center gap-1"><i data-lucide="move-vertical" class="w-3 h-3"></i> ' + escapeHtml(room.elevator) + '</span>') : '';
+
+      var furnitureRow = room.furniture ? ('<div><span class="text-slate-400 font-semibold">🛋️ Nội thất:</span> <span class="text-slate-200">' + escapeHtml(room.furniture) + '</span></div>') : '';
+      var servicesRow = room.services ? ('<div><span class="text-slate-400 font-semibold">⚡ Dịch vụ:</span> <span class="text-slate-200">' + escapeHtml(room.services) + '</span></div>') : '';
+      var detailsRow = room.details ? ('<div><span class="text-slate-400 font-semibold">📌 Mô tả:</span> <span class="text-slate-200">' + escapeHtml(room.details) + '</span></div>') : '';
+      var noteRow = room.note ? ('<div><span class="text-slate-400 font-semibold">⏱️ Vào ở:</span> <span class="text-amber-400 font-medium">' + escapeHtml(room.note) + '</span></div>') : '';
+
+      var mediaContent = renderMediaSection(room);
+      var driveLinkHtml = room.mediaLink ? ('<a href="' + escapeHtml(room.mediaLink) + '" target="_blank" class="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-medium hover:underline"><i data-lucide="folder-open" class="w-3.5 h-3.5"></i> Mở Drive</a>') : '<span class="text-xs text-slate-500">Chưa có link Drive</span>';
+
+      return [
+        '<div class="glass-panel rounded-2xl p-5 shadow-xl border border-slate-700/60 hover:border-slate-600 transition-all" id="card-' + room.id + '">',
+        '  <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-700/60">',
+        '    <div class="flex items-center gap-3">',
+        '      <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-sm border border-amber-500/30">#' + sttBadge + '</span>',
+        '      <div>',
+        '        <h2 class="text-base font-bold text-white flex items-center gap-2">' + roomTag + '</h2>',
+        '        <p class="text-xs text-slate-400 flex items-center gap-1 mt-0.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-500"></i> ' + address + '</p>',
+        '      </div>',
+        '    </div>',
+        '    <div class="flex items-center gap-2">' + priceBadge + ' ' + elevatorBadge + '</div>',
+        '  </div>',
+        '  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-4">',
+        '    <div class="lg:col-span-6 flex flex-col justify-between space-y-4">',
+        '      <div class="space-y-3">',
+        '        <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-800 text-xs space-y-2">',
+        furnitureRow, servicesRow, detailsRow, noteRow,
+        '        </div>',
+        '        <div class="relative">',
+        '          <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Mẫu Tin Nhắn Đăng Bài / Gửi Khách</label>',
+        '          <textarea id="text-post-' + room.id + '" rows="7" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono leading-relaxed focus:outline-none focus:border-amber-500 custom-scrollbar resize-y">' + escapeHtml(room.formattedSalesText || '') + '</textarea>',
+        '        </div>',
+        '      </div>',
+        '      <div class="flex items-center gap-2 pt-2">',
+        '        <button onclick="copyRoomText(\'' + room.id + '\')" class="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-98 transition-all">',
+        '          <i data-lucide="copy" class="w-4 h-4"></i><span>Sao Chép Tin Đăng (Text)</span>',
+        '        </button>',
+        '        <button onclick="openZaloDraft(\'' + room.id + '\')" class="py-2.5 px-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl flex items-center gap-1.5 shadow-lg shadow-blue-600/20 active:scale-98 transition-all" title="Gửi nhanh qua Zalo">',
+        '          <i data-lucide="send" class="w-4 h-4"></i> Zalo',
+        '        </button>',
+        '      </div>',
+        '    </div>',
+        '    <div class="lg:col-span-6 bg-slate-900/60 rounded-xl p-4 border border-slate-800 flex flex-col justify-between">',
+        '      <div>',
+        '        <div class="flex items-center justify-between mb-3">',
+        '          <div class="flex items-center gap-2">',
+        '            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5"><i data-lucide="images" class="w-4 h-4 text-amber-400"></i> Thư Viện Ảnh & Video</span>',
+        room.mediaText ? ('<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">Mã: ' + escapeHtml(room.mediaText) + '</span>') : '',
+        '          </div>',
+        driveLinkHtml,
+        '        </div>',
+        '        <div id="media-container-' + room.id + '" class="min-h-[180px] flex items-center justify-center">',
+        mediaContent,
+        '        </div>',
+        '      </div>',
+        '      <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">',
+        '        <span>💡 Bấm nút <b>Copy Ảnh</b> để dán trực tiếp (Ctrl+V) vào Zalo.</span>',
+        '      </div>',
+        '    </div>',
+        '  </div>',
+        '</div>'
+      ].join("\n");
+    }
+
+    function renderMediaSection(room) {
+      if (room.images && room.images.length > 0) {
+        var grid = ['<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full">'];
+        for (var i = 0; i < room.images.length; i++) {
+          var img = room.images[i];
+          var thumb = escapeHtml(img.thumbnailUrl || img.directUrl);
+          var direct = escapeHtml(img.directUrl || img.thumbnailUrl);
+          var name = escapeHtml(img.name || "Ảnh phòng");
+          grid.push(
+            '<div class="group relative bg-slate-950 rounded-lg overflow-hidden border border-slate-800 aspect-video flex items-center justify-center">' +
+            '  <img src="' + thumb + '" alt="' + name + '" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy">' +
+            '  <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 p-1.5">' +
+            '    <button onclick="copyImageDirect(\'' + thumb + '\')" class="p-2 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-lg shadow-lg font-bold text-xs flex items-center gap-1" title="Copy Ảnh này vào Clipboard"><i data-lucide="clipboard-copy" class="w-4 h-4"></i></button>' +
+            '    <button onclick="openImageModal(\'' + direct + '\')" class="p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg shadow-lg text-xs" title="Xem to"><i data-lucide="maximize-2" class="w-4 h-4"></i></button>' +
+            '  </div>' +
+            '</div>'
+          );
+        }
+        grid.push('</div>');
+        return grid.join("\n");
+      }
+
+      if (room.driveInfo && room.driveInfo.type === "folder") {
+        return [
+          '<div class="flex flex-col items-center justify-center py-8 text-center w-full">',
+          '  <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-3"><i data-lucide="folder" class="w-6 h-6"></i></div>',
+          '  <p class="text-xs text-slate-300 font-medium mb-2">Thư mục Google Drive (' + escapeHtml(room.mediaText || "Nhiều ảnh") + ')</p>',
+          '  <button onclick="loadFolderImages(\'' + room.id + '\', \'' + escapeHtml(room.mediaLink) + '\')" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-semibold rounded-lg border border-slate-700 flex items-center gap-1.5 transition-colors">',
+          '    <i data-lucide="download-cloud" class="w-3.5 h-3.5"></i> Quét & Lấy Toàn Bộ Ảnh',
+          '  </button>',
+          '</div>'
+        ].join("\n");
+      }
+
+      if (room.mediaLink) {
+        return [
+          '<div class="flex flex-col items-center justify-center py-6 text-center w-full">',
+          '  <i data-lucide="link" class="w-8 h-8 text-slate-500 mb-2"></i>',
+          '  <p class="text-xs text-slate-400 mb-2">Liên kết: ' + escapeHtml(room.mediaText || "Media") + '</p>',
+          '  <a href="' + escapeHtml(room.mediaLink) + '" target="_blank" class="text-xs text-amber-400 hover:underline flex items-center gap-1 font-semibold"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> Mở liên kết ngoài</a>',
+          '</div>'
+        ].join("\n");
+      }
+
+      return '<div class="py-8 text-center text-slate-500 text-xs"><i data-lucide="image-off" class="w-6 h-6 mx-auto mb-1 opacity-50"></i>Không có link ảnh cho căn này</div>';
+    }
+
+    function loadFolderImages(roomId, folderUrl) {
+      var container = document.getElementById("media-container-" + roomId);
+      if (!container) return;
+
+      container.innerHTML = '<div class="flex flex-col items-center justify-center py-8 gap-2"><div class="w-6 h-6 border-2 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div><span class="text-xs text-slate-400">Đang quét ảnh trong thư mục Drive...</span></div>';
+
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (res.success && res.images && res.images.length > 0) {
+              var room = state.rooms.find(function(r) { return r.id === roomId; });
+              if (room) room.images = res.images;
+              container.innerHTML = renderMediaSection(room);
+              if (window.lucide) lucide.createIcons();
+              showToast("Đã nạp " + res.images.length + " ảnh từ Drive!", "success");
+            } else {
+              container.innerHTML = '<div class="text-xs text-slate-400 py-4 text-center">Không tìm thấy ảnh hoặc thư mục chưa công khai.</div>';
+            }
+          })
+          .withFailureHandler(function(err) {
+            container.innerHTML = '<div class="text-xs text-rose-400 py-4 text-center">Lỗi tải ảnh: ' + (err.message || err) + '</div>';
+          })
+          .getDriveFolderImages(folderUrl);
+      } else {
+        setTimeout(function() {
+          var room = state.rooms.find(function(r) { return r.id === roomId; });
+          if (room) {
+            room.images = [
+              { name: "Phòng ngủ", thumbnailUrl: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=500&auto=format&fit=crop&q=80", directUrl: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=1200" },
+              { name: "Bếp", thumbnailUrl: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=500&auto=format&fit=crop&q=80", directUrl: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1200" }
+            ];
+            container.innerHTML = renderMediaSection(room);
+            if (window.lucide) lucide.createIcons();
+            showToast("Đã nạp ảnh mẫu (Preview)!", "success");
+          }
+        }, 500);
+      }
+    }
+
+    function copyRoomText(roomId) {
+      var textarea = document.getElementById("text-post-" + roomId);
+      if (!textarea) return;
+      var text = textarea.value;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          showToast("📋 Đã sao chép tin đăng bài vào Clipboard!", "success");
+        }).catch(function() {
+          fallbackCopy(textarea);
+        });
+      } else {
+        fallbackCopy(textarea);
+      }
+    }
+
+    function fallbackCopy(el) {
+      el.select();
+      document.execCommand("copy");
+      showToast("📋 Đã sao chép nội dung!", "success");
+    }
+
+    function copyImageDirect(imageUrl) {
+      showToast("⏳ Đang nạp ảnh vào bộ nhớ tạm...", "info");
+      fetch(imageUrl, { mode: "cors" })
+        .then(function(res) { return res.blob(); })
+        .then(function(blob) { return convertBlobToPng(blob); })
+        .then(function(pngBlob) {
+          if (navigator.clipboard && navigator.clipboard.write && typeof ClipboardItem !== "undefined") {
+            var item = new ClipboardItem({ "image/png": pngBlob });
+            return navigator.clipboard.write([item]);
+          } else {
+            throw new Error("Trình duyệt không hỗ trợ nạp binary vào Clipboard.");
+          }
+        })
+        .then(function() {
+          showToast("🖼️ ĐÃ COPY ẢNH! Hãy mở Zalo và ấn Ctrl + V để dán.", "success");
+        })
+        .catch(function(err) {
+          console.error("Lỗi copy ảnh: ", err);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(imageUrl);
+            showToast("⚠️ Đã copy link ảnh vào clipboard.", "warning");
+          }
+        });
+    }
+
+    function convertBlobToPng(blob) {
+      return new Promise(function(resolve, reject) {
+        if (blob.type === "image/png") return resolve(blob);
+        var img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = function() {
+          var canvas = document.createElement("canvas");
+          canvas.width = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(function(png) {
+            if (png) resolve(png);
+            else resolve(blob);
+          }, "image/png");
+        };
+        img.onerror = function() { resolve(blob); };
+        img.src = URL.createObjectURL(blob);
+      });
+    }
+
+    function openZaloDraft(roomId) {
+      copyRoomText(roomId);
+      window.open("https://chat.zalo.me", "_blank");
+    }
+
+    function openImageModal(imgUrl) {
+      var modal = document.getElementById("imageModal");
+      var modalImg = document.getElementById("modalImage");
+      var btnCopy = document.getElementById("btnModalCopy");
+      modalImg.src = imgUrl;
+      btnCopy.onclick = function() { copyImageDirect(imgUrl); };
+      modal.classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("imageModal").classList.add("hidden");
+    }
+
+    function showLoading(show) {
+      var loading = document.getElementById("loadingState");
+      if (show) {
+        loading.classList.remove("hidden");
+        loading.classList.add("flex");
+        document.getElementById("roomContainer").classList.add("hidden");
+        document.getElementById("emptyState").classList.add("hidden");
+      } else {
+        loading.classList.add("hidden");
+        loading.classList.remove("flex");
+      }
+    }
+
+    function showToast(message, type) {
+      var toast = document.getElementById("toast");
+      var msg = document.getElementById("toastMessage");
+      var icon = document.getElementById("toastIcon");
+
+      msg.innerText = message;
+
+      if (type === "success") {
+        toast.className = "fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-emerald-950/90 text-emerald-200 border-emerald-500/40 shadow-emerald-900/30 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold backdrop-blur-md";
+        icon.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>';
+      } else if (type === "error") {
+        toast.className = "fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-rose-950/90 text-rose-200 border-rose-500/40 shadow-rose-900/30 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold backdrop-blur-md";
+        icon.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>';
+      } else {
+        toast.className = "fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-slate-900/90 text-amber-300 border-amber-500/40 shadow-slate-900/30 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold backdrop-blur-md";
+        icon.innerHTML = '<i data-lucide="info" class="w-4 h-4 text-amber-400"></i>';
+      }
+
+      if (window.lucide) lucide.createIcons();
+
+      setTimeout(function() {
+        toast.classList.remove("translate-y-0", "opacity-100");
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 3500);
+    }
+
+    function getMockData() {
+      return {
+        success: true,
+        spreadsheetTitle: "BẢNG HÀNG TỔNG HỢP (Mẫu Thử Nghiệm)",
+        sheetName: "Phòng Trống",
+        count: 2,
+        items: [
+          {
+            id: "room_1",
+            stt: "1",
+            houseName: "105 Bạch Mai",
+            address: "Nhà 2 ngách 66 đình đông ngõ 105 Bạch Mai, Hai Bà Trưng",
+            elevator: "Bộ",
+            emptyRooms: "208",
+            price: "4.600.000",
+            furniture: "Tủ đồ + Giường, nóng lạnh, điều hòa, vệ sinh khép kín",
+            services: "Điện: 3.9k/số, Nước: 100k/ng, Mạng: 45k/ng",
+            contactPhone: "0366024166 / 0977.274.446",
+            details: "Nhà tập thể 2 tầng, phòng rộng 35m2, nấu ăn thoáng.",
+            note: "1/9 vào ở",
+            mediaText: "208",
+            mediaLink: "",
+            driveInfo: { type: "folder", id: "mock_1" },
+            formattedSalesText: "🔥 105 BẠCH MAI - Hai Bà Trưng\n💵 Giá: 4.600.000 đ/tháng",
+            images: [
+              { name: "Ảnh 1", thumbnailUrl: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=500&auto=format&fit=crop&q=80", directUrl: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=1200" }
+            ]
+          }
+        ]
+      };
+    }
+  </script>
+</body>
+</html>
