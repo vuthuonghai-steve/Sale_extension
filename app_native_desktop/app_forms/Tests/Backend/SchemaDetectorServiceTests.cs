@@ -133,6 +133,8 @@ public class SchemaDetectorServiceTests
     [InlineData("Team Lusaco", "lusaco")]
     [InlineData("HD HOMES GROUP", "hd_homes")]
     [InlineData("NT Home Real", "nt_home")]
+    [InlineData("SAPPHIRE HOUSE TT", "sapphire_house_tt")]
+    [InlineData("Team Sapphire", "sapphire_house_tt")]
     public void DetectSchema_FromTeamNameKeyword_ReturnsExactMatch(string teamName, string expectedSchema)
     {
         // Arrange

@@ -171,6 +171,29 @@ public static class DefaultSchemas
         }
     };
 
+    public static readonly FormatSchema SapphireHouseTT = new()
+    {
+        Id = "sapphire_house_tt",
+        Name = "SAPPHIRE HOUSE TT",
+        Icon = "🦁",
+        Description = "Định dạng gửi tin nhắn cho team SAPPHIRE HOUSE TT",
+        HeaderTemplate = "🦁 🌹SAPPHIRE HOUSE TT 🌹 🦁",
+        FooterTemplate = "",
+        DefaultValues = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["salesName"] = "Thiên Ngọc"
+        },
+        Fields = new List<FormatField>
+        {
+            new() { Key = "customerName", Label = "Khách", Prefix = "🍀Khách : ", FallbackTo = "customerPhone", Required = false },
+            new() { Key = "roomCode", Label = "MÃ", Prefix = "🍀MÃ : ", Required = false },
+            new() { Key = "address", Label = "Địa chỉ", Prefix = "🍀Địa chỉ : ", Required = true },
+            new() { Key = "price", Label = "Tài chính", Prefix = "🍀Tài chính : ", Required = true },
+            new() { Key = "viewTime", Label = "Thời gian", Prefix = "🍀Thời gian : ", Required = false },
+            new() { Key = "customerPhone", Label = "Sdt", Prefix = "🍀Sdt : ", Required = true }
+        }
+    };
+
     public static IReadOnlyList<FormatSchema> GetAllDefaultSchemas() => new List<FormatSchema>
     {
         ASkyGroup,
@@ -179,6 +202,7 @@ public static class DefaultSchemas
         LUSACO,
         HDHomes,
         NTHome,
-        NinetyFiveHome
+        NinetyFiveHome,
+        SapphireHouseTT
     };
 }
