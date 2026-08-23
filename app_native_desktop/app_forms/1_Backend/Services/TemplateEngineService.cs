@@ -23,14 +23,24 @@ public class TemplateEngineService : ITemplateEngine
             // Xử lý cố định trường CTV / salesName
             if (string.Equals(field.Key, "salesName", StringComparison.OrdinalIgnoreCase))
             {
-                if (!string.IsNullOrWhiteSpace(fixedCtvName))
+                // Ưu tiên 1: Schema chỉ định giữ tên CTV mặc định riêng (ví dụ: ANHOMES -> "Nguyên Đán")
+                if (schema.PreserveDefaultSalesName &&
+                    schema.DefaultValues.TryGetValue("salesName", out var preservedSales) &&
+                    !string.IsNullOrWhiteSpace(preservedSales))
+                {
+                    rawValue = preservedSales.Trim();
+                }
+                // Ưu tiên 2: Tên CTV cố định toàn cục (Settings / Global)
+                else if (!string.IsNullOrWhiteSpace(fixedCtvName))
                 {
                     rawValue = fixedCtvName.Trim();
                 }
+                // Ưu tiên 3: Tên CTV mặc định của schema
                 else if (schema.DefaultValues.TryGetValue("salesName", out var defaultSales) && !string.IsNullOrWhiteSpace(defaultSales))
                 {
                     rawValue = defaultSales.Trim();
                 }
+                // Ưu tiên 4: Tên CTV trích xuất từ lead
                 else if (!string.IsNullOrWhiteSpace(lead.SalesName))
                 {
                     rawValue = lead.SalesName.Trim();

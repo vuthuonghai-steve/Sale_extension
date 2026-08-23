@@ -2,6 +2,7 @@ using AppForms.Backend.Contracts.Entities;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Backend.Contracts.Schemas;
 using AppForms.Backend.Services;
+using AppForms.Backend.Shortcut;
 using AppForms.Frontend.Screens.LeadConverter.Hooks;
 using AppForms.Frontend.Screens.Settings.Hooks;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -17,6 +18,7 @@ public class CrossScreenSyncTests
     private readonly Mock<ISchemaManager> _mockSchemaManager;
     private readonly Mock<ITemplateEngine> _mockTemplateEngine;
     private readonly Mock<ISettingsService> _mockSettingsService;
+    private readonly Mock<IDesktopShortcutService> _mockShortcutService;
     private readonly SchemaDetectorService _detector;
 
     private readonly LeadConverterStateHook _leadConverterHook;
@@ -32,6 +34,7 @@ public class CrossScreenSyncTests
         _mockSchemaManager = new Mock<ISchemaManager>();
         _mockTemplateEngine = new Mock<ITemplateEngine>();
         _mockSettingsService = new Mock<ISettingsService>();
+        _mockShortcutService = new Mock<IDesktopShortcutService>();
 
         _mockSettingsService.Setup(s => s.Current).Returns(new AppSettings
         {
@@ -55,7 +58,8 @@ public class CrossScreenSyncTests
 
         _settingsHook = new SettingsStateHook(
             _mockSettingsService.Object,
-            _sharedRepository);
+            _sharedRepository,
+            _mockShortcutService.Object);
     }
 
     /// <summary>

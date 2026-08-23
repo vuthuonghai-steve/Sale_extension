@@ -101,6 +101,8 @@ public class SchemaDetectorService : ISchemaDetector
         if (normalized.Contains("tl21") || normalized.Contains("tl21house")) return "tl21_house";
         if (normalized.Contains("asky") || normalized.Contains("skygroup")) return "a_sky_group";
         if (normalized.Contains("sapphire") || normalized.Contains("sapphirehouse")) return "sapphire_house_tt";
+        if (normalized.Contains("tro365") || normalized.Contains("365")) return "tro_365";
+        if (normalized.Contains("anhomes") || normalized.Contains("anhome")) return "anhomes";
 
         return null;
     }

@@ -194,6 +194,53 @@ public static class DefaultSchemas
         }
     };
 
+    public static readonly FormatSchema Tro365 = new()
+    {
+        Id = "tro_365",
+        Name = "Trọ 365",
+        Icon = "🥳",
+        Description = "Định dạng gửi tin nhắn cho team Trọ 365",
+        HeaderTemplate = "ㅤ                🥳🎊Trọ 365🎊🥳",
+        FooterTemplate = "  Chúc Anh Chị sớm lấp hết phòng 🎯",
+        DefaultValues = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["salesName"] = "Thiên Ngọc"
+        },
+        Fields = new List<FormatField>
+        {
+            new() { Key = "address", Label = "Địa Chỉ", Prefix = "👑Địa Chỉ : ", Required = true },
+            new() { Key = "price", Label = "Giá Tư Vấn", Prefix = "👑Giá Tư Vấn : ", Required = true },
+            new() { Key = "viewTime", Label = "Giờ Xem", Prefix = "👑 Giờ Xem : ", Required = false },
+            new() { Key = "salesName", Label = "CTV", Prefix = "👑CTV : ", Required = false },
+            new() { Key = "roomCode", Label = "Mã Phòng", Prefix = "👑Mã Phòng : ", Required = false },
+            new() { Key = "customerPhone", Label = "Sđt", Prefix = "📞Sđt : ", Required = true }
+        }
+    };
+
+    public static readonly FormatSchema ANHomes = new()
+    {
+        Id = "anhomes",
+        Name = "ANHOMES",
+        Icon = "🏠",
+        Description = "Định dạng gửi tin nhắn cho team ANHOMES",
+        HeaderTemplate = "-ANHOMES-",
+        FooterTemplate = "",
+        PreserveDefaultSalesName = true,
+        DefaultValues = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["salesName"] = "Nguyên Đán"
+        },
+        Fields = new List<FormatField>
+        {
+            new() { Key = "salesName", Label = "Tên CTV", Prefix = "🏠Tên CTV: ", Required = false },
+            new() { Key = "roomCode", Label = "Mã phòng", Prefix = " Mã phòng: ", Required = false },
+            new() { Key = "customerPhone", Label = "SĐT khách", Prefix = "📞SĐT khách : ", Required = true },
+            new() { Key = "viewTime", Label = "Giờ xem / ngày xem", Prefix = "⏰Giờ xem / ngày xem: ", Required = false },
+            new() { Key = "address", Label = "Địa chỉ", Prefix = "🏖️Địa chỉ : ", Required = true },
+            new() { Key = "price", Label = "Giá tư vấn", Prefix = "💵Giá tư vấn : ", Required = true }
+        }
+    };
+
     public static IReadOnlyList<FormatSchema> GetAllDefaultSchemas() => new List<FormatSchema>
     {
         ASkyGroup,
@@ -203,6 +250,8 @@ public static class DefaultSchemas
         HDHomes,
         NTHome,
         NinetyFiveHome,
-        SapphireHouseTT
+        SapphireHouseTT,
+        Tro365,
+        ANHomes
     };
 }

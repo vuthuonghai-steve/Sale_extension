@@ -19,6 +19,7 @@ public record FormatSchema
     public string HeaderTemplate { get; init; } = string.Empty;
     public string FooterTemplate { get; init; } = string.Empty;
     public Dictionary<string, string> DefaultValues { get; init; } = new(StringComparer.OrdinalIgnoreCase);
+    public bool PreserveDefaultSalesName { get; init; } = false;
     public List<FormatField> Fields { get; init; } = new();
 }
 
