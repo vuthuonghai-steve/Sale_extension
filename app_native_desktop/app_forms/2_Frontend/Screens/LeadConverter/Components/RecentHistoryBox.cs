@@ -1,25 +1,23 @@
 using System.Drawing;
 using AppForms.Backend.Contracts.Entities;
-using AppForms.Frontend.Shared.Components;
 using AppForms.Frontend.Shared.Theme;
 
 namespace AppForms.Frontend.Screens.LeadConverter.Components;
 
 public class RecentHistoryBox : Panel
 {
-    private SlimScrollPanel _scrollPanel = null!;
-    private Panel _itemsContainer = null!;
+    private ComboBox _cboHistory = null!;
     private readonly List<ConversionItem> _items = new();
-    private int _selectedIndex = -1;
+    private bool _isInternalUpdating;
 
     public event Action<int>? HistoryItemSelected;
 
     public RecentHistoryBox()
     {
         Dock = DockStyle.Top;
-        Height = 120;
+        Height = 36;
         BackColor = AppColors.SurfaceDark;
-        Padding = new Padding(8, 4, 8, 8);
+        Padding = new Padding(8, 4, 8, 4);
 
         InitializeLayout();
     }
@@ -28,118 +26,78 @@ public class RecentHistoryBox : Panel
     {
         var lblHeader = new Label
         {
-            Text = "🕒 LỊCH SỬ GẦN ĐÂY",
-            Font = AppFonts.SubHeader,
+            Text = "🕒 Lịch sử gần đây:",
+            Font = AppFonts.Caption,
             ForeColor = AppColors.TextSecondary,
-            Dock = DockStyle.Top,
-            Height = 22
+            Dock = DockStyle.Left,
+            Width = 110,
+            TextAlign = ContentAlignment.MiddleLeft
         };
 
-        _scrollPanel = new SlimScrollPanel
+        _cboHistory = new ComboBox
         {
             Dock = DockStyle.Fill,
-            BackColor = AppColors.SurfaceInput
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            BackColor = AppColors.SurfaceInput,
+            ForeColor = AppColors.TextPrimary,
+            Font = AppFonts.Caption,
+            FlatStyle = FlatStyle.Flat
         };
 
-        _itemsContainer = new Panel
+        _cboHistory.SelectedIndexChanged += (_, _) =>
         {
-            Dock = DockStyle.Top,
-            AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            BackColor = AppColors.SurfaceInput
+            if (_isInternalUpdating) return;
+            var index = _cboHistory.SelectedIndex;
+            if (index >= 0 && index < _items.Count)
+            {
+                HistoryItemSelected?.Invoke(index);
+            }
         };
 
-        _scrollPanel.Content.Controls.Add(_itemsContainer);
-
-        Controls.Add(_scrollPanel);
+        Controls.Add(_cboHistory);
         Controls.Add(lblHeader);
+
+        UpdateComboBoxDisplay();
     }
 
     public void AddHistoryItem(ConversionItem item)
     {
         _items.Insert(0, item);
-        RenderItems();
-        if (_selectedIndex == -1 && _items.Count > 0)
-        {
-            SelectItem(0);
-        }
+        UpdateComboBoxDisplay();
+        
+        _isInternalUpdating = true;
+        _cboHistory.SelectedIndex = 0;
+        _isInternalUpdating = false;
     }
 
     public void Clear()
     {
         _items.Clear();
-        _selectedIndex = -1;
-        RenderItems();
+        UpdateComboBoxDisplay();
     }
 
-    private void RenderItems()
+    private void UpdateComboBoxDisplay()
     {
-        _itemsContainer.SuspendLayout();
-        _itemsContainer.Controls.Clear();
+        _isInternalUpdating = true;
+        _cboHistory.Items.Clear();
 
-        for (int i = 0; i < _items.Count; i++)
+        if (_items.Count == 0)
         {
-            var index = i;
-            var item = _items[i];
-            var preview = !string.IsNullOrEmpty(item.Lead.Address) ? item.Lead.Address : (item.Lead.CustomerPhone ?? "Lead");
-            var historyText = $"[{item.ConvertedAt:HH:mm:ss}] SĐT: {item.Lead.CustomerPhone ?? "N/A"} | {preview}";
-
-            var rowPanel = new Panel
-            {
-                Dock = DockStyle.Top,
-                Height = 24,
-                BackColor = (index == _selectedIndex) ? AppColors.SurfaceHighlight : AppColors.SurfaceInput,
-                Padding = new Padding(6, 2, 6, 2),
-                Cursor = Cursors.Hand
-            };
-
-            var lblText = new Label
-            {
-                Text = historyText,
-                Font = AppFonts.Caption,
-                ForeColor = (index == _selectedIndex) ? AppColors.TextPrimary : AppColors.TextSecondary,
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleLeft,
-                AutoEllipsis = true,
-                Cursor = Cursors.Hand
-            };
-
-            void OnRowClicked(object? sender, EventArgs e)
-            {
-                SelectItem(index);
-                HistoryItemSelected?.Invoke(index);
-            }
-
-            rowPanel.Click += OnRowClicked;
-            lblText.Click += OnRowClicked;
-
-            rowPanel.MouseEnter += (_, _) => { if (index != _selectedIndex) rowPanel.BackColor = AppColors.SurfaceHighlight; };
-            rowPanel.MouseLeave += (_, _) => { if (index != _selectedIndex) rowPanel.BackColor = AppColors.SurfaceInput; };
-            lblText.MouseEnter += (_, _) => { if (index != _selectedIndex) rowPanel.BackColor = AppColors.SurfaceHighlight; };
-            lblText.MouseLeave += (_, _) => { if (index != _selectedIndex) rowPanel.BackColor = AppColors.SurfaceInput; };
-
-            rowPanel.Controls.Add(lblText);
-            // Thêm ngược để Dock.Top sắp xếp đúng thứ tự 0 -> N
-            _itemsContainer.Controls.Add(rowPanel);
-            _itemsContainer.Controls.SetChildIndex(rowPanel, 0);
+            _cboHistory.Items.Add("-- Chưa có lịch sử chuyển đổi --");
+            _cboHistory.SelectedIndex = 0;
+            _cboHistory.Enabled = false;
         }
-
-        _itemsContainer.ResumeLayout();
-        _scrollPanel.UpdateScrollParameters();
-    }
-
-    private void SelectItem(int index)
-    {
-        _selectedIndex = index;
-        for (int i = 0; i < _itemsContainer.Controls.Count; i++)
+        else
         {
-            var row = _itemsContainer.Controls[i];
-            var isSelected = (i == (_itemsContainer.Controls.Count - 1 - index));
-            row.BackColor = isSelected ? AppColors.SurfaceHighlight : AppColors.SurfaceInput;
-            if (row.Controls.Count > 0 && row.Controls[0] is Label lbl)
+            _cboHistory.Enabled = true;
+            for (int i = 0; i < _items.Count; i++)
             {
-                lbl.ForeColor = isSelected ? AppColors.TextPrimary : AppColors.TextSecondary;
+                var item = _items[i];
+                var preview = !string.IsNullOrEmpty(item.Lead.Address) ? item.Lead.Address : (item.Lead.CustomerPhone ?? "Lead");
+                var text = $"[{item.ConvertedAt:HH:mm:ss}] SĐT: {item.Lead.CustomerPhone ?? "N/A"} | {preview}";
+                _cboHistory.Items.Add(text);
             }
         }
+        _isInternalUpdating = false;
     }
 }

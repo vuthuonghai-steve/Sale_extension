@@ -45,6 +45,12 @@ public static class BackendServiceRegistration
         services.AddSingleton<IRoomCodeRepository>(sp => sp.GetRequiredService<JsonRoomCodeRepository>());
         services.AddSingleton<IRoomCodeReadOnlyRepository>(sp => sp.GetRequiredService<JsonRoomCodeRepository>());
 
+        // Special Multi-System Room Code Mapping & Detection Services
+        services.AddSingleton<ISpecialMappingTextParser, SpecialMappingTextParser>();
+        services.AddSingleton<JsonSpecialRoomMappingRepository>();
+        services.AddSingleton<ISpecialRoomMappingRepository>(sp => sp.GetRequiredService<JsonSpecialRoomMappingRepository>());
+        services.AddSingleton<ISpecialRoomMappingDetector, SpecialRoomMappingDetector>();
+
         // Room Code Rules & Schema Detection
         services.AddSingleton<ISpecialRoomCodeRule, CPrefixTL21SpecialRule>();
         services.AddSingleton<ISpecialRoomCodeRule, StandardPrefixRules>();

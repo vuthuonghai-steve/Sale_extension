@@ -17,6 +17,7 @@ public class LeadConverterScreen : UserControl
 
     private SchemaSelectorTabs _tabs = null!;
     private RawInputBox _rawInputBox = null!;
+    private SpecialCodeAlertBox _specialAlertBox = null!;
     private LeadFieldEditor _fieldEditor = null!;
     private OutputPreviewBox _previewBox = null!;
     private RecentHistoryBox _historyBox = null!;
@@ -30,12 +31,13 @@ public class LeadConverterScreen : UserControl
         ISettingsService settingsService,
         ITemplateEngine templateEngine,
         ISchemaDetector schemaDetector,
-        IRoomCodeRepository roomCodeRepo)
+        IRoomCodeRepository roomCodeRepo,
+        ISpecialRoomMappingDetector? specialDetector = null)
     {
         _converterService = converterService;
         _schemaManager = schemaManager;
         _roomCodeRepo = roomCodeRepo;
-        _stateHook = new LeadConverterStateHook(converterService, schemaManager, templateEngine, settingsService, schemaDetector, roomCodeRepo);
+        _stateHook = new LeadConverterStateHook(converterService, schemaManager, templateEngine, settingsService, schemaDetector, roomCodeRepo, specialDetector);
 
         InitializeLayout();
         RegisterEvents();
@@ -52,14 +54,15 @@ public class LeadConverterScreen : UserControl
         _tabs = new SchemaSelectorTabs();
         _tabs.LoadSchemas(_schemaManager.Schemas, _stateHook.ActiveSchemaId);
         _rawInputBox = new RawInputBox();
+        _specialAlertBox = new SpecialCodeAlertBox();
         _fieldEditor = new LeadFieldEditor();
         _previewBox = new OutputPreviewBox();
         _historyBox = new RecentHistoryBox();
 
-        // Thêm vào scrollPanel.Content theo thứ tự Z-order Dock Top từ dưới lên trên
         scrollPanel.Content.Controls.Add(_historyBox);
         scrollPanel.Content.Controls.Add(_previewBox);
         scrollPanel.Content.Controls.Add(_fieldEditor);
+        scrollPanel.Content.Controls.Add(_specialAlertBox);
         scrollPanel.Content.Controls.Add(_rawInputBox);
         scrollPanel.Content.Controls.Add(_tabs);
 
@@ -76,9 +79,13 @@ public class LeadConverterScreen : UserControl
         _previewBox.CopyRequested += () => { if (_stateHook.CopyOutputToClipboard()) { _previewBox.ShowCopySuccess(); StatusMessageUpdated?.Invoke("Đã sao chép tin nhắn vào Clipboard."); } };
         _historyBox.HistoryItemSelected += OnHistoryItemSelected;
 
+        _specialAlertBox.CopyPhoneRequested += phone => { if (_stateHook.CopyTextToClipboard(phone)) StatusMessageUpdated?.Invoke($"Đã sao chép SĐT: {phone}"); };
+        _specialAlertBox.OpenUrlRequested += url => { if (!_stateHook.OpenUrl(url)) StatusMessageUpdated?.Invoke("Không thể mở liên kết trình duyệt."); };
+
         _stateHook.StateChanged += () => { _previewBox.SetOutputText(_stateHook.FormattedOutput); _tabs.SetAddCodeState(_stateHook.IsAddCodeButtonEnabled, _stateHook.CurrentLead.RoomCode, _stateHook.ActiveSchemaId); };
         _stateHook.SchemaAutoDetected += schemaId => { _tabs.SetActive(schemaId); StatusMessageUpdated?.Invoke($"⚡ Đã tự động nhận diện sàn: {_schemaManager.GetSchemaById(schemaId)?.Name ?? schemaId}"); };
         _stateHook.DetectionResultChanged += res => { _tabs.SetDetectionStatus(res.Status, res.ConflictMessage, res.CandidateSchemaIds); _tabs.SetAddCodeState(_stateHook.IsAddCodeButtonEnabled, _stateHook.CurrentLead.RoomCode, _stateHook.ActiveSchemaId); };
+        _stateHook.SpecialMappingDetected += mapping => FormStateObserver.InvokeOnUI(this, () => _specialAlertBox.BindData(mapping));
         _stateHook.OperationFeedback += (msg, _) => StatusMessageUpdated?.Invoke(msg);
         _converterService.Converted += (_, item) => FormStateObserver.InvokeOnUI(this, () => _historyBox.AddHistoryItem(item));
     }

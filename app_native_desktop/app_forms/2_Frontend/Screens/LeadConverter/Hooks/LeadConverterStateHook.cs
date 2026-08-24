@@ -1,9 +1,15 @@
+using System.Diagnostics;
 using AppForms.Backend.Contracts.Entities;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Shared.Enums;
+using AppForms.Shared.Models.SpecialMapping;
 
 namespace AppForms.Frontend.Screens.LeadConverter.Hooks;
 
+/// <summary>
+/// Quản lý UI State và điều phối sự kiện màn hình LeadConverterScreen.
+/// Logic nhận diện đối chiếu phòng đặc biệt được ủy quyền cho ISpecialRoomMappingDetector.
+/// </summary>
 public class LeadConverterStateHook
 {
     private readonly IFormConverterService _converterService;
@@ -12,17 +18,20 @@ public class LeadConverterStateHook
     private readonly ISettingsService _settingsService;
     private readonly ISchemaDetector _schemaDetector;
     private readonly IRoomCodeRepository _roomCodeRepo;
+    private readonly ISpecialRoomMappingDetector? _specialDetector;
 
     public string? ActiveSchemaId { get; private set; }
     public LeadEntity CurrentLead { get; private set; } = new();
     public string FormattedOutput { get; private set; } = string.Empty;
     public SchemaDetectionResult CurrentDetectionResult { get; private set; } = new();
+    public SpecialRoomMappingEntity? MatchedSpecialMapping { get; private set; }
     public bool IsAddCodeButtonEnabled { get; private set; }
     public bool IsSyncingInternally { get; set; }
 
     public event Action? StateChanged;
     public event Action<string>? SchemaAutoDetected;
     public event Action<SchemaDetectionResult>? DetectionResultChanged;
+    public event Action<SpecialRoomMappingEntity?>? SpecialMappingDetected;
     public event Action<string, bool>? OperationFeedback;
 
     public LeadConverterStateHook(
@@ -31,7 +40,8 @@ public class LeadConverterStateHook
         ITemplateEngine templateEngine,
         ISettingsService settingsService,
         ISchemaDetector schemaDetector,
-        IRoomCodeRepository roomCodeRepo)
+        IRoomCodeRepository roomCodeRepo,
+        ISpecialRoomMappingDetector? specialDetector = null)
     {
         _converterService = converterService;
         _schemaManager = schemaManager;
@@ -39,6 +49,7 @@ public class LeadConverterStateHook
         _settingsService = settingsService;
         _schemaDetector = schemaDetector;
         _roomCodeRepo = roomCodeRepo;
+        _specialDetector = specialDetector;
 
         ActiveSchemaId = null;
     }
@@ -68,8 +79,10 @@ public class LeadConverterStateHook
             CurrentLead = new LeadEntity();
             ActiveSchemaId = null;
             CurrentDetectionResult = new SchemaDetectionResult();
+            MatchedSpecialMapping = null;
             UpdateAddCodeButtonState();
             DetectionResultChanged?.Invoke(CurrentDetectionResult);
+            SpecialMappingDetected?.Invoke(null);
             RecalculateOutput();
             return;
         }
@@ -85,14 +98,13 @@ public class LeadConverterStateHook
             ActiveSchemaId = detection.MatchedSchemaId;
             SchemaAutoDetected?.Invoke(detection.MatchedSchemaId);
         }
-        else if (detection.Status == SchemaDetectionStatus.AmbiguousConflict)
-        {
-            ActiveSchemaId = null;
-        }
         else
         {
             ActiveSchemaId = null;
         }
+
+        MatchedSpecialMapping = _specialDetector?.Detect(CurrentLead, rawInput);
+        SpecialMappingDetected?.Invoke(MatchedSpecialMapping);
 
         UpdateAddCodeButtonState();
         DetectionResultChanged?.Invoke(CurrentDetectionResult);
@@ -115,6 +127,9 @@ public class LeadConverterStateHook
         {
             ActiveSchemaId = null;
         }
+
+        MatchedSpecialMapping = _specialDetector?.Detect(CurrentLead, null);
+        SpecialMappingDetected?.Invoke(MatchedSpecialMapping);
 
         UpdateAddCodeButtonState();
         DetectionResultChanged?.Invoke(CurrentDetectionResult);
@@ -204,5 +219,39 @@ public class LeadConverterStateHook
 
         var res = _converterService.CopyToClipboard(FormattedOutput);
         return res.IsSuccess;
+    }
+
+    public bool CopyTextToClipboard(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return false;
+        }
+
+        var res = _converterService.CopyToClipboard(text);
+        return res.IsSuccess;
+    }
+
+    public bool OpenUrl(string url)
+    {
+        if (Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
+            (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        return false;
     }
 }

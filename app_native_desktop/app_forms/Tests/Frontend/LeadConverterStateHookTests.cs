@@ -4,6 +4,7 @@ using AppForms.Backend.Contracts.Schemas;
 using AppForms.Frontend.Screens.LeadConverter.Hooks;
 using AppForms.Shared.Common;
 using AppForms.Shared.Enums;
+using AppForms.Shared.Models.SpecialMapping;
 using Moq;
 using Xunit;
 
@@ -17,6 +18,7 @@ public class LeadConverterStateHookTests
     private readonly Mock<ISettingsService> _mockSettingsService;
     private readonly Mock<ISchemaDetector> _mockDetector;
     private readonly Mock<IRoomCodeRepository> _mockRoomRepo;
+    private readonly Mock<ISpecialRoomMappingDetector> _mockSpecialDetector;
     private readonly LeadConverterStateHook _hook;
 
     public LeadConverterStateHookTests()
@@ -27,6 +29,7 @@ public class LeadConverterStateHookTests
         _mockSettingsService = new Mock<ISettingsService>();
         _mockDetector = new Mock<ISchemaDetector>();
         _mockRoomRepo = new Mock<IRoomCodeRepository>();
+        _mockSpecialDetector = new Mock<ISpecialRoomMappingDetector>();
 
         _mockSettingsService.Setup(s => s.Current).Returns(new AppSettings
         {
@@ -47,7 +50,87 @@ public class LeadConverterStateHookTests
             _mockTemplateEngine.Object,
             _mockSettingsService.Object,
             _mockDetector.Object,
-            _mockRoomRepo.Object);
+            _mockRoomRepo.Object,
+            _mockSpecialDetector.Object);
+    }
+
+    [Fact]
+    public void SpecialMapping_WhenDetectorFindsMatch_FiresSpecialMappingDetectedEvent()
+    {
+        // Arrange
+        var lead = new LeadEntity { RoomCode = "AHS284", CustomerPhone = "0977274446" };
+        var convItem = new ConversionItem { Lead = lead };
+        _mockConverter.Setup(c => c.ProcessRawInput("raw text", It.IsAny<string?>())).Returns(convItem);
+        _mockDetector.Setup(d => d.DetectSchemaWithDetails(lead, "raw text"))
+            .Returns(SchemaDetectionResult.NotFoundResult());
+
+        var expectedMapping = new SpecialRoomMappingEntity
+        {
+            Stt = 1,
+            ManagerName = "Phan Anh",
+            Phone = "0977274446"
+        };
+        _mockSpecialDetector.Setup(d => d.Detect(lead, "raw text")).Returns(expectedMapping);
+
+        SpecialRoomMappingEntity? detectedMapping = null;
+        _hook.SpecialMappingDetected += m => detectedMapping = m;
+
+        // Act
+        _hook.ProcessRawInput("raw text");
+
+        // Assert
+        Assert.NotNull(detectedMapping);
+        Assert.Equal("Phan Anh", detectedMapping!.ManagerName);
+        Assert.Equal(expectedMapping, _hook.MatchedSpecialMapping);
+    }
+
+    [Fact]
+    public void SpecialMapping_WhenDetectorReturnsNull_FiresSpecialMappingDetectedWithNull()
+    {
+        // Arrange
+        var lead = new LeadEntity { RoomCode = "NORMAL_ROOM_101" };
+        var convItem = new ConversionItem { Lead = lead };
+        _mockConverter.Setup(c => c.ProcessRawInput("raw text", It.IsAny<string?>())).Returns(convItem);
+        _mockDetector.Setup(d => d.DetectSchemaWithDetails(lead, "raw text"))
+            .Returns(SchemaDetectionResult.NotFoundResult());
+        _mockSpecialDetector.Setup(d => d.Detect(lead, "raw text")).Returns((SpecialRoomMappingEntity?)null);
+
+        SpecialRoomMappingEntity? detectedMapping = null;
+        var eventFired = false;
+        _hook.SpecialMappingDetected += m =>
+        {
+            detectedMapping = m;
+            eventFired = true;
+        };
+
+        // Act
+        _hook.ProcessRawInput("raw text");
+
+        // Assert
+        Assert.True(eventFired);
+        Assert.Null(detectedMapping);
+        Assert.Null(_hook.MatchedSpecialMapping);
+    }
+
+    [Fact]
+    public void CopyTextToClipboard_WhenValidText_DelegatesToConverterService()
+    {
+        // Arrange
+        _mockConverter.Setup(c => c.CopyToClipboard("0977274446")).Returns(Result.Success());
+
+        // Act
+        var success = _hook.CopyTextToClipboard("0977274446");
+
+        // Assert
+        Assert.True(success);
+        _mockConverter.Verify(c => c.CopyToClipboard("0977274446"), Times.Once);
+    }
+
+    [Fact]
+    public void CopyTextToClipboard_WhenEmptyText_ReturnsFalse()
+    {
+        var success = _hook.CopyTextToClipboard("   ");
+        Assert.False(success);
     }
 
     /// <summary>
