@@ -1,0 +1,10 @@
+# Ignore all files by default
+**/**
+
+# Whitelist script files in root and all subdirectories
+!**/*.js
+!**/*.gs
+!**/*.html
+!**/*.ts
+!appsscript.json
+!**/appsscript.json

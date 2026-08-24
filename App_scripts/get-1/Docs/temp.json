@@ -1,0 +1,32 @@
+{
+    "id": 1,
+    "stt": 1,
+    "houseName": "105 bạch mai",
+    "room": "205",
+    "rooms": [
+        "205"
+    ],
+    "title": "105 bạch mai - P.205",
+    "address": "Nhà 2 ngách 66 đình đông ngõ 105 Bạch Mai, Hai Bà Trưng",
+    "elevator": "Bộ",
+    "price": 4500000,
+    "priceFormatted": "4,5 triệu/tháng",
+    "phones": [
+        "0366024166",
+        "0977274446"
+    ],
+    "furniture": "Tủ đồ + Dường, nóng lạnh, điều hòa, vệ sinh khép kín, bàn bếp + chậu rửa, giá bát, quạt trần, bộ bàn ghế ăn, nếu ở 4 hỗ trợ lắp 2 dường",
+    "serviceFee": "Điện: 3,900k/số, Nước:100k/người, Mạng: 45k/người, Vệ sinh +điện chung:150k/ng\n (Dịch vụ chung gồm: máy giặt, điện chung, thu rác hàng ngày, ng quét dọn vệ sinh chung nhà hàng ngày,  bảo vệ, kỹ thuật sửa chữa trang thiết bị bị khi hỏng hóc)\n Xe để miễn phí 2 xe\n Xe 3: 100k/xe",
+    "description": "Nhà tập thể chỉ có 2 tầng, phòng trống tầng 2. \nSân để xe rộng, hành lang trước phòng rộng 3m; phòng rộng chuẩn 35m2; \nPhòng dài nên nấu ăn, sinh hoạt k ám mùi, phù hợp ở 4,5 người; ở 4 hỗ trợ lắp thêm 1 dường TỔNG 2 DƯỜNG\nkhông chung chủ, có bảo vệ, người quét dọn vệ sinh hàng ngày. Có nhận xe điện, xe bao nhiêu cũng có chỗ riêng biệt, an toàn. Nhà đảm bảo PCCC tuyệt đối",
+    "note": "01/09/2026",
+    "media": {
+        "folderUrl": "",
+        "thumbnail": "",
+        "preview": "",
+        "totalImages": 0,
+        "totalVideos": 0,
+        "images": [],
+        "videos": []
+    },
+    "sheetOrigin": "Sheet1"
+},
