@@ -44,6 +44,9 @@ public static class FilterRegexPatterns
         // Mốc hoa hồng tiền mặt đơn lẻ
         public const string MoneySingle = @"(?:\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*[ \t]*[-–—_]?[ \t]*(?:hd|HĐ|hạn|Hạn|hợp[ \t]*đồng|thời[ \t]*hạn)?[ \t]*(?:tới|toi|đến|den)?[ \t]*[\d\/\.\-–—_]+(?:[ \t]*[-–—_][ \t]*[\d\/\.]+)*[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM]))";
 
+        // Mốc hoa hồng tính theo số tháng tiền nhà/phòng (VD: 1 tháng, 1/2 tháng, 0.5 tháng, 1T, 1/2T, 1 tháng tiền phòng)
+        public const string MonthSingle = @"(?:\d+(?:[\.,]\d+)?|\d+\/\d+)[ \t]*(?:[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM]|tháng|th|t|năm)(?:[ \t]*(?:tiền[ \t]*(?:nhà|phòng)))?";
+
         // Ghi chú hoa hồng đứng độc lập 1 dòng
         public const string NoteStandalone = @"(?:\([ \t]*.*?(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[hH][hH]|[hH]oa[ \t]*hồng|[fF]ix[ \t]*giá|[fF]ix|[kK]hách[ \t]*dẫn|[tT]hưởng|[bB]onus|[hH]ỗ[ \t]*trợ|[tT]ặng).*?\)|(?:[-–—_][ \t]*)?(?:[cC]hủ[ \t]*dẫn|[cC]tv[ \t]*dẫn|[cC][tT][vV]|[cC][dD]|[cC]hốt|[cC]hốt[ \t]*ở|[kK]hách[ \t]*dẫn|[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv)?|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)?):?[ \t]*(?:\d{1,3}[ \t]*%|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)[ \t]*\d*|.*?))";
 
@@ -77,10 +80,10 @@ public static class FilterRegexPatterns
     );
 
     /// <summary>
-    /// 2.5 Regex Lọc Emoji Hoa Hồng Mồ Côi Đứng Trước Mã (Orphan Emoji Regex)
+    /// 2.5 Regex Lọc Emoji / Header Hoa Hồng Mồ Côi Đứng Trước Mã (Orphan Emoji & Header Regex)
     /// </summary>
     public static readonly Regex OrphanEmojiRegex = new(
-        @"(?<=^|\n)[ \t]*(?:\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾)[ \t]*(?=(?:(?:Mã|MÃ|mã):?|[🏆🎖️🥇⭐📍🏢☘⌛]|TL\d*|[hH]\d{2,4}\b|[pP]\d{2,4}\b))",
+        @"(?<=^|\n)[ \t]*(?:(?:\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾)[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?|(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)(?=(?:(?:Mã|MÃ|mã):?|[🏆🎖️🥇⭐📍🏢☘⌛]|TL\d*|[hH]\d{2,4}\b|[pP]\d{2,4}\b))",
         RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
         DefaultRegexTimeout
     );
@@ -98,7 +101,7 @@ public static class FilterRegexPatterns
     /// 4. Regex Lọc Dòng Hoa Hồng Đứng Độc Lập (%)
     /// </summary>
     public static readonly Regex CommissionLinePercentRegex = new(
-        @"^[ \t]*(?:(?:" + Patterns.HeaderPrefix + @"[ \t]*)?" + Patterns.CommChain + @"|(?:" + Patterns.HeaderPrefix + @"[ \t]*)" + Patterns.PercentRangeNoSymbol + @"(?:" + Patterns.Duration + @")?|(?:" + Patterns.HeaderPrefix + @"[ \t]*)\d{1,3}(?:[ \t]+" + Patterns.Duration + @")?|(?:" + Patterns.HeaderPrefix + @"[ \t]*)?" + Patterns.NoteStandalone + @")[ \t]*$",
+        @"^[ \t]*(?:(?:" + Patterns.HeaderPrefix + @"[ \t]*)?" + Patterns.CommChain + @"|(?:" + Patterns.HeaderPrefix + @"[ \t]*)" + Patterns.PercentRangeNoSymbol + @"(?:" + Patterns.Duration + @")?|(?:" + Patterns.HeaderPrefix + @"[ \t]*)\d{1,3}(?:[ \t]+" + Patterns.Duration + @")?|(?:" + Patterns.HeaderPrefix + @"[ \t]*)" + Patterns.MonthSingle + @"|(?:" + Patterns.HeaderPrefix + @"[ \t]*)?" + Patterns.NoteStandalone + @")[ \t]*$",
         RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
         DefaultRegexTimeout
     );
@@ -117,6 +120,24 @@ public static class FilterRegexPatterns
     /// </summary>
     public static readonly Regex CommissionLineBonusRegex = new(
         @"(?:[tT]hưởng[ \t]*(?:[nN]óng[ \t]*)?(?:[sS]ale|[cC]tv|cho[ \t]*[sS]ale|cho[ \t]*[cC]tv|môi[ \t]*giới)|[bB]onus[ \t]*(?:[sS]ale|[cC]tv)|(?:[hH]ỗ[ \t]*trợ|[tT]ặng)[ \t]+(?:[sS]ale|[cC]tv)|[tT]hưởng[ \t]+[nN]óng|[tT]hưởng[ \t]+\d+(?:[\.,]\d+)?[ \t]*(?:k|tr|triệu|đ|vnd)?[ \t]*(?:\/[ \t]*(?:phòng|căn|p|hđ|hợp[ \t]*đồng))?[ \t]*(?:cho[ \t]*)?(?:sale|ctv|môi[ \t]*giới))",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
+        DefaultRegexTimeout
+    );
+
+    /// <summary>
+    /// 7. Regex Lọc Dòng Tiêu Đề Hoa Hồng Đứng Độc Lập / Rỗng (VD: "🌷 Hoa hồng:", "Hoa hồng:", "HH:", "• Hoa hồng:")
+    /// </summary>
+    public static readonly Regex CommissionHeaderLineRegex = new(
+        @"^[ \t]*[•\-–—*+▪️▫️]?[ \t]*(?:(?:\/-[a-zA-Z0-9_]+|🌷|🌸|🌺|🌻|🌹|💐|🍾)[ \t]*(?:(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)?|(?:[hH][hH]|[hH]oa[ \t]*hồng):?[ \t]*)[ \t]*$",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
+        DefaultRegexTimeout
+    );
+
+    /// <summary>
+    /// 8. Regex Lọc Dòng Chi Tiết Hợp Đồng / Danh Sách Phân Cấp Hoa Hồng (VD: " • HĐ 6 tháng:", " • HĐ 1 năm:", " • HĐ 6 tháng: 30%", " • HĐ 1 năm: 1 tháng")
+    /// </summary>
+    public static readonly Regex CommissionContractTermLineRegex = new(
+        @"^[ \t]*[•\-–—*+▪️▫️]?[ \t]*(?:\d+[.\)-][ \t]*)?(?:(?:hd|HĐ|hợp[ \t]*đồng|thời[ \t]*hạn|hạn|HD)[ \t]*)?(?:<|<=|>|>=|dưới|trên|từ|tu|duoi|tren)?[ \t]*\d+(?:[\.,]\d+)?[ \t]*(?:[mM]|[tT]|[tT][hH]|[tT][hH]á[nN][gG]|[nN]ă[mM]|th|t|năm|tháng)[ \t]*:[ \t]*(?:" + Patterns.PercentWithSymbol + @"|" + Patterns.PercentRangeNoSymbol + @"|" + Patterns.MonthSingle + @"|\d+(?:[\.,]\d+)?[ \t]*(?:tr|triệu|k)|(?:\([ \t]*[^\n)]*\)|.*?))?[ \t]*$",
         RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
         DefaultRegexTimeout
     );

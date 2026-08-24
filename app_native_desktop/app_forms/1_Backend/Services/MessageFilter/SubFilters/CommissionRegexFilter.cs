@@ -43,6 +43,19 @@ public class CommissionRegexFilter : IClipboardFilter
                 continue;
             }
 
+            // Bỏ dòng tiêu đề hoa hồng rỗng/đứng độc lập (VD: "🌷 Hoa hồng:", "Hoa hồng:", "HH:")
+            if (FilterRegexPatterns.CommissionHeaderLineRegex.IsMatch(trimmed))
+            {
+                continue;
+            }
+
+            // Bỏ dòng chi tiết phân cấp hợp đồng hoa hồng (VD: " • HĐ 6 tháng:", " • HĐ 1 năm:", " • HĐ 6 tháng: 30%")
+            if (FilterRegexPatterns.CommissionContractTermLineRegex.IsMatch(trimmed) &&
+                !FilterRegexPatterns.ProtectedLinePrefixRegex.IsMatch(trimmed))
+            {
+                continue;
+            }
+
             // Bỏ dòng chỉ chứa thông tin hoa hồng phần trăm đứng riêng (VD: "30%-6th", "🌷 40%-12th", "/-rose 35%")
             if (FilterRegexPatterns.CommissionLinePercentRegex.IsMatch(trimmed))
             {

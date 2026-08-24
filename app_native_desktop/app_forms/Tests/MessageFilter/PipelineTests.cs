@@ -335,4 +335,14 @@ public class PipelineTests
         string actual = _pipelineManager.Process(input);
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void TC32_COMMISSION_MULTILINE_CONTRACT_LIST_BEFORE_MA_YEN_HOA()
+    {
+        string input = "🌷 Hoa hồng:\n • HĐ 6 tháng:\n • HĐ 1 năm:\n🏆 Mã: 027\n\n🏢 Địa chỉ: 105 Yên Hòa, Cầu Giấy, Hà Nội (Báo khách đến 70 Hạ Yên Quyết) - Quận: Cầu Giấy\n\n⌛️ Trống: 505 – Vào ở từ 1/10";
+        string expected = "🏆 Mã: 027\n\n🏢 Địa chỉ: 105 Yên Hòa, Cầu Giấy, Hà Nội (Báo khách đến 70 Hạ Yên Quyết) - Quận: Cầu Giấy\n\n⌛️ Trống: 505 – Vào ở từ 1/10";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
 }

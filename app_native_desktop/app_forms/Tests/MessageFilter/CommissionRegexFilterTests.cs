@@ -57,6 +57,9 @@ public class CommissionRegexFilterTests
     [InlineData("🌷 🏆 063", "🏆 063")]
     [InlineData("🌹 Mã: 123", "Mã: 123")]
     [InlineData("🌸 🏆 999", "🏆 999")]
+    [InlineData("🌷 Hoa hồng: 🏆 Mã: 027", "🏆 Mã: 027")]
+    [InlineData("Hoa hồng: 🏆 Mã: 027", "🏆 Mã: 027")]
+    [InlineData("HH: 🏆 027", "🏆 027")]
     public void Process_StripsOrphanRoseEmojiBeforeCodeOrTrophy(string input, string expected)
     {
         string actual = _filter.Process(input);
@@ -72,6 +75,16 @@ public class CommissionRegexFilterTests
     [InlineData("🌹40 + thưởng 500k AD 20/8")]
     [InlineData("(Chốt đúng giá, fix giá hh 30%)")]
     [InlineData("🌷40%_12th ( ctv dẫn)")]
+    [InlineData("🌷 Hoa hồng:")]
+    [InlineData("Hoa hồng:")]
+    [InlineData("HH:")]
+    [InlineData(" • HĐ 6 tháng:")]
+    [InlineData(" • HĐ 1 năm:")]
+    [InlineData(" • HĐ 6 tháng: 30%")]
+    [InlineData(" • HĐ 1 năm: 50%")]
+    [InlineData(" • HĐ 6 tháng: 1/2 tháng")]
+    [InlineData(" • HĐ 1 năm: 1 tháng")]
+    [InlineData("Hoa hồng: 1 tháng")]
     public void Process_StripsStandalonePercentageCommissionLines(string standaloneLine)
     {
         string input = $"{standaloneLine}\n🏢 Địa chỉ: 15 Trung Kính\nQuận: Cầu Giấy";
@@ -91,6 +104,16 @@ public class CommissionRegexFilterTests
         string actual = _filter.Process(input);
         Assert.DoesNotContain(bonusLine, actual);
         Assert.Contains("🏢 Địa chỉ: 11D Thanh Nhàn", actual);
+    }
+
+    [Fact]
+    public void Process_StripsMultiLineContractCommissionBlockBeforeCode()
+    {
+        string input = "🌷 Hoa hồng:\n • HĐ 6 tháng:\n • HĐ 1 năm:\n🏆 Mã: 027\n\n🏢 Địa chỉ: 105 Yên Hòa, Cầu Giấy, Hà Nội (Báo khách đến 70 Hạ Yên Quyết) - Quận: Cầu Giấy\n\n⌛️ Trống: 505 – Vào ở từ 1/10";
+        string expected = "🏆 Mã: 027\n\n🏢 Địa chỉ: 105 Yên Hòa, Cầu Giấy, Hà Nội (Báo khách đến 70 Hạ Yên Quyết) - Quận: Cầu Giấy\n\n⌛️ Trống: 505 – Vào ở từ 1/10";
+
+        string actual = _filter.Process(input);
+        Assert.Equal(expected, actual);
     }
 
     [Fact]
