@@ -1,18 +1,22 @@
 using System.Collections.Concurrent;
-using System.Text.Json;
 using System.Text.RegularExpressions;
+using AppForms.Backend.Adapters.Persistence.Common;
 using AppForms.Backend.Contracts.Entities;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Backend.Contracts.Schemas;
 using AppForms.Shared.Common;
 using Microsoft.Extensions.Logging;
 
-namespace AppForms.Backend.Services;
+namespace AppForms.Backend.Adapters.Persistence;
 
+/// <summary>
+/// Persistence Adapter quản lý dữ liệu danh mục mã phòng (room_codes.json).
+/// Duy trì bộ nhớ đệm đa nhánh (1-N Mapping Cache) trong RAM O(1).
+/// </summary>
 public class JsonRoomCodeRepository : IRoomCodeRepository
 {
     private readonly ILogger<JsonRoomCodeRepository> _logger;
-    private readonly string _runtimeFilePath;
+    private readonly IJsonFileStorage<RoomCodeRegistryEntity> _storage;
     private readonly object _lock = new();
 
     private readonly ConcurrentDictionary<string, List<string>> _cleanedCodeToSchema = new(StringComparer.OrdinalIgnoreCase);
@@ -20,124 +24,56 @@ public class JsonRoomCodeRepository : IRoomCodeRepository
     private int _version = 1;
     private string _description = "Kho lưu trữ mã phòng cho các Form Schema Output";
 
-    public JsonRoomCodeRepository(ILogger<JsonRoomCodeRepository> logger, string? customFilePath = null)
+    public JsonRoomCodeRepository(
+        ILogger<JsonRoomCodeRepository> logger,
+        IJsonFileStorage<RoomCodeRegistryEntity> storage)
     {
         _logger = logger;
-
-        if (!string.IsNullOrWhiteSpace(customFilePath))
-        {
-            _runtimeFilePath = customFilePath;
-            var dir = Path.GetDirectoryName(_runtimeFilePath);
-            if (!string.IsNullOrEmpty(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-        }
-        else
-        {
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            var dir = Path.Combine(appData, "SaleLeadFormConverter");
-            Directory.CreateDirectory(dir);
-            _runtimeFilePath = Path.Combine(dir, "room_codes.json");
-        }
-
+        _storage = storage;
         LoadInitialData();
+    }
+
+    public JsonRoomCodeRepository(
+        ILogger<JsonRoomCodeRepository> logger,
+        string? customFilePath = null)
+        : this(logger, new AtomicJsonFileStorage<RoomCodeRegistryEntity>(logger, "room_codes.json", customFilePath))
+    {
     }
 
     private void LoadInitialData()
     {
         lock (_lock)
         {
-            try
+            var result = _storage.Load("room_codes.json", CreateDefaultRegistry);
+            if (result.IsSuccess && result.Value != null)
             {
-                if (File.Exists(_runtimeFilePath))
-                {
-                    _logger.LogInformation("Nạp kho mã phòng từ Runtime Data: {Path}", _runtimeFilePath);
-                    var content = File.ReadAllText(_runtimeFilePath);
-                    if (TryParseAndPopulate(content))
-                    {
-                        return;
-                    }
-                }
-
-                // Fallback nạp từ Seed Data
-                var seedPath = FindSeedFilePath();
-                if (seedPath != null && File.Exists(seedPath))
-                {
-                    _logger.LogInformation("Nạp kho mã phòng từ Seed Data: {Path}", seedPath);
-                    var content = File.ReadAllText(seedPath);
-                    if (TryParseAndPopulate(content))
-                    {
-                        // Lưu ngay bản sao sang Runtime Data để sử dụng
-                        Save();
-                        return;
-                    }
-                }
-
-                // Fallback khởi tạo mặc định nếu không tìm thấy file nào
-                _logger.LogWarning("Không tìm thấy file room_codes.json. Khởi tạo danh mục mặc định.");
-                InitializeDefaultGroups();
-                Save();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Lỗi khi nạp dữ liệu kho mã phòng");
-                InitializeDefaultGroups();
-            }
-        }
-    }
-
-    private static string? FindSeedFilePath()
-    {
-        var candidates = new[]
-        {
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "0_Shared", "Data", "room_codes.json"),
-            Path.Combine(Directory.GetCurrentDirectory(), "0_Shared", "Data", "room_codes.json"),
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "room_codes.json")
-        };
-
-        return candidates.FirstOrDefault(File.Exists);
-    }
-
-    private bool TryParseAndPopulate(string json)
-    {
-        try
-        {
-            var registry = JsonSerializer.Deserialize<RoomCodeRegistryEntity>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            if (registry?.Groups != null && registry.Groups.Count > 0)
-            {
-                _version = registry.Version;
-                _description = registry.Description;
-                _groups = new Dictionary<string, RoomGroupEntity>(registry.Groups, StringComparer.OrdinalIgnoreCase);
-
+                _version = result.Value.Version;
+                _description = result.Value.Description;
+                _groups = new Dictionary<string, RoomGroupEntity>(result.Value.Groups, StringComparer.OrdinalIgnoreCase);
                 RebuildLookupCache();
-                return true;
             }
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Không thể deserialize file room_codes.json");
-        }
-
-        return false;
     }
 
-    private void InitializeDefaultGroups()
+    private static RoomCodeRegistryEntity CreateDefaultRegistry()
     {
-        _groups.Clear();
+        var groups = new Dictionary<string, RoomGroupEntity>(StringComparer.OrdinalIgnoreCase);
         foreach (var schema in DefaultSchemas.GetAllDefaultSchemas())
         {
-            _groups[schema.Id] = new RoomGroupEntity
+            groups[schema.Id] = new RoomGroupEntity
             {
                 Name = schema.Name,
                 Codes = new List<string>()
             };
         }
-        RebuildLookupCache();
+
+        return new RoomCodeRegistryEntity
+        {
+            Version = 1,
+            LastUpdated = DateTime.UtcNow,
+            Description = "Kho lưu trữ mã phòng cho các Form Schema Output",
+            Groups = groups
+        };
     }
 
     private void RebuildLookupCache()
@@ -152,7 +88,6 @@ public class JsonRoomCodeRepository : IRoomCodeRepository
                 {
                     AddCodeMapping(clean, schemaId);
 
-                    // Thêm biến thể loại bỏ dấu gạch ngang (ví dụ: MN-324 -> MN324)
                     var noHyphen = clean.Replace("-", "");
                     if (noHyphen != clean && !string.IsNullOrEmpty(noHyphen))
                     {
@@ -350,44 +285,15 @@ public class JsonRoomCodeRepository : IRoomCodeRepository
     {
         lock (_lock)
         {
-            try
+            var registry = new RoomCodeRegistryEntity
             {
-                var registry = new RoomCodeRegistryEntity
-                {
-                    Version = _version,
-                    LastUpdated = DateTime.UtcNow,
-                    Description = _description,
-                    Groups = _groups
-                };
+                Version = _version,
+                LastUpdated = DateTime.UtcNow,
+                Description = _description,
+                Groups = _groups
+            };
 
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                };
-
-                var json = JsonSerializer.Serialize(registry, options);
-                var tempPath = _runtimeFilePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-
-                File.WriteAllText(tempPath, json);
-
-                if (File.Exists(_runtimeFilePath))
-                {
-                    File.Copy(tempPath, _runtimeFilePath, overwrite: true);
-                    try { File.Delete(tempPath); } catch { }
-                }
-                else
-                {
-                    File.Move(tempPath, _runtimeFilePath, overwrite: true);
-                }
-
-                _logger.LogInformation("Kho mã phòng đã được lưu an toàn tại {Path}", _runtimeFilePath);
-                return Result.Success();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Lỗi khi lưu kho mã phòng vào {Path}", _runtimeFilePath);
-                return Result.Failure($"Lỗi lưu dữ liệu: {ex.Message}");
-            }
+            return _storage.Save(registry);
         }
     }
 
