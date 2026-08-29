@@ -38,6 +38,7 @@ Hệ thống ghi log đồng thời vào 3 tầng:
 ## 3. 📝 Chuẩn Viết Structured Log (Structured Log Conventions)
 
 - **Sử dụng Message Template tham số hóa**, **tuyệt đối KHÔNG** cộng chuỗi (string concatenation hoặc string interpolation `$"..."`):
+
   ```csharp
   // ✅ ĐÚNG: Serilog trích xuất structured properties
   _logger.LogInformation("Chuyển đổi thành công Form cho Lead: {CustomerName}, Schema: {SchemaId}, Độ dài output: {Length}",
@@ -48,6 +49,7 @@ Hệ thống ghi log đồng thời vào 3 tầng:
   ```
 
 - **Luôn truyền Exception Object vào tham số đầu tiên** khi bắt lỗi:
+
   ```csharp
   try
   {
@@ -58,3 +60,20 @@ Hệ thống ghi log đồng thời vào 3 tầng:
       _logger.LogError(ex, "Không thể lưu schema: {SchemaId}", schema.Id);
   }
   ```
+
+---
+
+## 4. 🛡️ Quy Trình Logging-First & Rà Soát Git Diff Bắt Buộc
+
+Trước khi thực thi `dotnet test` hoặc hoàn tất bất kỳ tính năng nào:
+
+1. **Rà soát thay đổi mã nguồn qua `git diff`**:
+   - Sử dụng `git diff` để xác định toàn bộ các class, method, branch điều kiện (`if`/`switch`/`catch`) mới được thêm vào.
+   - Bắt buộc bổ sung `_logger.LogInformation` / `_logger.LogError` / `_logger.LogDebug` cho các điểm chạm nghiệp vụ mới theo tiêu chuẩn Wide Events.
+
+2. **Kiểm thử Log qua `dotnet run` (Dev Diagnostic Console)**:
+   - Chạy `dotnet run` để xác thực log được in ra rõ ràng trên Diagnostic Console thời gian thực.
+   - Đảm bảo không có exception format hoặc thiếu tham số.
+
+3. **Cơ chế Rule Cứng (Hard Gate)**:
+   - Hook `.agents/hooks/scripts/pre_tool_use/gate_logging_pre_test.py` sẽ tự động chặn lệnh `dotnet test` nếu phát hiện mã nguồn mới trong `1_Backend/` hoặc `2_Frontend/` hoàn toàn chưa được gắn Structured Logging.

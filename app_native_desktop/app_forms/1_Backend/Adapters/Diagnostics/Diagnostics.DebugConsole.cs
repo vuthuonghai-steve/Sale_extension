@@ -12,16 +12,23 @@ public static class DebugConsole
     {
         if (_isConsoleAllocated) return;
 
+        // Chỉ mở Win32 Console nếu đang thực sự chạy trong môi trường Development
+        if (!Infrastructure.LoggingConfiguration.IsDevelopmentEnvironment())
+        {
+            return;
+        }
+
         if (NativeMethods.AllocConsole())
         {
             _isConsoleAllocated = true;
-            Console.Title = "AppForms - Debug Diagnostic Console";
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("=================================================");
-            Console.WriteLine("  AppForms Debug Console Initialized (Win32 API) ");
-            Console.WriteLine($"  Started at: {DateTime.Now:yyyy-MM-dd HH:mm:ss} ");
-            Console.WriteLine("=================================================");
-            Console.ResetColor();
+            try
+            {
+                Console.Title = "AppForms - [DEV MODE] Diagnostic Console";
+            }
+            catch
+            {
+                // Bỏ qua lỗi đặt tiêu đề console nếu không được hỗ trợ
+            }
         }
     }
 
@@ -30,8 +37,18 @@ public static class DebugConsole
     {
         if (_isConsoleAllocated)
         {
-            NativeMethods.FreeConsole();
-            _isConsoleAllocated = false;
+            try
+            {
+                NativeMethods.FreeConsole();
+            }
+            catch
+            {
+                // Bỏ qua lỗi giải phóng console
+            }
+            finally
+            {
+                _isConsoleAllocated = false;
+            }
         }
     }
 }

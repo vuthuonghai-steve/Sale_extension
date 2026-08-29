@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Serilog;
@@ -6,12 +7,73 @@ using Serilog;
 namespace AppForms.Backend.Infrastructure;
 
 /// <summary>
-/// Quản lý cấu hình Serilog Multi-Sink, định tuyến thư mục log và lưu trữ session log.
-/// Không phụ thuộc vào WinForms UI.
+/// Quản lý cấu hình Serilog Multi-Sink theo tiêu chuẩn logging-best-practices.
+/// Tự động bật Console & Debug Log ở môi trường phát triển (dotnet run),
+/// và chuyển sang chế độ Silent/Error-only không hiển thị Console khi build đóng gói Release.
 /// </summary>
 public static class LoggingConfiguration
 {
+    /// <summary>
+    /// Kiểm tra ứng dụng có đang chạy trong môi trường phát triển (Dev Mode) hay không.
+    /// </summary>
+    public static bool IsDevelopmentEnvironment()
+    {
+#if DEBUG
+        return true;
+#else
+        var env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+               ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+               ?? Environment.GetEnvironmentVariable("APP_ENV");
+
+        if (string.Equals(env, "Development", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(env, "Dev", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(env, "Debug", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        if (Debugger.IsAttached)
+        {
+            return true;
+        }
+
+        // Kiểm tra xem có đang chạy từ mã nguồn dự án (có file AppForms.csproj)
+        try
+        {
+            var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            var dir4 = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", ".."));
+            if (File.Exists(Path.Combine(dir4, "AppForms.csproj"))) return true;
+
+            var dir3 = Path.GetFullPath(Path.Combine(baseDir, "..", "..", ".."));
+            if (File.Exists(Path.Combine(dir3, "AppForms.csproj"))) return true;
+        }
+        catch
+        {
+            // Bỏ qua lỗi IO
+        }
+
+        return false;
+#endif
+    }
+
+    /// <summary>
+    /// Khởi tạo cấu hình Logging phù hợp với từng môi trường thực thi.
+    /// </summary>
     public static void Initialize(out string logDirectory, out string latestSessionPath)
+    {
+        var isDev = IsDevelopmentEnvironment();
+
+        if (isDev)
+        {
+            InitializeDevelopmentLogging(out logDirectory, out latestSessionPath);
+        }
+        else
+        {
+            InitializeProductionLogging(out logDirectory, out latestSessionPath);
+        }
+    }
+
+    private static void InitializeDevelopmentLogging(out string logDirectory, out string latestSessionPath)
     {
         logDirectory = ResolveLogDirectory();
         var dailyLogPattern = Path.Combine(logDirectory, "app-.log");
@@ -25,10 +87,11 @@ public static class LoggingConfiguration
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .Enrich.FromLogContext()
+            .Enrich.WithProperty("Environment", "Development")
             .Enrich.WithProperty("MachineName", Environment.MachineName)
             .Enrich.WithProperty("ProcessId", Environment.ProcessId)
             .Enrich.WithProperty("DotNetRuntime", Environment.Version.ToString())
-            // Sink 1: Realtime Console
+            // Sink 1: Realtime Console cho Dev Mode
             .WriteTo.Console(
                 outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
             // Sink 2: Daily Rolling Log (Tổng hợp log theo ngày)
@@ -51,9 +114,34 @@ public static class LoggingConfiguration
                 outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u3}] [{SourceContext}] {Message:lj} {@OperationContext}{NewLine}{Exception}")
             .CreateLogger();
 
-        Log.Information(">>> Khởi động Serilog Multi-Sink Logging thành công <<<");
+        Log.Information("🚀 [DEV MODE] Đã bật Serilog Multi-Sink Logging và Diagnostic Console");
         Log.Information("📁 Thư mục Logs: {LogDirectory}", logDirectory);
         Log.Information("📝 File Session Debug Log: {SessionLogFile}", latestSessionPath);
+    }
+
+    private static void InitializeProductionLogging(out string logDirectory, out string latestSessionPath)
+    {
+        latestSessionPath = string.Empty;
+        logDirectory = ResolveProductionLogDirectory();
+
+        var errorLogPattern = Path.Combine(logDirectory, "crash-.log");
+
+        // Cấu hình Production: Hoàn toàn Silent, không mở Console, chỉ lưu Fatal/Error khi xảy ra sự cố nghiêm trọng
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Warning()
+            .Enrich.FromLogContext()
+            .Enrich.WithProperty("Environment", "Production")
+            .Enrich.WithProperty("MachineName", Environment.MachineName)
+            .Enrich.WithProperty("ProcessId", Environment.ProcessId)
+            .WriteTo.File(
+                path: errorLogPattern,
+                rollingInterval: RollingInterval.Month,
+                retainedFileCountLimit: 6,
+                fileSizeLimitBytes: 5 * 1024 * 1024,
+                rollOnFileSizeLimit: true,
+                shared: true,
+                outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+            .CreateLogger();
     }
 
     private static string ResolveLogDirectory()
@@ -84,6 +172,23 @@ public static class LoggingConfiguration
         var fallbackDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         Directory.CreateDirectory(fallbackDir);
         return fallbackDir;
+    }
+
+    private static string ResolveProductionLogDirectory()
+    {
+        try
+        {
+            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var prodLogDir = Path.Combine(appDataPath, "SaleLeadFormConverter", "Logs");
+            Directory.CreateDirectory(prodLogDir);
+            return prodLogDir;
+        }
+        catch
+        {
+            var fallbackDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            Directory.CreateDirectory(fallbackDir);
+            return fallbackDir;
+        }
     }
 
     private static void ArchivePreviousSessionLog(string latestSessionPath, string sessionsDirectory)
