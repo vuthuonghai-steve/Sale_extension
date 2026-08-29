@@ -14,6 +14,7 @@ public class FilterToggleSwitchPanelComponent : Panel
     private CheckBox _chkSticker = null!;
     private CheckBox _chkUnicode = null!;
     private CheckBox _chkUrl = null!;
+    private CheckBox _chkPrice = null!;
 
     private FilterPipelineOptions _currentOptions = new();
     private bool _isBinding;
@@ -71,24 +72,26 @@ public class FilterToggleSwitchPanelComponent : Panel
         topRow.Controls.Add(_statusBadge);
         topRow.Controls.Add(_btnToggleService);
 
-        // Sub Filters Quick Toggles (Grid 2 rows x 3 cols)
+        // Sub Filters Quick Toggles (Grid 2 rows x 4 cols)
         var toggleGrid = new TableLayoutPanel
         {
             Dock = DockStyle.Fill,
-            ColumnCount = 3,
+            ColumnCount = 4,
             RowCount = 2,
             BackColor = Color.Transparent,
             Padding = new Padding(0, 4, 0, 0)
         };
-        toggleGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33f));
-        toggleGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33f));
-        toggleGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.34f));
+        toggleGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25f));
+        toggleGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25f));
+        toggleGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25f));
+        toggleGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25f));
         toggleGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
         toggleGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
 
-        _chkCommission = CreateQuickCheckBox("🌺 Hoa hồng / Bonus");
-        _chkBrand = CreateQuickCheckBox("🏢 Thương hiệu TL");
+        _chkCommission = CreateQuickCheckBox("🌺 Hoa hồng");
+        _chkBrand = CreateQuickCheckBox("🏢 Thương hiệu");
         _chkQuote = CreateQuickCheckBox("💬 Quote Zalo");
+        _chkPrice = CreateQuickCheckBox("💰 Chuẩn hóa giá");
         _chkSticker = CreateQuickCheckBox("🏷️ Sticker / Tag");
         _chkUnicode = CreateQuickCheckBox("🔤 Unicode NFC");
         _chkUrl = CreateQuickCheckBox("🔗 URL Tracking");
@@ -96,6 +99,7 @@ public class FilterToggleSwitchPanelComponent : Panel
         toggleGrid.Controls.Add(_chkCommission, 0, 0);
         toggleGrid.Controls.Add(_chkBrand, 1, 0);
         toggleGrid.Controls.Add(_chkQuote, 2, 0);
+        toggleGrid.Controls.Add(_chkPrice, 3, 0);
         toggleGrid.Controls.Add(_chkSticker, 0, 1);
         toggleGrid.Controls.Add(_chkUnicode, 1, 1);
         toggleGrid.Controls.Add(_chkUrl, 2, 1);
@@ -123,6 +127,7 @@ public class FilterToggleSwitchPanelComponent : Panel
             _currentOptions.EnableZaloStickerFilter = _chkSticker.Checked;
             _currentOptions.EnableUnicodeSanitizer = _chkUnicode.Checked;
             _currentOptions.EnableUrlSanitizer = _chkUrl.Checked;
+            _currentOptions.EnablePriceNormalizer = _chkPrice.Checked;
             OptionsChanged?.Invoke(_currentOptions);
         };
         return chk;
@@ -145,6 +150,7 @@ public class FilterToggleSwitchPanelComponent : Panel
         _chkSticker.Checked = options.EnableZaloStickerFilter;
         _chkUnicode.Checked = options.EnableUnicodeSanitizer;
         _chkUrl.Checked = options.EnableUrlSanitizer;
+        _chkPrice.Checked = options.EnablePriceNormalizer;
 
         _isBinding = false;
     }

@@ -44,7 +44,8 @@ public class PipelineOrchestratorSettingsSyncTests : IDisposable
             new ZaloStickerFilter(),
             new BrandRegexFilter(),
             new CommissionRegexFilter(),
-            new UrlSanitizerFilter()
+            new UrlSanitizerFilter(),
+            new PriceNormalizerFilter()
         };
 
         _pipelineManager = new ClipboardPipelineManager(_currentSettings.MessageFilterOptions, filters);

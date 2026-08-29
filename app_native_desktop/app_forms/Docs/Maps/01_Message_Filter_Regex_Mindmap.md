@@ -31,9 +31,11 @@ mindmap
         4 BrandRegexFilter["P4: BrandRegexFilter (Thương hiệu TL House, Footer nguồn hàng)"]
         5 CommissionRegexFilter["P5: CommissionRegexFilter (Hoa hồng, HĐ, Thưởng, Bonus)"]
         6 UrlSanitizerFilter["P6: UrlSanitizerFilter (Lọc/chuẩn hóa URL ngoài luồng)"]
+        7 PriceNormalizerFilter["P7: PriceNormalizerFilter (Chuẩn hóa giá: 4.000.000, 4.6 tr -> 4tr, 4tr6)"]
       Regex Catalog
-        Sub-Patterns["Sub-Patterns (Emoji, Keyword, Duration, Percent, Money, Month)"]
+        Sub-Patterns["Sub-Patterns (Emoji, Keyword, Duration, Percent, Money, Month, Price)"]
         Compiled Regexes["Compiled Regexes (ReDoS Timeout 250ms, CultureInvariant)"]
+        PriceNormalizerUtil["PriceNormalizerUtil (Bóc tách & định dạng số học XtrY)"]
       Win32 Adapter
         Win32ClipboardListenerAdapter["Win32 Clipboard Hook (WM_CLIPBOARDUPDATE)"]
     2_Frontend Presentation
@@ -45,6 +47,7 @@ mindmap
         PipelineExecutionLogComponent["PipelineExecutionLog (Lịch sử xử lý)"]
     Tests Suite
       CommissionRegexFilterTests["CommissionRegexFilterTests (Unit Tests Regex độc lập)"]
+      PriceNormalizerFilterTests["PriceNormalizerFilterTests (Unit Tests Chuẩn hóa giá độc lập)"]
       PipelineTests["PipelineTests (32+ Integration Test Cases tin nhắn thật)"]
       FilterOptionsToggleTests["FilterOptionsToggleTests (Kiểm thử Bật/Tắt cấu hình)"]
       SettingsSyncTests["PipelineOrchestratorSettingsSyncTests"]
@@ -54,7 +57,7 @@ mindmap
 
 ## 2. 🔄 LUỒNG THỰC THI PIPELINE & THỨ TỰ ƯU TIÊN (EXECUTION FLOW)
 
-Mỗi đoạn văn bản từ Clipboard sẽ chạy qua một chuỗi Pipeline gồm 6 Sub-Filters được sắp xếp theo `Priority` từ thấp đến cao (thực hiện trước $\to$ sau):
+Mỗi đoạn văn bản từ Clipboard sẽ chạy qua một chuỗi Pipeline gồm 7 Sub-Filters được sắp xếp theo `Priority` từ thấp đến cao (thực hiện trước $\to$ sau):
 
 ```mermaid
 flowchart TD
@@ -68,16 +71,18 @@ flowchart TD
         F4["4️⃣ BrandRegexFilter (Priority 4)<br/>• Xóa tag thương hiệu: TL House...<br/>• Xóa dòng footer nguồn hàng rỗng"]
         F5["5️⃣ CommissionRegexFilter (Priority 5)<br/>• Xóa hoa hồng dính trước Mã: 🌷 40%-12m 🏆 Mã<br/>• Xóa Header hoa hồng rỗng: 🌷 Hoa hồng:<br/>• Xóa danh sách HĐ hoa hồng: • HĐ 6 tháng:<br/>• Xóa dòng hoa hồng % / tiền / tháng độc lập<br/>• Xóa dòng thưởng sale / bonus / thưởng nóng<br/>• 🛡️ Bảo vệ dòng chứa Mã / Địa chỉ"]
         F6["6️⃣ UrlSanitizerFilter (Priority 6)<br/>• Lọc và loại bỏ URL ngoài luồng"]
+        F7["7️⃣ PriceNormalizerFilter (Priority 7)<br/>• Chuẩn hóa 4.000.000, 4600000 -> 4tr, 4tr6<br/>• Chuẩn hóa 4.6 tr, 4.6 triệu -> 4tr6<br/>• Chuẩn hóa 4600k -> 4tr6<br/>• 🛡️ Bảo vệ SĐT, ngày tháng, diện tích"]
         
         F1 --> F2
         F2 --> F3
         F3 --> F4
         F4 --> F5
         F5 --> F6
+        F6 --> F7
     end
     
     PreNorm --> F1
-    F6 --> PostNorm["✨ Post-Normalize (Nén \\n thừa, định dạng sạch)"]
+    F7 --> PostNorm["✨ Post-Normalize (Nén \\n thừa, định dạng sạch)"]
     PostNorm --> Output(["📤 Cleaned Text (Giao diện Live Preview / Paste)"])
 ```
 
@@ -148,10 +153,13 @@ Khi cần chỉnh sửa, tối ưu hoặc bổ sung Regex mới, dưới đây l
 | :--- | :--- | :--- | :--- |
 | **0_Shared** | `0_Shared/Models/MessageFilter/FilterPipelineOptions.cs` | DTO cấu hình Bật/Tắt các bộ lọc | Khi bổ sung SubFilter mới cần có toggle ON/OFF |
 | **1_Backend** | `1_Backend/Services/MessageFilter/Helpers/FilterRegexPatterns.cs` | **Trọng tâm Regex**: Chứa Sub-patterns và Compiled Regexes | **Mọi trường hợp thêm pattern hoặc đổi logic Regex** |
+| **1_Backend** | `1_Backend/Services/MessageFilter/Helpers/MessageFilter.PriceNormalizerUtil.cs` | **Module bóc tách & format giá**: Chuyển số triệu/k về XtrY | Khi cần tối ưu quy tắc chuyển đổi giá hoặc regex giá |
 | **1_Backend** | `1_Backend/Services/MessageFilter/SubFilters/CommissionRegexFilter.cs` | Sub-Filter xử lý hoa hồng (dính mã, lọc theo dòng) | Khi cần thay đổi luồng quét (line-by-line vs regex replace) |
+| **1_Backend** | `1_Backend/Services/MessageFilter/SubFilters/MessageFilter.PriceNormalizerFilter.cs` | Sub-Filter xử lý chuẩn hóa giá tiền | Khi thay đổi luồng tích hợp bộ lọc giá vào Pipeline |
 | **1_Backend** | `1_Backend/Services/MessageFilter/ClipboardPipelineManager.cs` | Engine điều phối toàn bộ chuỗi Pipeline & Normalize | Khi cần thay đổi logic Normalize khoảng trắng hoặc thứ tự bộ lọc |
 | **1_Backend** | `1_Backend/Contracts/Interfaces/IClipboardFilter.cs` | Interface chuẩn của mọi SubFilter | Khi cần thay đổi hợp đồng lọc hoặc metadata |
 | **Tests** | `Tests/MessageFilter/CommissionRegexFilterTests.cs` | Unit Tests kiểm tra từng Regex/Dòng độc lập | **Bắt buộc**: Viết test case cô lập cho pattern mới |
+| **Tests** | `Tests/MessageFilter/PriceNormalizerFilterTests.cs` | Unit Tests kiểm tra chuẩn hóa giá tiền độc lập | **Bắt buộc**: Viết test case cô lập cho giá tiền |
 | **Tests** | `Tests/MessageFilter/PipelineTests.cs` | Integration Tests toàn bộ Pipeline với tin nhắn thật | **Bắt buộc**: Viết test case End-to-End cho tin nhắn đầy đủ |
 
 ---

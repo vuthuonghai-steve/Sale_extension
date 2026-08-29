@@ -71,6 +71,7 @@ public static class BackendServiceRegistration
         services.AddSingleton<IClipboardFilter, BrandRegexFilter>();
         services.AddSingleton<IClipboardFilter, CommissionRegexFilter>();
         services.AddSingleton<IClipboardFilter, UrlSanitizerFilter>();
+        services.AddSingleton<IClipboardFilter, PriceNormalizerFilter>();
 
         // Message Filter Pipeline Manager & Orchestrator
         services.AddSingleton<ClipboardPipelineManager>(sp =>

@@ -20,7 +20,8 @@ public class PipelineTests
             new ZaloStickerFilter(),
             new BrandRegexFilter(),
             new CommissionRegexFilter(),
-            new UrlSanitizerFilter()
+            new UrlSanitizerFilter(),
+            new PriceNormalizerFilter()
         };
 
         _pipelineManager = new ClipboardPipelineManager(options, filters);
@@ -341,6 +342,26 @@ public class PipelineTests
     {
         string input = "🌷 Hoa hồng:\n • HĐ 6 tháng:\n • HĐ 1 năm:\n🏆 Mã: 027\n\n🏢 Địa chỉ: 105 Yên Hòa, Cầu Giấy, Hà Nội (Báo khách đến 70 Hạ Yên Quyết) - Quận: Cầu Giấy\n\n⌛️ Trống: 505 – Vào ở từ 1/10";
         string expected = "🏆 Mã: 027\n\n🏢 Địa chỉ: 105 Yên Hòa, Cầu Giấy, Hà Nội (Báo khách đến 70 Hạ Yên Quyết) - Quận: Cầu Giấy\n\n⌛️ Trống: 505 – Vào ở từ 1/10";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void TC33_PRICE_NORMALIZER_FULL_MILLION_AND_DECIMAL()
+    {
+        string input = "🌷 40%-12m 🏆 032\n\n🏢 Địa chỉ: Số 15 ngõ 42 Yên Hoà\n\n⌛️ Trống: \n\n☘ Giá: 4.000.000 - p601\n       4.6 tr - p702\n       4600000 - p801\n☘ Dạng phòng: STUDIO";
+        string expected = "🏆 032\n\n🏢 Địa chỉ: Số 15 ngõ 42 Yên Hoà\n\n⌛️ Trống:\n\n☘ Giá: 4tr - p601\n 4tr6 - p702\n 4tr6 - p801\n☘ Dạng phòng: STUDIO";
+
+        string actual = _pipelineManager.Process(input);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void TC34_PRICE_NORMALIZER_THOUSAND_K_AND_SERVICE_PROTECTION()
+    {
+        string input = "🏆 TL21House 🏆\n🏢 Địa chỉ: 52 Mỹ Đình\n☘ Giá phòng: 4600k - p201\n💡 Chi phí dịch vụ:\n⚡ Điện: 4k/số\n💧 Nước: 100k/người";
+        string expected = "🏢 Địa chỉ: 52 Mỹ Đình\n☘ Giá phòng: 4tr6 - p201\n💡 Chi phí dịch vụ:\n⚡ Điện: 4k/số\n💧 Nước: 100k/người";
 
         string actual = _pipelineManager.Process(input);
         Assert.Equal(expected, actual);

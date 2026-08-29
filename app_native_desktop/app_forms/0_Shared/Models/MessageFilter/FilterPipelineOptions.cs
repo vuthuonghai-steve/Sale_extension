@@ -41,6 +41,11 @@ public class FilterPipelineOptions
     public bool EnableUrlSanitizer { get; set; } = true;
 
     /// <summary>
+    /// Bật/Tắt bộ lọc và chuẩn hóa giá tiền (VD: 4.000.000, 4.6 tr, 4600000 -> 4tr, 4tr6)
+    /// </summary>
+    public bool EnablePriceNormalizer { get; set; } = true;
+
+    /// <summary>
     /// Giới hạn số ký tự tối đa của một payload copy để tránh treo app khi copy file dung lượng cực lớn
     /// </summary>
     public int MaxPayloadCharacterLimit { get; set; } = 100_000;

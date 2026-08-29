@@ -17,7 +17,8 @@ public class FilterOptionsToggleTests
             new ZaloStickerFilter(),
             new BrandRegexFilter(),
             new CommissionRegexFilter(),
-            new UrlSanitizerFilter()
+            new UrlSanitizerFilter(),
+            new PriceNormalizerFilter()
         };
 
         return new ClipboardPipelineManager(options, filters);
@@ -35,6 +36,7 @@ public class FilterOptionsToggleTests
         Assert.True(options.EnableBrandFilter);
         Assert.True(options.EnableCommissionFilter);
         Assert.True(options.EnableUrlSanitizer);
+        Assert.True(options.EnablePriceNormalizer);
         Assert.Equal(100_000, options.MaxPayloadCharacterLimit);
     }
 
@@ -166,6 +168,19 @@ public class FilterOptionsToggleTests
     }
 
     [Fact]
+    public void Toggle_EnablePriceNormalizer_WhenDisabled_PreservesRawPriceFormats()
+    {
+        var options = new FilterPipelineOptions { EnablePriceNormalizer = false };
+        var pipeline = CreatePipeline(options);
+
+        string input = "☘ Giá: 4.600.000 - p201\n☘ Giá: 4.6 tr - p302";
+        string actual = pipeline.Process(input);
+
+        Assert.Contains("4.600.000", actual);
+        Assert.Contains("4.6 tr", actual);
+    }
+
+    [Fact]
     public void EdgeCase_ChainedFormatting_AllFiltersCooperateProperly()
     {
         var options = new FilterPipelineOptions();
@@ -177,7 +192,7 @@ public class FilterOptionsToggleTests
                        "[Hình ảnh]\n" +
                        "🏢 Địa chỉ: Số 15 ngõ 42 Yên Hoà\n" +
                        "---------------------\n" +
-                       "☘ Giá: 6tr2 - p601\n" +
+                       "☘ Giá: 6.200.000 - p601\n" +
                        "• Nguồn hàng cập nhật liên tục tại 🏆TL21House🏆";
 
         string actual = pipeline.Process(input);
