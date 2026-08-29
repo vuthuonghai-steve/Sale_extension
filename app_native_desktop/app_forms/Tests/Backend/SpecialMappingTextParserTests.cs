@@ -90,4 +90,21 @@ public class SpecialMappingTextParserTests
         var resultNoMatch = _parser.FindMappingInText("Xin chào bạn", mockRepo.Object);
         Assert.Null(resultNoMatch);
     }
+
+    [Fact]
+    public void FindMappingInText_DoesNotMatchShortNumericTokensAsRoomCodes()
+    {
+        // Arrange: Text chứa số ngách, số ngõ, ngày xem: 40, 61, 29, 8
+        var mockRepo = new Mock<ISpecialRoomMappingRepository>();
+        var text = "Địa chỉ: ngách 40 ngõ 61 bằng liệt. Ngày xem: 29/8";
+
+        // Act
+        var result = _parser.FindMappingInText(text, mockRepo.Object);
+
+        // Assert: Không gọi tra cứu các số 40, 61, 29, 8
+        Assert.Null(result);
+        mockRepo.Verify(r => r.FindMappingByCode("40"), Times.Never);
+        mockRepo.Verify(r => r.FindMappingByCode("61"), Times.Never);
+        mockRepo.Verify(r => r.FindMappingByCode("29"), Times.Never);
+    }
 }

@@ -119,12 +119,6 @@ public class JsonSpecialRoomMappingRepository : ISpecialRoomMappingRepository
                     {
                         _codeIndex[noHyphen] = item;
                     }
-
-                    var noLeadingZero = clean.TrimStart('0', '-');
-                    if (!string.IsNullOrEmpty(noLeadingZero))
-                    {
-                        _codeIndex[noLeadingZero] = item;
-                    }
                 }
             }
         }
@@ -142,12 +136,6 @@ public class JsonSpecialRoomMappingRepository : ISpecialRoomMappingRepository
 
         var noHyphen = clean.Replace("-", "");
         if (noHyphen != clean && _codeIndex.TryGetValue(noHyphen, out item))
-        {
-            return item;
-        }
-
-        var noLeadingZero = clean.TrimStart('0', '-');
-        if (!string.IsNullOrEmpty(noLeadingZero) && _codeIndex.TryGetValue(noLeadingZero, out item))
         {
             return item;
         }

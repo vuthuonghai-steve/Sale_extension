@@ -31,37 +31,29 @@ public class SpecialRoomMappingDetector : ISpecialRoomMappingDetector
             return null;
         }
 
-        SpecialRoomMappingEntity? match = null;
-
         // 1. Quét ưu tiên theo Mã phòng được bóc tách trong Lead
         if (!string.IsNullOrWhiteSpace(lead?.RoomCode))
         {
-            match = _repository.FindMappingByCode(lead.RoomCode);
+            var match = _repository.FindMappingByCode(lead.RoomCode);
             if (match != null)
             {
                 _logger.LogDebug("Nhận diện mã đặc biệt theo RoomCode '{RoomCode}' thành công (STT: {Stt})", lead.RoomCode, match.Stt);
                 return match;
             }
+
+            // Chuẩn hóa nghiệp vụ: Khi form đã bóc tách được trường RoomCode cố định nhưng không khớp mã đặc biệt,
+            // DỪNG LẠI, không fallback quét toàn bộ văn bản thô để tránh lấy nhầm số nhà/ngõ/ngách/ngày giờ.
+            _logger.LogDebug("RoomCode '{RoomCode}' không thuộc danh mục mã đặc biệt. Dừng nhận diện.", lead.RoomCode);
+            return null;
         }
 
-        // 2. Quét quét trong toàn bộ nội dung văn bản thô (Raw Text)
-        if (match == null && !string.IsNullOrWhiteSpace(rawText))
+        // 2. Chỉ quét trong văn bản thô (Raw Text) khi KHÔNG bóc tách được trường RoomCode (văn bản tự do)
+        if (!string.IsNullOrWhiteSpace(rawText))
         {
-            match = _textParser.FindMappingInText(rawText, _repository);
+            var match = _textParser.FindMappingInText(rawText, _repository);
             if (match != null)
             {
                 _logger.LogDebug("Nhận diện mã đặc biệt qua RawText thành công (STT: {Stt})", match.Stt);
-                return match;
-            }
-        }
-
-        // 3. Quét theo Số điện thoại khách hàng / liên hệ trong Lead
-        if (match == null && !string.IsNullOrWhiteSpace(lead?.CustomerPhone))
-        {
-            match = _repository.FindMappingByPhone(lead.CustomerPhone);
-            if (match != null)
-            {
-                _logger.LogDebug("Nhận diện mã đặc biệt theo Phone '{Phone}' thành công (STT: {Stt})", lead.CustomerPhone, match.Stt);
                 return match;
             }
         }

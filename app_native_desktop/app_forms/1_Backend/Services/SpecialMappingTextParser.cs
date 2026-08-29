@@ -11,7 +11,9 @@ namespace AppForms.Backend.Services;
 public class SpecialMappingTextParser : ISpecialMappingTextParser
 {
     private static readonly Regex PhoneRegex = new(@"(0|\+84)\d{9,10}", RegexOptions.Compiled);
-    private static readonly Regex TokenRegex = new(@"[A-Za-z0-9\-_/]+", RegexOptions.Compiled);
+    private static readonly Regex ExplicitCodeRegex = new(@"(?:mã\s*phòng|mã\s*tòa|mã\s*nguồn|mã\s*hàng|mã|ms)\s*[:\-]?\s*([A-Za-z0-9\-_/]+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex AlphaNumericTokenRegex = new(@"\b[A-Za-z]+[-_]?\d+[A-Za-z0-9\-_/]*\b|\b\d+[-_]?[A-Za-z]+[A-Za-z0-9\-_/]*\b", RegexOptions.Compiled);
+    private static readonly Regex NumericCodeTokenRegex = new(@"\b\d{3,}\b", RegexOptions.Compiled);
     private static readonly Regex NonDigitRegex = new(@"[^\d]", RegexOptions.Compiled);
     private static readonly Regex WhitespaceRegex = new(@"\s+", RegexOptions.Compiled);
 
@@ -37,23 +39,42 @@ public class SpecialMappingTextParser : ISpecialMappingTextParser
     {
         if (string.IsNullOrWhiteSpace(text) || repository == null) return null;
 
-        // 1. Quét tìm số điện thoại trong text
+        // 1. Quét theo ngữ cảnh từ khóa mã rõ ràng trước (vd: "Mã: AHS284", "Mã phòng: 040")
+        var explicitMatches = ExplicitCodeRegex.Matches(text);
+        foreach (Match em in explicitMatches)
+        {
+            if (em.Groups.Count > 1)
+            {
+                var candidate = em.Groups[1].Value.Trim();
+                var found = repository.FindMappingByCode(candidate);
+                if (found != null) return found;
+            }
+        }
+
+        // 2. Quét các token dạng mã có cả chữ và số (vd: AHS284, DN01, A520, Ts007, 007A)
+        var alphaMatches = AlphaNumericTokenRegex.Matches(text);
+        foreach (Match am in alphaMatches)
+        {
+            var candidate = am.Value.Trim();
+            var found = repository.FindMappingByCode(candidate);
+            if (found != null) return found;
+        }
+
+        // 3. Quét các mã số thuần túy (yêu cầu tối thiểu 3 chữ số để tránh nhầm số nhà/ngách/ngày/tháng 1-2 chữ số)
+        var numericMatches = NumericCodeTokenRegex.Matches(text);
+        foreach (Match nm in numericMatches)
+        {
+            var candidate = nm.Value.Trim();
+            var found = repository.FindMappingByCode(candidate);
+            if (found != null) return found;
+        }
+
+        // 4. Quét tìm số điện thoại Quản lý / Đầu chủ trong text
         var phoneMatch = PhoneRegex.Match(text);
         if (phoneMatch.Success)
         {
             var foundByPhone = repository.FindMappingByPhone(phoneMatch.Value);
             if (foundByPhone != null) return foundByPhone;
-        }
-
-        // 2. Tách các token từ để kiểm tra mã
-        var tokens = TokenRegex.Matches(text)
-            .Select(m => m.Value.Trim())
-            .Where(t => t.Length >= 2);
-
-        foreach (var token in tokens)
-        {
-            var found = repository.FindMappingByCode(token);
-            if (found != null) return found;
         }
 
         return null;

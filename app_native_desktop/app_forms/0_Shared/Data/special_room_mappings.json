@@ -14,10 +14,10 @@
       "platformCodes": {
         "AHS": "AHS284",
         "Star Homes": "ST460",
-        "Lusaco": "MN - 220",
+        "Lusaco": "MN220",
         "DNT": "DN01"
       },
-      "matchedCodes": ["AHS284", "ST460", "MN - 220", "MN-220", "MN220", "DN01"]
+      "matchedCodes": ["AHS284", "ST460", "MN220", "DN01"]
     },
     {
       "id": "mapping_2",
@@ -70,11 +70,11 @@
       "commission": null,
       "sheetLink": "DANH SÁCH PHÒNG GOODLAND.xlsx - Google Trang tính",
       "platformCodes": {
-        "Tl21": "-085-",
+        "Tl21": "085",
         "TNR": "A355",
         "DNT": "DN03"
       },
-      "matchedCodes": ["085", "-085-", "A355", "DN03"]
+      "matchedCodes": ["085", "A355", "DN03"]
     },
     {
       "id": "mapping_6",
@@ -155,12 +155,12 @@
       "commission": null,
       "sheetLink": "https://docs.google.com/spreadsheets/d/1syyPoSm2IRQrB00x8d-UNlfh9pY_EIvVsc3KScy-ZHo/edit?gid=1103043570#gid=1103043570",
       "platformCodes": {
-        "Tl21": "-032-",
+        "Tl21": "032",
         "TNR": "A29/A10/A15",
         "NT Homes": "NT080",
         "DNT": "DN09"
       },
-      "matchedCodes": ["032", "-032-", "A29", "A10", "A15", "A29/A10/A15", "NT080", "DN09"]
+      "matchedCodes": ["032", "A29", "A10", "A15", "A29/A10/A15", "NT080", "DN09"]
     },
     {
       "id": "mapping_12",
@@ -310,10 +310,10 @@
       "commission": null,
       "sheetLink": "https://docs.google.com/spreadsheets/d/1WFrTkdZ0B5OMObJK5EDakqgIWJls8WIj10N0jKKDquE/edit?gid=1457964552#gid=1457964552",
       "platformCodes": {
-        "Tl21": "-016-",
+        "Tl21": "016",
         "TNR": "A362"
       },
-      "matchedCodes": ["016", "-016-", "A362"]
+      "matchedCodes": ["016", "A362"]
     },
     {
       "id": "mapping_23",
@@ -378,10 +378,10 @@
       "commission": null,
       "sheetLink": "https://docs.google.com/spreadsheets/d/1BJu9jeNd-V5GO2g-ZHB_Fx0w7weBH6sgF_XHFEnCg2Q/edit?gid=10406771#gid=10406771",
       "platformCodes": {
-        "Tl21": "-042-",
+        "Tl21": "042",
         "TNR": "A82"
       },
-      "matchedCodes": ["042", "-042-", "A82"]
+      "matchedCodes": ["042", "A82"]
     },
     {
       "id": "mapping_28",
@@ -392,10 +392,10 @@
       "commission": null,
       "sheetLink": null,
       "platformCodes": {
-        "Tl21": "-040-",
+        "Tl21": "040",
         "TNR": "A20"
       },
-      "matchedCodes": ["040", "-040-", "A20"]
+      "matchedCodes": ["040", "A20"]
     },
     {
       "id": "mapping_29",
