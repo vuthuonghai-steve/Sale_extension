@@ -1,4 +1,6 @@
-using AppForms.Backend.Shortcut;
+using AppForms.Backend.Adapters.Win32;
+using AppForms.Backend.Contracts.Interfaces;
+using AppForms.Shared.Models.Shortcut;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 

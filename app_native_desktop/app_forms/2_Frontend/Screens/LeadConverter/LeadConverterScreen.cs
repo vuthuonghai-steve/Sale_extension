@@ -32,12 +32,14 @@ public class LeadConverterScreen : UserControl
         ITemplateEngine templateEngine,
         ISchemaDetector schemaDetector,
         IRoomCodeRepository roomCodeRepo,
-        ISpecialRoomMappingDetector? specialDetector = null)
+        ISpecialRoomMappingDetector? specialDetector = null,
+        IClipboardAdapter? clipboardAdapter = null,
+        ISystemLauncherAdapter? launcherAdapter = null)
     {
         _converterService = converterService;
         _schemaManager = schemaManager;
         _roomCodeRepo = roomCodeRepo;
-        _stateHook = new LeadConverterStateHook(converterService, schemaManager, templateEngine, settingsService, schemaDetector, roomCodeRepo, specialDetector);
+        _stateHook = new LeadConverterStateHook(converterService, schemaManager, templateEngine, settingsService, schemaDetector, roomCodeRepo, specialDetector, clipboardAdapter, launcherAdapter);
 
         InitializeLayout();
         RegisterEvents();

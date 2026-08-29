@@ -1,16 +1,26 @@
+using AppForms.Backend.Contracts.Interfaces;
+using AppForms.Shared.Models.Shortcut;
 using Microsoft.Extensions.Logging;
 
-namespace AppForms.Backend.Shortcut;
+namespace AppForms.Backend.Adapters.Win32;
 
+/// <summary>
+/// Triển khai IDesktopShortcutService cho Windows OS sử dụng WScript.Shell COM Object.
+/// Đảm bảo tính toán đường dẫn thực thi an toàn qua Environment.ProcessPath, hoàn toàn không phụ thuộc WinForms UI Application.
+/// </summary>
 public class DesktopShortcutService : IDesktopShortcutService
 {
     private readonly ILogger<DesktopShortcutService> _logger;
+    private readonly ISystemLauncherAdapter? _launcherAdapter;
     private const string AppShortcutName = "Sale Lead Assistant.lnk";
     private const string ShortcutDescription = "Trợ lý Sidepanel Desktop tự động chuyển đổi Lead Form";
 
-    public DesktopShortcutService(ILogger<DesktopShortcutService> logger)
+    public DesktopShortcutService(
+        ILogger<DesktopShortcutService> logger,
+        ISystemLauncherAdapter? launcherAdapter = null)
     {
         _logger = logger;
+        _launcherAdapter = launcherAdapter;
     }
 
     public ShortcutResult EnsureShortcutSelfHeal()
@@ -24,7 +34,7 @@ public class DesktopShortcutService : IDesktopShortcutService
             if (File.Exists(shortcutPath))
             {
                 string existingTarget = ReadShortcutTargetPath(shortcutPath);
-                if (!string.IsNullOrWhiteSpace(existingTarget) && 
+                if (!string.IsNullOrWhiteSpace(existingTarget) &&
                     string.Equals(Path.GetFullPath(existingTarget), Path.GetFullPath(currentExePath), StringComparison.OrdinalIgnoreCase))
                 {
                     _logger.LogDebug("Shortcut Desktop đã trỏ chính xác vào {ExePath}", currentExePath);
@@ -259,21 +269,30 @@ public class DesktopShortcutService : IDesktopShortcutService
         return Environment.GetFolderPath(Environment.SpecialFolder.Programs);
     }
 
-    private static string GetCurrentExecutablePath()
+    private string GetCurrentExecutablePath()
     {
+        if (_launcherAdapter != null)
+        {
+            var path = _launcherAdapter.GetExecutablePath();
+            if (!string.IsNullOrWhiteSpace(path) && File.Exists(path))
+            {
+                return path;
+            }
+        }
+
         var processPath = Environment.ProcessPath;
         if (!string.IsNullOrWhiteSpace(processPath) && File.Exists(processPath))
         {
-            return processPath;
+            return Path.GetFullPath(processPath);
         }
 
         var baseDir = AppDomain.CurrentDomain.BaseDirectory;
         var appFormsExe = Path.Combine(baseDir, "AppForms.exe");
         if (File.Exists(appFormsExe))
         {
-            return appFormsExe;
+            return Path.GetFullPath(appFormsExe);
         }
 
-        return Application.ExecutablePath;
+        return AppContext.BaseDirectory;
     }
 }

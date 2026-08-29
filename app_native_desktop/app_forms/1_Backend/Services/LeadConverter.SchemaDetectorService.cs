@@ -1,15 +1,20 @@
-using System.Globalization;
-using System.Text;
 using System.Text.RegularExpressions;
 using AppForms.Backend.Contracts.Entities;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Backend.Services.Rules;
+using AppForms.Backend.Utils;
 using AppForms.Shared.Enums;
 
 namespace AppForms.Backend.Services;
 
+/// <summary>
+/// Domain Service điều phối phát hiện Schema tương ứng từ LeadEntity và RawText.
+/// Tích hợp tập trung SpecialRoomCodeRuleEngine và TextNormalizer để loại bỏ phân tán quy tắc.
+/// </summary>
 public class SchemaDetectorService : ISchemaDetector
 {
+    private static readonly Regex TokenCandidateRegex = new(@"\b[A-Za-z0-9\-_/]+\b", RegexOptions.Compiled);
+
     private readonly IRoomCodeReadOnlyRepository _roomCodeRepo;
     private readonly SpecialRoomCodeRuleEngine _ruleEngine;
 
@@ -64,21 +69,21 @@ public class SchemaDetectorService : ISchemaDetector
             }
         }
 
-        // === LAYER 3: Quét rawText nếu được cung cấp ===
+        // === LAYER 3: Quét rawText qua Rule Engine tập trung ===
         if (!string.IsNullOrWhiteSpace(rawText))
         {
-            // Kiểm tra các mẫu regex mã phòng trong rawText
-            // Ví dụ: Mn35, Mn 35, Ts007, NT023
-            var matchMn = Regex.Match(rawText, @"\bmn\s*\d+", RegexOptions.IgnoreCase);
-            if (matchMn.Success) return SchemaDetectionResult.Exact("lusaco");
+            // 3.1. Quét các token mã trong rawText và đưa qua Rule Engine
+            var tokenMatches = TokenCandidateRegex.Matches(rawText);
+            foreach (Match match in tokenMatches)
+            {
+                var token = match.Value;
+                if (_ruleEngine.TryMatch(token, out var ruleMatchedSchema, out _, out _))
+                {
+                    return SchemaDetectionResult.Exact(ruleMatchedSchema!);
+                }
+            }
 
-            var matchTs = Regex.Match(rawText, @"\bts\s*\d+", RegexOptions.IgnoreCase);
-            if (matchTs.Success) return SchemaDetectionResult.Exact("hd_homes");
-
-            var matchNt = Regex.Match(rawText, @"\bnt\s*\d+", RegexOptions.IgnoreCase);
-            if (matchNt.Success) return SchemaDetectionResult.Exact("nt_home");
-
-            // Kiểm tra từ khóa sàn trong rawText
+            // 3.2. Kiểm tra từ khóa sàn trong rawText
             var detectedFromRaw = DetectFromKeyword(rawText);
             if (detectedFromRaw != null)
             {
@@ -91,7 +96,7 @@ public class SchemaDetectorService : ISchemaDetector
 
     private static string? DetectFromKeyword(string text)
     {
-        var normalized = Normalize(text);
+        var normalized = TextNormalizer.NormalizeKey(text);
 
         if (normalized.Contains("lusaco")) return "lusaco";
         if (normalized.Contains("hdhome") || normalized.Contains("hdhomes")) return "hd_homes";
@@ -105,27 +110,5 @@ public class SchemaDetectorService : ISchemaDetector
         if (normalized.Contains("anhomes") || normalized.Contains("anhome")) return "anhomes";
 
         return null;
-    }
-
-    private static string CleanCode(string code)
-    {
-        return Regex.Replace(code.Trim(), @"\s+", "");
-    }
-
-    private static string Normalize(string str)
-    {
-        if (string.IsNullOrEmpty(str)) return string.Empty;
-        var normalized = str.Normalize(NormalizationForm.FormD);
-        var sb = new StringBuilder();
-        foreach (var c in normalized)
-        {
-            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
-            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
-            {
-                sb.Append(c);
-            }
-        }
-        var unaccented = sb.ToString().Normalize(NormalizationForm.FormC).Replace("đ", "d").Replace("Đ", "D");
-        return Regex.Replace(unaccented.ToLowerInvariant(), @"[^a-z0-9]", "").Trim();
     }
 }

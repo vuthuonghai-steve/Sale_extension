@@ -1,5 +1,10 @@
-namespace AppForms.Backend.Shortcut;
+using AppForms.Shared.Models.Shortcut;
 
+namespace AppForms.Backend.Contracts.Interfaces;
+
+/// <summary>
+/// Quản lý việc tạo, cập nhật (self-heal) và gỡ bỏ Shortcut trên Windows Desktop & Start Menu.
+/// </summary>
 public interface IDesktopShortcutService
 {
     /// <summary>

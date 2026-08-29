@@ -19,6 +19,8 @@ public class LeadConverterStateHookTests
     private readonly Mock<ISchemaDetector> _mockDetector;
     private readonly Mock<IRoomCodeRepository> _mockRoomRepo;
     private readonly Mock<ISpecialRoomMappingDetector> _mockSpecialDetector;
+    private readonly Mock<IClipboardAdapter> _mockClipboardAdapter;
+    private readonly Mock<ISystemLauncherAdapter> _mockLauncherAdapter;
     private readonly LeadConverterStateHook _hook;
 
     public LeadConverterStateHookTests()
@@ -30,6 +32,8 @@ public class LeadConverterStateHookTests
         _mockDetector = new Mock<ISchemaDetector>();
         _mockRoomRepo = new Mock<IRoomCodeRepository>();
         _mockSpecialDetector = new Mock<ISpecialRoomMappingDetector>();
+        _mockClipboardAdapter = new Mock<IClipboardAdapter>();
+        _mockLauncherAdapter = new Mock<ISystemLauncherAdapter>();
 
         _mockSettingsService.Setup(s => s.Current).Returns(new AppSettings
         {
@@ -51,7 +55,9 @@ public class LeadConverterStateHookTests
             _mockSettingsService.Object,
             _mockDetector.Object,
             _mockRoomRepo.Object,
-            _mockSpecialDetector.Object);
+            _mockSpecialDetector.Object,
+            _mockClipboardAdapter.Object,
+            _mockLauncherAdapter.Object);
     }
 
     [Fact]
@@ -113,17 +119,17 @@ public class LeadConverterStateHookTests
     }
 
     [Fact]
-    public void CopyTextToClipboard_WhenValidText_DelegatesToConverterService()
+    public void CopyTextToClipboard_WhenValidText_DelegatesToClipboardAdapter()
     {
         // Arrange
-        _mockConverter.Setup(c => c.CopyToClipboard("0977274446")).Returns(Result.Success());
+        _mockClipboardAdapter.Setup(c => c.SetText("0977274446")).Returns(true);
 
         // Act
         var success = _hook.CopyTextToClipboard("0977274446");
 
         // Assert
         Assert.True(success);
-        _mockConverter.Verify(c => c.CopyToClipboard("0977274446"), Times.Once);
+        _mockClipboardAdapter.Verify(c => c.SetText("0977274446"), Times.Once);
     }
 
     [Fact]
@@ -131,6 +137,21 @@ public class LeadConverterStateHookTests
     {
         var success = _hook.CopyTextToClipboard("   ");
         Assert.False(success);
+    }
+
+    [Fact]
+    public void OpenUrl_DelegatesToSystemLauncherAdapter()
+    {
+        // Arrange
+        var targetUrl = "https://docs.google.com/spreadsheets/d/test";
+        _mockLauncherAdapter.Setup(l => l.OpenBrowser(targetUrl)).Returns(true);
+
+        // Act
+        var success = _hook.OpenUrl(targetUrl);
+
+        // Assert
+        Assert.True(success);
+        _mockLauncherAdapter.Verify(l => l.OpenBrowser(targetUrl), Times.Once);
     }
 
     /// <summary>

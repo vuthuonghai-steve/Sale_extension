@@ -5,6 +5,10 @@ using AppForms.Shared.Enums;
 
 namespace AppForms.Frontend.Screens.LeadConverter.Components;
 
+/// <summary>
+/// Sub-Component chọn mẫu Schema đầu ra, hiển thị trạng thái nhận diện và nút thêm mã nhanh.
+/// Tuân thủ quy chuẩn Charter độ dài <= 300 dòng.
+/// </summary>
 public class SchemaSelectorTabs : Panel
 {
     private readonly ComboBox _cboSchemas;
@@ -31,40 +35,10 @@ public class SchemaSelectorTabs : Panel
         BackColor = AppColors.SurfaceDark;
 
         // 1. Header Bar
-        var headerPanel = new Panel
-        {
-            Dock = DockStyle.Top,
-            Height = 28,
-            BackColor = Color.Transparent
-        };
-
-        _lblTitle = new Label
-        {
-            Text = "🎯 MẪU OUTPUT",
-            Font = AppFonts.SubHeader,
-            ForeColor = AppColors.TextSecondary,
-            AutoSize = true,
-            Location = new Point(0, 4)
-        };
-
-        _lblCountBadge = new Label
-        {
-            Text = "0 mẫu",
-            Font = AppFonts.Badge,
-            ForeColor = AppColors.PrimaryHover,
-            AutoSize = true,
-            Location = new Point(_lblTitle.Right + 6, 6)
-        };
-
-        _lblStatusBadge = new Label
-        {
-            Text = string.Empty,
-            Font = AppFonts.CaptionBold,
-            ForeColor = AppColors.Warning,
-            AutoSize = true,
-            Location = new Point(_lblCountBadge.Right + 8, 5),
-            Visible = false
-        };
+        var headerPanel = new Panel { Dock = DockStyle.Top, Height = 28, BackColor = Color.Transparent };
+        _lblTitle = new Label { Text = "🎯 MẪU OUTPUT", Font = AppFonts.SubHeader, ForeColor = AppColors.TextSecondary, AutoSize = true, Location = new Point(0, 4) };
+        _lblCountBadge = new Label { Text = "0 mẫu", Font = AppFonts.Badge, ForeColor = AppColors.PrimaryHover, AutoSize = true, Location = new Point(_lblTitle.Right + 6, 6) };
+        _lblStatusBadge = new Label { Text = string.Empty, Font = AppFonts.CaptionBold, ForeColor = AppColors.Warning, AutoSize = true, Location = new Point(_lblCountBadge.Right + 8, 5), Visible = false };
 
         _btnAddCode = new ModernButton
         {
@@ -78,41 +52,15 @@ public class SchemaSelectorTabs : Panel
         };
         _btnAddCode.Click += OnAddCodeClicked;
 
-        headerPanel.Controls.Add(_lblTitle);
-        headerPanel.Controls.Add(_lblCountBadge);
-        headerPanel.Controls.Add(_lblStatusBadge);
-        headerPanel.Controls.Add(_btnAddCode);
+        headerPanel.Controls.AddRange(new Control[] { _lblTitle, _lblCountBadge, _lblStatusBadge, _btnAddCode });
 
         // 2. Dropdown & Navigation Control Container
-        var controlPanel = new Panel
-        {
-            Dock = DockStyle.Fill,
-            Padding = new Padding(0, 4, 0, 0),
-            BackColor = Color.Transparent
-        };
+        var controlPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(0, 4, 0, 0), BackColor = Color.Transparent };
 
-        _btnPrev = new ModernButton
-        {
-            Text = "◀",
-            Size = new Size(32, 28),
-            Font = AppFonts.CaptionBold,
-            CustomBackColor = AppColors.SurfaceHighlight,
-            CustomHoverColor = AppColors.BorderHighlight,
-            Dock = DockStyle.Left,
-            Margin = new Padding(0, 0, 4, 0)
-        };
+        _btnPrev = new ModernButton { Text = "◀", Size = new Size(32, 28), Font = AppFonts.CaptionBold, CustomBackColor = AppColors.SurfaceHighlight, CustomHoverColor = AppColors.BorderHighlight, Dock = DockStyle.Left, Margin = new Padding(0, 0, 4, 0) };
         _btnPrev.Click += (_, _) => NavigateSchema(-1);
 
-        _btnNext = new ModernButton
-        {
-            Text = "▶",
-            Size = new Size(32, 28),
-            Font = AppFonts.CaptionBold,
-            CustomBackColor = AppColors.SurfaceHighlight,
-            CustomHoverColor = AppColors.BorderHighlight,
-            Dock = DockStyle.Right,
-            Margin = new Padding(4, 0, 0, 0)
-        };
+        _btnNext = new ModernButton { Text = "▶", Size = new Size(32, 28), Font = AppFonts.CaptionBold, CustomBackColor = AppColors.SurfaceHighlight, CustomHoverColor = AppColors.BorderHighlight, Dock = DockStyle.Right, Margin = new Padding(4, 0, 0, 0) };
         _btnNext.Click += (_, _) => NavigateSchema(1);
 
         _cboSchemas = new ComboBox
@@ -129,17 +77,10 @@ public class SchemaSelectorTabs : Panel
         _cboSchemas.DrawItem += CboSchemas_DrawItem;
         _cboSchemas.SelectedIndexChanged += CboSchemas_SelectedIndexChanged;
 
-        var comboWrapper = new Panel
-        {
-            Dock = DockStyle.Fill,
-            Padding = new Padding(4, 0, 4, 0),
-            BackColor = Color.Transparent
-        };
+        var comboWrapper = new Panel { Dock = DockStyle.Fill, Padding = new Padding(4, 0, 4, 0), BackColor = Color.Transparent };
         comboWrapper.Controls.Add(_cboSchemas);
 
-        controlPanel.Controls.Add(comboWrapper);
-        controlPanel.Controls.Add(_btnPrev);
-        controlPanel.Controls.Add(_btnNext);
+        controlPanel.Controls.AddRange(new Control[] { comboWrapper, _btnPrev, _btnNext });
 
         Controls.Add(controlPanel);
         Controls.Add(headerPanel);
@@ -169,7 +110,6 @@ public class SchemaSelectorTabs : Panel
 
         _cboSchemas.SelectedIndex = selectedIndex;
         _currentActiveSchemaId = activeSchemaId;
-
         _isInternalUpdating = false;
     }
 
@@ -222,10 +162,6 @@ public class SchemaSelectorTabs : Panel
                 _lblStatusBadge.ForeColor = AppColors.Success;
                 _lblStatusBadge.Text = "⚡ Tự động nhận diện";
                 break;
-            case SchemaDetectionStatus.ManualSelected:
-                _lblStatusBadge.Visible = false;
-                _lblStatusBadge.Text = string.Empty;
-                break;
             default:
                 _lblStatusBadge.Visible = false;
                 _lblStatusBadge.Text = string.Empty;
@@ -237,11 +173,7 @@ public class SchemaSelectorTabs : Panel
 
     private void OnAddCodeClicked(object? sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(_currentRoomCode) || string.IsNullOrWhiteSpace(_currentActiveSchemaId))
-        {
-            return;
-        }
-
+        if (string.IsNullOrWhiteSpace(_currentRoomCode) || string.IsNullOrWhiteSpace(_currentActiveSchemaId)) return;
         AddCodeRequested?.Invoke(_currentActiveSchemaId, _currentRoomCode);
     }
 
@@ -251,14 +183,12 @@ public class SchemaSelectorTabs : Panel
         var nextIndex = _cboSchemas.SelectedIndex + delta;
         if (nextIndex < 0) nextIndex = _schemas.Count - 1;
         if (nextIndex >= _schemas.Count) nextIndex = 0;
-
         _cboSchemas.SelectedIndex = nextIndex;
     }
 
     private void CboSchemas_SelectedIndexChanged(object? sender, EventArgs e)
     {
         if (_isInternalUpdating) return;
-
         if (_cboSchemas.SelectedIndex >= 0 && _cboSchemas.SelectedItem is FormatSchema selectedSchema)
         {
             _currentActiveSchemaId = selectedSchema.Id;
@@ -273,9 +203,9 @@ public class SchemaSelectorTabs : Panel
         var schema = _schemas[e.Index];
         var isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
 
-        var bgBrush = new SolidBrush(isSelected ? AppColors.Primary : AppColors.SurfaceInput);
-        var textBrush = new SolidBrush(isSelected ? Color.White : AppColors.TextPrimary);
-        var descBrush = new SolidBrush(isSelected ? Color.FromArgb(224, 231, 255) : AppColors.TextMuted);
+        using var bgBrush = new SolidBrush(isSelected ? AppColors.Primary : AppColors.SurfaceInput);
+        using var textBrush = new SolidBrush(isSelected ? Color.White : AppColors.TextPrimary);
+        using var descBrush = new SolidBrush(isSelected ? Color.FromArgb(224, 231, 255) : AppColors.TextMuted);
 
         e.Graphics.FillRectangle(bgBrush, e.Bounds);
 

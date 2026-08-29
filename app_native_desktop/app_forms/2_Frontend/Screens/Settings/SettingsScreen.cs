@@ -1,5 +1,4 @@
 using AppForms.Backend.Contracts.Interfaces;
-using AppForms.Backend.Shortcut;
 using AppForms.Frontend.Screens.Settings.Components;
 using AppForms.Frontend.Screens.Settings.Hooks;
 using AppForms.Frontend.Shared.Components;

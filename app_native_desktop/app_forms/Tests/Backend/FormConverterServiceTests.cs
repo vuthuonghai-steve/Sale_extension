@@ -17,6 +17,7 @@ public class FormConverterServiceTests
     private readonly Mock<ISchemaManager> _mockSchemaManager;
     private readonly Mock<ISettingsService> _mockSettingsService;
     private readonly Mock<ISchemaDetector> _mockSchemaDetector;
+    private readonly Mock<IClipboardAdapter> _mockClipboardAdapter;
     private readonly Win32ClipboardListener _win32Listener;
     private readonly FormConverterService _service;
 
@@ -28,6 +29,7 @@ public class FormConverterServiceTests
         _mockSchemaManager = new Mock<ISchemaManager>();
         _mockSettingsService = new Mock<ISettingsService>();
         _mockSchemaDetector = new Mock<ISchemaDetector>();
+        _mockClipboardAdapter = new Mock<IClipboardAdapter>();
 
         _mockSanitizer.Setup(s => s.Sanitize(It.IsAny<string>())).Returns<string>(s => s);
         _mockParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(new LeadEntity { RoomCode = "ROOM_TEST" });
@@ -49,6 +51,7 @@ public class FormConverterServiceTests
             _mockSchemaManager.Object,
             _mockSettingsService.Object,
             _mockSchemaDetector.Object,
+            _mockClipboardAdapter.Object,
             _win32Listener);
     }
 
@@ -106,5 +109,19 @@ public class FormConverterServiceTests
 
         // Assert
         Assert.Equal("hd_homes", result.SelectedSchemaId);
+    }
+
+    [Fact]
+    public void CopyToClipboard_DelegatesToClipboardAdapter()
+    {
+        // Arrange
+        _mockClipboardAdapter.Setup(c => c.SetText("Test Text")).Returns(true);
+
+        // Act
+        var result = _service.CopyToClipboard("Test Text");
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        _mockClipboardAdapter.Verify(c => c.SetText("Test Text"), Times.Once);
     }
 }

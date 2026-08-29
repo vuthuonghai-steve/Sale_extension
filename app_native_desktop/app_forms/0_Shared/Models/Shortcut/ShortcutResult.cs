@@ -1,5 +1,8 @@
-namespace AppForms.Backend.Shortcut;
+namespace AppForms.Shared.Models.Shortcut;
 
+/// <summary>
+/// DTO chứa kết quả thực thi các tác vụ tạo/cập nhật/gỡ bỏ lối tắt Shortcut trên Desktop và Start Menu.
+/// </summary>
 public record ShortcutResult(
     bool IsSuccess,
     string Message,

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using AppForms.Backend.Contracts.Interfaces;
+using AppForms.Backend.Utils;
 using AppForms.Shared.Models.SpecialMapping;
 
 namespace AppForms.Backend.Services;
@@ -14,25 +15,15 @@ public class SpecialMappingTextParser : ISpecialMappingTextParser
     private static readonly Regex ExplicitCodeRegex = new(@"(?:mã\s*phòng|mã\s*tòa|mã\s*nguồn|mã\s*hàng|mã|ms)\s*[:\-]?\s*([A-Za-z0-9\-_/]+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     private static readonly Regex AlphaNumericTokenRegex = new(@"\b[A-Za-z]+[-_]?\d+[A-Za-z0-9\-_/]*\b|\b\d+[-_]?[A-Za-z]+[A-Za-z0-9\-_/]*\b", RegexOptions.Compiled);
     private static readonly Regex NumericCodeTokenRegex = new(@"\b\d{3,}\b", RegexOptions.Compiled);
-    private static readonly Regex NonDigitRegex = new(@"[^\d]", RegexOptions.Compiled);
-    private static readonly Regex WhitespaceRegex = new(@"\s+", RegexOptions.Compiled);
 
     public string CleanCode(string code)
     {
-        if (string.IsNullOrWhiteSpace(code)) return string.Empty;
-        return WhitespaceRegex.Replace(code.Trim(), "");
+        return TextNormalizer.CleanCode(code);
     }
 
     public string CleanPhone(string phone)
     {
-        if (string.IsNullOrWhiteSpace(phone)) return string.Empty;
-
-        var digits = NonDigitRegex.Replace(phone.Trim(), "");
-        if (digits.StartsWith("84") && digits.Length == 11)
-        {
-            digits = "0" + digits.Substring(2);
-        }
-        return digits;
+        return PhoneNumberUtils.Standardize(phone);
     }
 
     public SpecialRoomMappingEntity? FindMappingInText(string text, ISpecialRoomMappingRepository repository)

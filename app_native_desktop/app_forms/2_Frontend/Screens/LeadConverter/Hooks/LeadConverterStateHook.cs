@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using AppForms.Backend.Adapters.Win32;
 using AppForms.Backend.Contracts.Entities;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Shared.Enums;
@@ -9,6 +9,7 @@ namespace AppForms.Frontend.Screens.LeadConverter.Hooks;
 /// <summary>
 /// Quản lý UI State và điều phối sự kiện màn hình LeadConverterScreen.
 /// Logic nhận diện đối chiếu phòng đặc biệt được ủy quyền cho ISpecialRoomMappingDetector.
+/// Tương tác OS (Clipboard, Shell) được bóc tách qua IClipboardAdapter và ISystemLauncherAdapter.
 /// </summary>
 public class LeadConverterStateHook
 {
@@ -19,6 +20,8 @@ public class LeadConverterStateHook
     private readonly ISchemaDetector _schemaDetector;
     private readonly IRoomCodeRepository _roomCodeRepo;
     private readonly ISpecialRoomMappingDetector? _specialDetector;
+    private readonly IClipboardAdapter _clipboardAdapter;
+    private readonly ISystemLauncherAdapter _launcherAdapter;
 
     public string? ActiveSchemaId { get; private set; }
     public LeadEntity CurrentLead { get; private set; } = new();
@@ -41,7 +44,9 @@ public class LeadConverterStateHook
         ISettingsService settingsService,
         ISchemaDetector schemaDetector,
         IRoomCodeRepository roomCodeRepo,
-        ISpecialRoomMappingDetector? specialDetector = null)
+        ISpecialRoomMappingDetector? specialDetector = null,
+        IClipboardAdapter? clipboardAdapter = null,
+        ISystemLauncherAdapter? launcherAdapter = null)
     {
         _converterService = converterService;
         _schemaManager = schemaManager;
@@ -50,6 +55,8 @@ public class LeadConverterStateHook
         _schemaDetector = schemaDetector;
         _roomCodeRepo = roomCodeRepo;
         _specialDetector = specialDetector;
+        _clipboardAdapter = clipboardAdapter ?? new WindowsClipboardAdapter();
+        _launcherAdapter = launcherAdapter ?? new WindowsSystemLauncherAdapter();
 
         ActiveSchemaId = null;
     }
@@ -217,8 +224,7 @@ public class LeadConverterStateHook
             return false;
         }
 
-        var res = _converterService.CopyToClipboard(FormattedOutput);
-        return res.IsSuccess;
+        return _clipboardAdapter.SetText(FormattedOutput);
     }
 
     public bool CopyTextToClipboard(string text)
@@ -228,30 +234,11 @@ public class LeadConverterStateHook
             return false;
         }
 
-        var res = _converterService.CopyToClipboard(text);
-        return res.IsSuccess;
+        return _clipboardAdapter.SetText(text);
     }
 
     public bool OpenUrl(string url)
     {
-        if (Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
-            (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = url,
-                    UseShellExecute = true
-                });
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        return false;
+        return _launcherAdapter.OpenBrowser(url);
     }
 }

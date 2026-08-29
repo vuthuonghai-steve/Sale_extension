@@ -14,6 +14,8 @@ public class FormConverterService : IFormConverterService, IDisposable
     private readonly ITemplateEngine _templateEngine;
     private readonly ISchemaManager _schemaManager;
     private readonly ISettingsService _settingsService;
+    private readonly ISchemaDetector _schemaDetector;
+    private readonly IClipboardAdapter _clipboardAdapter;
     private readonly Win32ClipboardListener _win32Listener;
 
     private readonly List<ConversionItem> _history = new();
@@ -36,8 +38,6 @@ public class FormConverterService : IFormConverterService, IDisposable
         }
     }
 
-    private readonly ISchemaDetector _schemaDetector;
-
     public FormConverterService(
         ILogger<FormConverterService> logger,
         ITextSanitizer sanitizer,
@@ -46,6 +46,7 @@ public class FormConverterService : IFormConverterService, IDisposable
         ISchemaManager schemaManager,
         ISettingsService settingsService,
         ISchemaDetector schemaDetector,
+        IClipboardAdapter clipboardAdapter,
         Win32ClipboardListener win32Listener)
     {
         _logger = logger;
@@ -55,6 +56,7 @@ public class FormConverterService : IFormConverterService, IDisposable
         _schemaManager = schemaManager;
         _settingsService = settingsService;
         _schemaDetector = schemaDetector;
+        _clipboardAdapter = clipboardAdapter;
         _win32Listener = win32Listener;
 
         _win32Listener.ClipboardUpdated += OnClipboardUpdated;
@@ -76,7 +78,7 @@ public class FormConverterService : IFormConverterService, IDisposable
     private ConversionItem ProcessLeadInternal(LeadEntity lead, string rawInput, string? targetSchemaId)
     {
         var fixedCtv = _settingsService.Current.FixedCtvName;
-        // Ưu tiên: targetSchemaId truyền vào -> Auto-detect từ lead/rawInput (loại bỏ fallback ngầm DefaultSelectedSchemaId)
+        // Ưu tiên: targetSchemaId truyền vào -> Auto-detect từ lead/rawInput
         var detectedSchemaId = _schemaDetector.DetectSchemaId(lead, rawInput);
         var selectedSchemaId = targetSchemaId ?? detectedSchemaId;
         var allSchemas = _schemaManager.Schemas;
@@ -139,8 +141,8 @@ public class FormConverterService : IFormConverterService, IDisposable
         {
             _isInternalClipboardSet = true;
             _lastCapturedClipboardText = text;
-            Clipboard.SetText(text);
-            return Result.Success();
+            var success = _clipboardAdapter.SetText(text);
+            return success ? Result.Success() : Result.Failure("Không thể ghi vào Clipboard.");
         }
         catch (Exception ex)
         {
@@ -168,9 +170,9 @@ public class FormConverterService : IFormConverterService, IDisposable
 
         try
         {
-            if (!Clipboard.ContainsText()) return;
+            if (!_clipboardAdapter.ContainsText()) return;
 
-            var text = Clipboard.GetText();
+            var text = _clipboardAdapter.GetText();
             if (string.IsNullOrWhiteSpace(text) || string.Equals(text, _lastCapturedClipboardText, StringComparison.Ordinal))
             {
                 return;

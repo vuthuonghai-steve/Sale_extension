@@ -1,6 +1,5 @@
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Backend.Contracts.Schemas;
-using AppForms.Backend.Shortcut;
 using AppForms.Frontend.Screens.Settings.Models;
 using AppForms.Shared.Models.MessageFilter;
 

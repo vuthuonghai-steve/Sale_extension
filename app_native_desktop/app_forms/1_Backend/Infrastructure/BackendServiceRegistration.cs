@@ -9,7 +9,7 @@ using AppForms.Backend.Services.MessageFilter.SubFilters;
 using AppForms.Backend.Services.Routing;
 using AppForms.Backend.Services.Rules;
 using AppForms.Backend.Services.Rules.Definitions;
-using AppForms.Backend.Shortcut;
+using AppForms.Shared.Models.Shortcut;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -31,11 +31,13 @@ public static class BackendServiceRegistration
             builder.AddSerilog(dispose: true);
         });
 
+        // Win32 & OS Adapters
+        services.AddSingleton<IClipboardAdapter, WindowsClipboardAdapter>();
+        services.AddSingleton<ISystemLauncherAdapter, WindowsSystemLauncherAdapter>();
+        services.AddSingleton<Win32ClipboardListener>();
+
         // System Shortcut Service
         services.AddSingleton<IDesktopShortcutService, DesktopShortcutService>();
-
-        // Win32 Adapters
-        services.AddSingleton<Win32ClipboardListener>();
 
         // Core Domain Services
         services.AddSingleton<ITextSanitizer, TextSanitizerService>();
