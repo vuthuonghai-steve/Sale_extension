@@ -16,6 +16,7 @@ public class JsonSpecialRoomMappingRepository : ISpecialRoomMappingRepository
     private readonly ILogger<JsonSpecialRoomMappingRepository> _logger;
     private readonly IJsonFileStorage<SpecialRoomMappingRegistryEntity> _storage;
     private readonly ISpecialMappingTextParser _textParser;
+    private readonly AppForms.Backend.Services.Rules.SpecialMappingZoneEngine _zoneEngine;
     private readonly object _lock = new();
 
     private readonly ConcurrentDictionary<string, SpecialRoomMappingEntity> _codeIndex = new(StringComparer.OrdinalIgnoreCase);
@@ -27,11 +28,13 @@ public class JsonSpecialRoomMappingRepository : ISpecialRoomMappingRepository
     public JsonSpecialRoomMappingRepository(
         ILogger<JsonSpecialRoomMappingRepository> logger,
         IJsonFileStorage<SpecialRoomMappingRegistryEntity> storage,
-        ISpecialMappingTextParser textParser)
+        ISpecialMappingTextParser textParser,
+        AppForms.Backend.Services.Rules.SpecialMappingZoneEngine? zoneEngine = null)
     {
         _logger = logger;
         _storage = storage;
         _textParser = textParser;
+        _zoneEngine = zoneEngine ?? new AppForms.Backend.Services.Rules.SpecialMappingZoneEngine();
         LoadInitialData();
     }
 
@@ -138,6 +141,22 @@ public class JsonSpecialRoomMappingRepository : ISpecialRoomMappingRepository
         if (noHyphen != clean && _codeIndex.TryGetValue(noHyphen, out item))
         {
             return item;
+        }
+
+        // Nếu chưa tìm thấy, áp dụng Vùng Quy Tắc (Zone Engine) để chuẩn hóa/bóc tách tiền tố
+        var candidates = _zoneEngine.ResolveCandidateCodes(clean);
+        foreach (var candidate in candidates)
+        {
+            if (_codeIndex.TryGetValue(candidate, out var matchedItem))
+            {
+                return matchedItem;
+            }
+
+            var candNoHyphen = candidate.Replace("-", "");
+            if (candNoHyphen != candidate && _codeIndex.TryGetValue(candNoHyphen, out matchedItem))
+            {
+                return matchedItem;
+            }
         }
 
         return null;

@@ -21,12 +21,13 @@ mindmap
         ISpecialRoomMappingRepository["SpecialMapping.ISpecialRoomMappingRepository (FindMappingByCode, Phone, Text, Reload, Save)"]
         ISpecialRoomMappingDetector["SpecialMapping.ISpecialRoomMappingDetector (Detect - Fallback Algorithm)"]
         ISpecialMappingTextParser["SpecialMapping.ISpecialMappingTextParser (CleanCode, CleanPhone, FindMappingInText)"]
+        ISpecialMappingZoneRule["SpecialMapping.ISpecialMappingZoneRule (ZoneName, Priority, TryResolveCandidates)"]
         ISpecialRoomCodeRule["LeadConverter.ISpecialRoomCodeRule (RuleName, Priority, TryMatch)"]
         IClipboardAdapter["Adapter.IClipboardAdapter (SetText, GetText, ContainsText)"]
         ISystemLauncherAdapter["Adapter.ISystemLauncherAdapter (OpenBrowser, GetExecutablePath, OpenFolder)"]
       Adapters & Persistence
         AtomicJsonFileStorage["Persistence.AtomicJsonFileStorage<T> (Generic Atomic Write qua file .tmp, 3 cấp Fallback)"]
-        JsonSpecialRoomMappingRepository["SpecialMapping.JsonSpecialRoomMappingRepository (Dual ConcurrentDictionary O(1) RAM Index)"]
+        JsonSpecialRoomMappingRepository["SpecialMapping.JsonSpecialRoomMappingRepository (Dual ConcurrentDictionary O(1) RAM Index + Zone Engine)"]
         WindowsClipboardAdapter["Win32.WindowsClipboardAdapter (Win32 Interop + STA Thread-Safe Fallback)"]
         WindowsSystemLauncherAdapter["Win32.WindowsSystemLauncherAdapter (URL Sanitization Guard + Process Launcher)"]
       Domain Services & Utils
@@ -35,7 +36,9 @@ mindmap
         SchemaDetectorService["LeadConverter.SchemaDetectorService (Layer 1.1 tích hợp Special Rule Engine)"]
         TextNormalizer["TextNormalizer (RemoveAccents, CleanCode, NormalizeKey)"]
         PhoneNumberUtils["PhoneNumberUtils (ExtractPhoneNumber, Standardize, 10-Digit VN Phone)"]
-      Rules Engine
+      Rules & Zone Engines
+        SpecialMappingZoneEngine["SpecialMapping.SpecialMappingZoneEngine (Zone Preprocessing & Prefix Normalization)"]
+        TL21PrefixStrippingZoneRule["SpecialMapping.TL21PrefixStrippingZoneRule (Priority 100: C454, c454, C-454 -> 454)"]
         SpecialRoomCodeRuleEngine["LeadConverter.SpecialRoomCodeRuleEngine (Priority-Ordered Evaluation)"]
         CPrefixTL21SpecialRule["LeadConverter.CPrefixTL21SpecialRule (Priority 100: C101, c205, C-01 -> TL21House)"]
         StandardPrefixRules["LeadConverter.StandardPrefixRules (Priority 50: MN -> Lusaco, TS -> HD Homes, NT, 95, TL)"]
@@ -50,7 +53,8 @@ mindmap
       UI Utilities
         FormStateObserver["FormStateObserver.InvokeOnUI (Đảm bảo Thread-Safety khi cập nhật WinForms Control)"]
     Tests Suite
-      JsonSpecialRoomMappingRepositoryTests["JsonSpecialRoomMappingRepositoryTests (Nạp 31 Seed Items, Tra cứu Code/Phone/Text)"]
+      JsonSpecialRoomMappingRepositoryTests["JsonSpecialRoomMappingRepositoryTests (Nạp 31 Seed Items, Tra cứu Code/Phone/Text/C-Prefix)"]
+      SpecialMappingZoneEngineTests["SpecialMappingZoneEngineTests (Kiểm thử TL21PrefixStrippingZoneRule & ZoneEngine)"]
       SpecialRoomMappingDetectorTests["SpecialRoomMappingDetectorTests (Ưu tiên Lead.RoomCode, Strict Guard không cào bới)"]
       SpecialMappingTextParserTests["SpecialMappingTextParserTests (Chuẩn hóa SĐT, Bóc tách Token, Bỏ qua số ngắn 1-2 ký tự)"]
       SpecialRoomCodeRulesTests["SpecialRoomCodeRulesTests (Khớp C-Prefix, Standard Prefixes, RuleEngine Precedence)"]
@@ -74,17 +78,20 @@ Toàn bộ module tuân thủ nghiêm ngặt **Clean 3-Layer Architecture**, **F
 | **1_Backend** | `Repository Contract` | [`1_Backend/Contracts/Interfaces/SpecialMapping.ISpecialRoomMappingRepository.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/SpecialMapping.ISpecialRoomMappingRepository.cs) | Interface hợp đồng kho lưu trữ tra cứu mã phòng, số điện thoại, quét text và nạp/lưu dữ liệu. | Interface |
 | **1_Backend** | `Detector Contract` | [`1_Backend/Contracts/Interfaces/SpecialMapping.ISpecialRoomMappingDetector.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/SpecialMapping.ISpecialRoomMappingDetector.cs) | Interface Domain Service điều phối thuật toán nhận diện và chiến lược Fallback. | Interface |
 | **1_Backend** | `Parser Contract` | [`1_Backend/Contracts/Interfaces/SpecialMapping.ISpecialMappingTextParser.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/SpecialMapping.ISpecialMappingTextParser.cs) | Interface bóc tách Regex và chuẩn hóa token mã/SĐT từ văn bản thô. | Interface |
+| **1_Backend** | `Zone Rule Contract` | [`1_Backend/Contracts/Rules/SpecialMapping.ISpecialMappingZoneRule.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Rules/SpecialMapping.ISpecialMappingZoneRule.cs) | Interface chuẩn cho các quy tắc phân vùng bóc tách tiền tố/hậu tố mã đặc biệt mà không làm ô nhiễm kho dữ liệu gốc. | Interface |
 | **1_Backend** | `Rule Contract` | [`1_Backend/Contracts/Rules/LeadConverter.ISpecialRoomCodeRule.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Rules/LeadConverter.ISpecialRoomCodeRule.cs) | Interface chuẩn cho các quy tắc nhận diện tiền tố và mã phòng đặc biệt trong Schema Detection. | Interface |
 | **1_Backend** | `Clipboard Contract` | [`1_Backend/Contracts/Interfaces/Adapter.IClipboardAdapter.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/Adapter.IClipboardAdapter.cs) | Interface trừu tượng hóa thao tác Clipboard, tách biệt hoàn toàn WinForms khỏi Core/StateHook. | Interface |
 | **1_Backend** | `Launcher Contract` | [`1_Backend/Contracts/Interfaces/Adapter.ISystemLauncherAdapter.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/Adapter.ISystemLauncherAdapter.cs) | Interface trừu tượng hóa mở trình duyệt bảo vệ URL và lấy Process Path hệ điều hành. | Interface |
 | **1_Backend** | `Atomic JSON Storage` | [`1_Backend/Adapters/Persistence/Common/Persistence.AtomicJsonFileStorage.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Persistence/Common/Persistence.AtomicJsonFileStorage.cs) | Generic Storage nạp/ghi JSON an toàn qua file tạm `.tmp`, tự động Fallback (Runtime $\to$ Seed $\to$ Factory). | $O(N)$ IO File |
-| **1_Backend** | `Special Repo Adapter` | [`1_Backend/Adapters/Persistence/SpecialMapping.JsonSpecialRoomMappingRepository.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Persistence/SpecialMapping.JsonSpecialRoomMappingRepository.cs) | Quản lý nạp file, xây dựng bộ chỉ mục kép In-Memory `ConcurrentDictionary` (`_codeIndex`, `_phoneIndex`), tra cứu tức thì $O(1)$. Hỗ trợ tra cứu không phân biệt dấu gạch nối (`-`). | $O(1)$ RAM Lookup |
+| **1_Backend** | `Special Repo Adapter` | [`1_Backend/Adapters/Persistence/SpecialMapping.JsonSpecialRoomMappingRepository.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Persistence/SpecialMapping.JsonSpecialRoomMappingRepository.cs) | Quản lý nạp file, xây dựng bộ chỉ mục kép In-Memory `ConcurrentDictionary` (`_codeIndex`, `_phoneIndex`), tra cứu tức thì $O(1)$ kết hợp `SpecialMappingZoneEngine`. Hỗ trợ tra cứu không phân biệt dấu gạch nối (`-`). | $O(1)$ RAM Lookup |
 | **1_Backend** | `Clipboard Adapter` | [`1_Backend/Adapters/Win32/Win32.WindowsClipboardAdapter.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32.WindowsClipboardAdapter.cs) | Triển khai IClipboardAdapter tương tác Win32 Clipboard an toàn đa luồng. | $O(1)$ OS |
 | **1_Backend** | `Launcher Adapter` | [`1_Backend/Adapters/Win32/Win32.WindowsSystemLauncherAdapter.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32.WindowsSystemLauncherAdapter.cs) | Triển khai ISystemLauncherAdapter bọc URL Sanitization Guard (FM-4) và Environment.ProcessPath. | $O(1)$ OS |
 | **1_Backend** | `Text Normalizer` | [`1_Backend/Utils/TextNormalizer.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Utils/TextNormalizer.cs) | Tiện ích xử lý chuỗi tập trung: bỏ dấu tiếng Việt, làm sạch mã phòng, chuẩn hóa khoảng trắng. | $O(N)$ CPU |
 | **1_Backend** | `Phone Utils` | [`1_Backend/Utils/PhoneNumberUtils.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Utils/PhoneNumberUtils.cs) | Tiện ích bóc tách và chuẩn hóa định dạng số điện thoại Việt Nam 10 chữ số (0xxx, +84). | $O(1)$ CPU |
 | **1_Backend** | `Text Parser Service` | [`1_Backend/Services/SpecialMapping.TextParserService.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SpecialMapping.TextParserService.cs) | Regex bóc tách 4 tầng: Ngữ cảnh từ khóa mã $\to$ Token chữ+số $\to$ Token số $\ge 3$ chữ số $\to$ Số điện thoại 10 chữ số. | $O(K)$ Regex Scan |
 | **1_Backend** | `Special Detector` | [`1_Backend/Services/SpecialMapping.DetectorService.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SpecialMapping.DetectorService.cs) | **Trọng tâm nhận diện**: Thực thi chiến lược Fallback có bảo vệ. Dừng ngay khi `RoomCode` không thuộc danh mục đặc biệt (chống False Positive ngõ/ngách/ngày giờ). | $O(1)$ Fallback |
+| **1_Backend** | `Zone Rule Engine` | [`1_Backend/Services/Rules/SpecialMapping.SpecialMappingZoneEngine.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Rules/SpecialMapping.SpecialMappingZoneEngine.cs) | Vùng điều phối các quy tắc chuẩn hóa mã phòng phân vùng độc lập theo `Priority`. | $O(Z)$ với $Z \le 5$ |
+| **1_Backend** | `TL21 Zone Rule` | [`1_Backend/Services/Rules/Definitions/SpecialMapping.TL21PrefixStrippingZoneRule.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Rules/Definitions/SpecialMapping.TL21PrefixStrippingZoneRule.cs) | Priority 100: Bóc tách tiền tố 'C' hoặc 'c' (C454, c454, C-454, C 454) $\to$ Trả về mã gốc (454) để mapping chính xác. | $O(1)$ Regex Match |
 | **1_Backend** | `Rule Engine` | [`1_Backend/Services/Rules/LeadConverter.SpecialRoomCodeRuleEngine.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Rules/LeadConverter.SpecialRoomCodeRuleEngine.cs) | Điều phối các quy tắc tiền tố theo thứ tự `Priority` giảm dần, cung cấp lý do chẩn đoán kỹ thuật. | $O(R)$ với $R \le 5$ |
 | **1_Backend** | `C-Prefix Rule` | [`1_Backend/Services/Rules/Definitions/LeadConverter.CPrefixTL21SpecialRule.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Rules/Definitions/LeadConverter.CPrefixTL21SpecialRule.cs) | Priority 100: Nhận diện tiền tố 'C' hoặc 'c' kèm số (vd: `C101`, `c205`, `C-01`, `C 383`) $\to$ Gán sàn `tl21_house`. | $O(1)$ Regex Match |
 | **1_Backend** | `Standard Prefix Rule` | [`1_Backend/Services/Rules/Definitions/LeadConverter.StandardPrefixRules.cs`](file:///C:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Rules/Definitions/LeadConverter.StandardPrefixRules.cs) | Priority 50: Nhận diện tiền tố chữ chuẩn (`MN` $\to$ Lusaco, `TS` $\to$ HD Homes, `NT` $\to$ NT Home, `95` $\to$ 95 Home, `TL` $\to$ TL21House). | $O(1)$ Prefix Match |
@@ -115,10 +122,13 @@ flowchart TD
     CheckInput -- "Không" --> Step1{"1️⃣ Lead.RoomCode có giá trị?"}
 
     subgraph Layer1_RoomCode ["🎯 Ưu Tiên 1: Nhận Diện Theo Mã Đã Bóc Tách (Lead.RoomCode)"]
-        Step1 -- "Có RoomCode (vd: AHS284, D170)" --> LookupCode["Tra cứu O(1) RAM: Repository.FindMappingByCode(Lead.RoomCode)"]
-        LookupCode --> CheckCodeMatch{"Có khớp trong _codeIndex không?"}
-        CheckCodeMatch -- "✅ Khớp mã đặc biệt" --> ReturnCodeMatch(["⚡ Trả về SpecialRoomMappingEntity (STT: XX)"])
-        CheckCodeMatch -- "❌ Không khớp" --> StrictGuard["🛡️ STRICT GUARD ACTIVATED:<br/>Form đã bóc tách rõ RoomCode cố định nhưng không phải mã đặc biệt.<br/>DỪNG NGAY! Tuyệt đối không cào bới RawText."]
+        Step1 -- "Có RoomCode (vd: AHS284, C454, D170)" --> LookupCode["Tra cứu O(1) RAM: Repository.FindMappingByCode(Lead.RoomCode)"]
+        LookupCode --> CheckDirect{"1.1. Có khớp trực tiếp trong _codeIndex?"}
+        CheckDirect -- "✅ Khớp ngay" --> ReturnCodeMatch(["⚡ Trả về SpecialRoomMappingEntity (STT: XX)"])
+        CheckDirect -- "❌ Chưa khớp" --> CheckZone["1.2. Đưa qua SpecialMappingZoneEngine<br/>(TL21PrefixStripping: C454, c454, C-454 -> '454')"]
+        CheckZone --> CheckZoneMatch{"Có khớp mã gốc sau khi strip?"}
+        CheckZoneMatch -- "✅ Khớp mã gốc" --> ReturnCodeMatch
+        CheckZoneMatch -- "❌ Không khớp" --> StrictGuard["🛡️ STRICT GUARD ACTIVATED:<br/>Form đã bóc tách rõ RoomCode cố định nhưng không phải mã đặc biệt.<br/>DỪNG NGAY! Tuyệt đối không cào bới RawText."]
         StrictGuard --> ReturnNull
     end
 
