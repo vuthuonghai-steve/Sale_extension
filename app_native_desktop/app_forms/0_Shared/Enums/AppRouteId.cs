@@ -8,5 +8,7 @@ public enum AppRouteId
     Dashboard,
     LeadConverter,
     MessageCleaner,
-    Settings
+    Settings,
+    HotkeyManager
 }
+

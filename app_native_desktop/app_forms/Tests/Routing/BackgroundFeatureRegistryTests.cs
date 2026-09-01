@@ -11,17 +11,20 @@ public class BackgroundFeatureRegistryTests
 {
     private readonly Mock<IFormConverterService> _mockConverterService;
     private readonly Mock<IFilterPipelineOrchestrator> _mockFilterOrchestrator;
+    private readonly Mock<IHotkeyManager> _mockHotkeyManager;
     private readonly BackgroundFeatureRegistry _registry;
 
     public BackgroundFeatureRegistryTests()
     {
         _mockConverterService = new Mock<IFormConverterService>();
         _mockFilterOrchestrator = new Mock<IFilterPipelineOrchestrator>();
+        _mockHotkeyManager = new Mock<IHotkeyManager>();
 
         _registry = new BackgroundFeatureRegistry(
             NullLogger<BackgroundFeatureRegistry>.Instance,
             _mockConverterService.Object,
-            _mockFilterOrchestrator.Object
+            _mockFilterOrchestrator.Object,
+            _mockHotkeyManager.Object
         );
     }
 
@@ -31,12 +34,13 @@ public class BackgroundFeatureRegistryTests
         // Arrange
         _mockConverterService.Setup(c => c.IsClipboardListening).Returns(true);
         _mockFilterOrchestrator.Setup(f => f.IsRunning).Returns(false);
+        _mockHotkeyManager.Setup(h => h.IsGlobalListening).Returns(true);
 
         // Act
         var statuses = _registry.GetAllFeatureStatuses();
 
         // Assert
-        Assert.Equal(2, statuses.Count);
+        Assert.Equal(3, statuses.Count);
         
         var clipStatus = statuses.First(s => s.FeatureId == BackgroundFeatureRegistry.FeatureClipboardMonitor);
         Assert.True(clipStatus.IsRunning);
@@ -45,7 +49,12 @@ public class BackgroundFeatureRegistryTests
         var filterStatus = statuses.First(s => s.FeatureId == BackgroundFeatureRegistry.FeatureMessageFilter);
         Assert.False(filterStatus.IsRunning);
         Assert.Equal("🧹", filterStatus.IconSymbol);
+
+        var hotkeyStatus = statuses.First(s => s.FeatureId == BackgroundFeatureRegistry.FeatureHotkeyManager);
+        Assert.True(hotkeyStatus.IsRunning);
+        Assert.Equal("⌨️", hotkeyStatus.IconSymbol);
     }
+
 
     [Fact]
     public void ToggleFeature_ClipboardMonitor_ShouldInvokeConverterService()
@@ -81,6 +90,20 @@ public class BackgroundFeatureRegistryTests
     }
 
     [Fact]
+    public void ToggleFeature_HotkeyManager_ShouldInvokeHotkeyManager()
+    {
+        // Act
+        var startResult = _registry.ToggleFeature(BackgroundFeatureRegistry.FeatureHotkeyManager, true, IntPtr.Zero);
+        var stopResult = _registry.ToggleFeature(BackgroundFeatureRegistry.FeatureHotkeyManager, false, IntPtr.Zero);
+
+        // Assert
+        Assert.True(startResult.IsSuccess);
+        Assert.True(stopResult.IsSuccess);
+        _mockHotkeyManager.Verify(h => h.SetGlobalListening(true), Times.Once);
+        _mockHotkeyManager.Verify(h => h.SetGlobalListening(false), Times.Once);
+    }
+
+    [Fact]
     public void ToggleFeature_UnknownFeature_ShouldReturnFailure()
     {
         // Act
@@ -109,5 +132,12 @@ public class BackgroundFeatureRegistryTests
 
         // Assert
         Assert.Equal(BackgroundFeatureRegistry.FeatureMessageFilter, changedFeatureId);
+
+        // Act - Simulate event from hotkey manager
+        _mockHotkeyManager.Raise(h => h.HotkeyTriggered += null, _mockHotkeyManager.Object, new AppForms.Shared.Models.Hotkey.HotkeyTriggerEventArgs("test", AppForms.Shared.Enums.KeyModifiers.Alt, AppForms.Shared.Enums.VirtualKey.D1));
+
+        // Assert
+        Assert.Equal(BackgroundFeatureRegistry.FeatureHotkeyManager, changedFeatureId);
     }
 }
+

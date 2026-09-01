@@ -1,5 +1,6 @@
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Frontend.Screens.Dashboard;
+using AppForms.Frontend.Screens.HotkeyManager;
 using AppForms.Frontend.Screens.LeadConverter;
 using AppForms.Frontend.Screens.MessageFilter;
 using AppForms.Frontend.Screens.Settings;
@@ -23,6 +24,7 @@ public static class FrontendServiceRegistration
         services.AddSingleton<DashboardScreen>();
         services.AddSingleton<LeadConverterScreen>();
         services.AddSingleton<MessageCleanerScreen>();
+        services.AddSingleton<HotkeyManagerScreen>();
         services.AddSingleton<SettingsScreen>();
 
         // Frontend Presentation & Shell UI
@@ -37,6 +39,7 @@ public static class FrontendServiceRegistration
             navService.RegisterScreenFactory(AppRouteId.Dashboard, () => sp.GetRequiredService<DashboardScreen>());
             navService.RegisterScreenFactory(AppRouteId.LeadConverter, () => sp.GetRequiredService<LeadConverterScreen>());
             navService.RegisterScreenFactory(AppRouteId.MessageCleaner, () => sp.GetRequiredService<MessageCleanerScreen>());
+            navService.RegisterScreenFactory(AppRouteId.HotkeyManager, () => sp.GetRequiredService<HotkeyManagerScreen>());
             navService.RegisterScreenFactory(AppRouteId.Settings, () => sp.GetRequiredService<SettingsScreen>());
 
             return new MainForm(
@@ -49,3 +52,4 @@ public static class FrontendServiceRegistration
         return services;
     }
 }
+

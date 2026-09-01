@@ -21,16 +21,19 @@ public class NavigationServiceTests
         var routes = _navigationService.RegisteredRoutes;
 
         // Assert
-        Assert.Equal(4, routes.Count);
+        Assert.Equal(5, routes.Count);
         Assert.Equal(AppRouteId.Dashboard, routes[0].RouteId);
         Assert.Equal(AppRouteId.LeadConverter, routes[1].RouteId);
         Assert.Equal(AppRouteId.MessageCleaner, routes[2].RouteId);
-        Assert.Equal(AppRouteId.Settings, routes[3].RouteId);
+        Assert.Equal(AppRouteId.HotkeyManager, routes[3].RouteId);
+        Assert.Equal(AppRouteId.Settings, routes[4].RouteId);
 
         Assert.True(routes[0].ShowInHeaderNav);
         Assert.False(routes[0].ShowInDashboardLaunchpad);
         Assert.True(routes[1].ShowInDashboardLaunchpad);
+        Assert.True(routes[3].ShowInDashboardLaunchpad);
     }
+
 
     [Fact]
     public void CanNavigate_ShouldReturnFalse_WhenScreenFactoryNotRegistered()

@@ -18,5 +18,13 @@ public static class AppConstants
     public static class Win32Messages
     {
         public const int WM_CLIPBOARDUPDATE = 0x031D;
+        public const int WM_HOTKEY = 0x0312;
+    }
+
+    public static class HotkeySnippets
+    {
+        public const string DefaultDividerLine = "================================================";
+        public const string DefaultDividerHotkeyId = "snippet_divider_line";
     }
 }
+

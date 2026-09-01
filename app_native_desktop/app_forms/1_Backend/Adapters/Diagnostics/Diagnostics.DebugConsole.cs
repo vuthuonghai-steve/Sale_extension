@@ -7,13 +7,12 @@ public static class DebugConsole
 {
     private static bool _isConsoleAllocated;
 
-    [Conditional("DEBUG")]
-    public static void Open()
+    public static void Open(string[]? args = null)
     {
         if (_isConsoleAllocated) return;
 
-        // Chỉ mở Win32 Console nếu đang thực sự chạy trong môi trường Development
-        if (!Infrastructure.LoggingConfiguration.IsDevelopmentEnvironment())
+        // Chỉ mở Win32 Console nếu đang thực sự chạy trong môi trường Development (dotnet run) hoặc có cờ --console/--debug
+        if (!Infrastructure.LoggingConfiguration.ShouldEnableConsole(args))
         {
             return;
         }

@@ -16,13 +16,13 @@ internal static class Program
     private static IServiceProvider? _serviceProvider;
 
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
-        // 1. Khởi tạo Debug Console nếu ở chế độ DEBUG
-        DebugConsole.Open();
+        // 1. Khởi tạo Debug Console nếu ở chế độ DEV (chạy từ dotnet run hoặc có cờ --console/--debug)
+        DebugConsole.Open(args);
 
         // 2. Cấu hình Serilog Multi-Sink Logging (Realtime Console + Daily Log + Session Log)
-        LoggingConfiguration.Initialize(out var logDirectory, out _);
+        LoggingConfiguration.Initialize(out var logDirectory, out _, args);
 
         // 3. Đăng ký bộ đón bắt ngoại lệ toàn cục chống Crash ứng dụng
         AppExceptionHandler.RegisterGlobalHandlers(logDirectory);
@@ -37,10 +37,14 @@ internal static class Program
         services.AddFrontendServices();
         _serviceProvider = services.BuildServiceProvider();
 
-        // 6. Kích hoạt tác vụ nền tự phục hồi Desktop Shortcut (Self-Healing, non-blocking)
+        // 6. Khởi tạo hệ thống Hotkey & Snippet Defaults (Alt + 1)
+        var snippetService = _serviceProvider.GetRequiredService<ITextSnippetService>();
+        snippetService.InitializeDefaultSnippets();
+
+        // 7. Kích hoạt tác vụ nền tự phục hồi Desktop Shortcut (Self-Healing, non-blocking)
         TriggerBackgroundStartupTasks(_serviceProvider);
 
-        // 7. Chạy ứng dụng WinForms Shell chính từ DI Container
+        // 8. Chạy ứng dụng WinForms Shell chính từ DI Container
         try
         {
             var mainForm = _serviceProvider.GetRequiredService<MainForm>();
@@ -53,6 +57,10 @@ internal static class Program
         finally
         {
             Log.Information("Ứng dụng đã dừng hoàn tất.");
+            if (_serviceProvider is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
             DebugConsole.Close();
             Log.CloseAndFlush();
         }

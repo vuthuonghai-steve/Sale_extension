@@ -14,13 +14,48 @@ namespace AppForms.Backend.Infrastructure;
 public static class LoggingConfiguration
 {
     /// <summary>
+    /// Kiểm tra ứng dụng có nên hiển thị cửa sổ Console cho môi trường Dev hay không.
+    /// Kích hoạt khi:
+    /// 1. Chạy qua 'dotnet run' (nhận launch profile với APP_DEV_CONSOLE=true).
+    /// 2. Truyền tham số dòng lệnh: --debug, --console, -v, --dev.
+    /// 3. Debugger đang gắn vào tiến trình (Debugger.IsAttached).
+    /// </summary>
+    public static bool ShouldEnableConsole(string[]? args = null)
+    {
+        if (args != null && args.Any(a => 
+            string.Equals(a, "--debug", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(a, "--console", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(a, "-v", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(a, "--dev", StringComparison.OrdinalIgnoreCase)))
+        {
+            return true;
+        }
+
+        var devConsole = Environment.GetEnvironmentVariable("APP_DEV_CONSOLE");
+        if (string.Equals(devConsole, "true", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(devConsole, "1", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        if (Debugger.IsAttached)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Kiểm tra ứng dụng có đang chạy trong môi trường phát triển (Dev Mode) hay không.
     /// </summary>
-    public static bool IsDevelopmentEnvironment()
+    public static bool IsDevelopmentEnvironment(string[]? args = null)
     {
-#if DEBUG
-        return true;
-#else
+        if (ShouldEnableConsole(args))
+        {
+            return true;
+        }
+
         var env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
                ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
                ?? Environment.GetEnvironmentVariable("APP_ENV");
@@ -32,36 +67,15 @@ public static class LoggingConfiguration
             return true;
         }
 
-        if (Debugger.IsAttached)
-        {
-            return true;
-        }
-
-        // Kiểm tra xem có đang chạy từ mã nguồn dự án (có file AppForms.csproj)
-        try
-        {
-            var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            var dir4 = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", ".."));
-            if (File.Exists(Path.Combine(dir4, "AppForms.csproj"))) return true;
-
-            var dir3 = Path.GetFullPath(Path.Combine(baseDir, "..", "..", ".."));
-            if (File.Exists(Path.Combine(dir3, "AppForms.csproj"))) return true;
-        }
-        catch
-        {
-            // Bỏ qua lỗi IO
-        }
-
         return false;
-#endif
     }
 
     /// <summary>
     /// Khởi tạo cấu hình Logging phù hợp với từng môi trường thực thi.
     /// </summary>
-    public static void Initialize(out string logDirectory, out string latestSessionPath)
+    public static void Initialize(out string logDirectory, out string latestSessionPath, string[]? args = null)
     {
-        var isDev = IsDevelopmentEnvironment();
+        var isDev = IsDevelopmentEnvironment(args);
 
         if (isDev)
         {
@@ -72,6 +86,12 @@ public static class LoggingConfiguration
             InitializeProductionLogging(out logDirectory, out latestSessionPath);
         }
     }
+
+    /// <summary>
+    /// Khởi tạo cấu hình Logging tương thích ngược (không truyền args).
+    /// </summary>
+    public static void Initialize(out string logDirectory, out string latestSessionPath)
+        => Initialize(out logDirectory, out latestSessionPath, null);
 
     private static void InitializeDevelopmentLogging(out string logDirectory, out string latestSessionPath)
     {

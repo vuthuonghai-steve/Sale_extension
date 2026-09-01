@@ -13,25 +13,30 @@ public class BackgroundFeatureRegistry : IBackgroundFeatureRegistry
     private readonly ILogger<BackgroundFeatureRegistry> _logger;
     private readonly IFormConverterService _converterService;
     private readonly IFilterPipelineOrchestrator _filterOrchestrator;
+    private readonly IHotkeyManager _hotkeyManager;
     private readonly Dictionary<string, DateTime> _lastActivities = new();
     private readonly object _lock = new();
 
     public const string FeatureClipboardMonitor = "clipboard_monitor";
     public const string FeatureMessageFilter = "message_filter_pipeline";
+    public const string FeatureHotkeyManager = "hotkey_manager";
 
     public event EventHandler<string>? FeatureStateChanged;
 
     public BackgroundFeatureRegistry(
         ILogger<BackgroundFeatureRegistry> logger,
         IFormConverterService converterService,
-        IFilterPipelineOrchestrator filterOrchestrator)
+        IFilterPipelineOrchestrator filterOrchestrator,
+        IHotkeyManager hotkeyManager)
     {
         _logger = logger;
         _converterService = converterService;
         _filterOrchestrator = filterOrchestrator;
+        _hotkeyManager = hotkeyManager;
 
         SubscribeToServiceEvents();
     }
+
 
     private void SubscribeToServiceEvents()
     {
@@ -64,6 +69,15 @@ public class BackgroundFeatureRegistry : IBackgroundFeatureRegistry
             }
             OnFeatureStateChanged(FeatureMessageFilter);
         };
+
+        _hotkeyManager.HotkeyTriggered += (_, _) =>
+        {
+            lock (_lock)
+            {
+                _lastActivities[FeatureHotkeyManager] = DateTime.Now;
+            }
+            OnFeatureStateChanged(FeatureHotkeyManager);
+        };
     }
 
     private void OnFeatureStateChanged(string featureId)
@@ -77,6 +91,7 @@ public class BackgroundFeatureRegistry : IBackgroundFeatureRegistry
         {
             _lastActivities.TryGetValue(FeatureClipboardMonitor, out var lastConv);
             _lastActivities.TryGetValue(FeatureMessageFilter, out var lastFilter);
+            _lastActivities.TryGetValue(FeatureHotkeyManager, out var lastHotkey);
 
             return new List<BackgroundFeatureStatus>
             {
@@ -95,6 +110,14 @@ public class BackgroundFeatureRegistry : IBackgroundFeatureRegistry
                     IconSymbol: "🧹",
                     IsRunning: _filterOrchestrator.IsRunning,
                     LastActivityTime: lastFilter != default ? lastFilter : null
+                ),
+                new(
+                    FeatureId: FeatureHotkeyManager,
+                    DisplayName: "Hệ Thống Phím Tắt Toàn Cục",
+                    Description: "Lắng nghe phím tắt và tự động chèn nhanh văn bản mẫu",
+                    IconSymbol: "⌨️",
+                    IsRunning: _hotkeyManager.IsGlobalListening,
+                    LastActivityTime: lastHotkey != default ? lastHotkey : null
                 )
             };
         }
@@ -122,6 +145,11 @@ public class BackgroundFeatureRegistry : IBackgroundFeatureRegistry
                 }
                 return Result.Success();
 
+            case FeatureHotkeyManager:
+                _hotkeyManager.SetGlobalListening(enable);
+                OnFeatureStateChanged(FeatureHotkeyManager);
+                return Result.Success();
+
             default:
                 _logger.LogWarning("Không tìm thấy dịch vụ ngầm với mã: {FeatureId}", featureId);
                 return Result.Failure($"Không tìm thấy dịch vụ ngầm có mã định danh: {featureId}");
@@ -134,7 +162,9 @@ public class BackgroundFeatureRegistry : IBackgroundFeatureRegistry
         {
             FeatureClipboardMonitor => _converterService.IsClipboardListening,
             FeatureMessageFilter => _filterOrchestrator.IsRunning,
+            FeatureHotkeyManager => _hotkeyManager.IsGlobalListening,
             _ => false
         };
     }
 }
+

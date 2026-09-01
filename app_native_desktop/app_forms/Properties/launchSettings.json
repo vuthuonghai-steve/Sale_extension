@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "AppForms": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "APP_DEV_CONSOLE": "true"
+      }
+    }
+  }
+}

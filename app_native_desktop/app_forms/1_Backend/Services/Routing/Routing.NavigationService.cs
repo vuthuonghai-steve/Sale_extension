@@ -75,16 +75,29 @@ public class NavigationService : INavigationService
         ));
 
         RegisterRouteDescriptor(new AppRouteDescriptor(
+            RouteId: AppRouteId.HotkeyManager,
+            DisplayTitle: "⌨️ Phím Tắt",
+            IconSymbol: "⌨️",
+            Description: "Quản lý và bật tắt các phím tắt tự động chèn chuỗi ký tự",
+            DisplayOrder: 4,
+            ShowInHeaderNav: true,
+            ShowInDashboardLaunchpad: true,
+            HasBackgroundService: true,
+            AssociatedFeatureId: "hotkey_manager"
+        ));
+
+        RegisterRouteDescriptor(new AppRouteDescriptor(
             RouteId: AppRouteId.Settings,
             DisplayTitle: "⚙️ Cài Đặt",
             IconSymbol: "⚙️",
             Description: "Cấu hình CTV, mã phòng và tùy chọn bộ lọc",
-            DisplayOrder: 4,
+            DisplayOrder: 5,
             ShowInHeaderNav: true,
             ShowInDashboardLaunchpad: true,
             HasBackgroundService: false
         ));
     }
+
 
     private void RegisterRouteDescriptor(AppRouteDescriptor descriptor)
     {

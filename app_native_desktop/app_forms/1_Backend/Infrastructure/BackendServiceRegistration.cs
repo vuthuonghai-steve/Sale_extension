@@ -4,6 +4,7 @@ using AppForms.Backend.Adapters.Win32;
 using AppForms.Backend.Contracts.Interfaces;
 using AppForms.Backend.Contracts.Rules;
 using AppForms.Backend.Services;
+using AppForms.Backend.Services.Hotkey;
 using AppForms.Backend.Services.MessageFilter;
 using AppForms.Backend.Services.MessageFilter.SubFilters;
 using AppForms.Backend.Services.Routing;
@@ -35,9 +36,15 @@ public static class BackendServiceRegistration
         services.AddSingleton<IClipboardAdapter, WindowsClipboardAdapter>();
         services.AddSingleton<ISystemLauncherAdapter, WindowsSystemLauncherAdapter>();
         services.AddSingleton<Win32ClipboardListener>();
+        services.AddSingleton<Win32HotkeyListener>();
+        services.AddSingleton<IInputSimulator, Win32InputSimulatorAdapter>();
 
         // System Shortcut Service
         services.AddSingleton<IDesktopShortcutService, DesktopShortcutService>();
+
+        // Global Hotkey Management & Text Snippet Services
+        services.AddSingleton<IHotkeyManager, HotkeyManagerService>();
+        services.AddSingleton<ITextSnippetService, TextSnippetService>();
 
         // Core Domain Services
         services.AddSingleton<ITextSanitizer, TextSanitizerService>();
