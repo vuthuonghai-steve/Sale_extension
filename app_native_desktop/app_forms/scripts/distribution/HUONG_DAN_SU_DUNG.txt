@@ -17,9 +17,10 @@
    - 📋 Tự động bắt Clipboard: Khi bạn Copy tin nhắn Lead, app tự động bóc tách và điền vào các ô dữ liệu.
    - 📑 Chuyển đổi linh hoạt giữa các mẫu Form sàn (LUSACO, HD Homes, NT HOME, 95 HOME).
    - ⚡ Nút "Copy & Bắn Lead": 1 click copy toàn bộ nội dung đã chuẩn hóa để dán ngay vào nhóm Zalo.
+   - ⌨️ Phím tắt trợ năng toàn cục (Global Hotkeys): Tự động kích hoạt khi mở app (Phím tắt mặc định Alt + 1: Chèn ngay dòng kẻ phân cách '=====' vào ô chat Zalo/văn bản đang gõ). Quản lý, bật/tắt hoặc tùy chỉnh phím tắt trong tab "Phím Tắt".
    - 📌 Ghim Sidepanel (Always on Top): Giữ cửa sổ luôn ở mép phải màn hình để thao tác song song với Zalo/Trình duyệt.
    - 👤 Tùy chỉnh tên CTV / Đầu số liên hệ trong tab "Cài Đặt".
 
 4. HỖ TRỢ & BẢO HÀNH:
-   - Phiên bản: v1.2.0 (Windows x64 - Framework-Dependent, yêu cầu .NET Desktop Runtime 6.0).
+   - Phiên bản: v1.2.1 (Windows x64 - Framework-Dependent, yêu cầu .NET Desktop Runtime 6.0).
    - Nếu cần hỗ trợ thêm schema hoặc tính năng mới, vui lòng liên hệ đội ngũ phát triển.
