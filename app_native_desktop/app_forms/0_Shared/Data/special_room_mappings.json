@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastUpdated": "2026-08-25T05:00:00Z",
+  "lastUpdated": "2026-09-05T04:45:00Z",
   "description": "Kho lưu trữ mã phòng đặc biệt và bảng đối chiếu chéo đa sàn từ temp.md",
   "items": [
     {
@@ -437,6 +437,48 @@
         "TNR": "A02"
       },
       "matchedCodes": ["007A", "A02"]
+    },
+    {
+      "id": "mapping_32",
+      "stt": 32,
+      "buildingNo": "489",
+      "managerName": "Ánh Tuyết B Đ S",
+      "phone": "0975293143",
+      "commission": null,
+      "sheetLink": "https://docs.google.com/spreadsheets/d/144Zqhtb27rSPgA0DdGNCY1mysM-a9bsX4AfHPWQeXdI/edit?usp=drivesdk",
+      "platformCodes": {
+        "Tl21": "489",
+        "DNT": "DN29"
+      },
+      "matchedCodes": ["489", "DN29"]
+    },
+    {
+      "id": "mapping_33",
+      "stt": 33,
+      "buildingNo": "063",
+      "managerName": "Nhật Anh Mp",
+      "phone": "0961951102",
+      "commission": null,
+      "sheetLink": "https://docs.google.com/spreadsheets/d/1BYr64nKzyp3JG00rmjm6StgYm9zvWF7HGy7g52G4lBY/edit?gid=0#gid=0",
+      "platformCodes": {
+        "Tl21": "063",
+        "DNT": "DN30"
+      },
+      "matchedCodes": ["063", "DN30"]
+    },
+    {
+      "id": "mapping_34",
+      "stt": 34,
+      "buildingNo": null,
+      "managerName": "Lusaco",
+      "phone": null,
+      "commission": null,
+      "sheetLink": null,
+      "platformCodes": {
+        "TNR": "A206",
+        "Sky Home": "59"
+      },
+      "matchedCodes": ["A206", "59"]
     }
   ]
 }

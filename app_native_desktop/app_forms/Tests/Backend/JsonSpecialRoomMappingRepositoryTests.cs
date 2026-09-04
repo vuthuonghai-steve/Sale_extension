@@ -35,11 +35,11 @@ public class JsonSpecialRoomMappingRepositoryTests : IDisposable
     }
 
     [Fact]
-    public void SeedData_LoadsSuccessfully_Contains31Items()
+    public void SeedData_LoadsSuccessfully_Contains34Items()
     {
         var all = _repository.GetAll();
         Assert.NotEmpty(all);
-        Assert.True(all.Count >= 30, $"Expected at least 30 items from seed data, got {all.Count}");
+        Assert.True(all.Count >= 34, $"Expected at least 34 items from seed data, got {all.Count}");
     }
 
     [Theory]
@@ -66,6 +66,12 @@ public class JsonSpecialRoomMappingRepositoryTests : IDisposable
     [InlineData("DN14", "Pham Hien")]
     [InlineData("SW207", "Duy Tuyên")]
     [InlineData("DN20", "Duy Tuyên")]
+    [InlineData("489", "Ánh Tuyết B Đ S")]
+    [InlineData("DN29", "Ánh Tuyết B Đ S")]
+    [InlineData("063", "Nhật Anh Mp")]
+    [InlineData("DN30", "Nhật Anh Mp")]
+    [InlineData("A206", "Lusaco")]
+    [InlineData("59", "Lusaco")]
     public void FindMappingByCode_KnownSpecialCodes_ReturnsCorrectManager(string roomCode, string expectedManager)
     {
         var mapping = _repository.FindMappingByCode(roomCode);
@@ -80,6 +86,9 @@ public class JsonSpecialRoomMappingRepositoryTests : IDisposable
     [InlineData("0971053222", "Duy Tuyên")]
     [InlineData("0879240000", "Princess")]
     [InlineData("0879.24.0000", "Princess")]
+    [InlineData("0975293143", "Ánh Tuyết B Đ S")]
+    [InlineData("0975.29.31.43", "Ánh Tuyết B Đ S")]
+    [InlineData("0961951102", "Nhật Anh Mp")]
     public void FindMappingByPhone_KnownPhones_ReturnsCorrectManager(string phone, string expectedManager)
     {
         var mapping = _repository.FindMappingByPhone(phone);
