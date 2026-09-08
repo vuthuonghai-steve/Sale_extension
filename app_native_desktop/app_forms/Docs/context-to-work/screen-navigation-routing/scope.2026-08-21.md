@@ -48,22 +48,22 @@ Hệ thống **AppForms** (Windows Native Desktop C# .NET 6.0 - WinForms) đư�
 Các thành phần cốt lõi cấu thành cơ chế điều hướng:
 
 1. **Khởi chạy ứng dụng & Dependency Injection**:
-   - [`Program.cs:L116-L176`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Program.cs#L116-L176): Khởi tạo DI container, đăng ký `MainForm` dạng Singleton và chạy qua `Application.Run(mainForm)`.
+   - [`Program.cs:L116-L176`](Program.cs#L116-L176): Khởi tạo DI container, đăng ký `MainForm` dạng Singleton và chạy qua `Application.Run(mainForm)`.
 2. **Cửa Sổ Chính & Điều Phối Tuyến (Main Router Container)**:
-   - [`2_Frontend/Forms/MainForm.cs:L22-L58`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Forms/MainForm.cs#L22-L58): Khởi tạo và giữ tham chiếu 3 màn hình chính.
-   - [`2_Frontend/Forms/MainForm.cs:L98-L112`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Forms/MainForm.cs#L98-L112): Khởi tạo `_screenContainer` và nạp màn hình mặc định `_leadConverterScreen`.
-   - [`2_Frontend/Forms/MainForm.cs:L177-L241`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Forms/MainForm.cs#L177-L241): Xây dựng thanh điều hướng `BuildNavPanel()` và gán sự kiện Click cho 3 nút Tab.
-   - [`2_Frontend/Forms/MainForm.cs:L266-L271`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Forms/MainForm.cs#L266-L271): Hàm `ShowScreen(UserControl screen)` thực hiện tráo đổi View.
-   - [`2_Frontend/Forms/MainForm.cs:L273-L298`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Forms/MainForm.cs#L273-L298): Đăng ký giao tiếp chéo giữa các màn hình (`RegisterEvents`).
+   - [`2_Frontend/Forms/MainForm.cs:L22-L58`](2_Frontend/Forms/MainForm.cs#L22-L58): Khởi tạo và giữ tham chiếu 3 màn hình chính.
+   - [`2_Frontend/Forms/MainForm.cs:L98-L112`](2_Frontend/Forms/MainForm.cs#L98-L112): Khởi tạo `_screenContainer` và nạp màn hình mặc định `_leadConverterScreen`.
+   - [`2_Frontend/Forms/MainForm.cs:L177-L241`](2_Frontend/Forms/MainForm.cs#L177-L241): Xây dựng thanh điều hướng `BuildNavPanel()` và gán sự kiện Click cho 3 nút Tab.
+   - [`2_Frontend/Forms/MainForm.cs:L266-L271`](2_Frontend/Forms/MainForm.cs#L266-L271): Hàm `ShowScreen(UserControl screen)` thực hiện tráo đổi View.
+   - [`2_Frontend/Forms/MainForm.cs:L273-L298`](2_Frontend/Forms/MainForm.cs#L273-L298): Đăng ký giao tiếp chéo giữa các màn hình (`RegisterEvents`).
 3. **Màn hình Chuyển Đổi Lead (Lead Converter)**:
-   - [`2_Frontend/Screens/LeadConverter/LeadConverterScreen.cs:L27-L67`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/LeadConverterScreen.cs#L27-L67): Layout SlimScrollPanel chứa 5 sub-components.
-   - [`2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs:L104-L261`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs#L104-L261): Điều hướng Tab mẫu và các nút Prev/Next.
+   - [`2_Frontend/Screens/LeadConverter/LeadConverterScreen.cs:L27-L67`](2_Frontend/Screens/LeadConverter/LeadConverterScreen.cs#L27-L67): Layout SlimScrollPanel chứa 5 sub-components.
+   - [`2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs:L104-L261`](2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs#L104-L261): Điều hướng Tab mẫu và các nút Prev/Next.
 4. **Màn hình Lọc Tin Nhắn (Message Cleaner)**:
-   - [`2_Frontend/Screens/MessageFilter/MessageCleanerScreen.cs:L21-L47`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/MessageFilter/MessageCleanerScreen.cs#L21-L47): Layout 3 khối (Toggle Panel, Log Panel, Preview Panel).
+   - [`2_Frontend/Screens/MessageFilter/MessageCleanerScreen.cs:L21-L47`](2_Frontend/Screens/MessageFilter/MessageCleanerScreen.cs#L21-L47): Layout 3 khối (Toggle Panel, Log Panel, Preview Panel).
 5. **Màn hình Cài Đặt (Settings Screen & Nested Sub-Tabs)**:
-   - [`2_Frontend/Screens/Settings/SettingsScreen.cs:L38-L86`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/SettingsScreen.cs#L38-L86): Điều hướng nội bộ 3 Sub-tabs (`SwitchTab(int tabIndex)`).
+   - [`2_Frontend/Screens/Settings/SettingsScreen.cs:L38-L86`](2_Frontend/Screens/Settings/SettingsScreen.cs#L38-L86): Điều hướng nội bộ 3 Sub-tabs (`SwitchTab(int tabIndex)`).
 6. **Khay Hệ Thống (System Tray Router)**:
-   - [`2_Frontend/Tray/TrayIconManager.cs:L26-L73`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Tray/TrayIconManager.cs#L26-L73): Xử lý menu khay và khôi phục giao diện (`RestoreFromTray`).
+   - [`2_Frontend/Tray/TrayIconManager.cs:L26-L73`](2_Frontend/Tray/TrayIconManager.cs#L26-L73): Xử lý menu khay và khôi phục giao diện (`RestoreFromTray`).
 
 ---
 
@@ -90,10 +90,10 @@ scope_boundaries:
 
 | Thành Phần | File Liên Quan | Trách Nhiệm Điều Hướng |
 | :--- | :--- | :--- |
-| **Main Host Form** | [`2_Frontend/Forms/MainForm.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Forms/MainForm.cs) | Quản lý container `_screenContainer`, kích hoạt màn hình qua `ShowScreen()`, thay đổi màu sắc active của Tab button. |
-| **Settings Sub-Router** | [`2_Frontend/Screens/Settings/SettingsScreen.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/SettingsScreen.cs) | Quản lý container `_containerPanel`, hoán đổi giữa 3 panels con qua `SwitchTab(tabIndex)`. |
-| **Schema Tab Switcher** | [`2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs) | Quản lý active schema tab, cuộn/chuyển tab thông qua `NavigateSchema(delta)`. |
-| **Tray Manager** | [`2_Frontend/Tray/TrayIconManager.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Tray/TrayIconManager.cs) | Kích hoạt chuyển đổi giữa chạy ẩn background và hiển thị foreground. |
+| **Main Host Form** | [`2_Frontend/Forms/MainForm.cs`](2_Frontend/Forms/MainForm.cs) | Quản lý container `_screenContainer`, kích hoạt màn hình qua `ShowScreen()`, thay đổi màu sắc active của Tab button. |
+| **Settings Sub-Router** | [`2_Frontend/Screens/Settings/SettingsScreen.cs`](2_Frontend/Screens/Settings/SettingsScreen.cs) | Quản lý container `_containerPanel`, hoán đổi giữa 3 panels con qua `SwitchTab(tabIndex)`. |
+| **Schema Tab Switcher** | [`2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs`](2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs) | Quản lý active schema tab, cuộn/chuyển tab thông qua `NavigateSchema(delta)`. |
+| **Tray Manager** | [`2_Frontend/Tray/TrayIconManager.cs`](2_Frontend/Tray/TrayIconManager.cs) | Kích hoạt chuyển đổi giữa chạy ẩn background và hiển thị foreground. |
 
 ### 4.2. Tác Động Gián Tiếp & Giao Tiếp Chéo (Indirect Impact)
 

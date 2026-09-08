@@ -26,10 +26,10 @@ confidence_threshold: 100
 ## §1: Problem Summary (Tóm Tắt Vấn Đề Báo Cáo)
 
 Người dùng báo cáo sự cố liên quan đến tính năng **Lọc Tin Nhắn Clipboard (MessageFilter)**:
-1. Tại commit [`7c87513d0991b22804cdd236f59c8d8bdd047b1a`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter), tính năng lọc clipboard hoạt động bình thường khi chạy ngầm.
-2. Tuy nhiên ở phiên bản hiện tại (sau commit [`690932d`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Shell/MainForm.cs) tái cấu trúc Shell Navigation / Dashboard Hub), tính năng lọc ngầm **không hoạt động khi bổ sung / chỉnh sửa config** và **khi bật hoặc tắt (toggle) dịch vụ ngầm**.
+1. Tại commit [`7c87513d0991b22804cdd236f59c8d8bdd047b1a`](1_Backend/Services/MessageFilter), tính năng lọc clipboard hoạt động bình thường khi chạy ngầm.
+2. Tuy nhiên ở phiên bản hiện tại (sau commit [`690932d`](2_Frontend/Shell/MainForm.cs) tái cấu trúc Shell Navigation / Dashboard Hub), tính năng lọc ngầm **không hoạt động khi bổ sung / chỉnh sửa config** và **khi bật hoặc tắt (toggle) dịch vụ ngầm**.
 
-**Entry Point**: [`1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs)  
+**Entry Point**: [`1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs`](1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs)  
 **Feature Area**: `MessageFilter` & `BackgroundFeatureRegistry` & `Win32ClipboardListener`  
 **Architecture Layers**: `0_Shared` (DTOs/Options), `1_Backend` (Orchestrator/Listener/Registry), `2_Frontend` (Settings/Dashboard/Shell Hooks)
 
@@ -40,28 +40,28 @@ Người dùng báo cáo sự cố liên quan đến tính năng **Lọc Tin Nh�
 Qua đối soát mã nguồn giữa commit `7c87513` và `HEAD` (`690932d`), đã xác định được **3 nguyên nhân gốc rễ (Root Causes)** ảnh hưởng đồng thời lên cả `SettingsScreen` và `DashboardScreen`:
 
 ### 1. Đứt gãy luồng đồng bộ cấu hình giữa `SettingsScreen`, `DashboardScreen` và `PipelineOrchestratorService`
-- **Ở commit `7c87513`**: [`MainForm.cs:L285`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Forms/MainForm.cs) cũ có đoạn mã glue:
+- **Ở commit `7c87513`**: [`MainForm.cs:L285`](2_Frontend/Forms/MainForm.cs) cũ có đoạn mã glue:
   ```csharp
   _settingsScreen.SettingsSaved += () => {
       _filterOrchestrator.UpdateOptions(_settingsService.Current.MessageFilterOptions);
   };
   ```
 - **Ở commit hiện tại `690932d`**: Khi chuyển sang `ShellStateHook` và `NavigationService`, đoạn mã đồng bộ này đã bị xóa bỏ.
-- Trong khi đó, bản thân [`PipelineOrchestratorService.cs:L39`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs#L39) chỉ đọc `_settingsService.Current.MessageFilterOptions` một lần duy nhất trong Constructor và **hoàn toàn không subscribe sự kiện `_settingsService.SettingsSaved`**.
+- Trong khi đó, bản thân [`PipelineOrchestratorService.cs:L39`](1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs#L39) chỉ đọc `_settingsService.Current.MessageFilterOptions` một lần duy nhất trong Constructor và **hoàn toàn không subscribe sự kiện `_settingsService.SettingsSaved`**.
 - **Hệ quả trên `SettingsScreen`**: Khi người dùng vào `SettingsScreen` (Tab "Lọc Copy") thay đổi cấu hình (bật/tắt sub-filters, giới hạn ký tự, bật/tắt dịch vụ) rồi nhấn "LƯU CÀI ĐẶT BỘ LỌC", dữ liệu được ghi vào file `appsettings.json`, nhưng `PipelineOrchestratorService` trong RAM vẫn giữ nguyên cấu hình cũ, không cập nhật quy tắc lọc và không thay đổi trạng thái chạy ngầm!
 - **Hệ quả trên `DashboardScreen`**: `DashboardStateHook` lắng nghe `SettingsSaved` và cập nhật lại giao diện Dashboard, nhưng bản thân `PipelineOrchestratorService` dưới Backend không nhận cấu hình mới $\to$ dẫn đến tình trạng giao diện Dashboard hiển thị một đằng nhưng động cơ lọc bên dưới chạy một nẻo.
 
 ### 2. Xung đột vòng đời và chiếm dụng tài nguyên tại `Win32ClipboardListener` từ `DashboardScreen` (Resource Hijacking & Premature Unhook)
-- [`Win32ClipboardListener.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32ClipboardListener.cs) được đăng ký là **Singleton** trong `Program.cs:L142` và được inject chung cho cả hai dịch vụ: [`FormConverterService`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/FormConverterService.cs#L49) và [`PipelineOrchestratorService`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs#L32).
+- [`Win32ClipboardListener.cs`](1_Backend/Adapters/Win32/Win32ClipboardListener.cs) được đăng ký là **Singleton** trong `Program.cs:L142` và được inject chung cho cả hai dịch vụ: [`FormConverterService`](1_Backend/Services/FormConverterService.cs#L49) và [`PipelineOrchestratorService`](1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs#L32).
 - `Win32ClipboardListener` hiện chỉ dùng một biến boolean đơn `_isListening`.
 - **Hành vi trên `DashboardScreen`**:
-  - Tại màn hình [`DashboardScreen`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Dashboard/DashboardScreen.cs), component [`UnifiedFeatureCardPanel`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Dashboard/Components/UnifiedFeatureCardPanel.cs#L145-L162) cung cấp 2 nút toggle độc lập: một cho "Lắng Nghe Clipboard Bóc Tách Lead" (`clipboard_monitor`) và một cho "Pipeline Lọc Tin Nhắn Tự Động" (`message_filter_pipeline`).
+  - Tại màn hình [`DashboardScreen`](2_Frontend/Screens/Dashboard/DashboardScreen.cs), component [`UnifiedFeatureCardPanel`](2_Frontend/Screens/Dashboard/Components/UnifiedFeatureCardPanel.cs#L145-L162) cung cấp 2 nút toggle độc lập: một cho "Lắng Nghe Clipboard Bóc Tách Lead" (`clipboard_monitor`) và một cho "Pipeline Lọc Tin Nhắn Tự Động" (`message_filter_pipeline`).
   - Khi người dùng bấm nút **TẮT** card "Lắng Nghe Bóc Tách Lead" trên Dashboard, `DashboardStateHook` gọi `_featureRegistry.ToggleFeature("clipboard_monitor", false, ...)` $\to$ `FormConverterService.StopClipboardMonitor()`.
   - Hàm này gọi trực tiếp `_win32Listener.Stop()`, thực thi Win32 API `NativeMethods.RemoveClipboardFormatListener(Handle)`, **gỡ bỏ hoàn toàn hook lắng nghe clipboard của Windows khỏi cửa sổ NativeWindow ẩn**.
 - **Hệ quả**: Dù trên `DashboardScreen`, card "Pipeline Lọc Tin Nhắn Tự Động" vẫn đang hiển thị `🟢 Chạy ngầm: BẬT` (`PipelineOrchestratorService.IsRunning == true`), nhưng Windows không còn gửi message `WM_CLIPBOARDUPDATE` tới `Win32ClipboardListener` nữa. Tính năng lọc clipboard ngầm bị "chết lâm sàng" ngay sau khi tắt Lead Converter trên Dashboard!
 
 ### 3. Bất đồng bộ trạng thái khi BẬT/TẮT trên `DashboardScreen` (State & Toggle Disconnect)
-- Trong [`PipelineOrchestratorService.cs:L91`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs#L91):
+- Trong [`PipelineOrchestratorService.cs:L91`](1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs#L91):
   ```csharp
   private void OnClipboardUpdated(object? sender, EventArgs e)
   {
@@ -72,7 +72,7 @@ Qua đối soát mã nguồn giữa commit `7c87513` và `HEAD` (`690932d`), đ�
       ...
   ```
 - **Hành vi trên `DashboardScreen`**:
-  - Khi người dùng bấm nút **BẬT/TẮT** card `message_filter_pipeline` trên [`DashboardScreen`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Dashboard/DashboardScreen.cs), luồng đi qua: `UnifiedFeatureCardPanel.ToggleRequested` $\to$ `DashboardStateHook.ToggleBackgroundService` $\to$ [`BackgroundFeatureRegistry.ToggleFeature()`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Routing/BackgroundFeatureRegistry.cs#L114-L124) $\to$ gọi `_filterOrchestrator.Start()` hoặc `_filterOrchestrator.Stop()`.
+  - Khi người dùng bấm nút **BẬT/TẮT** card `message_filter_pipeline` trên [`DashboardScreen`](2_Frontend/Screens/Dashboard/DashboardScreen.cs), luồng đi qua: `UnifiedFeatureCardPanel.ToggleRequested` $\to$ `DashboardStateHook.ToggleBackgroundService` $\to$ [`BackgroundFeatureRegistry.ToggleFeature()`](1_Backend/Services/Routing/BackgroundFeatureRegistry.cs#L114-L124) $\to$ gọi `_filterOrchestrator.Start()` hoặc `_filterOrchestrator.Stop()`.
   - Nhưng hàm `Start()` / `Stop()` của `PipelineOrchestratorService` chỉ đổi biến `IsRunning` mà **không cập nhật `_options.EnableService`** và **không lưu vào `_settingsService`**.
 - **Hệ quả**:
   - Nếu ban đầu `_options.EnableService == false` (từ file cấu hình hoặc do người dùng bỏ chọn trong Settings), khi người dùng bấm **BẬT** trên `DashboardScreen`, `IsRunning` chuyển thành `true` và Dashboard hiển thị nút `BẬT 🟢`.
@@ -106,17 +106,17 @@ scope_boundaries:
 
 | File | Dòng | Tầng | Vấn Đề Hiện Tại & Tác Động |
 | :--- | :--- | :--- | :--- |
-| [`PipelineOrchestratorService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs) | L39, L50-82, L91 | `1_Backend` | Không đăng ký `_settingsService.SettingsSaved`; `Start()`/`Stop()` không đồng bộ `_options.EnableService`; `OnClipboardUpdated` bị kẹt bởi flag `_options.EnableService`. |
-| [`Win32ClipboardListener.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32ClipboardListener.cs) | L13, L27-56 | `1_Backend` | Không có cơ chế quản lý đa dịch vụ (Multi-Consumer Ref Count). Một service `Stop()` sẽ làm chết luôn service còn lại. |
-| [`BackgroundFeatureRegistry.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Routing/BackgroundFeatureRegistry.cs) | L114-L124 | `1_Backend` | `ToggleFeature` chỉ gọi `Start()`/`Stop()` thô sơ trên orchestrator mà không cập nhật persistence setting `EnableService`. |
+| [`PipelineOrchestratorService.cs`](1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs) | L39, L50-82, L91 | `1_Backend` | Không đăng ký `_settingsService.SettingsSaved`; `Start()`/`Stop()` không đồng bộ `_options.EnableService`; `OnClipboardUpdated` bị kẹt bởi flag `_options.EnableService`. |
+| [`Win32ClipboardListener.cs`](1_Backend/Adapters/Win32/Win32ClipboardListener.cs) | L13, L27-56 | `1_Backend` | Không có cơ chế quản lý đa dịch vụ (Multi-Consumer Ref Count). Một service `Stop()` sẽ làm chết luôn service còn lại. |
+| [`BackgroundFeatureRegistry.cs`](1_Backend/Services/Routing/BackgroundFeatureRegistry.cs) | L114-L124 | `1_Backend` | `ToggleFeature` chỉ gọi `Start()`/`Stop()` thô sơ trên orchestrator mà không cập nhật persistence setting `EnableService`. |
 
 ### 4.2 Tác Động Gián Tiếp (Indirect Impact)
 
 | File | Thành Phần | Mô Tả Ảnh Hưởng |
 | :--- | :--- | :--- |
-| [`FormConverterService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/FormConverterService.cs#L109-L134) | `IFormConverterService` | `StartClipboardMonitor` và `StopClipboardMonitor` sẽ sử dụng cơ chế Consumer ID (ví dụ: `"LeadConverter"`) với `Win32ClipboardListener` để không vô tình ngắt kết nối của `MessageFilter`. |
-| [`SettingsScreen.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/SettingsScreen.cs#L94-L97) | `SettingsScreen` | Khi lưu cài đặt bộ lọc, `PipelineOrchestratorService` sẽ tự động cập nhật ngay lập tức mà không cần phụ thuộc vào mã gắn kết thủ công ở Shell. |
-| [`DashboardStateHook.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Dashboard/Hooks/DashboardStateHook.cs#L125-L135) | `DashboardStateHook` | Khi bấm nút Toggle trên Dashboard, dịch vụ ngầm sẽ hoạt động chính xác cả về trạng thái chạy (`IsRunning`) lẫn cờ cấu hình (`EnableService`). |
+| [`FormConverterService.cs`](1_Backend/Services/FormConverterService.cs#L109-L134) | `IFormConverterService` | `StartClipboardMonitor` và `StopClipboardMonitor` sẽ sử dụng cơ chế Consumer ID (ví dụ: `"LeadConverter"`) với `Win32ClipboardListener` để không vô tình ngắt kết nối của `MessageFilter`. |
+| [`SettingsScreen.cs`](2_Frontend/Screens/Settings/SettingsScreen.cs#L94-L97) | `SettingsScreen` | Khi lưu cài đặt bộ lọc, `PipelineOrchestratorService` sẽ tự động cập nhật ngay lập tức mà không cần phụ thuộc vào mã gắn kết thủ công ở Shell. |
+| [`DashboardStateHook.cs`](2_Frontend/Screens/Dashboard/Hooks/DashboardStateHook.cs#L125-L135) | `DashboardStateHook` | Khi bấm nút Toggle trên Dashboard, dịch vụ ngầm sẽ hoạt động chính xác cả về trạng thái chạy (`IsRunning`) lẫn cờ cấu hình (`EnableService`). |
 
 ### 4.3 Phân Tích Hợp Đồng & Luồng Đa Luồng (Contracts & Thread-Safety)
 
@@ -186,10 +186,10 @@ graph TD
 ## §7: Affected Components (Danh Sách Thành Phần Bị Ảnh Hưởng)
 
 ### 7.1 Files
-- [`1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs)
-- [`1_Backend/Adapters/Win32/Win32ClipboardListener.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32ClipboardListener.cs)
-- [`1_Backend/Services/FormConverterService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/FormConverterService.cs)
-- [`1_Backend/Services/Routing/BackgroundFeatureRegistry.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Routing/BackgroundFeatureRegistry.cs)
+- [`1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs`](1_Backend/Services/MessageFilter/PipelineOrchestratorService.cs)
+- [`1_Backend/Adapters/Win32/Win32ClipboardListener.cs`](1_Backend/Adapters/Win32/Win32ClipboardListener.cs)
+- [`1_Backend/Services/FormConverterService.cs`](1_Backend/Services/FormConverterService.cs)
+- [`1_Backend/Services/Routing/BackgroundFeatureRegistry.cs`](1_Backend/Services/Routing/BackgroundFeatureRegistry.cs)
 
 ### 7.2 Classes / Methods
 - `PipelineOrchestratorService`: Constructor (subscribe `SettingsSaved`), `OnSettingsSaved`, `Start()`, `Stop()`, `UpdateOptions()`, `OnClipboardUpdated()`, `Dispose()`.

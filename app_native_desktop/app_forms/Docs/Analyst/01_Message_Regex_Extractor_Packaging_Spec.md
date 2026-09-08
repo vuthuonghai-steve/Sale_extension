@@ -1,8 +1,8 @@
 ﻿# 📑 TÀI LIỆU KỸ THUẬT: PHÂN TÍCH VÀ ĐÓNG GÓI MODULE LỌC TIN NHẮN (CLIPBOARD MESSAGE PIPELINE & REGEX FILTER)
 
-- Vị trí lưu trữ tài liệu: C:\Users\ADMIN\Documents\workspace\Sale_extension\app_native_desktop\app_forms\Docs\Analyst\01_Message_Regex_Extractor_Packaging_Spec.md
+- Vị trí lưu trữ tài liệu: Docs/Analyst/01_Message_Regex_Extractor_Packaging_Spec.md
 - Module nguồn (Test module): C:\Users\ADMIN\Documents\workspace\Sale_extension\Test_modul\test-c#\src
-- Dự án đích tiếp nhận: C:\Users\ADMIN\Documents\workspace\Sale_extension\app_native_desktop\app_forms
+- Dự án đích tiếp nhận: .
 
 ---
 

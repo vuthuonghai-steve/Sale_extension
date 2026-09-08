@@ -1,9 +1,9 @@
 # 🏛️ TÀI LIỆU THIẾT KẾ KIẾN TRÚC & LUỒNG NGHIỆP VỤ: KHO LƯU TRỮ MÃ PHÒNG VÀ NHẬN DIỆN ĐA TẦNG (ROOM CODE REGISTRY & MULTI-LAYER DETECTION)
 
 - **Dự án**: AppForms (Sale Extension Native Desktop)
-- **Tác giả**: AI Product & Development Agent (Tuân thủ [Docs/Trade-off/AGENTS.md](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Docs/Trade-off/AGENTS.md) & [2_Frontend/Screens/AGENTS.md](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/AGENTS.md))
+- **Tác giả**: AI Product & Development Agent (Tuân thủ [Docs/Trade-off/AGENTS.md](Docs/Trade-off/AGENTS.md) & [2_Frontend/Screens/AGENTS.md](2_Frontend/Screens/AGENTS.md))
 - **Trạng thái**: Approved Design (Sẵn sàng triển khai)
-- **File dữ liệu mặc định**: [0_Shared/Data/room_codes.json](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/0_Shared/Data/room_codes.json)
+- **File dữ liệu mặc định**: [0_Shared/Data/room_codes.json](0_Shared/Data/room_codes.json)
 
 ---
 
@@ -246,7 +246,7 @@ public interface IRoomCodeRepository : IRoomCodeReadOnlyRepository
 
 ## 7. 🗄️ BẢNG DANH MỤC MÃ PHÒNG MẶC ĐỊNH (SEED DATA SUMMARY)
 
-Dữ liệu được lưu trữ chính thức tại [0_Shared/Data/room_codes.json](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/0_Shared/Data/room_codes.json):
+Dữ liệu được lưu trữ chính thức tại [0_Shared/Data/room_codes.json](0_Shared/Data/room_codes.json):
 
 | Sàn Đích (Output Schema) | Schema ID | Danh sách mã phòng mặc định ban đầu (`codes`) |
 | :--- | :--- | :--- |
@@ -265,11 +265,11 @@ Dữ liệu được lưu trữ chính thức tại [0_Shared/Data/room_codes.js
 ## 8. 🏁 KẾ HOẠCH TRIỂN KHAI MÃ NGUỒN (EXECUTION PLAN)
 
 1. **Bước 1 (Backend Contracts & Repo)**:
-   - Tạo [IRoomCodeRepository.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/IRoomCodeRepository.cs) trong `1_Backend/Contracts/Interfaces/`.
+   - Tạo [IRoomCodeRepository.cs](1_Backend/Contracts/Interfaces/IRoomCodeRepository.cs) trong `1_Backend/Contracts/Interfaces/`.
    - Tạo `JsonRoomCodeRepository.cs` trong `1_Backend/Services/` với cơ chế In-Memory Cache + Atomic Save.
 2. **Bước 2 (Backend Service Integration)**:
-   - Cập nhật [SchemaDetectorService.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SchemaDetectorService.cs) để tích hợp Layer 2 tra cứu từ `IRoomCodeReadOnlyRepository`.
-   - Đăng ký DI trong [Program.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Program.cs).
+   - Cập nhật [SchemaDetectorService.cs](1_Backend/Services/SchemaDetectorService.cs) để tích hợp Layer 2 tra cứu từ `IRoomCodeReadOnlyRepository`.
+   - Đăng ký DI trong [Program.cs](Program.cs).
 3. **Bước 3 (Frontend Refactoring - Settings)**:
    - Refactor `2_Frontend/Screens/Settings/` theo chuẩn Component-Driven & Hook Pattern:
      - Tạo `RoomCodeManagementPanel.cs`

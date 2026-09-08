@@ -83,14 +83,14 @@ Khi tiếp nhận yêu cầu, Agent **chỉ mở duy nhất** tài liệu tươn
 
 | Khi Gặp Tình Huống / Nhiệm Vụ | Tài Liệu Cần Đọc (On-Demand) | Sản Phẩm Đầu Ra Mong Đợi |
 | :--- | :--- | :--- |
-| **Bóc tách bài toán, phân tích bug phức tạp** | [`templates/problem-framing.template.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/templates/problem-framing.template.md) + [`knowledge/reverse-probing-guide.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/knowledge/reverse-probing-guide.md) | Báo cáo Root-cause, Hard/Soft Constraints, Negative Space |
-| **So sánh lựa chọn giữa 2 hoặc nhiều phương án** | [`templates/option-matrix.template.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/templates/option-matrix.template.md) + [`knowledge/trade-off-dimensions.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/knowledge/trade-off-dimensions.md) | Bảng ma trận so sánh 6 chiều (Performance, Safety, Modularity...) |
-| **Quyết định kiến trúc lớn / Đổi Data Models (Type 1)** | [`templates/adr-trade-off.template.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/templates/adr-trade-off.template.md) + [`knowledge/decision-reversibility.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/knowledge/decision-reversibility.md) | Hồ sơ ADR chính thức ghi rõ Trade-offs Accepted & xin Human Review |
-| **Đánh giá kịch bản lỗi / Rủi ro sập hệ thống** | [`knowledge/reverse-probing-guide.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/knowledge/reverse-probing-guide.md) | Báo cáo 5 Failure Modes & Mã phòng vệ (Defensive Architecture) |
-| **Đánh đổi Giao diện Sidepanel Dọc vs Pop-up Modal** | [`playbook-native/sidepanel-vs-dialog.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/playbook-native/sidepanel-vs-dialog.md) | Quyết định UX/UI Snap 1/4 màn hình & Pin TopMost |
-| **Đánh đổi Luồng STA vs Background Channel** | [`playbook-native/sta-vs-async-thread.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/playbook-native/sta-vs-async-thread.md) | Phân tách non-blocking background khỏi Windows Message Loop |
-| **Đánh đổi Bộ nhớ Win32 P/Invoke vs Managed CLR** | [`playbook-native/unmanaged-vs-managed.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/playbook-native/unmanaged-vs-managed.md) | Chiến lược quản lý `GlobalAlloc`/`GlobalFree` và `try...finally` |
-| **Đánh đổi Monolithic .csproj vs Multi-Project** | [`playbook-native/monolithic-vs-modular.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/playbook-native/monolithic-vs-modular.md) | Đánh giá ranh giới kiến trúc Clean 3-layer vs Project References |
+| **Bóc tách bài toán, phân tích bug phức tạp** | [`templates/problem-framing.template.md`](templates/problem-framing.template.md) + [`knowledge/reverse-probing-guide.md`](knowledge/reverse-probing-guide.md) | Báo cáo Root-cause, Hard/Soft Constraints, Negative Space |
+| **So sánh lựa chọn giữa 2 hoặc nhiều phương án** | [`templates/option-matrix.template.md`](templates/option-matrix.template.md) + [`knowledge/trade-off-dimensions.md`](knowledge/trade-off-dimensions.md) | Bảng ma trận so sánh 6 chiều (Performance, Safety, Modularity...) |
+| **Quyết định kiến trúc lớn / Đổi Data Models (Type 1)** | [`templates/adr-trade-off.template.md`](templates/adr-trade-off.template.md) + [`knowledge/decision-reversibility.md`](knowledge/decision-reversibility.md) | Hồ sơ ADR chính thức ghi rõ Trade-offs Accepted & xin Human Review |
+| **Đánh giá kịch bản lỗi / Rủi ro sập hệ thống** | [`knowledge/reverse-probing-guide.md`](knowledge/reverse-probing-guide.md) | Báo cáo 5 Failure Modes & Mã phòng vệ (Defensive Architecture) |
+| **Đánh đổi Giao diện Sidepanel Dọc vs Pop-up Modal** | [`playbook-native/sidepanel-vs-dialog.md`](playbook-native/sidepanel-vs-dialog.md) | Quyết định UX/UI Snap 1/4 màn hình & Pin TopMost |
+| **Đánh đổi Luồng STA vs Background Channel** | [`playbook-native/sta-vs-async-thread.md`](playbook-native/sta-vs-async-thread.md) | Phân tách non-blocking background khỏi Windows Message Loop |
+| **Đánh đổi Bộ nhớ Win32 P/Invoke vs Managed CLR** | [`playbook-native/unmanaged-vs-managed.md`](playbook-native/unmanaged-vs-managed.md) | Chiến lược quản lý `GlobalAlloc`/`GlobalFree` và `try...finally` |
+| **Đánh đổi Monolithic .csproj vs Multi-Project** | [`playbook-native/monolithic-vs-modular.md`](playbook-native/monolithic-vs-modular.md) | Đánh giá ranh giới kiến trúc Clean 3-layer vs Project References |
 
 ---
 
@@ -129,7 +129,7 @@ flowchart LR
 
 ### Bước 4: Grounded Decision & Verification (Chốt Quyết Định & Nghiệm Thu)
 - Sử dụng mẫu tài liệu tương ứng (`problem-framing`, `option-matrix`, hoặc `adr-trade-off`).
-- Rà soát bảng kiểm định chất lượng tại [`loop/trade-off-checklist.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/loop/trade-off-checklist.md).
+- Rà soát bảng kiểm định chất lượng tại [`loop/trade-off-checklist.md`](loop/trade-off-checklist.md).
 - Xác thực cơ học: Đảm bảo giải pháp biên dịch thành công (`dotnet build`) và vượt qua toàn bộ kiểm thử (`dotnet test`).
 
 ---

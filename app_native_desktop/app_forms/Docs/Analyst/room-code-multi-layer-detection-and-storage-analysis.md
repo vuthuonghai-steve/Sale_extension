@@ -1,7 +1,7 @@
 # 📊 TÀI LIỆU PHÂN TÍCH ĐẶC ĐIỂM MÃ PHÒNG & THIẾT KẾ KIẾN TRÚC NHẬN DIỆN ĐA TẦNG (MULTI-LAYER SCHEMA DETECTION)
 
 - **Dự án**: AppForms (Sale Extension Native Desktop)
-- **Tài liệu nguồn phân tích**: [zalo-messages-Bắn_Form_qua_đây_nhé-20260812-004239.json](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Docs/zalo-messages-B%E1%BA%AFn_Form_qua_%C4%91%C3%A2y_nh%C3%A9-20260812-004239.json)
+- **Tài liệu nguồn phân tích**: [zalo-messages-Bắn_Form_qua_đây_nhé-20260812-004239.json](Docs/zalo-messages-B%E1%BA%AFn_Form_qua_%C4%91%C3%A2y_nh%C3%A9-20260812-004239.json)
 - **Mục tiêu**: Bổ sung tầng nhận diện mã theo kho lưu trữ (Code Registry Layer) và đánh giá phương án lưu trữ dữ liệu (JSON vs SQLite).
 
 ---
@@ -234,7 +234,7 @@ public class SchemaDetectorService : ISchemaDetector
 
 ## 6. 🚀 Kế hoạch Thực thi Đề xuất (Next Steps)
 
-1. **Giai đoạn 1**: Tạo file `room_codes.json` khởi tạo sẵn danh sách mã đã trích xuất từ file log Zalo ([TL21House](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Docs/zalo-messages-B%E1%BA%AFn_Form_qua_%C4%91%C3%A2y_nh%C3%A9-20260812-004239.json#L5), [TNR HOME](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Docs/zalo-messages-B%E1%BA%AFn_Form_qua_%C4%91%C3%A2y_nh%C3%A9-20260812-004239.json#L49), [95 HOME](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Docs/zalo-messages-B%E1%BA%AFn_Form_qua_%C4%91%C3%A2y_nh%C3%A9-20260812-004239.json#L105)).
+1. **Giai đoạn 1**: Tạo file `room_codes.json` khởi tạo sẵn danh sách mã đã trích xuất từ file log Zalo ([TL21House](Docs/zalo-messages-B%E1%BA%AFn_Form_qua_%C4%91%C3%A2y_nh%C3%A9-20260812-004239.json#L5), [TNR HOME](Docs/zalo-messages-B%E1%BA%AFn_Form_qua_%C4%91%C3%A2y_nh%C3%A9-20260812-004239.json#L49), [95 HOME](Docs/zalo-messages-B%E1%BA%AFn_Form_qua_%C4%91%C3%A2y_nh%C3%A9-20260812-004239.json#L105)).
 2. **Giai đoạn 2**: Triển khai `IRoomCodeRepository` và `JsonRoomCodeRepository` trong `1_Backend/Services/`.
 3. **Giai đoạn 3**: Tích hợp Layer 2 vào `SchemaDetectorService` và Dependency Injection trong `Program.cs`.
 4. **Giai đoạn 4**: Bổ sung tính năng UI cho phép người dùng xem/thêm/sửa danh mục mã theo từng Sàn trong màn hình Settings hoặc Converter.

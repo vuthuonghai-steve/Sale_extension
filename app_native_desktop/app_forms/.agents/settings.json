@@ -39,17 +39,17 @@
     },
     "filesystem": {
       "allow_read": [
-        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\**"
+        "**"
       ],
       "allow_write": [
-        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\0_Shared\\**",
-        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\1_Backend\\**",
-        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\2_Frontend\\**",
-        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\.agents\\**",
-        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\Docs\\**"
+        "0_Shared/**",
+        "1_Backend/**",
+        "2_Frontend/**",
+        ".agents/**",
+        "Docs/**"
       ],
       "deny_write": [
-        "C:\\Users\\ADMIN\\Documents\\workspace\\Sale_extension\\app_native_desktop\\app_forms\\.git\\**",
+        ".git/**",
         "C:\\Windows\\**",
         "C:\\Program Files\\**"
       ]

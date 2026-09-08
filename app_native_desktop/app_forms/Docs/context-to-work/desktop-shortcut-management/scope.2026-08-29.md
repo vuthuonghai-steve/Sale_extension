@@ -54,23 +54,23 @@ Hệ thống quản lý Shortcut tuân thủ nghiêm ngặt mô hình 3 tầng (
 ```
 
 ### 1. Vị trí tạo Shortcut mặc định khi mở App (Startup Self-Healing)
-- **Tập tin**: [`Program.cs:L41-L84`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Program.cs#L41-L84)
+- **Tập tin**: [`Program.cs:L41-L84`](Program.cs#L41-L84)
 - **Phương thức**: `Program.TriggerBackgroundStartupTasks(IServiceProvider)`
 - **Cơ chế**: Sau khi build DI Container và cấu hình App, gọi `Task.Run` chạy ngầm gọi `shortcutService.EnsureShortcutSelfHeal()`. Nếu tạo mới/cập nhật thành công sẽ đẩy notification lên khay hệ thống (`TrayIconManager`).
 
 ### 2. Vị trí tạo Shortcut thủ công trong Màn hình Cài Đặt (Settings)
-- **Giao diện (UI Component)**: [`2_Frontend/Screens/Settings/Components/SettingsGeneralPanel.cs:L138-L165`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/Components/SettingsGeneralPanel.cs#L138-L165)
+- **Giao diện (UI Component)**: [`2_Frontend/Screens/Settings/Components/SettingsGeneralPanel.cs:L138-L165`](2_Frontend/Screens/Settings/Components/SettingsGeneralPanel.cs#L138-L165)
   - `_btnCreateShortcut`: Phát event `CreateShortcutRequested`
   - `_btnRemoveShortcut`: Phát event `RemoveShortcutRequested`
-- **Tầng View (Screen)**: [`2_Frontend/Screens/Settings/SettingsScreen.cs:L95-L98`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/SettingsScreen.cs#L95-L98)
+- **Tầng View (Screen)**: [`2_Frontend/Screens/Settings/SettingsScreen.cs:L95-L98`](2_Frontend/Screens/Settings/SettingsScreen.cs#L95-L98)
   - Đăng ký sự kiện từ `SettingsGeneralPanel` chuyển tiếp tới `SettingsStateHook`.
-- **Tầng Điều Phối Trạng Thái (Hook)**: [`2_Frontend/Screens/Settings/Hooks/SettingsStateHook.cs:L194-L220`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/Hooks/SettingsStateHook.cs#L194-L220)
+- **Tầng Điều Phối Trạng Thái (Hook)**: [`2_Frontend/Screens/Settings/Hooks/SettingsStateHook.cs:L194-L220`](2_Frontend/Screens/Settings/Hooks/SettingsStateHook.cs#L194-L220)
   - `CreateOrUpdateDesktopShortcut()`: Gọi `_shortcutService.CreateOrUpdateShortcut(desktop: true, startMenu: true)`
   - `RemoveDesktopShortcut()`: Gọi `_shortcutService.RemoveShortcut(desktop: true, startMenu: true)`
 
 ### 3. Tầng Xử Lý Nghiệp Vụ Cốt Lõi (Core Adapter Service)
-- **Interface**: [`1_Backend/Contracts/Interfaces/Adapter.IDesktopShortcutService.cs:L1-L30`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/Adapter.IDesktopShortcutService.cs#L1-L30)
-- **Implementation**: [`1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs:L11-L298`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs#L11-L298)
+- **Interface**: [`1_Backend/Contracts/Interfaces/Adapter.IDesktopShortcutService.cs:L1-L30`](1_Backend/Contracts/Interfaces/Adapter.IDesktopShortcutService.cs#L1-L30)
+- **Implementation**: [`1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs:L11-L298`](1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs#L11-L298)
   - Sử dụng COM Object `WScript.Shell` (`dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("WScript.Shell"))`).
   - Hàm `GetCurrentExecutablePath()` xác định đường dẫn file thực thi qua `Environment.ProcessPath` hoặc `AppDomain.CurrentDomain.BaseDirectory`.
   - Hàm `SaveShortcut()` cấu hình `TargetPath`, `WorkingDirectory`, `Description`, và `IconLocation` (`Assets/app_icon.ico`).
@@ -97,10 +97,10 @@ Hệ thống quản lý Shortcut tuân thủ nghiêm ngặt mô hình 3 tầng (
 ## §4: Impact Analysis (Phân Tích Ảnh Hưởng)
 
 ### 4.1 Direct Impact (Ảnh Hưởng Trực Tiếp)
-- [`1_Backend/Adapters/Diagnostics/Diagnostics.DebugConsole.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Diagnostics/Diagnostics.DebugConsole.cs):
+- [`1_Backend/Adapters/Diagnostics/Diagnostics.DebugConsole.cs`](1_Backend/Adapters/Diagnostics/Diagnostics.DebugConsole.cs):
   - Phương thức `Open()` được gọi vô điều kiện ở đầu `Program.cs:22` khi chạy bản build `DEBUG`.
   - Gọi `NativeMethods.AllocConsole()`, trực tiếp ép Windows gắn một cửa sổ Command Prompt vào tiến trình WinForms.
-- [`1_Backend/Infrastructure/LoggingConfiguration.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Infrastructure/LoggingConfiguration.cs):
+- [`1_Backend/Infrastructure/LoggingConfiguration.cs`](1_Backend/Infrastructure/LoggingConfiguration.cs):
   - Phương thức `IsDevelopmentEnvironment()`:
     ```csharp
     public static bool IsDevelopmentEnvironment()
@@ -111,7 +111,7 @@ Hệ thống quản lý Shortcut tuân thủ nghiêm ngặt mô hình 3 tầng (
         ...
     ```
     Bất kỳ khi nào ứng dụng được build dưới cấu hình `Debug` (mặc định của Visual Studio / `dotnet build`), `IsDevelopmentEnvironment()` luôn trả về `true`.
-- [`1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs):
+- [`1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs`](1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs):
   - Khi shortcut được tạo ra trong quá trình phát triển (hoặc khi chạy `dotnet run`), `GetCurrentExecutablePath()` trỏ thẳng vào `bin/Debug/net6.0-windows/AppForms.exe`.
   - Khi mở Shortcut này, `AppForms.exe` (Debug) khởi chạy và thực thi `AllocConsole()`.
 
@@ -216,15 +216,15 @@ sequenceDiagram
 
 | Layer | File / Symbol | Vai Trò |
 | :--- | :--- | :--- |
-| **0_Shared** | [`0_Shared/Models/Shortcut/ShortcutResult.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/0_Shared/Models/Shortcut/ShortcutResult.cs) | Record kết quả thao tác Shortcut (`IsSuccess`, `Message`, `IsCreatedOrUpdated`). |
-| **1_Backend** | [`1_Backend/Contracts/Interfaces/Adapter.IDesktopShortcutService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/Adapter.IDesktopShortcutService.cs) | Contract định nghĩa các hàm quản lý shortcut. |
-| **1_Backend** | [`1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs) | Implementation COM `WScript.Shell` tạo và self-heal shortcut. |
-| **1_Backend** | [`1_Backend/Adapters/Diagnostics/Diagnostics.DebugConsole.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Adapters/Diagnostics/Diagnostics.DebugConsole.cs) | Chứa `AllocConsole()` mở cửa sổ console đen khi chạy. |
-| **1_Backend** | [`1_Backend/Infrastructure/LoggingConfiguration.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Infrastructure/LoggingConfiguration.cs) | Chứa `IsDevelopmentEnvironment()` và cấu hình Serilog Sinks. |
-| **2_Frontend** | [`Program.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Program.cs) | Điểm chạy `DebugConsole.Open()` và `TriggerBackgroundStartupTasks`. |
-| **2_Frontend** | [`2_Frontend/Screens/Settings/Components/SettingsGeneralPanel.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/Components/SettingsGeneralPanel.cs) | UI chứa các nút tạo/xóa Shortcut. |
-| **2_Frontend** | [`2_Frontend/Screens/Settings/Hooks/SettingsStateHook.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/Hooks/SettingsStateHook.cs) | StateHook điều phối thao tác Shortcut từ UI xuống Backend. |
-| **2_Frontend** | [`2_Frontend/Screens/Settings/SettingsScreen.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/Settings/SettingsScreen.cs) | Screen kết nối UI events với Hook. |
+| **0_Shared** | [`0_Shared/Models/Shortcut/ShortcutResult.cs`](0_Shared/Models/Shortcut/ShortcutResult.cs) | Record kết quả thao tác Shortcut (`IsSuccess`, `Message`, `IsCreatedOrUpdated`). |
+| **1_Backend** | [`1_Backend/Contracts/Interfaces/Adapter.IDesktopShortcutService.cs`](1_Backend/Contracts/Interfaces/Adapter.IDesktopShortcutService.cs) | Contract định nghĩa các hàm quản lý shortcut. |
+| **1_Backend** | [`1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs`](1_Backend/Adapters/Win32/Win32.DesktopShortcutService.cs) | Implementation COM `WScript.Shell` tạo và self-heal shortcut. |
+| **1_Backend** | [`1_Backend/Adapters/Diagnostics/Diagnostics.DebugConsole.cs`](1_Backend/Adapters/Diagnostics/Diagnostics.DebugConsole.cs) | Chứa `AllocConsole()` mở cửa sổ console đen khi chạy. |
+| **1_Backend** | [`1_Backend/Infrastructure/LoggingConfiguration.cs`](1_Backend/Infrastructure/LoggingConfiguration.cs) | Chứa `IsDevelopmentEnvironment()` và cấu hình Serilog Sinks. |
+| **2_Frontend** | [`Program.cs`](Program.cs) | Điểm chạy `DebugConsole.Open()` và `TriggerBackgroundStartupTasks`. |
+| **2_Frontend** | [`2_Frontend/Screens/Settings/Components/SettingsGeneralPanel.cs`](2_Frontend/Screens/Settings/Components/SettingsGeneralPanel.cs) | UI chứa các nút tạo/xóa Shortcut. |
+| **2_Frontend** | [`2_Frontend/Screens/Settings/Hooks/SettingsStateHook.cs`](2_Frontend/Screens/Settings/Hooks/SettingsStateHook.cs) | StateHook điều phối thao tác Shortcut từ UI xuống Backend. |
+| **2_Frontend** | [`2_Frontend/Screens/Settings/SettingsScreen.cs`](2_Frontend/Screens/Settings/SettingsScreen.cs) | Screen kết nối UI events với Hook. |
 
 ---
 
@@ -277,7 +277,7 @@ sequenceDiagram
 - **Overall Confidence**: **100%**
 - **Nguyên nhân chính xác**:
   1. File `.csproj` đã cấu hình `<OutputType>WinExe</OutputType>`, bản thân ứng dụng WinForms thuần túy sẽ **không** mở console khi chạy.
-  2. Tuy nhiên, tại [`Program.cs:22`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Program.cs#L22), hàm `DebugConsole.Open()` được gọi.
+  2. Tuy nhiên, tại [`Program.cs:22`](Program.cs#L22), hàm `DebugConsole.Open()` được gọi.
   3. Khi chạy dưới cấu hình `Debug` (hoặc tạo shortcut từ binary Debug), `DebugConsole.Open()` gọi API Win32 `NativeMethods.AllocConsole()`, khiến Windows cưỡng chế tạo một cửa sổ dòng lệnh đen chạy song song.
   4. Nếu ứng dụng được build ở cấu hình `Release` (hoặc nếu `AllocConsole()` chỉ được kích hoạt khi có đối số dòng lệnh tường minh ví dụ `--debug` hoặc biến môi trường), cửa sổ console này sẽ hoàn toàn biến mất khi khởi chạy bình thường từ Desktop Shortcut.
 

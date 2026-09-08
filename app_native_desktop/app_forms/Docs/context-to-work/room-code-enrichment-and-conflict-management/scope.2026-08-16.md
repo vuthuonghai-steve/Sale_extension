@@ -45,14 +45,14 @@ Trong quá trình vận hành thực tế và kiểm thử luồng chuyển đ�
 Các điểm vào chính trong hệ thống bao gồm:
 
 1. **Giao diện Chuyển đổi Lead**:
-   - [`2_Frontend/Screens/LeadConverter/LeadConverterScreen.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/LeadConverterScreen.cs#L28-L42): Điểm khởi tạo và lắp ráp UI.
-   - [`2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs#L28-L55): Header bar chứa danh sách mẫu đầu ra, cần đặt button **Add Code** (Medium size) và badge cảnh báo.
-   - [`2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs#L36-L84): Nơi điều phối nhận diện schema và render output.
+   - [`2_Frontend/Screens/LeadConverter/LeadConverterScreen.cs`](2_Frontend/Screens/LeadConverter/LeadConverterScreen.cs#L28-L42): Điểm khởi tạo và lắp ráp UI.
+   - [`2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs`](2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs#L28-L55): Header bar chứa danh sách mẫu đầu ra, cần đặt button **Add Code** (Medium size) và badge cảnh báo.
+   - [`2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs`](2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs#L36-L84): Nơi điều phối nhận diện schema và render output.
 2. **Core Backend & Tra cứu mã**:
-   - [`1_Backend/Contracts/Interfaces/IRoomCodeRepository.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Interfaces/IRoomCodeRepository.cs#L8-L29): Giao diện tra cứu hiện chỉ có `GetSchemaIdByCode(string roomCode)` (trả về 1 giá trị duy nhất `string?`).
-   - [`1_Backend/Services/JsonRoomCodeRepository.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/JsonRoomCodeRepository.cs#L18-L170): Bộ nhớ cache `_cleanedCodeToSchema` đang lưu 1-1, ghi đè mã trùng và thiếu hàm truy vấn đa sàn.
-   - [`1_Backend/Services/SchemaDetectorService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SchemaDetectorService.cs#L18-L71): Hàm `DetectSchemaId` trả về `string?`, không phân biệt được giữa `NotFound`, `ExactMatch`, và `AmbiguousConflict`.
-   - [`1_Backend/Services/FormConverterService.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/FormConverterService.cs#L80-L85): Dòng 81 tự động fallback `targetSchemaId ?? detectedSchemaId ?? _settingsService.Current.DefaultSelectedSchemaId` gây hiểu lầm định dạng.
+   - [`1_Backend/Contracts/Interfaces/IRoomCodeRepository.cs`](1_Backend/Contracts/Interfaces/IRoomCodeRepository.cs#L8-L29): Giao diện tra cứu hiện chỉ có `GetSchemaIdByCode(string roomCode)` (trả về 1 giá trị duy nhất `string?`).
+   - [`1_Backend/Services/JsonRoomCodeRepository.cs`](1_Backend/Services/JsonRoomCodeRepository.cs#L18-L170): Bộ nhớ cache `_cleanedCodeToSchema` đang lưu 1-1, ghi đè mã trùng và thiếu hàm truy vấn đa sàn.
+   - [`1_Backend/Services/SchemaDetectorService.cs`](1_Backend/Services/SchemaDetectorService.cs#L18-L71): Hàm `DetectSchemaId` trả về `string?`, không phân biệt được giữa `NotFound`, `ExactMatch`, và `AmbiguousConflict`.
+   - [`1_Backend/Services/FormConverterService.cs`](1_Backend/Services/FormConverterService.cs#L80-L85): Dòng 81 tự động fallback `targetSchemaId ?? detectedSchemaId ?? _settingsService.Current.DefaultSelectedSchemaId` gây hiểu lầm định dạng.
 
 ---
 
@@ -288,7 +288,7 @@ confidence_assessment:
 Toàn bộ các quyết định kỹ thuật và hành vi nghiệp vụ đã được User xác nhận và chốt phương án triển khai:
 
 1. **Vị trí & Kích thước Button "Thêm mã"**:
-   - **Vị trí**: Nằm tại Header bar của [`SchemaSelectorTabs.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs), cùng hàng với Tiêu đề và Badge số lượng mẫu.
+   - **Vị trí**: Nằm tại Header bar của [`SchemaSelectorTabs.cs`](2_Frontend/Screens/LeadConverter/Components/SchemaSelectorTabs.cs), cùng hàng với Tiêu đề và Badge số lượng mẫu.
    - **Kích thước & Phong cách**: Kích thước Medium (`Size(105, 26)`), màu nhấn `AppColors.Primary`, Font `AppFonts.CaptionBold`.
    - **Quy tắc Enable/Disable**: Button chỉ được kích hoạt (Enable) khi:
      - Dữ liệu Lead có `RoomCode` hợp lệ (không rỗng).

@@ -1,5 +1,5 @@
 
-Dựa trên tài liệu [`02_Special_Room_Mapping_Mindmap.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/Docs/Maps/02_Special_Room_Mapping_Mindmap.md) và toàn bộ mã nguồn hiện tại của dự án `app_forms`, dưới đây là bản phân tích toàn diện về **Pattern hiện tại**, **Các vị trí vi phạm kiến trúc / SRP**, và **Đề xuất tái cấu trúc (Refactoring Plan)** hướng đến chuẩn Clean Architecture.
+Dựa trên tài liệu [`02_Special_Room_Mapping_Mindmap.md`](Docs/Maps/02_Special_Room_Mapping_Mindmap.md) và toàn bộ mã nguồn hiện tại của dự án `app_forms`, dưới đây là bản phân tích toàn diện về **Pattern hiện tại**, **Các vị trí vi phạm kiến trúc / SRP**, và **Đề xuất tái cấu trúc (Refactoring Plan)** hướng đến chuẩn Clean Architecture.
 
 ---
 
@@ -32,21 +32,21 @@ Qua rà soát mã nguồn, có **4 nhóm vi phạm cốt lõi** cần được b
 
 Theo Charter: *`1_Backend/` tuyệt đối không import hoặc thao tác trực tiếp với WinForms UI Controls & WinForms Classes.*
 
-- **[`FormConverterService.cs:L142-L173`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/FormConverterService.cs#L142-L173)**: Gọi trực tiếp `System.Windows.Forms.Clipboard` (`Clipboard.SetText`, `Clipboard.ContainsText()`, `Clipboard.GetText()`). Backend service lại phụ thuộc trực tiếp vào thư viện UI WinForms thay vì qua một Adapter/Abstraction.
-- **[`System.Shortcut.Desktop.Service.cs:L277`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Shortcut/System.Shortcut.Desktop.Service.cs#L277)**: Sử dụng `System.Windows.Forms.Application.ExecutablePath`.
+- **[`FormConverterService.cs:L142-L173`](1_Backend/Services/FormConverterService.cs#L142-L173)**: Gọi trực tiếp `System.Windows.Forms.Clipboard` (`Clipboard.SetText`, `Clipboard.ContainsText()`, `Clipboard.GetText()`). Backend service lại phụ thuộc trực tiếp vào thư viện UI WinForms thay vì qua một Adapter/Abstraction.
+- **[`System.Shortcut.Desktop.Service.cs:L277`](1_Backend/Shortcut/System.Shortcut.Desktop.Service.cs#L277)**: Sử dụng `System.Windows.Forms.Application.ExecutablePath`.
 
 ### ❌ Vi phạm 2: Phân tán quy tắc nghiệp vụ (Scattered Domain Rules - Vi phạm SRP & DRY)
 
 Logic nhận diện sàn/thương hiệu và bóc tách mã phòng đang bị xé lẻ và viết lặp lại ở 4 nơi:
 
-1. **[`MessageParserService.cs:L140`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageParserService.cs#L140)**: Tự hardcode Regex quét mã thương hiệu (`mn`, `ts`, `nt`, `95`, `tl`, `c`...).
-2. **[`SchemaDetectorService.cs:L72-L80`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SchemaDetectorService.cs#L72-L80)**: Lặp lại Regex kiểm tra mã phòng (`\bmn\s*\d+`, `\bts\s*\d+`, `\bnt\s*\d+`).
-3. **[`SchemaDetectorService.cs:L92-L108`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SchemaDetectorService.cs#L92-L108)**: Hardcode danh sách sàn (`lusaco`, `hd_homes`, `tl21_house`...) trong hàm `DetectFromKeyword` thay vì lấy động từ `ISchemaManager` hoặc Rule Registry.
-4. **[`SpecialRoomCodeRuleEngine.cs`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/Rules/SpecialRoomCodeRuleEngine.cs)**: Lại có các Rule riêng độc lập.
+1. **[`MessageParserService.cs:L140`](1_Backend/Services/MessageParserService.cs#L140)**: Tự hardcode Regex quét mã thương hiệu (`mn`, `ts`, `nt`, `95`, `tl`, `c`...).
+2. **[`SchemaDetectorService.cs:L72-L80`](1_Backend/Services/SchemaDetectorService.cs#L72-L80)**: Lặp lại Regex kiểm tra mã phòng (`\bmn\s*\d+`, `\bts\s*\d+`, `\bnt\s*\d+`).
+3. **[`SchemaDetectorService.cs:L92-L108`](1_Backend/Services/SchemaDetectorService.cs#L92-L108)**: Hardcode danh sách sàn (`lusaco`, `hd_homes`, `tl21_house`...) trong hàm `DetectFromKeyword` thay vì lấy động từ `ISchemaManager` hoặc Rule Registry.
+4. **[`SpecialRoomCodeRuleEngine.cs`](1_Backend/Services/Rules/SpecialRoomCodeRuleEngine.cs)**: Lại có các Rule riêng độc lập.
 
 ### ❌ Vi phạm 3: Ôm đồm trách nhiệm ngoài luồng (Hook ôm logic OS Shell & Clipboard)
 
-- **[`LeadConverterStateHook.cs:L235-L256`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs#L235-L256)**:
+- **[`LeadConverterStateHook.cs:L235-L256`](2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs#L235-L256)**:
   - Chứa hàm `OpenUrl` trực tiếp gọi `Process.Start` để mở trình duyệt.
   - Chứa hàm `CopyTextToClipboard` gọi ngược `_converterService.CopyToClipboard`.
   - *Vấn đề*: StateHook là Presentation State Manager (quản lý state phản ứng của Screen), không phải nơi thực thi tương tác tầng OS / System Shell.
@@ -60,9 +60,9 @@ Logic nhận diện sàn/thương hiệu và bóc tách mã phòng đang bị x�
 ### ❌ Vi phạm 5: Trùng lặp mã tiện ích xử lý chuỗi (String Utility Duplication)
 
 - Các hàm như `NormalizeLabel`, `RemoveAccents`, `CleanCode`, `ExtractPhoneNumber` đang được viết riêng lẻ, lặp lại trong:
-  - [`MessageParserService.cs:L182-L209`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageParserService.cs#L182-L209)
-  - [`SchemaDetectorService.cs:L110-L130`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SchemaDetectorService.cs#L110-L130)
-  - [`SpecialMappingTextParser.cs:L55-L70`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SpecialMappingTextParser.cs#L55-L70)
+  - [`MessageParserService.cs:L182-L209`](1_Backend/Services/MessageParserService.cs#L182-L209)
+  - [`SchemaDetectorService.cs:L110-L130`](1_Backend/Services/SchemaDetectorService.cs#L110-L130)
+  - [`SpecialMappingTextParser.cs:L55-L70`](1_Backend/Services/SpecialMappingTextParser.cs#L55-L70)
 
 ---
 

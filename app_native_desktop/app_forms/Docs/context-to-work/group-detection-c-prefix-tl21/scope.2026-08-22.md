@@ -17,24 +17,24 @@ Hệ thống cần xác định chính xác các vị trí đảm nhiệm tính 
 Vị trí đảm nhiệm tính năng **Output Form** và **Phân biệt Group** trong hệ thống gồm các module cốt lõi sau:
 
 1. **Nhận diện Group / Schema tự động (Auto-Detection)**:
-   - [SchemaDetectorService.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/SchemaDetectorService.cs#L88-L124) (`1_Backend/Services/SchemaDetectorService.cs`):
+   - [SchemaDetectorService.cs](1_Backend/Services/SchemaDetectorService.cs#L88-L124) (`1_Backend/Services/SchemaDetectorService.cs`):
      - Hàm `DetectFromPrefixSignature(string roomCode)`: Đang xử lý các tiền tố như `mn`, `ts`, `nt`, `95`, `tl`. Đây là **nơi trực tiếp cần bổ sung logic check bắt đầu bằng "C" / "c"**.
      - Hàm `DetectSchemaWithDetails(LeadEntity lead, string? rawText)`: Điều phối 3 tầng nhận diện (RoomCode Prefix & Repo $\rightarrow$ TeamName $\rightarrow$ RawText Regex/Keyword).
 
 2. **Trích xuất dữ liệu đầu vào (Input Parsing)**:
-   - [MessageParserService.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/MessageParserService.cs#L139-L146) (`1_Backend/Services/MessageParserService.cs`):
+   - [MessageParserService.cs](1_Backend/Services/MessageParserService.cs#L139-L146) (`1_Backend/Services/MessageParserService.cs`):
      - Regex trích xuất mã phòng / mã nguồn / brand codes từ dòng text hoặc nhãn `Mã:` / `Mã phòng:`.
      - Cần đảm bảo regex nhận diện standalone brand code `brandCodeMatch` hoặc `roomMatch` bắt được các mã dạng `C\d+` nếu chưa có nhãn rõ ràng.
 
 3. **Render Output Form & Template Engine**:
-   - [TemplateEngineService.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/TemplateEngineService.cs#L8-L82) (`1_Backend/Services/TemplateEngineService.cs`):
+   - [TemplateEngineService.cs](1_Backend/Services/TemplateEngineService.cs#L8-L82) (`1_Backend/Services/TemplateEngineService.cs`):
      - Đảm nhiệm render nội dung theo `FormatSchema` (Header, Fields: Prefix + Value + Suffix, Footer).
-   - [DefaultSchemas.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Contracts/Schemas/DefaultSchemas.cs#L31-L52) (`1_Backend/Contracts/Schemas/DefaultSchemas.cs`):
+   - [DefaultSchemas.cs](1_Backend/Contracts/Schemas/DefaultSchemas.cs#L31-L52) (`1_Backend/Contracts/Schemas/DefaultSchemas.cs`):
      - Định nghĩa cấu trúc schema của `tl21_house` (`TL21House`).
 
 4. **Điều phối luồng xử lý và Hook State**:
-   - [FormConverterService.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/1_Backend/Services/FormConverterService.cs#L63-L107) (`1_Backend/Services/FormConverterService.cs`): Điều phối parsing, schema detection và template rendering.
-   - [LeadConverterStateHook.cs](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs#L64-L100) (`2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs`): Quản lý state cho màn hình chính, kích hoạt `SchemaAutoDetected` và cập nhật `FormattedOutput`.
+   - [FormConverterService.cs](1_Backend/Services/FormConverterService.cs#L63-L107) (`1_Backend/Services/FormConverterService.cs`): Điều phối parsing, schema detection và template rendering.
+   - [LeadConverterStateHook.cs](2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs#L64-L100) (`2_Frontend/Screens/LeadConverter/Hooks/LeadConverterStateHook.cs`): Quản lý state cho màn hình chính, kích hoạt `SchemaAutoDetected` và cập nhật `FormattedOutput`.
 
 ---
 

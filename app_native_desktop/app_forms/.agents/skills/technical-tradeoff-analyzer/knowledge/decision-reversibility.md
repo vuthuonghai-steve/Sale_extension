@@ -26,7 +26,7 @@ flowchart TD
 | **Định nghĩa** | Quyết định nếu sai sẽ tốn chi phí cực lớn, phá vỡ hợp đồng dữ liệu hoặc khó quay lui. | Quyết định có thể hoàn tác (rollback) dễ dàng trong vài phút/giờ mà không để lại hậu quả. |
 | **Ví dụ trong dự án C# Native AppForms** | - Đổi cấu trúc `0_Shared` (Types, Enums, LeadModels, Schemas).<br>- Chọn Win32 API Unmanaged thay vì Managed WinForms.<br>- Thay đổi chiến lược lưu trữ dữ liệu sang Database / File persistence. | - Tối ưu biểu thức Regex bóc tách trường thông tin.<br>- Tinh chỉnh thời gian Retry Backoff (10ms -> 20ms).<br>- Định dạng lại cấu trúc chuỗi log hiển thị hoặc màu sắc UI. |
 | **Quyền hạn hành động của AI** | ⚠️ **Chặn lại**: Phân tích Trade-off, lập ADR nháp và chờ Human phê duyệt. | ✅ **Chủ động**: Đề xuất giải pháp, viết code và chứng minh bằng `dotnet test`. |
-| **Yêu cầu tài liệu** | Bắt buộc có [`templates/adr-trade-off.template.md`](file:///c:/Users/ADMIN/Documents/workspace/Sale_extension/app_native_desktop/app_forms/.agents/skills/technical-tradeoff-analyzer/templates/adr-trade-off.template.md). | Chỉ cần commit message rõ ràng và Unit Test bao phủ. |
+| **Yêu cầu tài liệu** | Bắt buộc có [`templates/adr-trade-off.template.md`](templates/adr-trade-off.template.md). | Chỉ cần commit message rõ ràng và Unit Test bao phủ. |
 
 ---
 
