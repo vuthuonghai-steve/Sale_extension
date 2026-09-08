@@ -8,7 +8,10 @@
     settings: App ? { ...App.DEFAULTS } : {
       enableFloatingToolbar: true,
       autoCopyOnShare: true,
-      toastEnabled: true
+      toastEnabled: true,
+      autoSeparatorEnabled: true,
+      autoSeparatorText: '=================================',
+      autoSeparatorDelay: 3
     },
 
     init() {
@@ -19,7 +22,14 @@
     loadSettings() {
       try {
         if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage && chrome.storage.local) {
-          const keys = App ? Object.values(App.STORAGE_KEYS) : ['enableFloatingToolbar', 'autoCopyOnShare', 'toastEnabled'];
+          const keys = App ? Object.values(App.STORAGE_KEYS) : [
+            'enableFloatingToolbar',
+            'autoCopyOnShare',
+            'toastEnabled',
+            'autoSeparatorEnabled',
+            'autoSeparatorText',
+            'autoSeparatorDelay'
+          ];
           chrome.storage.local.get(keys, (res) => {
             if (chrome.runtime?.lastError) return;
             for (let key of keys) {

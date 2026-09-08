@@ -60,6 +60,7 @@
         "content/content-zalo-extractor.js",
         "content/content-zalo-share.js",
         "content/content-zalo-adapter.js",
+        "content/content-zalo-listener.js",
         "content/content.js"
       ],
       "run_at": "document_idle"

@@ -1,0 +1,99 @@
+{
+    "title": "Recording 6/9/2026 at 21:20:05",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 1693,
+            "height": 1018,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "https://chat.zalo.me/",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://chat.zalo.me/",
+                    "title": "Zalo - Vũ Thượng Hải"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "div.w100 > div > div:nth-of-type(2) div-b14"
+                ],
+                [
+                    "xpath///*[@id=\"sidebarNav\"]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div/div-b14"
+                ],
+                [
+                    "pierce/div.w100 > div > div:nth-of-type(2) div-b14"
+                ]
+            ],
+            "offsetY": 14.128471374511719,
+            "offsetX": 14.7117919921875
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "#conversationList > div > div:nth-of-type(2) div.z-conv-message > div > div > span:nth-of-type(1)"
+                ],
+                [
+                    "xpath///*[@id=\"conversationList\"]/div/div[2]/div/div[4]/div/div[2]/div/div/span[1]"
+                ],
+                [
+                    "pierce/#conversationList > div > div:nth-of-type(2) div.z-conv-message > div > div > span:nth-of-type(1)"
+                ],
+                [
+                    "text/PHÒNG MỚI VỀ"
+                ]
+            ],
+            "offsetY": 14.55902099609375,
+            "offsetX": 42.045135498046875
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "span:nth-of-type(2) > span"
+                ],
+                [
+                    "xpath///*[@id=\"container\"]/span/main/aside/div[2]/div[1]/span[2]/span"
+                ],
+                [
+                    "pierce/span:nth-of-type(2) > span"
+                ],
+                [
+                    "text/Biểu tượng"
+                ]
+            ],
+            "offsetY": 18.89930534362793,
+            "offsetX": 2.954833984375
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "#stickerId > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > div"
+                ],
+                [
+                    "xpath///*[@id=\"stickerId\"]/div/div[2]/div/div[1]/div/div/div/div"
+                ],
+                [
+                    "pierce/#stickerId > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > div"
+                ]
+            ],
+            "offsetY": 34.045135498046875,
+            "offsetX": 30.5589599609375
+        }
+    ]
+}

@@ -8,7 +8,10 @@ chrome.runtime.onInstalled.addListener(() => {
   const storageKeys = [
     ZaloQuickActionApp.STORAGE_KEYS.ENABLE_FLOATING_TOOLBAR,
     ZaloQuickActionApp.STORAGE_KEYS.AUTO_COPY_ON_SHARE,
-    ZaloQuickActionApp.STORAGE_KEYS.TOAST_ENABLED
+    ZaloQuickActionApp.STORAGE_KEYS.TOAST_ENABLED,
+    ZaloQuickActionApp.STORAGE_KEYS.AUTO_SEPARATOR_ENABLED,
+    ZaloQuickActionApp.STORAGE_KEYS.AUTO_SEPARATOR_TEXT,
+    ZaloQuickActionApp.STORAGE_KEYS.AUTO_SEPARATOR_DELAY
   ];
 
   chrome.storage.local.get(storageKeys, (res) => {
@@ -42,6 +45,17 @@ chrome.runtime.onInstalled.addListener(() => {
     title: `📌 Xác định Quận/Huyện bôi đen (${ZaloQuickActionApp.SHORTCUTS.DISTRICT_LOOKUP_A.description})`,
     contexts: ['selection']
   });
+});
+
+// Port-based Keep-Alive connection from Zalo Web tab
+chrome.runtime.onConnect.addListener((port) => {
+  if (port.name === 'zalo-keepalive') {
+    port.onMessage.addListener((msg) => {
+      if (msg && msg.type === 'PING') {
+        port.postMessage({ type: 'PONG', timestamp: Date.now() });
+      }
+    });
+  }
 });
 
 // Helper for safe message sending to active tabs

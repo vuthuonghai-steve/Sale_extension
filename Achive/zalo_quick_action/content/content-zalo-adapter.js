@@ -37,6 +37,10 @@
 
     tryTriggerWebShare(cleanedText) {
       return window.ZaloQuickActionShare?.tryTriggerWebShare(cleanedText) ?? false;
+    },
+
+    sendChatMessage(text) {
+      return window.ZaloQuickActionShare?.sendDirectChatMessage(text) ?? Promise.resolve(false);
     }
   };
 })();

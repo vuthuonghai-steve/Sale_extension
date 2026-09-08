@@ -53,6 +53,28 @@
           <span class="slider"></span>
         </label>
       </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-title">Tự động phân cách sau tin App</span>
+          <span class="setting-desc">Lắng nghe tin text từ App và gửi chuỗi phân cách nếu không có ảnh</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoSeparatorEnabled" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-subfield" id="separatorSubfields">
+        <div class="subfield-row">
+          <span class="subfield-label">Chuỗi ký tự gửi:</span>
+        </div>
+        <input type="text" id="autoSeparatorText" class="text-input" value="=================================" placeholder="Nhập ký tự phân cách">
+        <div class="subfield-row">
+          <span class="subfield-label">Thời gian chờ tin ảnh (giây):</span>
+          <input type="number" id="autoSeparatorDelay" class="number-input" value="3" min="1" max="15">
+        </div>
+      </div>
     </main>
 
     <!-- Shortcut Guide Box -->

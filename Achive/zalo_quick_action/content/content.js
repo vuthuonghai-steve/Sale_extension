@@ -357,5 +357,10 @@
     // Ignore context invalidation
   }
 
+  // 8. Auto-initialize Zalo App Message Listener on Zalo Web
+  if (window.ZaloQuickActionListener && window.ZaloQuickActionDOM?.isZaloWeb()) {
+    window.ZaloQuickActionListener.init();
+  }
+
   console.log('[Zalo Quick Action] ✅ Content Main Orchestrator initialized successfully.');
 })();

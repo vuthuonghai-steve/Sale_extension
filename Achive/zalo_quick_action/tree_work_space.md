@@ -28,7 +28,9 @@ zalo_quick_action/
 │   ├── content-zalo-dom.js    # [ZALO DOM] Mô phỏng sự kiện click & kiểm tra DOM Zalo Web
 │   ├── content-zalo-extractor.js# [ZALO EXTRACTOR] Trích xuất nội dung tin nhắn Zalo từ vùng chọn/bôi đen
 │   ├── content-zalo-share.js  # [ZALO SHARE] Kích hoạt nút chia sẻ & inject văn bản vào ô tìm kiếm
-│   └── content-zalo-adapter.js# [FACADE ADAPTER] Facade gộp các sub-module Zalo để giữ vững API Contract
+│   ├── content-zalo-adapter.js# [FACADE ADAPTER] Facade gộp các sub-module Zalo để giữ vững API Contract
+│   ├── content-zalo-listener.js# [APP MESSAGE LISTENER] Lắng nghe tin nhắn từ App và tự động gửi phân cách
+│   └── content.js             # [MAIN ORCHESTRATOR] Entry point, đóng vai trò Cầu nối & Điều phối
 ├── tests/
 │   ├── mock-cases.js          # [MOCK DATASET] Tập hợp toàn bộ mock test cases (Cũ + Mới) chống regression
 │   └── run-tests.js           # [TEST RUNNER] Bộ chạy kiểm thử tự động toàn diện cho Regex
@@ -64,7 +66,8 @@ Các script độc lập (Utilities/Services) phải được nạp trước `co
   "content/content-zalo-extractor.js",// 8. Zalo Text Extractor
   "content/content-zalo-share.js",  // 9. Zalo Share Button & Search Input Injector
   "content/content-zalo-adapter.js",// 10. Zalo Automation Adapter Facade
-  "content/content.js"              // 11. Main Orchestrator (Luôn đứng cuối)
+  "content/content-zalo-listener.js",// 11. Zalo App Message Listener & Auto-Separator
+  "content/content.js"              // 12. Main Orchestrator (Luôn đứng cuối)
 ]
 ```
 
@@ -80,4 +83,5 @@ Mỗi module xuất ra một Object duy nhất dưới dạng Singleton trên `w
 - `content-zalo-extractor.js` $\rightarrow$ `window.ZaloQuickActionExtractor`
 - `content-zalo-share.js` $\rightarrow$ `window.ZaloQuickActionShare`
 - `content-zalo-adapter.js` $\rightarrow$ `window.ZaloQuickActionAdapter` (Facade)
+- `content-zalo-listener.js` $\rightarrow$ `window.ZaloQuickActionListener`
 - `content.js` $\rightarrow$ IIFE Orchestrator điều phối.

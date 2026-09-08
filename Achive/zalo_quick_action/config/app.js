@@ -35,13 +35,19 @@
     STORAGE_KEYS: {
       ENABLE_FLOATING_TOOLBAR: 'enableFloatingToolbar',
       AUTO_COPY_ON_SHARE: 'autoCopyOnShare',
-      TOAST_ENABLED: 'toastEnabled'
+      TOAST_ENABLED: 'toastEnabled',
+      AUTO_SEPARATOR_ENABLED: 'autoSeparatorEnabled',
+      AUTO_SEPARATOR_TEXT: 'autoSeparatorText',
+      AUTO_SEPARATOR_DELAY: 'autoSeparatorDelay'
     },
 
     DEFAULTS: {
       enableFloatingToolbar: true,
       autoCopyOnShare: true,
-      toastEnabled: true
+      toastEnabled: true,
+      autoSeparatorEnabled: true,
+      autoSeparatorText: '=================================',
+      autoSeparatorDelay: 3
     },
 
     // 4. Quy tắc lọc văn bản chọn lọc (Tham chiếu tới config/filter-rules.js)

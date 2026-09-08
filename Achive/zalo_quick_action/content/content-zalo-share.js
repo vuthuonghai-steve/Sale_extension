@@ -2,6 +2,10 @@
 (function () {
   'use strict';
 
+  // Mutex & cooldown state for sending separator to prevent duplicate execution
+  let isSendingSeparator = false;
+  let lastSeparatorSendTime = 0;
+
   window.ZaloQuickActionShare = {
     // Robust Trigger for Multi-Select Share Bar on Zalo Web
     async tryTriggerMultiSelectShare() {
@@ -252,6 +256,188 @@
         window.ZaloQuickActionLogger.warn('ZaloShare', 'Could not locate active chat input or share icons on Zalo Web');
       }
       return false;
+    },
+
+    async sendDirectChatMessage(text) {
+      const DOM = window.ZaloQuickActionDOM;
+      if (!DOM || !DOM.isZaloWeb() || !text) return false;
+
+      const isSep = /={5,}/.test(text);
+      if (isSep) {
+        const now = Date.now();
+        if (isSendingSeparator || (now - lastSeparatorSendTime < 3000)) {
+          if (window.ZaloQuickActionLogger) {
+            window.ZaloQuickActionLogger.warn('ZaloShare', '🔒 Mutex/Cooldown active: Separator is already being sent or was sent <3s ago. Dropping duplicate.');
+          }
+          return false;
+        }
+        isSendingSeparator = true;
+      }
+
+      // 1. Locate the chat input element (#richInput) with retry
+      const findChatInput = () => {
+        return document.querySelector('#richInput') ||
+               document.querySelector('#chatInput [contenteditable]') ||
+               document.querySelector('.rich-input') ||
+               document.querySelector('[data-keybinding-context*="mainChatInputFocus"]') ||
+               document.querySelector('#chat-input-content-id [contenteditable]') ||
+               document.querySelector('[contenteditable="true"]');
+      };
+
+      let inputEl = findChatInput();
+      if (!inputEl) {
+        for (let i = 0; i < 10; i++) {
+          await new Promise(r => setTimeout(r, 100));
+          inputEl = findChatInput();
+          if (inputEl) break;
+        }
+      }
+
+      if (!inputEl) {
+        if (window.ZaloQuickActionLogger) {
+          window.ZaloQuickActionLogger.warn('ZaloShare', '❌ Could not find #richInput chat input box on Zalo Web');
+        }
+        return false;
+      }
+
+      try {
+        // 2. Ensure contenteditable and activate focus
+        if (inputEl.getAttribute('contenteditable') === 'false') {
+          inputEl.setAttribute('contenteditable', 'true');
+        }
+
+        DOM.simulateClick(inputEl);
+        inputEl.focus();
+
+        // Allow Zalo/React to activate input view
+        await new Promise(r => setTimeout(r, 80));
+
+        // Re-query input element in case React unmounted and replaced it with a fresh active instance
+        inputEl = findChatInput() || inputEl;
+
+        // 3. Set Selection Range inside inputEl safely
+        try {
+          const selection = window.getSelection();
+          if (selection && inputEl && inputEl.isConnected) {
+            const range = document.createRange();
+            const targetNode = inputEl.lastChild || inputEl;
+            range.selectNodeContents(targetNode);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+        } catch (rangeErr) {
+          // Safe catch: do not let selection range error block paste dispatch
+        }
+
+        // 4. Primary Injection: Simulate ClipboardEvent('paste') via DataTransfer (triggers React/Draft.js onChange)
+        let pasteDispatched = false;
+        try {
+          const dt = new DataTransfer();
+          dt.setData('text/plain', text);
+          dt.setData('text/html', text);
+
+          const pasteEvt = new ClipboardEvent('paste', {
+            clipboardData: dt,
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            view: window
+          });
+          pasteDispatched = inputEl.dispatchEvent(pasteEvt);
+        } catch (pasteErr) {
+          pasteDispatched = false;
+        }
+
+        // 5. Secondary fallback: document.execCommand('insertText')
+        const currentTextAfterPaste = (inputEl.textContent || inputEl.innerText || '').trim();
+        if (!currentTextAfterPaste.includes(text)) {
+          try {
+            document.execCommand('insertText', false, text);
+          } catch (cmdErr) {
+            // Fallback direct innerText if needed
+            inputEl.innerText = text;
+          }
+        }
+
+        // Dispatch input & change events for React listeners
+        try {
+          inputEl.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertFromPaste',
+            data: text
+          }));
+        } catch (e) {
+          inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        inputEl.dispatchEvent(new Event('change', { bubbles: true }));
+
+        // Wait for Zalo/React to re-render toolbar and show Send button (STR_SEND)
+        await new Promise(r => setTimeout(r, 150));
+
+        // 6. Locate Send Button (Zalo switches Like button to Send button once text exists)
+        const findSendButton = () => {
+          return document.querySelector('[data-translate-title="STR_SEND"]') ||
+                 document.querySelector('[data-translate-inner="STR_SEND"]') ||
+                 document.querySelector('[title*="Gửi"]') ||
+                 document.querySelector('[aria-label*="Gửi"]') ||
+                 document.querySelector('.btn-send') ||
+                 document.querySelector('.chat-box-input__send-btn') ||
+                 document.querySelector('.chat-box-input-button[data-translate-title="STR_SEND"]');
+        };
+
+        let sendBtn = findSendButton();
+        if (!sendBtn) {
+          // Poll briefly up to 400ms for React to render Send Button
+          for (let i = 0; i < 4; i++) {
+            await new Promise(r => setTimeout(r, 100));
+            sendBtn = findSendButton();
+            if (sendBtn) break;
+          }
+        }
+
+        if (sendBtn) {
+          if (window.ZaloQuickActionLogger) {
+            window.ZaloQuickActionLogger.info('ZaloShare', '👉 Clicking Zalo STR_SEND button');
+          }
+          DOM.simulateClick(sendBtn);
+        } else {
+          // Fallback: Dispatch Enter key to submit
+          if (window.ZaloQuickActionLogger) {
+            window.ZaloQuickActionLogger.info('ZaloShare', '⌨️ Dispatching Enter key sequence to #richInput');
+          }
+          const enterEvents = ['keydown', 'keypress', 'keyup'];
+          enterEvents.forEach(type => {
+            const enterEvt = new KeyboardEvent(type, {
+              bubbles: true,
+              cancelable: true,
+              key: 'Enter',
+              code: 'Enter',
+              keyCode: 13,
+              which: 13
+            });
+            inputEl.dispatchEvent(enterEvt);
+          });
+        }
+
+        if (window.ZaloQuickActionLogger) {
+          window.ZaloQuickActionLogger.success('ZaloShare', '✅ Executed auto-send separator message into chat', { text });
+        }
+        return true;
+      } catch (err) {
+        if (window.ZaloQuickActionLogger) {
+          window.ZaloQuickActionLogger.error('ZaloShare', 'Error while sending direct chat message', err);
+        }
+        return false;
+      } finally {
+        if (isSep) {
+          lastSeparatorSendTime = Date.now();
+          setTimeout(() => {
+            isSendingSeparator = false;
+          }, 1500);
+        }
+      }
     }
   };
 })();
