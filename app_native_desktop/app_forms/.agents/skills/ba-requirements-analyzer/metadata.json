@@ -1,0 +1,62 @@
+{
+  "id": "ba-requirements-analyzer",
+  "name": "BA Requirements Analyzer",
+  "version": "1.0.0",
+  "category": "business-analysis",
+  "author": "VietnamCOS & BABOK Framework",
+  "description": "Chuyên gia phân tích nghiệp vụ BA (Lead Business Analyst & Requirements Engineer) theo chuẩn IIBA BABOK. Bóc tách yêu cầu thô từ stakeholder, phân loại chuẩn 4 tầng (Business, Stakeholder, Solution - Functional/Non-functional, Transition), định lượng NFR bằng chỉ số kỹ thuật, thiết lập ma trận truy vết Traceability Matrix 2 chiều và loại bỏ rủi ro Gold-Plating / Orphaned Goals.",
+  "triggers": [
+    "phân loại requirements",
+    "bóc tách yêu cầu",
+    "business analysis",
+    "nghiệp vụ ba",
+    "phân tích nghiệp vụ",
+    "babok",
+    "business requirements",
+    "stakeholder requirements",
+    "functional requirements",
+    "non-functional requirements",
+    "transition requirements",
+    "nfr",
+    "rtm",
+    "traceability matrix",
+    "user story",
+    "acceptance criteria",
+    "gold-plating"
+  ],
+  "tags": [
+    "business-analysis",
+    "babok",
+    "requirements-engineering",
+    "requirements-classification",
+    "traceability",
+    "nfr",
+    "product-management",
+    "user-stories",
+    "acceptance-criteria"
+  ],
+  "routing": {
+    "tier_1_boot": ["SKILL.md"],
+    "tier_2_knowledge": [
+      "knowledge/babok-requirements-taxonomy.md",
+      "knowledge/nfr-quantification-guide.md",
+      "knowledge/transition-requirements-radar.md",
+      "knowledge/traceability-and-anti-patterns.md"
+    ],
+    "tier_3_templates": [
+      "templates/requirements-classification.template.md",
+      "templates/rtm-traceability-matrix.template.md",
+      "templates/user-story-ac.template.md"
+    ],
+    "tier_3_schemas": [
+      "schemas/ba-audit-schema.json"
+    ],
+    "tier_3_loop": [
+      "loop/ba-requirements-checklist.md"
+    ],
+    "tier_4_scripts": [
+      "scripts/ba-quality-gate.ps1",
+      "scripts/ba_quality_gate.py"
+    ]
+  }
+}

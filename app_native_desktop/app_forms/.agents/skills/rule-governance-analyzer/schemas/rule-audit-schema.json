@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RuleGovernanceAuditResult",
+  "description": "Binary mechanical quality gate audit schema for AI Agent Rule Governance, Conflict Resolution, and Anti-Phantom Verification.",
+  "type": "object",
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["APPROVED", "REJECTED"],
+      "description": "Final gate verdict. APPROVED if overall_score >= 85 and zero CRITICAL conflicts or phantom gates remain unresolved."
+    },
+    "quality_scores": {
+      "type": "object",
+      "properties": {
+        "conflict_freedom_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Score measuring absence of rule contradictions and shadowing."
+        },
+        "phantom_immunity_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Score measuring absence of dummy regex, fake exit 0, and unverified mock assertions."
+        },
+        "context_efficiency_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Score measuring proper tier separation (Hooks vs Skills vs Project Anchors) preventing context bloat."
+        },
+        "overall_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Weighted overall governance score."
+        }
+      },
+      "required": [
+        "conflict_freedom_score",
+        "phantom_immunity_score",
+        "context_efficiency_score",
+        "overall_score"
+      ]
+    },
+    "rules_mapped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": { "type": "string" },
+          "source_file": { "type": "string" },
+          "line_number": { "type": "integer" },
+          "directive_type": { "type": "string", "enum": ["MUST", "MUST_NOT", "PREFER", "FALLBACK"] },
+          "target_scope": { "type": "string" },
+          "statement": { "type": "string" },
+          "precedence_tier": {
+            "type": "string",
+            "enum": ["L1_HOOK_GATE", "L2_PROJECT_INVARIANT", "L3_ACTIVE_SKILL", "L4_RUNTIME_PROMPT"]
+          }
+        },
+        "required": ["rule_id", "source_file", "line_number", "directive_type", "target_scope", "statement", "precedence_tier"]
+      }
+    },
+    "conflicts_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conflict_id": { "type": "string" },
+          "severity": { "type": "string", "enum": ["CRITICAL", "MAJOR", "MINOR"] },
+          "conflict_type": {
+            "type": "string",
+            "enum": [
+              "Direct Contradiction",
+              "Permission Shadowing",
+              "Behavioral Ambiguity",
+              "Authority Inversion",
+              "Attention Dilution"
+            ]
+          },
+          "rule_a": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "file": { "type": "string" },
+              "line": { "type": "integer" },
+              "statement": { "type": "string" }
+            },
+            "required": ["id", "file", "line", "statement"]
+          },
+          "rule_b": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "file": { "type": "string" },
+              "line": { "type": "integer" },
+              "statement": { "type": "string" }
+            },
+            "required": ["id", "file", "line", "statement"]
+          },
+          "precedence_resolution": { "type": "string" },
+          "actionable_recommendation": { "type": "string" }
+        },
+        "required": ["conflict_id", "severity", "conflict_type", "rule_a", "rule_b", "precedence_resolution", "actionable_recommendation"]
+      }
+    },
+    "phantom_rules_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "script_path": { "type": "string" },
+          "phantom_type": {
+            "type": "string",
+            "enum": [
+              "Always Exit 0",
+              "Dummy Regex Keyword Only",
+              "Hardcoded Mock Data Bypass",
+              "Empty Catch / Suppressed Error",
+              "Missing Schema Validation Contract"
+            ]
+          },
+          "issue": { "type": "string" },
+          "actionable_remediation": { "type": "string" }
+        },
+        "required": ["script_path", "phantom_type", "issue", "actionable_remediation"]
+      }
+    },
+    "refactoring_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": { "type": "string" },
+          "current_tier": { "type": "string" },
+          "proposed_tier": {
+            "type": "string",
+            "enum": ["Hooks (Deterministic IPC)", "Agent Skill (On-Demand Knowledge)", "Project Anchor (Static Prompt Cache)"]
+          },
+          "rationale": { "type": "string" }
+        },
+        "required": ["rule_id", "current_tier", "proposed_tier", "rationale"]
+      }
+    },
+    "negative_space_audit": {
+      "type": "object",
+      "properties": {
+        "has_prohibited_actions_defined": { "type": "boolean" },
+        "prohibited_items": { "type": "array", "items": { "type": "string" } },
+        "violations_found": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["has_prohibited_actions_defined", "prohibited_items", "violations_found"]
+    },
+    "summary": { "type": "string" }
+  },
+  "required": [
+    "verdict",
+    "quality_scores",
+    "rules_mapped",
+    "conflicts_detected",
+    "phantom_rules_detected",
+    "refactoring_recommendations",
+    "negative_space_audit",
+    "summary"
+  ]
+}

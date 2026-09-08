@@ -1,0 +1,23 @@
+{
+  "skill_name": "rule-governance-analyzer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Dự án của mình có 2 file rule: Trong AGENTS.md ghi 'Tuyệt đối cấm chạy lệnh shell nếu chưa hỏi xác nhận người dùng', nhưng trong .agents/skills/auto-ci/SKILL.md lại ghi 'Bắt buộc tự động chạy npm test ngầm không làm phiền người dùng'. Hãy phân tích xung đột này, chỉ ra quy tắc nào thắng theo Precedence Hierarchy và đề xuất cách giải quyết.",
+      "expected_output": "Phát hiện xung đột Direct Contradiction giữa AGENTS.md (Level 2 Invariant) và auto-ci/SKILL.md (Level 3 Skill). Phán quyết AGENTS.md thắng cuộc. Đề xuất tái cấu trúc: Phân tách rõ ràng whitelist cho các lệnh read-only/test an toàn để chạy ngầm, còn lệnh mutate/destructive thì bắt buộc hỏi.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Mình có một script kiểm tra quy tắc viết bằng PowerShell như sau: 'if ($text -match \"NFR\") { Write-Host \"Pass NFR\" } exit 0'. Hãy chỉ ra các lỗi 'Rule Ảo' trong script này và hướng dẫn nâng cấp lên chuẩn kiểm chứng cơ học nhị phân.",
+      "expected_output": "Vạch trần 2 dạng Rule Ảo: Dummy Regex Keyword Match (chỉ check chữ NFR mà không check chất lượng dữ liệu) và Fake Exit 0 (luôn exit 0). Hướng dẫn nâng cấp: Sử dụng JSON Schema validation, kiểm tra ngưỡng SMART định lượng và bắt buộc trả về exit 1 khi vi phạm.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Hiện tại toàn bộ 40 quy tắc của dự án (từ quy định cấm xóa file, hướng dẫn viết test, coding conventions đến quy trình BA) đều bị nhét chung vào một file AGENTS.md dài 500 dòng. Hãy đề xuất kế hoạch tái cấu trúc theo mô hình 3 tầng (Hooks, Skills, Anchors) để tối ưu Context Window.",
+      "expected_output": "Đề xuất phân bổ 3 tầng: Chuyển các rule an toàn cấm xóa/phá hoại sang Hooks (.agents/hooks.json); chuyển các hướng dẫn nghiệp vụ sâu (BA, Test, Coding) sang Agent Skills (.agents/skills/); rút gọn AGENTS.md chỉ còn 5-7 Hard Invariants cốt lõi để tối ưu Static Prompt Cache.",
+      "files": []
+    }
+  ]
+}

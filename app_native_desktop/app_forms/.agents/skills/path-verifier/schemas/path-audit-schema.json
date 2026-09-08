@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PathAuditReport",
+  "type": "object",
+  "properties": {
+    "audit_timestamp": { "type": "string" },
+    "workspace_root": { "type": "string" },
+    "anchor_found": { "type": "boolean" },
+    "anchor_path": { "type": "string" },
+    "scan_mode": { "type": "string", "enum": ["check", "fix"] },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "files_scanned": { "type": "integer" },
+        "files_with_violations": { "type": "integer" },
+        "total_violations": { "type": "integer" },
+        "violations_fixed": { "type": "integer" },
+        "status": { "type": "string", "enum": ["PASSED", "VIOLATIONS_FOUND", "FIXED"] }
+      },
+      "required": ["files_scanned", "files_with_violations", "total_violations", "status"]
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file_path": { "type": "string" },
+          "line_number": { "type": "integer" },
+          "scope": { "type": "string", "enum": ["SKILL_LOCAL", "WORKSPACE_WIDE", "HOOKS_CONFIG", "UNKNOWN"] },
+          "original_path": { "type": "string" },
+          "proposed_relative_path": { "type": "string" },
+          "violation_type": { "type": "string" },
+          "is_fixed": { "type": "boolean" }
+        },
+        "required": ["file_path", "line_number", "scope", "original_path", "proposed_relative_path"]
+      }
+    }
+  },
+  "required": ["audit_timestamp", "workspace_root", "summary", "violations"]
+}

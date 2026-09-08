@@ -1,0 +1,23 @@
+{
+  "skill_name": "ba-requirements-analyzer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Chuỗi cà phê CàPhêViệt có 80 chi nhánh muốn làm app đặt món và tích điểm. Đây là 8 yêu cầu thô mình vừa thu thập từ cuộc họp: 1. Tăng số khách quay lại trong vòng 30 ngày thêm 25% trong năm 2026. 2. Khách hàng cần đặt món trước và đến lấy không phải xếp hàng. 3. App cho phép thanh toán bằng MoMo và tích điểm tự động sau mỗi đơn. 4. App phải mở lên và sẵn sàng nhận đơn trong vòng 2 giây trên điện thoại tầm trung. 5. Cần chuyển dữ liệu 120.000 thành viên thẻ tích điểm giấy hiện tại sang app. 6. Nhân viên quầy cần xem danh sách đơn đặt trước theo thời gian để chuẩn bị. 7. Hệ thống phải đạt uptime 99,5% trong giờ cao điểm 7h–9h sáng. 8. Cần đào tạo nhân viên 80 chi nhánh dùng màn hình nhận đơn mới trước khi ra mắt. Hãy phân loại giúp mình theo chuẩn 4 tầng BABOK, phân tích chi tiết từng loại và lập bảng Ma trận truy vết RTM.",
+      "expected_output": "Phân loại chính xác 8 yêu cầu vào BR (1), SR (2, 6), FR (3), NFR (4, 7), TR (5, 8). Lập ma trận RTM kết nối BR-SR-FR/NFR-TR.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Sếp mình bảo: 'Làm cho luồng thanh toán website thương mại điện tử nhanh hơn và tích hợp nút thanh toán 1-chạm qua MoMo'. Tỷ lệ bỏ giỏ hàng hiện tại là 68%. Bạn hãy đóng vai trò Lead BA bóc tách yêu cầu này: chỉ ra đâu là mục tiêu kinh doanh thật sự, đâu là tính năng giải pháp, đặt câu hỏi đào sâu NFR và đừng quên các yêu cầu chuyển tiếp đối với 500.000 khách hàng cũ.",
+      "expected_output": "Chỉ ra việc đòi nút MoMo là Solution chứ không phải BR; xác định BR là giảm tỷ lệ bỏ giỏ hàng từ 68% xuống mức mục tiêu và tăng doanh thu. Định lượng NFR với p95 latency và số bước checkout. Xác định Transition Requirements cho việc migrate token thanh toán của 500.000 khách cũ.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Stakeholder gửi mình danh sách yêu cầu sau cho app chuyển tiền ngân hàng: 1. Hệ thống phải load cực kỳ mượt mà và an toàn tuyệt đối. 2. Tích hợp mô hình AI Chatbot 3D nhận diện giọng nói để khách hàng nói chuyện khi chuyển tiền. Hãy phản biện giúp mình dưới góc độ BABOK: chỉ ra các anti-patterns, định lượng lại NFR cảm tính, và kiểm tra nguy cơ Gold-plating.",
+      "expected_output": "Chỉ ra NFR 'mượt mà, an toàn tuyệt đối' là cảm tính không test được và chuyển đổi sang SMART (p95 latency, TLS 1.3, Bcrypt, Idempotency). Cảnh báo tính năng AI Chatbot 3D là Gold-Plating nếu không phục vụ mục tiêu kinh doanh cụ thể.",
+      "files": []
+    }
+  ]
+}

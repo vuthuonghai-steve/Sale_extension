@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BAQualityGateAuditResult",
+  "description": "Binary mechanical quality gate audit schema for BA requirements documentation under IIBA BABOK standards.",
+  "type": "object",
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["APPROVED", "REJECTED"],
+      "description": "Final mechanical gate decision. APPROVED only if overall_score >= 85 and no CRITICAL violations exist."
+    },
+    "quality_scores": {
+      "type": "object",
+      "properties": {
+        "taxonomy_compliance": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Score measuring BABOK 4-tier separation: BR has no features, SR has personas, FR has action verbs, TR covers cutover/migration."
+        },
+        "smart_nfr_rigor": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Score measuring whether 100% of NFRs have physical/engineering metrics and zero unquantified adjectives."
+        },
+        "traceability_coverage": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Score measuring bidirectional RTM completeness (No orphaned goals and no gold-plating)."
+        },
+        "transition_readiness": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Score measuring readiness for data migration, rollback, operational training, and cutover."
+        },
+        "overall_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Weighted total score out of 100."
+        }
+      },
+      "required": [
+        "taxonomy_compliance",
+        "smart_nfr_rigor",
+        "traceability_coverage",
+        "transition_readiness",
+        "overall_score"
+      ]
+    },
+    "detected_vague_adjectives": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of qualitative/vague adjectives detected without numeric bounds (e.g., 'nhanh', 'ổn định', 'an toàn', 'mượt mà')."
+    },
+    "negative_space_audit": {
+      "type": "object",
+      "properties": {
+        "has_prohibited_actions_defined": {
+          "type": "boolean",
+          "description": "Whether the document explicitly specifies what the system/agent is FORBIDDEN to do (Negative Space)."
+        },
+        "prohibited_items": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of explicit negative rules or prohibitions identified in the requirements."
+        },
+        "violations_found": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Any negative space rules that were breached or missing."
+        }
+      },
+      "required": [
+        "has_prohibited_actions_defined",
+        "prohibited_items",
+        "violations_found"
+      ]
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": [
+              "Taxonomy Gate",
+              "Traceability Gate",
+              "SMART NFR Gate",
+              "Defensive Gate",
+              "Transition Gate",
+              "Zero-Placeholder Gate"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["CRITICAL", "MAJOR", "MINOR"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Section, header or line reference where the issue is found."
+          },
+          "issue": {
+            "type": "string",
+            "description": "Precise description of the flaw or standard deviation."
+          },
+          "actionable_fix": {
+            "type": "string",
+            "description": "Concrete instruction on how to remediate the defect."
+          }
+        },
+        "required": ["tier", "severity", "location", "issue", "actionable_fix"]
+      },
+      "description": "Detailed list of all defects detected during the mechanical gate audit."
+    },
+    "summary": {
+      "type": "string",
+      "description": "High-level summary assessment of the requirements document readiness."
+    }
+  },
+  "required": [
+    "verdict",
+    "quality_scores",
+    "detected_vague_adjectives",
+    "negative_space_audit",
+    "violations",
+    "summary"
+  ]
+}

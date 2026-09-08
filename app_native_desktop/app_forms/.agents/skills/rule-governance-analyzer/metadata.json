@@ -1,0 +1,55 @@
+{
+  "id": "rule-governance-analyzer",
+  "name": "Rule Governance & Conflict Analyzer",
+  "version": "1.0.0",
+  "category": "system-architecture",
+  "author": "VietnamCOS & Antigravity Systems",
+  "description": "Chuyên gia quản trị quy tắc và phân xử xung đột AI (Agent Rule Governance & Conflict Resolution Specialist). Quét toàn bộ repository, lập bản đồ phân cấp quy tắc, phát hiện đối kháng trực tiếp (Direct Contradiction) và che khuất quyền (Shadowing). Vạch trần các 'rule ảo' (phantom rules) chạy bằng script hình thức, đề xuất tái cấu trúc quy tắc sang mô hình 3 tầng: Hooks (Hard Enforcement) + Skills (Progressive Disclosure) + Project Anchors. Kích hoạt khi cần phân tích rule, tối ưu hóa Context Window, sửa lỗi xung đột quy tắc hoặc thiết lập chốt chặn chất lượng.",
+  "triggers": [
+    "phân tích rule",
+    "xung đột quy tắc",
+    "rule conflict",
+    "rule governance",
+    "phantom rule",
+    "rule ảo",
+    "quản trị quy tắc",
+    "tối ưu context",
+    "điểm nghẽn rule",
+    "cải thiện rule",
+    "precedence hierarchy",
+    "tái cấu trúc rule",
+    "hooks vs skills",
+    "conflict detection"
+  ],
+  "tags": [
+    "rule-governance",
+    "conflict-detection",
+    "anti-phantom",
+    "hooks",
+    "agent-skills",
+    "context-optimization",
+    "system-architecture",
+    "prompt-engineering",
+    "quality-gate"
+  ],
+  "routing": {
+    "tier_1_boot": [
+      "SKILL.md"
+    ],
+    "tier_2_knowledge": [
+      "knowledge/rule-precedence-hierarchy.md",
+      "knowledge/conflict-detection-patterns.md",
+      "knowledge/anti-phantom-audit-guide.md"
+    ],
+    "tier_3_templates": [
+      "templates/rule-audit-report.template.md",
+      "templates/rule-refactoring-plan.template.md"
+    ],
+    "tier_3_schemas": [
+      "schemas/rule-audit-schema.json"
+    ],
+    "tier_4_scripts": [
+      "scripts/audit-rules.ps1"
+    ]
+  }
+}
