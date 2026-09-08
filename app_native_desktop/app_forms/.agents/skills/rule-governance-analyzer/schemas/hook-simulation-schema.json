@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HookSimulationResult",
+  "description": "JSON Schema validating mechanical simulation testing results for AI Agent hook scripts.",
+  "type": "object",
+  "properties": {
+    "total_hooks_tested": { "type": "integer", "minimum": 0 },
+    "passed_hooks": { "type": "integer", "minimum": 0 },
+    "failed_hooks": { "type": "integer", "minimum": 0 },
+    "simulations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "hook_name": { "type": "string" },
+          "script_path": { "type": "string" },
+          "lifecycle_event": { "type": "string", "enum": ["PreInvocation", "PostInvocation", "PreToolUse", "PostToolUse", "Stop"] },
+          "negative_fixture_result": {
+            "type": "object",
+            "properties": {
+              "fixture_description": { "type": "string" },
+              "expected_action": { "type": "string", "enum": ["deny", "ask", "exit_non_zero"] },
+              "actual_action": { "type": "string" },
+              "is_successful": { "type": "boolean" }
+            },
+            "required": ["fixture_description", "expected_action", "actual_action", "is_successful"]
+          },
+          "positive_fixture_result": {
+            "type": "object",
+            "properties": {
+              "fixture_description": { "type": "string" },
+              "expected_action": { "type": "string", "enum": ["allow", "exit_zero"] },
+              "actual_action": { "type": "string" },
+              "is_successful": { "type": "boolean" }
+            },
+            "required": ["fixture_description", "expected_action", "actual_action", "is_successful"]
+          },
+          "verdict": { "type": "string", "enum": ["VERIFIED", "BROKEN_GATE"] }
+        },
+        "required": ["hook_name", "script_path", "lifecycle_event", "negative_fixture_result", "positive_fixture_result", "verdict"]
+      }
+    }
+  },
+  "required": ["total_hooks_tested", "passed_hooks", "failed_hooks", "simulations"]
+}

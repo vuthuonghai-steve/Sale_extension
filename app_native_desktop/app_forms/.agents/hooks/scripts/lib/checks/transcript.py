@@ -6,6 +6,7 @@ chay SAU no khong. Ho tro 3 shape tool call; fail-open.
 
 import json
 from pathlib import Path
+import sys
 
 _EDIT_TOKENS = ("write", "replace", "edit", "create")
 _VERIFY_FIELD_NAMES = ("CommandLine", "commandLine", "cmd")
@@ -55,14 +56,19 @@ def last_edit_needs_verify(transcript_path: str, verify_patterns: list[str]) -> 
 
     try:
         lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
-    except Exception:
+    except Exception as exc:
+        sys.stderr.write(f"[WARN] Khong the doc tap tin transcript '{path}': {exc}\n")
         return {"needs_verify": False, "reason": "no transcript"}
 
     entries: list[dict] = []
-    for line in lines:
+    for line_idx, line in enumerate(lines, start=1):
         try:
             parsed = json.loads(line)
-        except Exception:
+        except json.JSONDecodeError as err:
+            sys.stderr.write(f"[WARN] Bo qua dong transcript #{line_idx} loi JSON: {err}\n")
+            continue
+        except Exception as exc:
+            sys.stderr.write(f"[WARN] Bo qua dong transcript #{line_idx} gap loi: {exc}\n")
             continue
         if isinstance(parsed, dict):
             entries.append(parsed)

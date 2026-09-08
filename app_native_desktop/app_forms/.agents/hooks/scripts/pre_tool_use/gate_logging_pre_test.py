@@ -38,10 +38,19 @@ LOG_PATTERNS = [
 
 def _get_git_diff_cs_files(root: Path) -> str:
     """Lay git diff cua cac file ma nguon C# (ca staged va unstaged) trong 1_Backend va 2_Frontend."""
+    # Loai tru cac file models/entities/schemas/interfaces vi la pure data models khong can logger
+    exclude_paths = [
+        ":(exclude)1_Backend/Contracts/Entities/**",
+        ":(exclude)1_Backend/Contracts/Schemas/**",
+        ":(exclude)1_Backend/Contracts/Interfaces/**",
+        ":(exclude)2_Frontend/**/Models/**",
+        ":(exclude)0_Shared/**",
+    ]
+    git_args = ["--", "1_Backend/*.cs", "2_Frontend/*.cs", "1_Backend/**/*.cs", "2_Frontend/**/*.cs"] + exclude_paths
     try:
         # Lay diff unstaged
         res_unstaged = subprocess.run(
-            ["git", "diff", "--", "1_Backend/*.cs", "2_Frontend/*.cs", "1_Backend/**/*.cs", "2_Frontend/**/*.cs"],
+            ["git", "diff"] + git_args,
             capture_output=True,
             text=True,
             cwd=str(root),
@@ -51,7 +60,7 @@ def _get_git_diff_cs_files(root: Path) -> str:
 
         # Lay diff staged
         res_staged = subprocess.run(
-            ["git", "diff", "--cached", "--", "1_Backend/*.cs", "2_Frontend/*.cs", "1_Backend/**/*.cs", "2_Frontend/**/*.cs"],
+            ["git", "diff", "--cached"] + git_args,
             capture_output=True,
             text=True,
             cwd=str(root),
@@ -60,7 +69,8 @@ def _get_git_diff_cs_files(root: Path) -> str:
         diff_staged = res_staged.stdout if res_staged.returncode == 0 else ""
 
         return f"{diff_unstaged}\n{diff_staged}".strip()
-    except Exception:
+    except Exception as exc:
+        sys.stderr.write(f"[WARN] Loi khi lay git diff CS files: {exc}\n")
         return ""
 
 

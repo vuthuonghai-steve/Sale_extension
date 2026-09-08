@@ -3,6 +3,7 @@
 from functools import lru_cache
 import os
 from pathlib import Path
+import sys
 import yaml
 
 
@@ -23,19 +24,31 @@ def repo_root() -> Path:
 
 @lru_cache(maxsize=1)
 def load_rules() -> dict:
-    """Nap config/rules.yaml; loi/missing -> {} (fail-safe, cache ket qua)."""
+    """Nap rules.yaml voi .agents/hooks/rules.yaml la Single Source of Truth; loi parse -> log stderr."""
     candidates = [
-        Path(__file__).resolve().parent / "rules.yaml",
-        repo_root() / ".agents" / "hooks" / "scripts" / "config" / "rules.yaml",
         repo_root() / ".agents" / "hooks" / "rules.yaml",
+        Path(__file__).resolve().parents[2] / "rules.yaml",
+        Path(__file__).resolve().parent / "rules.yaml",
     ]
 
+    seen = set()
     for path in candidates:
-        try:
-            if path.is_file():
-                data = yaml.safe_load(path.read_text(encoding="utf-8"))
-                if isinstance(data, dict):
-                    return data
-        except Exception:
+        resolved = path.resolve()
+        if resolved in seen:
             continue
+        seen.add(resolved)
+
+        if not resolved.is_file():
+            continue
+
+        try:
+            content = resolved.read_text(encoding="utf-8")
+            data = yaml.safe_load(content)
+            if isinstance(data, dict):
+                return data
+            sys.stderr.write(f"[WARN] File cau hinh {resolved} khong chua YAML dict hop le.\n")
+        except Exception as exc:
+            sys.stderr.write(f"[WARN] Loi doc/parse YAML tu {resolved}: {exc}\n")
+
     return {}
+

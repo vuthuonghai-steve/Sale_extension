@@ -10,7 +10,7 @@ Hệ thống Windows Native Desktop C# .NET 6.0 (`net6.0-windows`) - Kiến trú
 - **`1_Backend/`**: Core logic (Services, Contracts: Interfaces/Entities/Schemas, Win32 Adapters, Utils).
   - *Quy tắc*: Tuyệt đối không import hoặc thao tác trực tiếp với WinForms UI Controls (`TextBox`, `Button`, `Panel`).
 - **`2_Frontend/`**: Presentation (Forms, Screens, Shared UI components, Tray).
-  - **Screen**: Layout tổng thể, ráp các Components lại với nhau. Độ dài $\le 150$ dòng code (Cấm $> 250$ dòng).
+  - **Screen**: Layout tổng thể, ráp các Components lại với nhau. Độ dài $\le 150$ dòng code (Chặn cứng qua Hook khi $> 150$ dòng).
   - **Hooks (`*StateHook.cs`)**: Quản lý state và hành động của Screen. Không chứa UI controls, giao tiếp qua `event Action`.
   - **Components (`Components/`)**: Sub-panels độc lập, tự render UI, bind data qua `BindData(model)` và phát event tương tác.
   - **Models (`Models/`)**: Form/DTO models phục vụ riêng cho Screen.

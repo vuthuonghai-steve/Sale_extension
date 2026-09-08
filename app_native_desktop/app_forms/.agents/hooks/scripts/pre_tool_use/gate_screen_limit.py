@@ -43,24 +43,27 @@ def estimate_line_count(target_file: str, args: dict) -> int | None:
             else:
                 new_content = content
             return len(new_content.splitlines())
-        except Exception:
+        except Exception as exc:
+            sys.stderr.write(f"[WARN] Khong the doc file '{target_file}' de uoc tinh dong: {exc}\n")
             return None
 
     if target_file and os.path.exists(target_file):
         try:
             with open(target_file, "r", encoding="utf-8", errors="ignore") as f:
                 return len(f.readlines())
-        except Exception:
+        except Exception as exc:
+            sys.stderr.write(f"[WARN] Khong the doc file '{target_file}' de dem dong: {exc}\n")
             return None
 
     return None
 
 
 def check(target_file: str, args: dict, rules: dict) -> tuple[str, str]:
-    limits = rules.get("limits", {})
+    limits = rules.get("limits") if isinstance(rules.get("limits"), dict) else {}
     screen_max = limits.get("screen_max_lines", 150)
     component_max = limits.get("component_max_lines", 300)
     hook_max = limits.get("hook_max_lines", 350)
+    service_max = limits.get("service_max_lines", 500)
 
     norm_path = os.path.normpath(target_file).replace("\\", "/")
     file_name = os.path.basename(norm_path)
@@ -90,6 +93,14 @@ def check(target_file: str, args: dict, rules: dict) -> tuple[str, str]:
             return "deny", (
                 f"State Hook '{file_name}' uoc tinh dat {line_count} dong "
                 f"(vuot qua gioi han toi da {hook_max} dong)."
+            )
+
+    if ("/services/" in norm_path.lower() or file_name.endswith("Service.cs")) and file_name.endswith(".cs"):
+        if line_count > service_max:
+            return "deny", (
+                f"Service '{file_name}' uoc tinh dat {line_count} dong "
+                f"(vuot qua gioi han toi da {service_max} dong theo rules.yaml). "
+                f"Can phan tach Service thanh cac lop nho hon hoac dung Helper."
             )
 
     return "allow", ""

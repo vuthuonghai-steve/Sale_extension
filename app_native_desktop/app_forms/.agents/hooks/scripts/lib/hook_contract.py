@@ -48,7 +48,8 @@ def read_payload() -> HookPayload:
         data = json.loads(raw_input)
         if not isinstance(data, dict):
             return HookPayload(raw={})
-    except Exception:
+    except Exception as exc:
+        sys.stderr.write(f"[WARN] Loi doc payload stdin cua hook: {exc}\n")
         return HookPayload(raw={})
 
     tool_call = data.get("toolCall")

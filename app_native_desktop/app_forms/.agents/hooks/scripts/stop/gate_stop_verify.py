@@ -25,20 +25,31 @@ RULE_ID = "MECHANICAL-VERIFY"
 _DEFAULT_VERIFY_PATTERNS = ["dotnet build", "dotnet test", "dotnet run"]
 
 
-def _run_build_check(root: Path) -> tuple[bool, str]:
+def _run_build_check(root: Path, build_command: str | None = None) -> tuple[bool, str]:
     """Chay truc tiep dotnet build de kiem tra tinh toan ven."""
     csproj_path = root / "AppForms.csproj"
     if not csproj_path.exists():
         return True, "Khong tim thay AppForms.csproj"
 
+    cmd = build_command if build_command else f"dotnet build {csproj_path} -c Debug"
     try:
-        res = subprocess.run(
-            ["dotnet", "build", str(csproj_path), "-c", "Debug"],
-            capture_output=True,
-            text=True,
-            cwd=str(root),
-            timeout=45,
-        )
+        if isinstance(cmd, str):
+            res = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                cwd=str(root),
+                shell=True,
+                timeout=45,
+            )
+        else:
+            res = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                cwd=str(root),
+                timeout=45,
+            )
         if res.returncode == 0:
             return True, "Build thanh cong (0 Errors)."
         else:
@@ -47,7 +58,7 @@ def _run_build_check(root: Path) -> tuple[bool, str]:
             err_summary = "; ".join(errors[:3]) if errors else f"Exit code {res.returncode}"
             return False, f"Build that bai: {err_summary}"
     except Exception as e:
-        return False, f"Loi thuc thi dotnet build: {e}"
+        return False, f"Loi thuc thi build command: {e}"
 
 
 def _log_decision(
@@ -73,13 +84,26 @@ def main() -> None:
     payload = read_payload()
     rules = load_rules()
     root = repo_root()
-    verify_patterns = rules.get("verify_patterns") or _DEFAULT_VERIFY_PATTERNS
+
+    # Tuong thich verify.verify_patterns, verify_patterns, hoac default
+    verify_section = rules.get("verify", {}) if isinstance(rules.get("verify"), dict) else {}
+    raw_patterns = (
+        verify_section.get("verify_patterns")
+        or rules.get("verify_patterns")
+        or _DEFAULT_VERIFY_PATTERNS
+    )
+    if isinstance(raw_patterns, list):
+        verify_patterns = [str(p) for p in raw_patterns]
+    else:
+        verify_patterns = list(_DEFAULT_VERIFY_PATTERNS)
+
+    build_command = verify_section.get("build_command") or rules.get("build_command")
 
     result = last_edit_needs_verify(payload.transcript_path, verify_patterns)
 
     if result["needs_verify"]:
         # Chay fallback build check ngay lap tuc
-        build_ok, build_msg = _run_build_check(root)
+        build_ok, build_msg = _run_build_check(root, build_command)
         if not build_ok:
             decision = "continue"
             reason = f"Phat hien ma nguon chua build hoac build loi: {build_msg}. Yeu cau fix truoc khi hoan tat."
@@ -106,9 +130,11 @@ if __name__ == "__main__":
     except Exception as exc:
         try:
             payload = read_payload()
-        except Exception:
+        except Exception as payload_err:
+            sys.stderr.write(f"[WARN] Khong the doc payload trong gate exception handler: {payload_err}\n")
             payload = None
         duration_ms = int((time.perf_counter() - _start) * 1000)
         reason = f"Gate {GATE_ID} loi — fail-open: {exc}"
         _log_decision(payload, "allow", reason, duration_ms)
         emit_allow(reason)
+

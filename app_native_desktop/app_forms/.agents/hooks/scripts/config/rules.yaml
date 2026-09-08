@@ -27,6 +27,18 @@ placeholder:
     - "1_Backend/"
     - "2_Frontend/"
 
+forbidden_patterns:
+  - pattern: "(?i)//\\s*TODO"
+    message: "Phát hiện TODO placeholder chưa hoàn thiện logic."
+  - pattern: "(?i)//\\s*FIXME"
+    message: "Phát hiện FIXME placeholder chưa hoàn thiện logic."
+  - pattern: "throw\\s+new\\s+NotImplementedException\\s*\\("
+    message: "Phát hiện NotImplementedException chưa được triển khai."
+  - pattern: "Console\\.WriteLine\\s*\\("
+    message: "Cấm sử dụng Console.WriteLine trực tiếp. Hãy sử dụng ILogger/Serilog."
+  - pattern: "Debug\\.WriteLine\\s*\\("
+    message: "Cấm sử dụng Debug.WriteLine trực tiếp. Hãy sử dụng ILogger/Serilog."
+
 architecture_boundaries:
   backend_forbidden_namespaces:
     - "System.Windows.Forms"
@@ -43,3 +55,8 @@ contract_lock:
 
 verify:
   build_command: "dotnet build AppForms.csproj -c Debug"
+  verify_patterns:
+    - "dotnet build"
+    - "dotnet test"
+    - "dotnet run"
+

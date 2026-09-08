@@ -7,6 +7,8 @@ Neu con TODO/NotImplementedException/Console.WriteLine -> deny.
 Fail-open khi loi noi bo.
 """
 
+import fnmatch
+import os
 import re
 import sys
 import time
@@ -55,42 +57,114 @@ def collect_contents(args: dict) -> list[str]:
     return contents
 
 
+def _is_path_excluded(norm_path: str, exclude_patterns: list[str]) -> bool:
+    """Kiem tra duong dan co khop voi bat ky exclude pattern nao khong."""
+    for pat in exclude_patterns:
+        clean_pat = pat.replace("\\", "/").strip()
+        if fnmatch.fnmatch(norm_path, clean_pat) or fnmatch.fnmatch(norm_path, f"*/{clean_pat.lstrip('*')}"):
+            return True
+        core = clean_pat.strip("*").strip("/")
+        if core and f"/{core}/" in f"/{norm_path}/":
+            return True
+    return False
+
+
+def _is_path_scanned(norm_path: str, scan_paths: list[str]) -> bool:
+    """Kiem tra duong dan co nam trong scan_paths duoc chi dinh khong."""
+    if not scan_paths:
+        return True
+    for sp in scan_paths:
+        clean_sp = sp.replace("\\", "/").strip().rstrip("/")
+        if norm_path.startswith(clean_sp) or f"/{clean_sp}/" in f"/{norm_path}/" or f"/{clean_sp}" in f"/{norm_path}":
+            return True
+    return False
+
+
 def check(target_file: str, args: dict, rules: dict) -> tuple[str, str]:
     """Scan placeholder trong noi dung sap ghi; tra ve (decision, reason)."""
-    # Chi kiem tra cac file ma nguon (.cs, .xaml, .json, .py, .md neu trong source)
-    target_lower = target_file.lower()
+    # Chi kiem tra cac file ma nguon (.cs, .xaml)
+    target_norm = os.path.normpath(target_file).replace("\\", "/")
+    target_lower = target_norm.lower()
     if not (target_lower.endswith(".cs") or target_lower.endswith(".xaml")):
         return "allow", ""
 
-    raw_patterns = rules.get("placeholder", {}).get("patterns", [
-        r"//\s*TODO",
-        r"//\s*FIXME",
-        r"throw\s+new\s+NotImplementedException",
-        r"Console\.WriteLine\s*\(",
-        r"Debug\.WriteLine\s*\("
-    ])
+    placeholder_cfg = rules.get("placeholder") if isinstance(rules.get("placeholder"), dict) else {}
 
-    compiled = []
-    for pat in raw_patterns:
-        try:
-            compiled.append((pat, re.compile(pat, re.IGNORECASE)))
-        except Exception:
-            continue
+    # Kiem tra exclude_paths
+    exclude_paths = placeholder_cfg.get("exclude_paths", [])
+    if isinstance(exclude_paths, list) and _is_path_excluded(target_lower, exclude_paths):
+        return "allow", ""
 
-    findings: list[tuple[int, str]] = []
+    # Kiem tra scan_paths (neu duoc chi dinh trong cau hinh)
+    scan_paths = placeholder_cfg.get("scan_paths", [])
+    if isinstance(scan_paths, list) and scan_paths and not _is_path_scanned(target_norm, scan_paths):
+        return "allow", ""
+
+    compiled: list[tuple[str, re.Pattern, str]] = []
+
+    # 1. Trich xuat tu forbidden_patterns (ho tro list of dicts hoac list of strings)
+    forbidden_items = rules.get("forbidden_patterns")
+    if isinstance(forbidden_items, list):
+        for item in forbidden_items:
+            if isinstance(item, dict) and "pattern" in item:
+                pat_str = str(item["pattern"])
+                msg = str(item.get("message", "Phát hiện placeholder bị cấm."))
+                try:
+                    compiled.append((pat_str, re.compile(pat_str, re.IGNORECASE), msg))
+                except re.error as rerr:
+                    sys.stderr.write(f"[WARN] Invalid regex in forbidden_patterns '{pat_str}': {rerr}\n")
+                except Exception as exc:
+                    sys.stderr.write(f"[WARN] Error compiling forbidden pattern '{pat_str}': {exc}\n")
+            elif isinstance(item, str):
+                try:
+                    compiled.append((item, re.compile(item, re.IGNORECASE), "Phát hiện placeholder bị cấm."))
+                except re.error as rerr:
+                    sys.stderr.write(f"[WARN] Invalid regex in forbidden_patterns '{item}': {rerr}\n")
+                except Exception as exc:
+                    sys.stderr.write(f"[WARN] Error compiling forbidden pattern '{item}': {exc}\n")
+
+    # 2. Trich xuat tu placeholder.patterns (list of strings)
+    existing_pats = {p[0] for p in compiled}
+    placeholder_patterns = placeholder_cfg.get("patterns", [])
+    if isinstance(placeholder_patterns, list):
+        for pat in placeholder_patterns:
+            if isinstance(pat, str) and pat not in existing_pats:
+                try:
+                    compiled.append((pat, re.compile(pat, re.IGNORECASE), "Phát hiện placeholder bị cấm."))
+                    existing_pats.add(pat)
+                except re.error as rerr:
+                    sys.stderr.write(f"[WARN] Invalid regex in placeholder.patterns '{pat}': {rerr}\n")
+                except Exception as exc:
+                    sys.stderr.write(f"[WARN] Error compiling placeholder pattern '{pat}': {exc}\n")
+
+    if not compiled:
+        default_defs = [
+            (r"//\s*TODO", "Phát hiện TODO placeholder chưa hoàn thiện logic."),
+            (r"//\s*FIXME", "Phát hiện FIXME placeholder chưa hoàn thiện logic."),
+            (r"throw\s+new\s+NotImplementedException", "Phát hiện NotImplementedException chưa được triển khai."),
+            (r"Console\.WriteLine\s*\(", "Cấm sử dụng Console.WriteLine trực tiếp. Hãy sử dụng ILogger/Serilog."),
+            (r"Debug\.WriteLine\s*\(", "Cấm sử dụng Debug.WriteLine trực tiếp. Hãy sử dụng ILogger/Serilog."),
+        ]
+        for pat_str, msg in default_defs:
+            try:
+                compiled.append((pat_str, re.compile(pat_str, re.IGNORECASE), msg))
+            except Exception as exc:
+                sys.stderr.write(f"[WARN] Error compiling default pattern '{pat_str}': {exc}\n")
+
+    findings: list[tuple[int, str, str]] = []
     for content in collect_contents(args):
         for line_no, line in enumerate(content.splitlines(), start=1):
-            for pat_str, regex in compiled:
+            for pat_str, regex, msg in compiled:
                 if regex.search(line):
-                    pair = (line_no, line.strip())
-                    if pair not in findings:
+                    pair = (line_no, line.strip(), msg)
+                    if not any(f[0] == line_no and f[1] == pair[1] for f in findings):
                         findings.append(pair)
 
     if not findings:
         return "allow", ""
 
-    lines_info = [f"line {ln}: `{code_snip}`" for ln, code_snip in findings[:5]]
-    reason = f"Phat hien ma placeholder/stub/console chua hoan thien ({'; '.join(lines_info)}). Quy tac bat buoc: Zero-Placeholder & ILogger."
+    lines_info = [f"line {ln}: `{code_snip}` ({msg})" for ln, code_snip, msg in findings[:5]]
+    reason = f"Phat hien ma placeholder/stub/console chua hoan thien: {'; '.join(lines_info)}. Quy tac bat buoc: Zero-Placeholder & ILogger."
     return "deny", reason
 
 

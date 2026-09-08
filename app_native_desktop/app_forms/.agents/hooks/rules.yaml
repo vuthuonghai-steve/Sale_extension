@@ -7,9 +7,31 @@ limits:
   hook_max_lines: 350
   service_max_lines: 500
 
+placeholder:
+  patterns:
+    - "//\\s*TODO"
+    - "//\\s*FIXME"
+    - "throw\\s+new\\s+NotImplementedException"
+    - "Console\\.WriteLine\\s*\\("
+    - "Debug\\.WriteLine\\s*\\("
+  exclude_paths:
+    - "**/bin/**"
+    - "**/obj/**"
+    - "**/Logs/**"
+    - "**/dist/**"
+    - "**/.agents/**"
+    - "**/.gemini/**"
+    - "**/*.jsonl"
+  scan_paths:
+    - "0_Shared/"
+    - "1_Backend/"
+    - "2_Frontend/"
+
 forbidden_patterns:
-  - pattern: "(?i)//\\s*TODO:?\\s*implement"
+  - pattern: "(?i)//\\s*TODO"
     message: "Phát hiện TODO placeholder chưa hoàn thiện logic."
+  - pattern: "(?i)//\\s*FIXME"
+    message: "Phát hiện FIXME placeholder chưa hoàn thiện logic."
   - pattern: "throw\\s+new\\s+NotImplementedException\\s*\\("
     message: "Phát hiện NotImplementedException chưa được triển khai."
   - pattern: "Console\\.WriteLine\\s*\\("
@@ -29,3 +51,12 @@ architecture_boundaries:
 contract_lock:
   protected_paths:
     - "1_Backend/Contracts/Interfaces/"
+    - "1_Backend/Contracts/Schemas/"
+
+verify:
+  build_command: "dotnet build AppForms.csproj -c Debug"
+  verify_patterns:
+    - "dotnet build"
+    - "dotnet test"
+    - "dotnet run"
+

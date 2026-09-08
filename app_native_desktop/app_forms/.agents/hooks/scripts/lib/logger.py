@@ -70,5 +70,7 @@ def log_gate_decision(
         }
         with open(log_path, "a", encoding="utf-8") as fh:
             fh.write(json.dumps(record, ensure_ascii=False) + "\n")
-    except Exception:
+    except Exception as exc:
+        import sys
+        sys.stderr.write(f"[WARN] Loi ghi log gate decision: {exc}\n")
         return

@@ -27,14 +27,14 @@ FAIL_OPEN_DECISION = "allow"
 def check(args: dict, rules: dict) -> tuple[str, str]:
     """TargetFile chua protected_paths -> ask/force_ask; con lai allow."""
     target_file = str(args.get("TargetFile", ""))
-    normalized = os.path.normpath(target_file).replace("\\", "/")
+    normalized = os.path.normpath(target_file).replace("\\", "/").lower()
 
-    section = rules.get("contract_lock", {})
+    section = rules.get("contract_lock") if isinstance(rules.get("contract_lock"), dict) else {}
     protected = section.get("protected_paths", ["1_Backend/Contracts/Interfaces/"])
 
     if isinstance(protected, list):
         for protected_dir in protected:
-            prot_norm = os.path.normpath(str(protected_dir)).replace("\\", "/")
+            prot_norm = os.path.normpath(str(protected_dir)).replace("\\", "/").lower()
             if prot_norm in normalized:
                 reason = (
                     f"File '{target_file}' thuoc tang Contract/Interface duoc bao ve. "

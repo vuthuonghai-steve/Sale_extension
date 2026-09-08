@@ -119,13 +119,48 @@
               "Dummy Regex Keyword Only",
               "Hardcoded Mock Data Bypass",
               "Empty Catch / Suppressed Error",
-              "Missing Schema Validation Contract"
+              "Missing Schema Validation Contract",
+              "Zombie Decoupled Key",
+              "Silent Fallback / Empty Catch"
             ]
           },
           "issue": { "type": "string" },
           "actionable_remediation": { "type": "string" }
         },
         "required": ["script_path", "phantom_type", "issue", "actionable_remediation"]
+      }
+    },
+    "zombie_configs_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "config_file": { "type": "string" },
+          "key_name": { "type": "string" },
+          "issue": { "type": "string" },
+          "affected_script": { "type": "string" }
+        },
+        "required": ["config_file", "key_name", "issue", "affected_script"]
+      }
+    },
+    "hook_simulation_results": {
+      "type": "object",
+      "properties": {
+        "total_hooks_tested": { "type": "integer" },
+        "passed_hooks": { "type": "integer" },
+        "failed_hooks": { "type": "integer" }
+      }
+    },
+    "headless_pipeline_blueprint": {
+      "type": "object",
+      "properties": {
+        "pre_commit_hook_configured": { "type": "boolean" },
+        "ci_gatekeeper_configured": { "type": "boolean" },
+        "semantic_gate_recommended": { "type": "boolean" },
+        "recommended_scripts": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
       }
     },
     "refactoring_recommendations": {

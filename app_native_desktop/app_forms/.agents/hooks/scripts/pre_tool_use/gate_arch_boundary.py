@@ -55,10 +55,57 @@ def collect_contents(args: dict, target_file: str) -> str:
         try:
             with open(target_file, "r", encoding="utf-8", errors="ignore") as f:
                 parts.append(f.read())
-        except Exception:
-            pass
+        except Exception as err:
+            sys.stderr.write(f"[WARN] Khong the doc file '{target_file}': {err}\n")
 
     return "\n".join(parts)
+
+
+def _extract_using_namespaces(content: str) -> list[str]:
+    """Trich xuat danh sach namespace tu cac cau lenh using C#.
+
+    Ho tro:
+    - using System.Windows.Forms;
+    - using static System.Windows.Forms.MessageBox;
+    - using WinForms = System.Windows.Forms;
+    - using Form = System.Windows.Forms.Form;
+    - using global::System.Windows.Forms;
+    """
+    using_matches = re.findall(r"^\s*using\s+([^;]+);", content, re.MULTILINE)
+    results: list[str] = []
+    for m in using_matches:
+        raw = m.strip()
+        # Loai bo 'static '
+        if raw.startswith("static "):
+            raw = raw[7:].strip()
+        # Loai bo alias (e.g., WinForms = System.Windows.Forms)
+        if "=" in raw:
+            raw = raw.split("=", 1)[1].strip()
+        # Loai bo 'global::'
+        if raw.startswith("global::"):
+            raw = raw[8:].strip()
+        if raw:
+            results.append(raw)
+    return results
+
+
+def _strip_comments(content: str) -> str:
+    """Loai bo comments C# de tranh false-positive khi quet noi dung inline."""
+    no_block = re.sub(r"/\*[\s\S]*?\*/", "", content)
+    return re.sub(r"//.*$", "", no_block, flags=re.MULTILINE)
+
+
+def _matches_forbidden(imp: str, forbidden_namespaces: list[str]) -> str | None:
+    """Tra ve namespace bi vi pham neu imp khop hoac bat dau bang namespace + '.'"""
+    if not isinstance(forbidden_namespaces, (list, tuple, set)):
+        return None
+    for ns in forbidden_namespaces:
+        ns = str(ns).strip()
+        if not ns:
+            continue
+        if imp == ns or imp.startswith(f"{ns}."):
+            return ns
+    return None
 
 
 def check(target_file: str, args: dict, rules: dict) -> tuple[str, str]:
@@ -66,28 +113,53 @@ def check(target_file: str, args: dict, rules: dict) -> tuple[str, str]:
     if not target_lower.endswith(".cs"):
         return "allow", ""
 
+    arch_cfg = rules.get("architecture_boundaries") if isinstance(rules.get("architecture_boundaries"), dict) else {}
+    backend_forbidden = arch_cfg.get("backend_forbidden_namespaces")
+    if not isinstance(backend_forbidden, list):
+        backend_forbidden = [
+            "System.Windows.Forms",
+            "AppForms.Frontend",
+        ]
+    shared_forbidden = arch_cfg.get("shared_forbidden_namespaces")
+    if not isinstance(shared_forbidden, list):
+        shared_forbidden = [
+            "AppForms.Backend",
+            "AppForms.Frontend",
+            "System.Windows.Forms",
+        ]
+
     content = collect_contents(args, target_file)
-    using_matches = re.findall(r"^\s*using\s+([^;]+);", content, re.MULTILINE)
-    imports = [m.strip() for m in using_matches]
+    imports = _extract_using_namespaces(content)
+    clean_code = _strip_comments(content)
 
     violations: list[str] = []
 
     # Kiem tra tang 1_Backend
     if "1_backend" in target_lower:
         for imp in imports:
-            if imp == "System.Windows.Forms" or imp.startswith("System.Windows.Forms.") or imp.startswith("AppForms.Frontend"):
-                violations.append(f"Backend import '{imp}' (Backend tuyet doi khong duoc phu thuoc WinForms UI / Frontend).")
+            matched_ns = _matches_forbidden(imp, backend_forbidden)
+            if matched_ns:
+                violations.append(f"Backend import '{imp}' (Backend tuyet doi khong duoc phu thuoc [{matched_ns}]).")
+        # Kiem tra ca cu phap goi inline (e.g., System.Windows.Forms.MessageBox.Show)
+        for ns in backend_forbidden:
+            ns_str = str(ns).strip()
+            if ns_str and re.search(r"\b" + re.escape(ns_str) + r"\b", clean_code):
+                msg = f"Backend su dung truc tiep [{ns_str}] trong ma nguon."
+                if not any(ns_str in v for v in violations):
+                    violations.append(msg)
 
     # Kiem tra tang 0_Shared
     if "0_shared" in target_lower:
         for imp in imports:
-            if (
-                imp == "System.Windows.Forms"
-                or imp.startswith("System.Windows.Forms.")
-                or imp.startswith("AppForms.Frontend")
-                or imp.startswith("AppForms.Backend")
-            ):
-                violations.append(f"Shared import '{imp}' (Shared chi chua pure data/types, khong phu thuoc Backend/Frontend).")
+            matched_ns = _matches_forbidden(imp, shared_forbidden)
+            if matched_ns:
+                violations.append(f"Shared import '{imp}' (Shared chi chua pure data/types, khong phu thuoc [{matched_ns}]).")
+        for ns in shared_forbidden:
+            ns_str = str(ns).strip()
+            if ns_str and re.search(r"\b" + re.escape(ns_str) + r"\b", clean_code):
+                msg = f"Shared su dung truc tiep [{ns_str}] trong ma nguon."
+                if not any(ns_str in v for v in violations):
+                    violations.append(msg)
 
     if violations:
         reason = "Vi pham ranh gioi kien truc phan tang: " + "; ".join(violations)
