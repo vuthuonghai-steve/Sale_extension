@@ -15,7 +15,7 @@ mindmap
     0_Shared Foundation
       SpecialRoomMappingEntity["SpecialRoomMappingEntity (Id, Stt, Manager, Phone, Commission, PlatformCodes)"]
       SpecialRoomMappingRegistryEntity["SpecialRoomMappingRegistryEntity (Version, LastUpdated, Items)"]
-      SeedData["Seed JSON File (0_Shared/Data/special_room_mappings.json - 34+ bản ghi)"]
+      SeedData["Seed JSON File (0_Shared/Data/special_room_mappings.json - 37+ bản ghi)"]
     1_Backend Engine
       Contracts & Interfaces
         ISpecialRoomMappingRepository["SpecialMapping.ISpecialRoomMappingRepository (FindMappingByCode, Phone, Text, Reload, Save)"]
@@ -53,7 +53,7 @@ mindmap
       UI Utilities
         FormStateObserver["FormStateObserver.InvokeOnUI (Đảm bảo Thread-Safety khi cập nhật WinForms Control)"]
     Tests Suite
-      JsonSpecialRoomMappingRepositoryTests["JsonSpecialRoomMappingRepositoryTests (Nạp 31 Seed Items, Tra cứu Code/Phone/Text/C-Prefix)"]
+      JsonSpecialRoomMappingRepositoryTests["JsonSpecialRoomMappingRepositoryTests (Nạp 37 Seed Items, Tra cứu Code/Phone/Text/C-Prefix)"]
       SpecialMappingZoneEngineTests["SpecialMappingZoneEngineTests (Kiểm thử TL21PrefixStrippingZoneRule & ZoneEngine)"]
       SpecialRoomMappingDetectorTests["SpecialRoomMappingDetectorTests (Ưu tiên Lead.RoomCode, Strict Guard không cào bới)"]
       SpecialMappingTextParserTests["SpecialMappingTextParserTests (Chuẩn hóa SĐT, Bóc tách Token, Bỏ qua số ngắn 1-2 ký tự)"]
@@ -72,7 +72,7 @@ Toàn bộ module tuân thủ nghiêm ngặt **Clean 3-Layer Architecture**, **F
 
 | Phân tầng | Tên Module / Sub-module | Đường dẫn File Mã Nguồn | Trách nhiệm Nghiệp vụ Cốt lõi | Độ phức tạp |
 | :--- | :--- | :--- | :--- | :---: |
-| **0_Shared** | `Data Seed JSON` | [`0_Shared/Data/special_room_mappings.json`](0_Shared/Data/special_room_mappings.json) | Lưu trữ danh mục 34+ phòng đặc biệt, số điện thoại đầu chủ, hoa hồng, link sheet và mã định danh chéo giữa các sàn (AHS, Lusaco, TNR, HD Homes, NT...). | $O(1)$ IO Nạp |
+| **0_Shared** | `Data Seed JSON` | [`0_Shared/Data/special_room_mappings.json`](0_Shared/Data/special_room_mappings.json) | Lưu trữ danh mục 37+ phòng đặc biệt, số điện thoại đầu chủ, hoa hồng, link sheet và mã định danh chéo giữa các sàn (AHS, Lusaco, TNR, HD Homes, NT...). | $O(1)$ IO Nạp |
 | **0_Shared** | `Mapping Entity` | [`0_Shared/Models/SpecialMapping/SpecialRoomMappingEntity.cs`](0_Shared/Models/SpecialMapping/SpecialRoomMappingEntity.cs) | POCO DTO định nghĩa cấu trúc một bản ghi đối chiếu phòng đặc biệt. | $O(1)$ RAM |
 | **0_Shared** | `Registry Entity` | [`0_Shared/Models/SpecialMapping/SpecialRoomMappingRegistryEntity.cs`](0_Shared/Models/SpecialMapping/SpecialRoomMappingRegistryEntity.cs) | POCO DTO đại diện toàn bộ file cơ sở dữ liệu JSON kèm metadata phiên bản và ngày cập nhật. | $O(1)$ RAM |
 | **1_Backend** | `Repository Contract` | [`1_Backend/Contracts/Interfaces/SpecialMapping.ISpecialRoomMappingRepository.cs`](1_Backend/Contracts/Interfaces/SpecialMapping.ISpecialRoomMappingRepository.cs) | Interface hợp đồng kho lưu trữ tra cứu mã phòng, số điện thoại, quét text và nạp/lưu dữ liệu. | Interface |
@@ -371,7 +371,7 @@ graph TD
     FM5["💥 FM-5: WinForms Cross-Thread Exception khi cập nhật UI"] --> S5["🛡️ UI Thread Dispatcher:<br/>Bắt buộc bọc mọi tương tác qua FormStateObserver.InvokeOnUI"]
 ```
 
-### Chi tiết các kịch bản phòng vệ:
+### Chi tiết các kịch bản phòng vệ
 
 1. **FM-1: File JSON lưu trữ bị hỏng cú pháp hoặc bị xóa mất**:
    - *Chiến lược*: `Persistence.AtomicJsonFileStorage.Load` thực hiện cơ chế 3 tầng nạp dự phòng:
@@ -383,7 +383,7 @@ graph TD
    - *Chiến lược*: Khóa luồng bằng `lock (_lock)`. Khi lưu dữ liệu, tuần tự hóa ra file tạm `special_room_mappings.json.{GUID}.tmp`. Sau khi ghi file tạm thành công 100%, mới gọi `File.Copy(tempPath, targetPath, overwrite: true)` và dọn dẹp file tạm. Đảm bảo file chính không bao giờ bị trạng thái 0 byte hay dở dang.
 
 3. **FM-3: Nhận diện sai (False Positive) do số nhà, số ngõ, ngách, ngày xem**:
-   - *Chiến lược*: 
+   - *Chiến lược*:
      - **Lớp 1 (Strict Lead Guard)**: Nếu form đã bóc tách được trường `Lead.RoomCode` (ví dụ `D170`), detector tra cứu `_codeIndex`. Nếu không khớp, DỪNG LẠI NGAY và trả về `null`. Tuyệt đối không fallback cào bới `rawText` để tránh bắt nhầm "ngách 40 ngõ 61".
      - **Lớp 2 (Numeric Token $\ge 3$ Chữ Số)**: Khi phải quét `rawText` (do không có `RoomCode`), chỉ tra cứu các chuỗi số thuần túy có độ dài $\ge 3$ ký tự (ví dụ `973`, `430`, `085`, `040`). Loại bỏ hoàn toàn các số 1-2 chữ số như ngày `29/8`, ngõ `61`, ngách `40`.
      - **Lớp 3 (Explicit Keyword Priority)**: Ưu tiên bóc tách các token đứng sau từ khóa ngữ cảnh rõ ràng (`mã:`, `mã phòng:`, `mã tòa:`, `ms:`) trước khi quét token ngẫu nhiên.
@@ -415,10 +415,12 @@ sequenceDiagram
     Dev->>App: 4. Khởi động app, dán tin nhắn chứa mã -> Xác nhận Alert Box hiển thị đúng
 ```
 
-### Chi tiết các bước thực hiện:
+### Chi tiết các bước thực hiện
 
 ### 🔹 Bước 1: Thêm bản ghi mới vào `0_Shared/Data/special_room_mappings.json`
+
 Mở file `0_Shared/Data/special_room_mappings.json` và bổ sung bản ghi vào cuối mảng `items`:
+
 ```json
 {
   "id": "mapping_32",
@@ -436,10 +438,13 @@ Mở file `0_Shared/Data/special_room_mappings.json` và bổ sung bản ghi và
   "matchedCodes": ["A999", "MN555", "DN32", "555"]
 }
 ```
+
 *Lưu ý*: Mọi biến thể mã có thể gặp trong tin nhắn (kể cả số nhà `buildingNo`) nên được liệt kê vào `matchedCodes`. Hệ thống sẽ tự động index cả dạng có dấu gạch nối và không dấu gạch nối (vd: `MN-555` và `MN555`).
 
 ### 🔹 Bước 2: Bổ sung Test Case vào Test Suite
+
 Mở file [`Tests/Backend/JsonSpecialRoomMappingRepositoryTests.cs`](Tests/Backend/JsonSpecialRoomMappingRepositoryTests.cs) và bổ sung các mã mới vào `[Theory]`:
+
 ```csharp
 [Theory]
 [InlineData("A999", "Anh Tuấn")]
@@ -455,14 +460,18 @@ public void FindMappingByCode_NewSpecialCodes_ReturnsCorrectManager(string roomC
 ```
 
 ### 🔹 Bước 3: Chạy Kiểm Thử Toàn Bộ Hệ Thống
+
 Thực thi lệnh kiểm thử trong PowerShell để đảm bảo không làm vỡ các trường hợp kiểm thử cũ:
+
 ```powershell
 dotnet test
 dotnet build
 ```
+
 Yêu cầu bắt buộc: **100% Tests Passed**, 0 Warning, 0 Error.
 
 ### 🔹 Bước 4: Kiểm Tra Trực Quan Trên Giao Diện (Verification)
+
 1. Khởi chạy ứng dụng `app_forms`.
 2. Dán tin nhắn chứa mã `A999` hoặc SĐT `0912345678` vào ô nhập liệu thô.
 3. Kiểm tra:

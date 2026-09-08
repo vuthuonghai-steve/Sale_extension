@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastUpdated": "2026-09-05T04:45:00Z",
+  "lastUpdated": "2026-09-08T09:50:00Z",
   "description": "Kho lưu trữ mã phòng đặc biệt và bảng đối chiếu chéo đa sàn từ temp.md",
   "items": [
     {
@@ -17,7 +17,12 @@
         "Lusaco": "MN220",
         "DNT": "DN01"
       },
-      "matchedCodes": ["AHS284", "ST460", "MN220", "DN01"]
+      "matchedCodes": [
+        "AHS284",
+        "ST460",
+        "MN220",
+        "DN01"
+      ]
     },
     {
       "id": "mapping_2",
@@ -31,7 +36,10 @@
         "TNR": "A520",
         "DNT": "DN12"
       },
-      "matchedCodes": ["A520", "DN12"]
+      "matchedCodes": [
+        "A520",
+        "DN12"
+      ]
     },
     {
       "id": "mapping_3",
@@ -45,7 +53,10 @@
         "TNR": "A1197",
         "DNT": "DN28"
       },
-      "matchedCodes": ["A1197", "DN28"]
+      "matchedCodes": [
+        "A1197",
+        "DN28"
+      ]
     },
     {
       "id": "mapping_4",
@@ -59,7 +70,10 @@
         "Tl21": "973",
         "DNT": "DN02"
       },
-      "matchedCodes": ["973", "DN02"]
+      "matchedCodes": [
+        "973",
+        "DN02"
+      ]
     },
     {
       "id": "mapping_5",
@@ -74,7 +88,11 @@
         "TNR": "A355",
         "DNT": "DN03"
       },
-      "matchedCodes": ["085", "A355", "DN03"]
+      "matchedCodes": [
+        "085",
+        "A355",
+        "DN03"
+      ]
     },
     {
       "id": "mapping_6",
@@ -90,7 +108,11 @@
         "AHS": "AHS269",
         "DNT": "DN04"
       },
-      "matchedCodes": ["H112", "AHS269", "DN04"]
+      "matchedCodes": [
+        "H112",
+        "AHS269",
+        "DN04"
+      ]
     },
     {
       "id": "mapping_7",
@@ -105,7 +127,12 @@
         "TNR": "A1026",
         "HD Homes": "Ts007"
       },
-      "matchedCodes": ["430", "A1026", "Ts007", "TS007"]
+      "matchedCodes": [
+        "430",
+        "A1026",
+        "Ts007",
+        "TS007"
+      ]
     },
     {
       "id": "mapping_8",
@@ -118,7 +145,9 @@
       "platformCodes": {
         "DNT": "DN06"
       },
-      "matchedCodes": ["DN06"]
+      "matchedCodes": [
+        "DN06"
+      ]
     },
     {
       "id": "mapping_9",
@@ -144,7 +173,11 @@
         "TNR": "A223",
         "DNT": "DN08"
       },
-      "matchedCodes": ["119", "A223", "DN08"]
+      "matchedCodes": [
+        "119",
+        "A223",
+        "DN08"
+      ]
     },
     {
       "id": "mapping_11",
@@ -160,7 +193,15 @@
         "NT Homes": "NT080",
         "DNT": "DN09"
       },
-      "matchedCodes": ["032", "A29", "A10", "A15", "A29/A10/A15", "NT080", "DN09"]
+      "matchedCodes": [
+        "032",
+        "A29",
+        "A10",
+        "A15",
+        "A29/A10/A15",
+        "NT080",
+        "DN09"
+      ]
     },
     {
       "id": "mapping_12",
@@ -173,7 +214,9 @@
       "platformCodes": {
         "Tl21": "824"
       },
-      "matchedCodes": ["824"]
+      "matchedCodes": [
+        "824"
+      ]
     },
     {
       "id": "mapping_13",
@@ -188,7 +231,15 @@
         "TNR": "H165/A529",
         "DNT": "DN11"
       },
-      "matchedCodes": ["022", "798", "022/798", "H165", "A529", "H165/A529", "DN11"]
+      "matchedCodes": [
+        "022",
+        "798",
+        "022/798",
+        "H165",
+        "A529",
+        "H165/A529",
+        "DN11"
+      ]
     },
     {
       "id": "mapping_14",
@@ -202,7 +253,10 @@
         "Tl21": "366",
         "DNT": "DN13"
       },
-      "matchedCodes": ["366", "DN13"]
+      "matchedCodes": [
+        "366",
+        "DN13"
+      ]
     },
     {
       "id": "mapping_15",
@@ -218,7 +272,12 @@
         "NT Homes": "NT020",
         "DNT": "DN14"
       },
-      "matchedCodes": ["454", "A751", "NT020", "DN14"]
+      "matchedCodes": [
+        "454",
+        "A751",
+        "NT020",
+        "DN14"
+      ]
     },
     {
       "id": "mapping_16",
@@ -231,7 +290,9 @@
       "platformCodes": {
         "DNT": "DN15"
       },
-      "matchedCodes": ["DN15"]
+      "matchedCodes": [
+        "DN15"
+      ]
     },
     {
       "id": "mapping_17",
@@ -244,7 +305,9 @@
       "platformCodes": {
         "Tl21": "463"
       },
-      "matchedCodes": ["463"]
+      "matchedCodes": [
+        "463"
+      ]
     },
     {
       "id": "mapping_18",
@@ -257,7 +320,9 @@
       "platformCodes": {
         "DNT": "DN17"
       },
-      "matchedCodes": ["DN17"]
+      "matchedCodes": [
+        "DN17"
+      ]
     },
     {
       "id": "mapping_19",
@@ -271,7 +336,10 @@
         "Tl21": "225",
         "DNT": "DN18"
       },
-      "matchedCodes": ["225", "DN18"]
+      "matchedCodes": [
+        "225",
+        "DN18"
+      ]
     },
     {
       "id": "mapping_20",
@@ -285,7 +353,10 @@
         "Tl21": "487",
         "DNT": "DN19"
       },
-      "matchedCodes": ["487", "DN19"]
+      "matchedCodes": [
+        "487",
+        "DN19"
+      ]
     },
     {
       "id": "mapping_21",
@@ -299,7 +370,10 @@
         "Sweet Home": "SW207",
         "DNT": "DN20"
       },
-      "matchedCodes": ["SW207", "DN20"]
+      "matchedCodes": [
+        "SW207",
+        "DN20"
+      ]
     },
     {
       "id": "mapping_22",
@@ -313,7 +387,10 @@
         "Tl21": "016",
         "TNR": "A362"
       },
-      "matchedCodes": ["016", "A362"]
+      "matchedCodes": [
+        "016",
+        "A362"
+      ]
     },
     {
       "id": "mapping_23",
@@ -328,7 +405,11 @@
         "TNR": "A1215",
         "DNT": "DN22"
       },
-      "matchedCodes": ["970", "A1215", "DN22"]
+      "matchedCodes": [
+        "970",
+        "A1215",
+        "DN22"
+      ]
     },
     {
       "id": "mapping_24",
@@ -343,7 +424,11 @@
         "TNR": "A1263",
         "DNT": "DN23"
       },
-      "matchedCodes": ["989", "A1263", "DN23"]
+      "matchedCodes": [
+        "989",
+        "A1263",
+        "DN23"
+      ]
     },
     {
       "id": "mapping_25",
@@ -367,7 +452,9 @@
       "platformCodes": {
         "DNT": "DN25"
       },
-      "matchedCodes": ["DN25"]
+      "matchedCodes": [
+        "DN25"
+      ]
     },
     {
       "id": "mapping_27",
@@ -381,7 +468,10 @@
         "Tl21": "042",
         "TNR": "A82"
       },
-      "matchedCodes": ["042", "A82"]
+      "matchedCodes": [
+        "042",
+        "A82"
+      ]
     },
     {
       "id": "mapping_28",
@@ -395,7 +485,10 @@
         "Tl21": "040",
         "TNR": "A20"
       },
-      "matchedCodes": ["040", "A20"]
+      "matchedCodes": [
+        "040",
+        "A20"
+      ]
     },
     {
       "id": "mapping_29",
@@ -408,7 +501,9 @@
       "platformCodes": {
         "TNR": "A669"
       },
-      "matchedCodes": ["A669"]
+      "matchedCodes": [
+        "A669"
+      ]
     },
     {
       "id": "mapping_30",
@@ -422,7 +517,10 @@
         "TNR": "A815",
         "DNT": "DN27"
       },
-      "matchedCodes": ["A815", "DN27"]
+      "matchedCodes": [
+        "A815",
+        "DN27"
+      ]
     },
     {
       "id": "mapping_31",
@@ -436,7 +534,10 @@
         "Tl21": "007A",
         "TNR": "A02"
       },
-      "matchedCodes": ["007A", "A02"]
+      "matchedCodes": [
+        "007A",
+        "A02"
+      ]
     },
     {
       "id": "mapping_32",
@@ -450,7 +551,10 @@
         "Tl21": "489",
         "DNT": "DN29"
       },
-      "matchedCodes": ["489", "DN29"]
+      "matchedCodes": [
+        "489",
+        "DN29"
+      ]
     },
     {
       "id": "mapping_33",
@@ -464,7 +568,10 @@
         "Tl21": "063",
         "DNT": "DN30"
       },
-      "matchedCodes": ["063", "DN30"]
+      "matchedCodes": [
+        "063",
+        "DN30"
+      ]
     },
     {
       "id": "mapping_34",
@@ -478,7 +585,65 @@
         "TNR": "A206",
         "Sky Home": "59"
       },
-      "matchedCodes": ["A206", "59"]
+      "matchedCodes": [
+        "A206",
+        "59"
+      ]
+    },
+    {
+      "id": "mapping_35",
+      "stt": 35,
+      "buildingNo": null,
+      "managerName": "TD Land",
+      "phone": null,
+      "commission": null,
+      "sheetLink": null,
+      "platformCodes": {
+        "TNR": "H125"
+      },
+      "matchedCodes": [
+        "H125"
+      ]
+    },
+    {
+      "id": "mapping_36",
+      "stt": 36,
+      "buildingNo": "758",
+      "managerName": "Duy Anh",
+      "phone": null,
+      "commission": null,
+      "sheetLink": "https://docs.google.com/spreadsheets/d/1hhqtfTwnO5l4lYnV87gl7niRfhGjg7juKgPQMw477IY/edit?usp=drivesdk",
+      "platformCodes": {
+        "Tl21": "758",
+        "TNR": "A693",
+        "Hhouse": "MN- 146",
+        "DNT": "DN33"
+      },
+      "matchedCodes": [
+        "758",
+        "A693",
+        "MN- 146",
+        "MN-146",
+        "MN146",
+        "DN33"
+      ]
+    },
+    {
+      "id": "mapping_37",
+      "stt": 37,
+      "buildingNo": null,
+      "managerName": "NK Home",
+      "phone": "0855683666",
+      "commission": null,
+      "sheetLink": "https://docs.google.com/spreadsheets/d/1XeN8UcOFKgSziYwhzIM2Yie12ImMo3cqCfgV-kIsIV4/edit?gid=0#gid=0",
+      "platformCodes": {
+        "Saphire": "TT110",
+        "DNT": "DN34"
+      },
+      "matchedCodes": [
+        "TT110",
+        "DN34"
+      ]
     }
   ]
 }

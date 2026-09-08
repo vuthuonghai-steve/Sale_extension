@@ -1,78 +1,102 @@
 {
   "version": 1,
-  "lastUpdated": "2026-08-12T02:10:00Z",
+  "lastUpdated": "2026-09-08T10:18:00Z",
   "description": "Kho lưu trữ mã phòng mặc định cho các Form Schema Output (Đã loại trừ DNT Home do là Input Format, chỉ lưu danh sách mã chính xác)",
   "groups": {
     "tl21_house": {
       "name": "TL21House",
       "codes": [
-        "010",
+        "003",
+        "007A",
+        "016",
+        "022",
+        "032",
+        "040",
         "042",
+        "063",
         "085",
-        "108",
-        "178",
-        "199",
-        "319",
-        "383",
-        "387",
-        "410",
+        "119",
+        "225",
+        "366",
         "430",
-        "449",
-        "637",
-        "721",
-        "837",
-        "840",
-        "921"
+        "454",
+        "463",
+        "487",
+        "489",
+        "758",
+        "798",
+        "824",
+        "970",
+        "973",
+        "989"
       ]
     },
     "tnr_home": {
       "name": "TNR HOME",
       "codes": [
+        "A02",
+        "A10",
+        "A1026",
+        "A1057",
+        "A1197",
+        "A1215",
+        "A1263",
+        "A15",
+        "A20",
+        "A206",
+        "A223",
+        "A29",
         "A355",
-        "A673",
-        "A1203",
-        "Q160",
-        "D49",
-        "L48",
-        "l48"
+        "A362",
+        "A520",
+        "A529",
+        "A669",
+        "A693",
+        "A751",
+        "A815",
+        "A82",
+        "H112",
+        "H125",
+        "H165",
+        "H221"
       ]
     },
     "95_home": {
       "name": "95 HOME",
-      "codes": [
-        "H252"
-      ]
+      "codes": []
     },
     "lusaco": {
       "name": "LUSACO",
       "codes": [
-        "MN-324",
-        "MN-341",
-        "MN35",
-        "Mn35"
+        "MN - 220"
       ]
     },
     "hd_homes": {
       "name": "HD Homes",
       "codes": [
-        "Ts007",
-        "ts12"
+        "Ts007"
       ]
     },
     "nt_home": {
       "name": "NT HOME",
       "codes": [
-        "NT023",
-        "nt01"
+        "NT020",
+        "NT080",
+        "NT082",
+        "NT271"
       ]
     },
     "a_sky_group": {
       "name": "A Sky Group",
-      "codes": []
+      "codes": [
+        "59"
+      ]
     },
     "sapphire_house_tt": {
       "name": "SAPPHIRE HOUSE TT",
-      "codes": []
+      "codes": [
+        "TT110"
+      ]
     },
     "tro_365": {
       "name": "Trọ 365",
@@ -80,7 +104,10 @@
     },
     "anhomes": {
       "name": "ANHOMES",
-      "codes": []
+      "codes": [
+        "AHS269",
+        "AHS284"
+      ]
     }
   }
 }
